@@ -1,0 +1,224 @@
+/* 分屏滚动 + 黑洞第二屏 + 月球地平线 */
+
+html.footprint-html {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body.fp-journey {
+  overflow-x: hidden;
+}
+
+body.fp-meteor-word-hover {
+  cursor: pointer;
+}
+
+.fp-stars-canvas {
+  transition: transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transform-origin: center center;
+}
+
+.fp-earth-canvas.fp-to-hole,
+.fp-stars-canvas.fp-to-hole {
+  transform: scale(4) translateY(-60vh);
+}
+
+.fp-app.is-hole-screen .fp-stars-canvas {
+  opacity: 0.55;
+  transition: opacity 0.8s ease;
+}
+
+.fp-moon {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 13rem;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.7s ease;
+  background:
+    radial-gradient(ellipse 140% 95% at 50% 100%, #ddd8cc 0%, #c8c2b4 18%, #a8a196 38%, #8a8478 52%, transparent 74%),
+    radial-gradient(circle at 22% 92%, rgba(110, 106, 98, 0.45) 0%, transparent 28%),
+    radial-gradient(circle at 68% 88%, rgba(95, 91, 84, 0.35) 0%, transparent 24%),
+    radial-gradient(circle at 45% 96%, rgba(125, 120, 112, 0.25) 0%, transparent 18%);
+  mask-image: linear-gradient(to top, black 62%, transparent 100%);
+}
+
+.fp-moon.fp-moon-hidden {
+  opacity: 0;
+}
+
+.fp-screen {
+  min-height: 100vh;
+  min-height: 100dvh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.fp-screen--hero {
+  justify-content: flex-end;
+  padding: 24px 20px 150px;
+  gap: 16px;
+}
+
+.fp-hero-spacer {
+  flex: 1 1 auto;
+  min-height: 18vh;
+  width: 100%;
+  pointer-events: none;
+}
+
+.fp-screen--hole {
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  pointer-events: none;
+}
+
+.fp-scroll-hint {
+  color: #a0d2ff;
+  font-size: 1.5rem;
+  animation: fpBounce 2s infinite;
+  pointer-events: none;
+  margin-top: 0.5rem;
+}
+
+@keyframes fpBounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-20px);
+  }
+  60% {
+    transform: translateY(-10px);
+  }
+}
+
+/* 黑洞（CodePen ZZydGx） */
+.fp-blackhole-scene {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.65s ease, visibility 0.65s ease;
+}
+
+.fp-app.is-hole-screen .fp-blackhole-scene.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.fp-blackhole-glow {
+  filter: blur(7px);
+}
+
+.fp-black-hole {
+  width: min(20vw, 280px);
+  height: min(20vw, 280px);
+  min-width: 220px;
+  min-height: 220px;
+  position: relative;
+  border-radius: 50%;
+  cursor: pointer;
+  animation: fpBhRotate 3s linear infinite;
+  outline: none;
+}
+
+.fp-black-hole::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background-color: #000;
+  box-shadow:
+    0 0 7vw #ff5500,
+    0 0 5vw #ffeb3b,
+    -4vw -1vw 30vw #ff6600;
+  animation: fpBhCorona 8s ease-in-out infinite;
+}
+
+.fp-black-hole.is-hover::before {
+  box-shadow:
+    0 0 9vw #ff5500,
+    0 0 6vw #ffeb3b,
+    -5vw -1vw 34vw #ff6600;
+}
+
+.fp-black-hole-label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(0.85rem, 2.2vw, 1rem);
+  font-weight: 600;
+  color: rgba(220, 235, 255, 0.72);
+  text-shadow: 0 0 12px rgba(100, 160, 255, 0.35);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+@keyframes fpBhRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes fpBhCorona {
+  0%,
+  100% {
+    box-shadow:
+      0 0 7vw #ff5500,
+      0 0 5vw #ffeb3b,
+      -4vw -1vw 30vw #ff6600;
+  }
+  50% {
+    box-shadow:
+      0 0 10vw #ff5500,
+      -1vw 0 5vw #ffeb3b,
+      -6vw -1vw 18vw #ff6600;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.footprint-html {
+    scroll-behavior: auto;
+  }
+
+  .fp-black-hole,
+  .fp-black-hole::before {
+    animation: none;
+  }
+
+  .fp-scroll-hint {
+    animation: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .fp-screen--hero {
+    padding: 16px 16px 148px;
+    gap: 10px;
+  }
+
+  .fp-hero-spacer {
+    min-height: 10vh;
+  }
+}

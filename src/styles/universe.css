@@ -96,15 +96,6 @@ body {
   opacity: 0.55;
 }
 
-.fp-blackhole-placeholder {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.35;
-  font-size: 0.9rem;
-}
-
 /* 导航恒星弹层 */
 .nav-panel {
   position: fixed;

@@ -1,15 +1,26 @@
 import './styles/universe.css';
 import './styles/earth.css';
+import './styles/blackhole.css';
 import { Starfield } from './canvas/starfield';
 import { initEarth } from './canvas/earth';
 import { loadConfig } from './config/loader';
 import { initNavPanel, showNavPanel } from './ui/nav-panel';
+import { initScrollJourney } from './app/scroll-journey';
 
 async function boot(): Promise<void> {
   const config = await loadConfig();
   const { site } = config;
 
+  document.documentElement.classList.add('footprint-html');
+  document.body.classList.add('fp-journey');
+
   document.title = `${site.name} | Link Start`;
+
+  const root = document.getElementById('footprintIntro');
+  if (!root) return;
+
+  root.dataset.homeUrl = site.homeUrl;
+  root.dataset.fallbackBlogUrl = site.blogUrl;
 
   const nameEl = document.getElementById('siteName');
   const introEl = document.getElementById('siteIntro');
@@ -37,12 +48,12 @@ async function boot(): Promise<void> {
   initNavPanel();
 
   const canvas = document.getElementById('fpStars') as HTMLCanvasElement | null;
-  if (!canvas) return;
-
-  const starfield = new Starfield(canvas, (hit) => showNavPanel(hit));
-  starfield.setNavStars(config.navStars);
-  starfield.setMeteorWords(config.meteorWords);
-  starfield.start();
+  if (canvas) {
+    const starfield = new Starfield(canvas, (hit) => showNavPanel(hit));
+    starfield.setNavStars(config.navStars);
+    starfield.setMeteorWords(config.meteorWords);
+    starfield.start();
+  }
 
   const earthCanvas = document.getElementById('fpEarth') as HTMLCanvasElement | null;
   if (earthCanvas) {
@@ -51,6 +62,11 @@ async function boot(): Promise<void> {
       friends: config.friends,
     });
   }
+
+  initScrollJourney(root, {
+    homeUrl: site.homeUrl,
+    blogUrl: site.blogUrl,
+  });
 }
 
 boot().catch((err) => {

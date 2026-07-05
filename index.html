@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="footprint-html">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,13 +7,27 @@
     <title>Askuary | Link Start</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
-  <body>
-    <div class="fp-app" id="footprintIntro">
+  <body class="fp-journey">
+    <div
+      class="fp-app"
+      id="footprintIntro"
+      data-home-url="https://www.askuary.cn/"
+      data-fallback-blog-url="https://www.askuary.cn/blog/"
+    >
       <canvas id="fpStars" class="fp-stars-canvas" aria-hidden="true"></canvas>
       <canvas id="fpEarth" class="fp-earth-canvas" aria-hidden="true"></canvas>
       <div id="fpSkyTexts" class="fp-sky-texts" aria-live="polite"></div>
+      <div class="fp-moon" aria-hidden="true"></div>
+
+      <div id="fpBlackhole" class="fp-blackhole-scene" aria-hidden="true">
+        <div class="fp-blackhole-glow">
+          <div class="fp-black-hole" role="button" tabindex="0" aria-label="点击穿越"></div>
+        </div>
+        <span class="fp-black-hole-label">点击穿越</span>
+      </div>
 
       <section class="fp-screen fp-screen--hero" aria-label="Intro">
+        <div class="fp-hero-spacer" aria-hidden="true"></div>
         <div class="fp-profile">
           <div class="fp-avatar" id="siteAvatarWrap" hidden>
             <img id="siteAvatar" src="" alt="" width="80" height="80" decoding="async" />
@@ -21,13 +35,12 @@
           <h1 class="fp-title" id="siteName">Askuary</h1>
           <p class="fp-desc" id="siteIntro">Link Start — 宇宙门户</p>
           <nav class="fp-social" id="siteSocial" aria-label="Social links"></nav>
-          <p class="fp-hint">点击背景恒星打开入口 · 点击地球光点 / 友联卫星查看详情</p>
+          <p class="fp-hint">背景恒星 · 地球光点 · 友联卫星 · 下滑至黑洞穿越</p>
         </div>
+        <div class="fp-scroll-hint" aria-hidden="true">↓</div>
       </section>
 
-      <section class="fp-blackhole-placeholder" aria-hidden="true">
-        <p>第二屏：黑洞穿越 → 博客（待迁移）</p>
-      </section>
+      <section class="fp-screen fp-screen--hole" aria-label="Black hole"></section>
     </div>
 
     <div id="navPanel" class="nav-panel" hidden role="dialog" aria-modal="true" aria-labelledby="navPanelTitle">
