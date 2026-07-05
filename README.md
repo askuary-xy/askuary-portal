@@ -99,6 +99,5 @@ https://github.com/askuary-xy/askuary-portal
 ## 来源
 
 - **视觉与交互**：延续 [askuary.cn](https://askuary.cn) 线上宇宙门户（粒子地球、光点、深空流星、黑洞穿越、星图导航等）。
-- **门户入口**：背景恒星导航为本项目独立设计，**并非**参考 yukari.one。
 - **技术实现**：由 WordPress Sakurairo-child Link Start 页重构为 Vite + TypeScript + Canvas 2D 独立仓库；**数据、域名与文章内容均独立新建**，不承接旧站 WordPress 内容。
 
