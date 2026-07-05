@@ -1,0 +1,285 @@
+/* 粒子地球 + 天空文字层 — 自 Sakurairo-child footprint.css 迁移 */
+
+.fp-earth-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  display: block;
+  z-index: 1;
+  will-change: transform;
+  transition: transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transform-origin: center center;
+}
+
+.fp-earth-canvas.fp-earth-interactive {
+  pointer-events: auto;
+  z-index: 3;
+}
+
+.fp-screen--hero {
+  pointer-events: none;
+}
+
+.fp-screen--hero .fp-profile,
+.fp-screen--hero .fp-social,
+.fp-screen--hero .fp-social-link,
+.fp-screen--hero .fp-hint {
+  pointer-events: auto;
+}
+
+.fp-sky-texts {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+  transition: opacity 0.6s ease;
+}
+
+.fp-sky-texts.fp-sky-hidden {
+  opacity: 0;
+}
+
+.fp-sky-text {
+  --fp-sky-x: 50%;
+  --fp-sky-y: 30%;
+  --fp-sky-scale: 0.1;
+  --fp-sky-opacity: 0.42;
+  --fp-sky-blur: 0.4px;
+  position: fixed;
+  left: var(--fp-sky-x);
+  top: var(--fp-sky-y);
+  z-index: 1;
+  width: max-content;
+  max-width: min(88vw, 420px);
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(var(--fp-sky-scale));
+  opacity: var(--fp-sky-opacity);
+  filter: blur(var(--fp-sky-blur));
+  transition:
+    left 2.4s cubic-bezier(0.22, 0.61, 0.36, 1),
+    top 2.4s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 2.4s cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 2.4s ease,
+    filter 2.4s ease;
+  will-change: transform, opacity, left, top;
+}
+
+.fp-sky-text.is-star {
+  animation: fpSkyTwinkle 3.6s ease-in-out infinite;
+}
+
+.fp-sky-text.is-revealed {
+  --fp-sky-x: 50%;
+  --fp-sky-y: 34%;
+  --fp-sky-scale: 1;
+  --fp-sky-opacity: 1;
+  --fp-sky-blur: 0;
+  z-index: 4;
+  pointer-events: auto;
+  animation: none;
+  transition:
+    left 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+    top 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.65s ease,
+    filter 0.65s ease;
+}
+
+.fp-sky-text.is-reverting {
+  animation: none;
+  transition:
+    left 2.8s cubic-bezier(0.22, 0.61, 0.36, 1),
+    top 2.8s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 2.8s cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 2.8s ease,
+    filter 2.8s ease;
+}
+
+@keyframes fpSkyTwinkle {
+  0%,
+  100% {
+    opacity: calc(var(--fp-sky-opacity) * 0.55);
+    filter: blur(calc(var(--fp-sky-blur) + 0.2px));
+  }
+  50% {
+    opacity: calc(var(--fp-sky-opacity) * 1.15);
+    filter: blur(var(--fp-sky-blur));
+  }
+}
+
+.fp-sky-text::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 3px;
+  height: 3px;
+  margin: -1.5px 0 0 -1.5px;
+  border-radius: 50%;
+  background: #eef6ff;
+  box-shadow: 0 0 8px 2px rgba(180, 220, 255, 0.85);
+  opacity: 1;
+  transition: opacity 1.2s ease, transform 1.2s ease;
+}
+
+.fp-sky-text.is-revealed::before,
+.fp-sky-text.is-reverting::before {
+  opacity: 0;
+  transform: scale(0);
+}
+
+.fp-sky-text-title {
+  display: block;
+  margin: 0;
+  font-size: clamp(1.05rem, 3.2vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #eef8ff;
+  text-shadow:
+    0 0 12px rgba(140, 210, 255, 0.55),
+    0 2px 18px rgba(0, 0, 0, 0.65);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: min(88vw, 420px);
+}
+
+.fp-sky-text-body {
+  margin: 8px 0 0;
+  font-size: clamp(0.82rem, 2.4vw, 0.95rem);
+  line-height: 1.75;
+  color: rgba(220, 235, 255, 0.88);
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.7);
+  white-space: pre-line;
+}
+
+.fp-sky-text-avatar {
+  display: block;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(180, 220, 255, 0.55);
+  box-shadow: 0 0 24px rgba(120, 190, 255, 0.35);
+}
+
+.fp-sky-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 12px;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  text-decoration: none;
+  color: #e8f4ff;
+  background: rgba(80, 140, 220, 0.28);
+  border: 1px solid rgba(140, 200, 255, 0.35);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.fp-sky-text-link:hover {
+  background: rgba(100, 160, 230, 0.42);
+  transform: translateY(-1px);
+}
+
+.fp-sky-text.is-star .fp-sky-text-avatar,
+.fp-sky-text.is-star .fp-sky-text-link {
+  display: none;
+}
+
+.fp-sky-text.is-star .fp-sky-text-title,
+.fp-sky-text.is-star .fp-sky-text-body {
+  font-size: 10px;
+  line-height: 1.2;
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fp-sky-text.is-star .fp-sky-text-body {
+  display: none;
+}
+
+.fp-sky-text.is-revealed .fp-sky-text-title,
+.fp-sky-text.is-revealed .fp-sky-text-body,
+.fp-sky-text.is-reverting .fp-sky-text-title,
+.fp-sky-text.is-reverting .fp-sky-text-body {
+  font-size: inherit;
+  line-height: inherit;
+  max-width: min(88vw, 420px);
+  white-space: normal;
+}
+
+.fp-sky-text.is-revealed .fp-sky-text-body,
+.fp-sky-text.is-reverting .fp-sky-text-body {
+  display: block;
+}
+
+.fp-spot-star { --fp-spot-ring: 120, 210, 255; --fp-spot-glow: 160, 230, 255; --fp-spot-accent: #dff4ff; }
+.fp-spot-amber { --fp-spot-ring: 255, 180, 90; --fp-spot-glow: 255, 200, 120; --fp-spot-accent: #ffe7bc; }
+.fp-spot-violet { --fp-spot-ring: 180, 120, 255; --fp-spot-glow: 200, 160, 255; --fp-spot-accent: #ead9ff; }
+.fp-spot-rose { --fp-spot-ring: 255, 130, 190; --fp-spot-glow: 255, 170, 210; --fp-spot-accent: #ffd9ec; }
+.fp-spot-mint { --fp-spot-ring: 100, 230, 190; --fp-spot-glow: 130, 255, 210; --fp-spot-accent: #d6fff0; }
+.fp-spot-ember { --fp-spot-ring: 255, 130, 60; --fp-spot-glow: 255, 160, 80; --fp-spot-accent: #ffd9bf; }
+.fp-spot-friend { --fp-spot-ring: 255, 175, 110; --fp-spot-glow: 255, 210, 150; --fp-spot-accent: #ffe8cc; }
+
+.fp-sky-text-friend-badge {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: #fff6eb;
+  background: linear-gradient(135deg, rgba(255, 170, 100, 0.55), rgba(255, 120, 160, 0.35));
+  border: 1px solid rgba(255, 200, 150, 0.45);
+}
+
+.fp-sky-text.is-friend-link.is-star .fp-sky-text-friend-badge {
+  display: none;
+}
+
+.fp-sky-text.is-friend-link.is-revealed .fp-sky-text-avatar,
+.fp-sky-text.is-friend-link.is-reverting .fp-sky-text-avatar {
+  border-color: rgba(255, 190, 130, 0.75);
+  box-shadow: 0 0 28px rgba(255, 150, 90, 0.42);
+}
+
+.fp-sky-text.is-friend-link.is-revealed .fp-sky-text-link,
+.fp-sky-text.is-friend-link.is-reverting .fp-sky-text-link {
+  background: linear-gradient(135deg, rgba(255, 150, 90, 0.42), rgba(255, 110, 150, 0.28));
+  border-color: rgba(255, 190, 130, 0.5);
+}
+
+.fp-sky-text[class*='fp-spot-']::before {
+  background: rgb(var(--fp-spot-glow));
+  box-shadow: 0 0 8px 2px rgba(var(--fp-spot-ring), 0.85);
+}
+
+.fp-sky-text[class*='fp-spot-'] .fp-sky-text-title {
+  color: var(--fp-spot-accent);
+  text-shadow:
+    0 0 12px rgba(var(--fp-spot-ring), 0.55),
+    0 2px 18px rgba(0, 0, 0, 0.65);
+}
+
+.fp-sky-text[class*='fp-spot-'].is-star .fp-sky-text-title {
+  color: rgba(var(--fp-spot-glow), 0.95);
+}
+
+@media (max-width: 768px) {
+  .fp-earth-canvas:not(.fp-to-hole),
+  .fp-stars-canvas:not(.fp-to-hole) {
+    transform: translateY(-10vh) scale(0.88);
+  }
+}

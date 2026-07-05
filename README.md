@@ -58,7 +58,8 @@ Copy-Item data\* public\data\ -Force
 |------|------|------|
 | Phase 0 | 项目脚手架 + Git | ✅ |
 | Phase 1 | 星空 + 背景导航恒星 + 弹层 | ✅ |
-| Phase 2 | 迁移 earth / blackhole / 完整流星 | 待做 |
+| Phase 2 | 迁移 earth（光点 + 友联 + 天空文字） | ✅ |
+| Phase 2b | 黑洞 / 完整流星 / 滚动分屏 | 待做 |
 | Phase 3 | WordPress 文章导出 → 静态博客 | 见 MIGRATION.md |
 | Phase 4 | 部署 askuary.cn 根域 | 待做 |
 

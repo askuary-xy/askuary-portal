@@ -1,5 +1,7 @@
 import './styles/universe.css';
+import './styles/earth.css';
 import { Starfield } from './canvas/starfield';
+import { initEarth } from './canvas/earth';
 import { loadConfig } from './config/loader';
 import { initNavPanel, showNavPanel } from './ui/nav-panel';
 
@@ -42,12 +44,13 @@ async function boot(): Promise<void> {
   starfield.setMeteorWords(config.meteorWords);
   starfield.start();
 
-  // TODO: 迁移 footprint-earth.js → src/canvas/earth.ts
-  // TODO: 迁移 footprint-blackhole.js → src/canvas/blackhole.ts
-  console.info('[askuary-portal] 地球 / 黑洞模块待从 Sakurairo-child 迁移', {
-    spots: config.spots.length,
-    friends: config.friends.length,
-  });
+  const earthCanvas = document.getElementById('fpEarth') as HTMLCanvasElement | null;
+  if (earthCanvas) {
+    initEarth(earthCanvas, {
+      spots: config.spots,
+      friends: config.friends,
+    });
+  }
 }
 
 boot().catch((err) => {
