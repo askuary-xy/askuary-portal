@@ -1,19 +1,19 @@
 [
   {
-    "lat": 39.9042,
-    "lng": 116.4074,
-    "title": "北京",
-    "text": "在这里生活、写博客。",
-    "style": "star",
+    "lat": 39.9,
+    "lng": 116.4,
+    "title": "上海",
+    "text": "在这里生活",
+    "style": "amber",
     "url": "",
     "linkLabel": ""
   },
   {
-    "lat": 31.2304,
-    "lng": 121.4737,
-    "title": "上海",
-    "text": "城市与代码的交叉点。",
-    "style": "amber",
+    "lat": 35.6,
+    "lng": 139.7,
+    "title": "丽江",
+    "text": "旅行记忆",
+    "style": "violet",
     "url": "",
     "linkLabel": ""
   }

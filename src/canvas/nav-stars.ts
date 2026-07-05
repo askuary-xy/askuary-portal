@@ -46,9 +46,11 @@ export function drawNavStars(
     const s = stars[i];
     const pulse = 0.6 + 0.4 * Math.sin(time * 0.002 + s.phase);
     const isHover = hovered?.index === i;
+    const isDisabled = s.enabled === false;
+    const coreAlpha = isDisabled ? 0.45 : 1;
     const r = s.radius * (isHover ? 2.2 : 1.4) * pulse;
     const glow = ctx.createRadialGradient(s.px, s.py, 0, s.px, s.py, r * 6);
-    glow.addColorStop(0, isHover ? 'rgba(255,220,140,0.95)' : 'rgba(180,210,255,0.85)');
+    glow.addColorStop(0, isHover ? 'rgba(255,220,140,0.95)' : isDisabled ? 'rgba(140,150,170,0.55)' : 'rgba(180,210,255,0.85)');
     glow.addColorStop(0.35, 'rgba(120,180,255,0.35)');
     glow.addColorStop(1, 'rgba(80,120,200,0)');
     ctx.fillStyle = glow;
@@ -56,10 +58,23 @@ export function drawNavStars(
     ctx.arc(s.px, s.py, r * 6, 0, Math.PI * 2);
     ctx.fill();
 
-    ctx.fillStyle = isHover ? '#fff8e8' : '#ffffff';
+    ctx.fillStyle = isHover ? '#fff8e8' : isDisabled ? 'rgba(200,210,230,0.7)' : '#ffffff';
+    ctx.globalAlpha = coreAlpha;
     ctx.beginPath();
     ctx.arc(s.px, s.py, r, 0, Math.PI * 2);
     ctx.fill();
+    ctx.globalAlpha = 1;
+
+    if (isHover) {
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+      ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      ctx.moveTo(s.px - r * 2.2, s.py);
+      ctx.lineTo(s.px + r * 2.2, s.py);
+      ctx.moveTo(s.px, s.py - r * 2.2);
+      ctx.lineTo(s.px, s.py + r * 2.2);
+      ctx.stroke();
+    }
 
     if (isHover) {
       ctx.font = '12px system-ui, sans-serif';
@@ -80,7 +95,7 @@ export function hitTestNavStars(
   for (let i = 0; i < stars.length; i++) {
     const s = stars[i];
     const d = Math.hypot(x - s.px, y - s.py);
-    const hitR = s.radius * 4;
+    const hitR = s.radius * 5.5;
     if (d <= hitR && d < bestDist) {
       bestDist = d;
       best = { star: s, index: i };

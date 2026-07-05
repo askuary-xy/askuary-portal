@@ -4,13 +4,19 @@
   "version": "0.3.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "content:build": "node scripts/build-posts.mjs && node scripts/build-journal.mjs",
+    "posts:build": "npm run content:build",
+    "dev": "npm run posts:build && vite",
+    "build": "npm run posts:build && tsc && vite build",
     "preview": "vite preview",
     "sync:data": "node -e \"require('fs').cpSync('data','public/data',{recursive:true})\""
   },
   "devDependencies": {
     "typescript": "~6.0.2",
     "vite": "^8.1.1"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "marked": "^18.0.5"
   }
 }

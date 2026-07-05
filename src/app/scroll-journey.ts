@@ -1,31 +1,22 @@
 import { initBlackhole } from '../canvas/blackhole';
+import { showToast } from '../ui/toast';
 
 export interface ScrollJourneyOptions {
-  homeUrl: string;
-  blogUrl: string;
+  homeUrl?: string;
+  /** @deprecated */
+  blogUrl?: string;
+  warpEnabled?: boolean;
+  warpHint?: string;
 }
 
 export interface ScrollJourneyController {
   destroy: () => void;
 }
 
-function normalizePath(url: string): string {
-  if (!url) return '';
-  try {
-    const parsed = new URL(url, window.location.origin);
-    return (parsed.origin + parsed.pathname).replace(/\/$/, '');
-  } catch {
-    return url.replace(/\/$/, '');
-  }
-}
-
-function getWarpUrl(homeUrl: string, blogUrl: string): string {
-  const current = normalizePath(window.location.href);
-  const target = normalizePath(homeUrl);
-  if (target && current && target === current) {
-    return blogUrl || homeUrl || '/';
-  }
-  return homeUrl || '/';
+function resolveSiteUrl(path: string): string {
+  if (!path) return '/home/';
+  if (/^https?:\/\//i.test(path)) return path;
+  return path.startsWith('/') ? path : `/${path}`;
 }
 
 export function initScrollJourney(
@@ -37,12 +28,22 @@ export function initScrollJourney(
   }
   root.dataset.footprintReady = '1';
 
+  const warpEnabled = options.warpEnabled === true;
+  const warpHint = options.warpHint || '博客模块开发中，敬请期待。';
+  const warpTarget = resolveSiteUrl(options.homeUrl || options.blogUrl || '/home/');
+
   let warping = false;
   const earthCanvas = document.getElementById('fpEarth');
   const starsCanvas = document.getElementById('fpStars');
   const holeScene = document.getElementById('fpBlackhole');
   const skyTexts = document.getElementById('fpSkyTexts');
   const moon = document.querySelector('.fp-moon');
+  const holeLabel = holeScene?.querySelector('.fp-black-hole-label');
+
+  if (holeLabel) {
+    holeLabel.textContent = warpEnabled ? '点击穿越' : '即将开放';
+  }
+  root.classList.toggle('fp-warp-disabled', !warpEnabled);
 
   if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
@@ -59,9 +60,7 @@ export function initScrollJourney(
     earthCanvas?.classList.toggle('fp-to-hole', toHole);
     earthCanvas?.classList.toggle('fp-earth-interactive', !toHole);
 
-    if (skyTexts) {
-      skyTexts.classList.toggle('fp-sky-hidden', toHole);
-    }
+    skyTexts?.classList.toggle('fp-sky-hidden', toHole);
     starsCanvas?.classList.toggle('fp-to-hole', toHole);
     moon?.classList.toggle('fp-moon-hidden', index >= 1);
     root.classList.toggle('is-hole-screen', toHole);
@@ -70,9 +69,12 @@ export function initScrollJourney(
   const blackhole = initBlackhole(holeScene, {
     onActivate: () => {
       if (warping) return;
+      if (!warpEnabled) {
+        showToast(warpHint);
+        return;
+      }
       warping = true;
-      const url = getWarpUrl(options.homeUrl, options.blogUrl);
-      window.location.replace(url);
+      window.location.assign(warpTarget);
     },
   });
 

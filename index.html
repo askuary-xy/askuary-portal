@@ -4,16 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#05060a" />
-    <title>Askuary | Link Start</title>
+    <meta name="description" content="ASKUARY — 记录思考，探索次元" />
+    <title>ASKUARY</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body class="fp-journey">
-    <div
-      class="fp-app"
-      id="footprintIntro"
-      data-home-url="https://www.askuary.cn/"
-      data-fallback-blog-url="https://www.askuary.cn/blog/"
-    >
+    <div class="fp-app" id="footprintIntro">
+      <div class="fp-atmosphere" aria-hidden="true"></div>
+
       <canvas id="fpStars" class="fp-stars-canvas" aria-hidden="true"></canvas>
       <canvas id="fpEarth" class="fp-earth-canvas" aria-hidden="true"></canvas>
       <div id="fpSkyTexts" class="fp-sky-texts" aria-live="polite"></div>
@@ -21,7 +19,7 @@
 
       <div id="fpBlackhole" class="fp-blackhole-scene" aria-hidden="true">
         <div class="fp-blackhole-glow">
-          <div class="fp-black-hole" role="button" tabindex="0" aria-label="点击穿越"></div>
+          <div class="fp-black-hole" role="button" tabindex="0" aria-label="黑洞"></div>
         </div>
         <span class="fp-black-hole-label">点击穿越</span>
       </div>
@@ -29,22 +27,55 @@
       <section class="fp-screen fp-screen--hero" aria-label="Intro">
         <div class="fp-hero-spacer" aria-hidden="true"></div>
         <div class="fp-profile">
-          <div class="fp-avatar" id="siteAvatarWrap" hidden>
-            <img id="siteAvatar" src="" alt="" width="80" height="80" decoding="async" />
+          <h1 class="fp-title" id="siteName">ASKUARY</h1>
+          <div class="fp-intro-text">
+            <p class="fp-desc" id="siteIntro">记录思考，探索次元</p>
           </div>
-          <h1 class="fp-title" id="siteName">Askuary</h1>
-          <p class="fp-desc" id="siteIntro">Link Start — 宇宙门户</p>
           <nav class="fp-social" id="siteSocial" aria-label="Social links"></nav>
-          <p class="fp-hint">背景恒星 · 地球光点 · 友联卫星 · 下滑至黑洞穿越</p>
         </div>
-        <div class="fp-scroll-hint" aria-hidden="true">↓</div>
+        <p class="fp-scroll-hint" aria-hidden="true">
+          <span class="fp-scroll-hint-label">下滑探索黑洞</span>
+          <span class="fp-scroll-hint-arrow">↓</span>
+        </p>
       </section>
 
-      <section class="fp-screen fp-screen--hole" aria-label="Black hole"></section>
+      <section class="fp-screen fp-screen--hole" aria-label="Black hole">
+        <aside id="fpAtlas" class="fp-atlas" aria-label="星图导航" hidden>
+          <div class="fp-atlas-panel">
+            <header class="fp-atlas-header">
+              <h2 class="fp-atlas-title">星图导航</h2>
+              <label class="fp-atlas-search-wrap">
+                <span aria-hidden="true">⌕</span>
+                <input
+                  type="search"
+                  id="fpAtlasSearch"
+                  class="fp-atlas-search"
+                  placeholder="搜索光点或友联…"
+                  autocomplete="off"
+                />
+              </label>
+            </header>
+            <h3 class="fp-atlas-section-title">地球光点</h3>
+            <ul id="fpAtlasList" class="fp-atlas-list" role="listbox" aria-label="光点列表"></ul>
+            <div class="fp-atlas-friends-section" hidden>
+              <h3 class="fp-atlas-section-title">友联卫星</h3>
+              <ul
+                id="fpAtlasFriendsList"
+                class="fp-atlas-list fp-atlas-list--friends"
+                role="listbox"
+                aria-label="友联列表"
+              ></ul>
+            </div>
+            <div id="fpAtlasDetail" class="fp-atlas-detail" hidden></div>
+            <p class="fp-atlas-hint">选择条目后点击「定位到地球」回到首屏查看</p>
+          </div>
+        </aside>
+      </section>
     </div>
 
     <div id="navPanel" class="nav-panel" hidden role="dialog" aria-modal="true" aria-labelledby="navPanelTitle">
       <div class="nav-panel-card">
+        <div class="nav-panel-icon" id="navPanelIcon" aria-hidden="true">✦</div>
         <h2 id="navPanelTitle"></h2>
         <p id="navPanelDesc"></p>
         <div class="nav-panel-actions">

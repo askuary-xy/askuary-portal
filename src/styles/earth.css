@@ -1,4 +1,4 @@
-/* 粒子地球 + 天空文字层 — 自 Sakurairo-child footprint.css 迁移 */
+/* 粒子地球 + 天空文字层 — 视觉延续 askuary.cn 线上实现 */
 
 .fp-earth-canvas {
   position: fixed;
@@ -26,7 +26,7 @@
 .fp-screen--hero .fp-profile,
 .fp-screen--hero .fp-social,
 .fp-screen--hero .fp-social-link,
-.fp-screen--hero .fp-hint {
+.fp-screen--hero .fp-scroll-hint {
   pointer-events: auto;
 }
 

@@ -1,0 +1,18 @@
+{
+  "title": "关于",
+  "lead": "ASKUARY — 记录思考，探索次元",
+  "sections": [
+    {
+      "heading": "这个站点",
+      "body": "ASKUARY 是一座宇宙门户。首屏是粒子地球与深空背景，光点标记记忆与足迹，流星划过短语；下滑可探向黑洞与星图导航。\n\n本站由 Vite + TypeScript + Canvas 独立构建，视觉与交互延续 askuary.cn 的宇宙体验，内容与博客模块在此项目中持续搭建。"
+    },
+    {
+      "heading": "可以做什么",
+      "body": "点击地球光点拾取记忆；悬停文字流星阅读短句；下滑至第二屏使用星图导航；点击背景恒星探索各入口。"
+    }
+  ],
+  "links": [
+    { "label": "返回宇宙门户", "url": "/" },
+    { "label": "GitHub", "url": "https://github.com/askuary-xy/askuary-portal", "icon": "github" }
+  ]
+}

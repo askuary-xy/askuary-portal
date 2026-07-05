@@ -3,17 +3,19 @@
     "id": "blog",
     "label": "博客",
     "desc": "文章与随笔",
-    "url": "https://www.askuary.cn/blog/",
+    "url": "/blog/",
     "icon": "blog",
+    "enabled": true,
     "x": 0.18,
     "y": 0.22
   },
   {
     "id": "friends",
     "label": "友联",
-    "desc": "朋友们的小站",
-    "url": "#friends",
+    "desc": "绕地球运行的友站卫星",
+    "url": "/friends/",
     "icon": "link",
+    "enabled": true,
     "x": 0.82,
     "y": 0.18
   },
@@ -21,17 +23,19 @@
     "id": "about",
     "label": "关于",
     "desc": "关于我",
-    "url": "#about",
+    "url": "/about/",
     "icon": "user",
+    "enabled": true,
     "x": 0.75,
     "y": 0.72
   },
   {
-    "id": "archive",
-    "label": "归档",
-    "desc": "全部文章",
-    "url": "/archive",
-    "icon": "archive",
+    "id": "explore",
+    "label": "探索",
+    "desc": "点击地球上的光点，或等待划过的文字流星",
+    "url": "#explore",
+    "icon": "star",
+    "enabled": true,
     "x": 0.22,
     "y": 0.68
   }

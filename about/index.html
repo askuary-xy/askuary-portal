@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN" class="footprint-subpage-html">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#05060a" />
+    <meta name="description" content="关于 ASKUARY — 记录思考，探索次元" />
+    <title>关于 · ASKUARY</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body class="fp-about-page">
+    <div class="fp-atmosphere" aria-hidden="true"></div>
+    <canvas id="fpStars" class="fp-stars-canvas" aria-hidden="true"></canvas>
+
+    <main class="fp-about" aria-labelledby="aboutTitle">
+      <a class="fp-about-back" href="/">← 返回宇宙</a>
+
+      <header class="fp-about-header">
+        <h1 class="fp-about-title" id="aboutTitle">关于</h1>
+        <p class="fp-about-lead" id="aboutLead"></p>
+      </header>
+
+      <div class="fp-about-sections" id="aboutSections"></div>
+
+      <nav class="fp-about-links" id="aboutLinks" aria-label="相关链接"></nav>
+    </main>
+
+    <div id="bootError" hidden></div>
+    <script type="module" src="/src/pages/about/main.ts"></script>
+  </body>
+</html>

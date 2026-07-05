@@ -20,6 +20,12 @@ dist-ssr
 .DS_Store
 Thumbs.db
 
-# Env
-.env
-.env.*
+# 生成的文章页与索引（由 content:build 产出）
+blog/*/
+!blog/index.html
+journal/*/
+public/data/posts/
+public/data/posts-index.json
+public/data/journal/
+public/data/journal-index.json
+

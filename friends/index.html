@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN" class="footprint-subpage-html">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#05060a" />
+    <meta name="description" content="友联 — ASKUARY 友站卫星" />
+    <title>友联 · ASKUARY</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body class="fp-about-page fp-friends-page">
+    <div class="fp-atmosphere" aria-hidden="true"></div>
+    <canvas id="fpStars" class="fp-stars-canvas" aria-hidden="true"></canvas>
+
+    <main class="fp-about fp-friends" aria-labelledby="friendsTitle">
+      <a class="fp-about-back" href="/">← 返回宇宙</a>
+
+      <header class="fp-about-header">
+        <h1 class="fp-about-title" id="friendsTitle">友联</h1>
+        <p class="fp-about-lead" id="friendsLead"></p>
+      </header>
+
+      <div class="fp-friends-grid" id="friendsGrid" role="list"></div>
+      <p class="fp-friends-empty" id="friendsEmpty" hidden></p>
+
+      <nav class="fp-about-links" id="friendsLinks" aria-label="相关链接"></nav>
+    </main>
+
+    <div id="bootError" hidden></div>
+    <script type="module" src="/src/pages/friends/main.ts"></script>
+  </body>
+</html>

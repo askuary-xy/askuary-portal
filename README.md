@@ -1,17 +1,17 @@
 # Askuary Portal
 
-脱离 WordPress 的 **Link Start 宇宙门户**（方案 1：Vite + TypeScript + Canvas 2D）。
+**全新**个人宇宙门户（Vite + TypeScript + Canvas 2D），与任何旧站无关联。
 
-保留：地球光点、友联卫星、深空流星、黑洞穿越；**导航入口在背景恒星上**，点击弹出卡片。
+保留：地球光点、友联卫星、深空流星、黑洞穿越；**导航入口在背景恒星上**。
 
 ## 技术栈
 
 | 层 | 选型 |
 |----|------|
 | 构建 | Vite 8 + TypeScript |
-| 渲染 | Canvas 2D（星空 / 导航恒星；地球、黑洞 Phase 2 迁移） |
-| 配置 | `data/*.json` → 构建时复制到 `public/data/` |
-| 博客 | 独立模块（Markdown / headless，见 `docs/MIGRATION.md`） |
+| 渲染 | Canvas 2D（星空、地球、黑洞） |
+| 配置 | `data/*.json` |
+| 博客 | **待在本项目内新建**（见 `docs/ROADMAP.md`） |
 
 ## 快速开始
 
@@ -19,58 +19,71 @@
 cd C:\Users\Administrator\Projects\askuary-portal
 npm install
 npm run dev      # http://localhost:5173
-npm run build    # 输出 dist/
-npm run preview  # 预览构建结果
+npm run build
+npm run preview
 ```
 
 ## 目录
 
 ```
 askuary-portal/
-├── data/                 # 配置源（编辑后同步到 public/data/）
-├── public/data/          # 运行时加载的 JSON
-├── docs/MIGRATION.md     # WordPress 文章与数据迁移方案
-├── src/
-│   ├── canvas/           # 星空、导航恒星、地球、黑洞
-│   ├── config/           # 配置加载
-│   ├── ui/               # 恒星入口弹层
-│   └── styles/
-└── scripts/              # 迁移脚本（后续）
+├── data/              # 配置源
+├── public/data/       # 运行时 JSON
+├── docs/ROADMAP.md    # 博客与后续开发计划
+└── src/
+    ├── canvas/        # 星空、地球、黑洞
+    ├── app/           # 滚动分屏、穿越
+    └── ui/            # 恒星弹层
 ```
+
+## 博客
+
+文章放在 `content/posts/*.md`，frontmatter 示例：
+
+```yaml
+---
+title: 文章标题
+date: 2026-07-01
+summary: 列表页摘要
+tags: [随笔]
+---
+```
+
+`npm run dev` / `npm run build` 会自动执行 `posts:build`，生成：
+
+- `/blog/` 列表页
+- `/blog/{slug}/` 文章页
+- `public/data/posts-index.json` 与 `public/data/posts/*.json`
 
 ## 配置
 
-- `data/site.json` — 站点名、简介、头像、社交、博客 URL
-- `data/nav-stars.json` — **背景导航恒星**（x/y 为 0–1 屏幕比例）
-- `data/spots.json` — 地球光点
-- `data/friends.json` — 友联
-- `data/meteor-words.json` — 流星文字
-
-修改 `data/` 后执行：
+- `data/site.json` — 站名、`blogUrl`、黑洞穿越开关
+- `data/blog-page.json` — 博客页标题与导语
+- `data/nav-stars.json` — 背景导航恒星
+- `data/friends.json` — 友联列表（地球卫星 + 友联页共用）
+- `data/friends-page.json` — 友联页标题与空状态文案
 
 ```powershell
 Copy-Item data\* public\data\ -Force
 ```
 
-## 开发阶段
+## 进度
 
 | 阶段 | 内容 | 状态 |
 |------|------|------|
-| Phase 0 | 项目脚手架 + Git | ✅ |
-| Phase 1 | 星空 + 背景导航恒星 + 弹层 | ✅ |
-| Phase 2 | 迁移 earth（光点 + 友联 + 天空文字） | ✅ |
-| Phase 2b | 黑洞第二屏 + 下滑穿越 + 完整流星 | ✅ |
-| Phase 3 | WordPress 文章导出 → 静态博客 | 见 MIGRATION.md |
-| Phase 4 | 部署 askuary.cn 根域 | 待做 |
+| Phase 0–2 | 门户 + 地球 + 黑洞 + 流星 | ✅ |
+| 关于页 | `/about/` | ✅ |
+| 友联页 | `/friends/` | ✅ |
+| 博客 | `/blog/` + Markdown | ✅ |
+| Phase 3 | 博客模块（Markdown） | 待做 |
+| Phase 4 | 部署 | 待做 |
 
-## GitHub
+## 仓库
 
-```bash
-git remote add origin https://github.com/<你的用户名>/askuary-portal.git
-git branch -M main
-git push -u origin main
-```
+https://github.com/askuary-xy/askuary-portal
 
 ## 来源
 
-视觉与交互自 [Sakurairo-child](https://www.askuary.cn/) Link Start 页迁移；门户交互参考 [yukari.one](https://yukari.one/) 的简洁入口思路，入口改为宇宙恒星。
+- **视觉与交互**：延续 [askuary.cn](https://askuary.cn) 线上宇宙门户（粒子地球、光点、深空流星、黑洞穿越、星图导航等）。
+- **门户入口**：背景恒星导航为本项目独立设计，**并非**参考 yukari.one。
+- **技术实现**：由 WordPress 主题页重构为 Vite + TypeScript + Canvas 2D 独立仓库；**数据、域名与文章内容均独立新建**，不承接旧站 WordPress 内容。

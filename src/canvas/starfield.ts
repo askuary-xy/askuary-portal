@@ -71,6 +71,7 @@ export class Starfield {
   private raf = 0;
   private running = false;
   private scrollY = 0;
+  private onHoleScreen = false;
   private nextMeteorAt = 0;
   private meteorsEnabled = !prefersReducedMotion();
   private mouseX = -9999;
@@ -84,6 +85,7 @@ export class Starfield {
   private onNavClick: (hit: NavStarHit) => void;
   private onMouseMoveBound: (e: MouseEvent) => void;
   private onMouseLeaveBound: () => void;
+  private onClickBound: (e: MouseEvent) => void;
   private onScrollBound: () => void;
   private resizeTimer = 0;
 
@@ -95,8 +97,11 @@ export class Starfield {
     this.onNavClick = onNavClick;
     this.onMouseMoveBound = (e) => this.onMouseMove(e);
     this.onMouseLeaveBound = () => this.onMouseLeave();
+    this.onClickBound = (e) => this.onNavStarClick(e);
     this.onScrollBound = () => {
       this.scrollY = window.scrollY || window.pageYOffset || 0;
+      const vh = window.innerHeight || 1;
+      this.onHoleScreen = Math.round(this.scrollY / vh) >= 1;
     };
     this.bindEvents();
     this.initSize();
@@ -117,6 +122,7 @@ export class Starfield {
     this.nextMeteorAt = performance.now() + this.randomMeteorDelay();
     window.addEventListener('mousemove', this.onMouseMoveBound, { passive: true });
     window.addEventListener('mouseleave', this.onMouseLeaveBound);
+    document.addEventListener('click', this.onClickBound, true);
     window.addEventListener('scroll', this.onScrollBound, { passive: true });
     this.loop(performance.now());
   }
@@ -127,17 +133,27 @@ export class Starfield {
     document.body.classList.remove('fp-meteor-word-hover');
     window.removeEventListener('mousemove', this.onMouseMoveBound);
     window.removeEventListener('mouseleave', this.onMouseLeaveBound);
+    document.removeEventListener('click', this.onClickBound, true);
     window.removeEventListener('scroll', this.onScrollBound);
   }
 
   private bindEvents(): void {
-    this.canvas.addEventListener('click', () => {
-      if (this.hoveredNav) this.onNavClick(this.hoveredNav);
-    });
     window.addEventListener('resize', () => {
       clearTimeout(this.resizeTimer);
       this.resizeTimer = window.setTimeout(() => this.initSize(), 100);
     });
+  }
+
+  /** 地球 canvas 在上层，需在捕获阶段命中导航恒星 */
+  private onNavStarClick(event: MouseEvent): void {
+    if (this.onHoleScreen) return;
+
+    const hit = hitTestNavStars(this.navStars, event.clientX, event.clientY);
+    if (!hit) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+    this.onNavClick(hit);
   }
 
   private initSize(): void {
@@ -428,7 +444,7 @@ export class Starfield {
     this.mouseX = event.clientX;
     this.mouseY = event.clientY;
     this.hoveredNav = hitTestNavStars(this.navStars, this.mouseX, this.mouseY);
-    const onHole = Math.round(this.scrollY / Math.max(window.innerHeight, 1)) >= 1;
+    const onHole = this.onHoleScreen;
     if (!onHole && this.hoveredNav && !this.wordMeteorHover) {
       this.canvas.style.cursor = 'pointer';
     } else if (!this.wordMeteorHover) {
@@ -454,7 +470,13 @@ export class Starfield {
     let offY = -(this.scrollY * 0.04);
     offY = ((offY % h) + h) % h;
 
-    ctx.fillStyle = '#05060a';
+    ctx.fillStyle = '#030408';
+    ctx.fillRect(0, 0, w, h);
+
+    const nebula = ctx.createRadialGradient(w * 0.5, h * 0.35, 0, w * 0.5, h * 0.35, w * 0.55);
+    nebula.addColorStop(0, 'rgba(40, 70, 130, 0.12)');
+    nebula.addColorStop(1, 'rgba(3, 4, 8, 0)');
+    ctx.fillStyle = nebula;
     ctx.fillRect(0, 0, w, h);
 
     for (const s of this.stars) {
@@ -471,6 +493,6 @@ export class Starfield {
     this.updateMeteors(now);
     for (const m of this.meteors) this.drawMeteor(ctx, m);
 
-    drawNavStars(ctx, this.navStars, now, this.hoveredNav);
+    drawNavStars(ctx, this.navStars, now, this.onHoleScreen ? null : this.hoveredNav);
   }
 }

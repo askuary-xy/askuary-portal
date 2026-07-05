@@ -1,0 +1,153 @@
+/* 友联页 — 卫星卡片网格 */
+
+.fp-spot-friend {
+  --fp-spot-ring: 255, 175, 110;
+  --fp-spot-glow: 255, 210, 150;
+  --fp-spot-accent: #ffe8cc;
+}
+
+.fp-friends {
+  width: min(880px, 94vw);
+}
+
+.fp-friends-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  gap: 1rem;
+}
+
+.fp-friend-card {
+  margin: 0;
+  border-radius: 14px;
+  border: 1px solid rgba(var(--fp-spot-ring), 0.28);
+  background: linear-gradient(
+    145deg,
+    rgba(var(--fp-spot-ring), 0.1),
+    rgba(255, 130, 160, 0.04)
+  );
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.fp-friend-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(var(--fp-spot-ring), 0.52);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35), 0 0 24px rgba(var(--fp-spot-ring), 0.12);
+}
+
+.fp-friend-card-link {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 1rem 1.05rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.fp-friend-avatar {
+  flex: 0 0 auto;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(var(--fp-spot-ring), 0.45);
+  box-shadow: 0 0 16px rgba(var(--fp-spot-ring), 0.28);
+}
+
+.fp-friend-orbit {
+  flex: 0 0 auto;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid rgba(var(--fp-spot-ring), 0.35);
+  background: radial-gradient(
+    circle at 35% 35%,
+    rgba(var(--fp-spot-glow), 0.55),
+    rgba(var(--fp-spot-ring), 0.12)
+  );
+  box-shadow:
+    0 0 0 4px rgba(var(--fp-spot-ring), 0.08),
+    0 0 20px rgba(var(--fp-spot-ring), 0.22);
+  position: relative;
+}
+
+.fp-friend-orbit::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px dashed rgba(var(--fp-spot-ring), 0.28);
+  animation: fpFriendOrbitSpin 12s linear infinite;
+}
+
+@keyframes fpFriendOrbitSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.fp-friend-body {
+  min-width: 0;
+  flex: 1;
+}
+
+.fp-friend-name {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--fp-spot-accent);
+  text-shadow: 0 0 12px rgba(var(--fp-spot-ring), 0.25);
+}
+
+.fp-friend-desc {
+  margin: 0 0 0.55rem;
+  font-size: 0.84rem;
+  line-height: 1.65;
+  color: rgba(210, 225, 245, 0.72);
+}
+
+.fp-friend-visit {
+  display: inline-block;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: rgba(var(--fp-spot-glow), 0.95);
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+
+.fp-friend-card:hover .fp-friend-visit {
+  opacity: 1;
+}
+
+.fp-friends-empty {
+  margin: 1.5rem 0 0;
+  text-align: center;
+  font-size: 0.92rem;
+  line-height: 1.75;
+  color: rgba(210, 225, 245, 0.62);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
+}
+
+@media (max-width: 720px) {
+  .fp-friend-card-link {
+    padding: 0.9rem;
+  }
+
+  .fp-friend-avatar,
+  .fp-friend-orbit {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fp-friend-orbit::after {
+    animation: none;
+  }
+
+  .fp-friend-card {
+    transition: none;
+  }
+}

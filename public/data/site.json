@@ -1,12 +1,18 @@
 {
-  "name": "Askuary",
-  "intro": "Link Start — 宇宙门户",
+  "name": "ASKUARY",
+  "intro": "记录思考，探索次元",
+  "taglines": [
+    "记录思考，探索次元",
+    "点击光点，拾取记忆",
+    "悬停流星，阅读短句"
+  ],
   "avatar": "",
-  "avatarAlt": "头像",
-  "homeUrl": "https://www.askuary.cn/",
-  "blogUrl": "https://www.askuary.cn/blog/",
+  "showAvatar": false,
+  "avatarAlt": "ASKUARY",
+  "homeUrl": "/home/",
+  "warpEnabled": true,
+  "warpHint": "穿越至主页",
   "social": [
-    { "label": "GitHub", "url": "https://github.com/", "icon": "github" },
-    { "label": "Email", "url": "mailto:hello@example.com", "icon": "email" }
+    { "label": "GitHub", "url": "https://github.com/askuary-xy/askuary-portal", "icon": "github" }
   ]
 }

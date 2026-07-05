@@ -1,0 +1,156 @@
+/* 关于页 — 文字浮于宇宙背景 */
+
+html.footprint-subpage-html,
+html.footprint-subpage-html body {
+  scroll-snap-type: none !important;
+  scroll-behavior: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: auto;
+  min-height: 100%;
+}
+
+.fp-about-page {
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
+.fp-about-page .fp-stars-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  pointer-events: none;
+}
+
+.fp-about {
+  position: relative;
+  z-index: 2;
+  width: min(640px, 92vw);
+  margin: 0 auto;
+  padding: max(2.5rem, env(safe-area-inset-top)) 1.25rem max(4rem, env(safe-area-inset-bottom));
+  animation: fpAboutFade 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+@keyframes fpAboutFade {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fp-about-back {
+  display: inline-block;
+  margin-bottom: 2rem;
+  font-size: 0.86rem;
+  letter-spacing: 0.06em;
+  color: rgba(200, 220, 245, 0.62);
+  text-decoration: none;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.fp-about-back:hover {
+  color: rgba(235, 244, 255, 0.95);
+  text-shadow: 0 0 14px rgba(142, 197, 255, 0.35);
+}
+
+.fp-about-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.fp-about-title {
+  margin: 0 0 0.65rem;
+  font-size: clamp(1.75rem, 5vw, 2.25rem);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: rgba(245, 250, 255, 0.96);
+  text-shadow:
+    0 0 24px rgba(120, 180, 255, 0.4),
+    0 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+.fp-about-lead {
+  margin: 0;
+  font-size: clamp(0.92rem, 2.5vw, 1rem);
+  line-height: 1.75;
+  color: rgba(210, 225, 245, 0.78);
+  text-shadow: 0 1px 16px rgba(0, 0, 0, 0.55);
+}
+
+.fp-about-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.fp-about-section-title {
+  margin: 0 0 0.55rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fp-accent);
+  opacity: 0.85;
+}
+
+.fp-about-section-body {
+  margin: 0;
+}
+
+.fp-about-section-body p {
+  margin: 0 0 0.85rem;
+  font-size: 0.94rem;
+  line-height: 1.85;
+  color: rgba(210, 225, 245, 0.82);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
+}
+
+.fp-about-section-body p:last-child {
+  margin-bottom: 0;
+}
+
+.fp-about-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.25rem;
+  justify-content: center;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(142, 197, 255, 0.1);
+}
+
+.fp-about-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.84rem;
+  letter-spacing: 0.04em;
+  color: rgba(200, 220, 245, 0.65);
+  text-decoration: none;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.fp-about-link:hover {
+  color: rgba(235, 244, 255, 0.95);
+  text-shadow: 0 0 14px rgba(142, 197, 255, 0.35);
+}
+
+.fp-about-link-icon {
+  opacity: 0.75;
+}
+
+@media (max-width: 720px) {
+  .fp-about {
+    padding-top: max(1.75rem, env(safe-area-inset-top));
+  }
+
+  .fp-about-title {
+    letter-spacing: 0.12em;
+  }
+}

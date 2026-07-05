@@ -34,17 +34,15 @@ body.fp-meteor-word-hover {
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 13rem;
+  height: 11rem;
   z-index: 2;
   pointer-events: none;
-  opacity: 1;
+  opacity: 0.85;
   transition: opacity 0.7s ease;
   background:
-    radial-gradient(ellipse 140% 95% at 50% 100%, #ddd8cc 0%, #c8c2b4 18%, #a8a196 38%, #8a8478 52%, transparent 74%),
-    radial-gradient(circle at 22% 92%, rgba(110, 106, 98, 0.45) 0%, transparent 28%),
-    radial-gradient(circle at 68% 88%, rgba(95, 91, 84, 0.35) 0%, transparent 24%),
-    radial-gradient(circle at 45% 96%, rgba(125, 120, 112, 0.25) 0%, transparent 18%);
-  mask-image: linear-gradient(to top, black 62%, transparent 100%);
+    radial-gradient(ellipse 130% 90% at 50% 100%, rgba(210, 205, 195, 0.35) 0%, transparent 72%),
+    radial-gradient(circle at 30% 95%, rgba(120, 115, 108, 0.2) 0%, transparent 32%);
+  mask-image: linear-gradient(to top, black 50%, transparent 100%);
 }
 
 .fp-moon.fp-moon-hidden {
@@ -79,11 +77,25 @@ body.fp-meteor-word-hover {
 }
 
 .fp-scroll-hint {
-  color: #a0d2ff;
-  font-size: 1.5rem;
-  animation: fpBounce 2s infinite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  margin-top: 0.75rem;
   pointer-events: none;
-  margin-top: 0.5rem;
+  opacity: 0.7;
+}
+
+.fp-scroll-hint-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  color: var(--fp-accent);
+  opacity: 0.55;
+}
+
+.fp-scroll-hint-arrow {
+  font-size: 1.35rem;
+  animation: fpBounce 2s infinite;
 }
 
 @keyframes fpBounce {
@@ -120,6 +132,14 @@ body.fp-meteor-word-hover {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
+}
+
+.fp-app.fp-warp-disabled .fp-black-hole {
+  cursor: help;
+}
+
+.fp-app.fp-warp-disabled .fp-black-hole-label {
+  color: rgba(255, 210, 160, 0.78);
 }
 
 .fp-blackhole-glow {

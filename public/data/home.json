@@ -1,0 +1,50 @@
+{
+  "title": "ASKUARY",
+  "tagline": "记录思考，探索次元",
+  "heroIntro": "这里是站点主页 — 文章、展示与日常更新。宇宙门户在另一处等你穿越回来。",
+  "postsTitle": "最新文章",
+  "postsLimit": 12,
+  "empty": "尚无文章，内容正在路上。",
+  "sections": [
+    {
+      "heading": "两个入口",
+      "body": "从宇宙门户黑洞穿越会来到本页（站点主页）；背景「博客」恒星则进入宇宙·博客，两者内容独立。"
+    }
+  ],
+  "showcases": [
+    {
+      "title": "宇宙门户",
+      "desc": "粒子地球、导航恒星与黑洞穿越",
+      "url": "/",
+      "icon": "portal"
+    },
+    {
+      "title": "宇宙·博客",
+      "desc": "深空风格的独立文章列表",
+      "url": "/blog/",
+      "icon": "blog"
+    },
+    {
+      "title": "关于",
+      "desc": "站点说明与链接",
+      "url": "/about/",
+      "icon": "about"
+    },
+    {
+      "title": "友联",
+      "desc": "绕地球运行的友站卫星",
+      "url": "/friends/",
+      "icon": "friends"
+    }
+  ],
+  "nav": [
+    { "label": "宇宙门户", "url": "/" },
+    { "label": "宇宙博客", "url": "/blog/" },
+    { "label": "关于", "url": "/about/" },
+    { "label": "友联", "url": "/friends/" }
+  ],
+  "links": [
+    { "label": "返回宇宙门户", "url": "/" },
+    { "label": "GitHub", "url": "https://github.com/askuary-xy/askuary-portal", "icon": "github" }
+  ]
+}
