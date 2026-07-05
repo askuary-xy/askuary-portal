@@ -21,6 +21,7 @@ function getSlugInputs(baseDir: string, prefix: string): Record<string, string> 
 }
 
 export default defineConfig({
+  base: '/',
   build: {
     rollupOptions: {
       input: {

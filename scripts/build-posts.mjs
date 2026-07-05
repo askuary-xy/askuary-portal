@@ -30,7 +30,7 @@ function postHtmlTemplate(slug) {
     <canvas id="fpStars" class="fp-stars-canvas" aria-hidden="true"></canvas>
 
     <main class="fp-about fp-blog fp-blog-post" aria-labelledby="postTitle">
-      <a class="fp-about-back" href="/blog/">← 返回博客</a>
+      <a class="fp-about-back" href="../../blog/">← 返回博客</a>
       <article class="fp-blog-article">
         <header class="fp-blog-post-header">
           <time class="fp-blog-date" id="postDate"></time>

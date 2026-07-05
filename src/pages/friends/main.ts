@@ -3,6 +3,7 @@ import '../../styles/about.css';
 import '../../styles/friends.css';
 import { Starfield } from '../../canvas/starfield';
 import { loadFriendsPage } from '../../config/loader';
+import { sitePath } from '../../utils/site-path';
 import type { AboutLink } from '../../types/config';
 
 const LINK_ICONS: Record<string, string> = {
@@ -82,11 +83,12 @@ async function boot(): Promise<void> {
     linksEl.innerHTML = page.links
       .map((link: AboutLink) => {
         const icon = LINK_ICONS[link.icon ?? ''] ?? '';
+        const href = sitePath(link.url);
         const external = /^https?:\/\//i.test(link.url);
         const rel = external ? ' rel="noopener noreferrer"' : '';
         const target = external ? ' target="_blank"' : '';
         return (
-          `<a class="fp-about-link" href="${escapeHtml(link.url)}"${target}${rel}>` +
+          `<a class="fp-about-link" href="${escapeHtml(href)}"${target}${rel}>` +
           (icon ? `<span class="fp-about-link-icon" aria-hidden="true">${icon}</span>` : '') +
           `<span>${escapeHtml(link.label)}</span></a>`
         );

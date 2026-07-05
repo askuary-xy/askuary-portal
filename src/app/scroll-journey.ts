@@ -1,4 +1,5 @@
 import { initBlackhole } from '../canvas/blackhole';
+import { sitePath } from '../utils/site-path';
 import { showToast } from '../ui/toast';
 
 export interface ScrollJourneyOptions {
@@ -14,9 +15,9 @@ export interface ScrollJourneyController {
 }
 
 function resolveSiteUrl(path: string): string {
-  if (!path) return '/home/';
+  if (!path) return sitePath('/home/');
   if (/^https?:\/\//i.test(path)) return path;
-  return path.startsWith('/') ? path : `/${path}`;
+  return sitePath(path.startsWith('/') ? path : `/${path}`);
 }
 
 export function initScrollJourney(

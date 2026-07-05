@@ -2,6 +2,7 @@ import '../../styles/universe.css';
 import '../../styles/about.css';
 import '../../styles/blog.css';
 import { loadBlogListPage } from '../../config/loader';
+import { sitePath } from '../../utils/site-path';
 import { escapeHtml, formatDate, initBlogStarfield, renderFooterLinks } from './shared';
 
 const LINK_ICONS: Record<string, string> = {
@@ -33,7 +34,7 @@ async function boot(): Promise<void> {
         .map(
           (post) =>
             `<li class="fp-blog-item" role="listitem">` +
-            `<a class="fp-blog-item-link" href="/blog/${escapeHtml(post.slug)}/">` +
+            `<a class="fp-blog-item-link" href="${escapeHtml(sitePath(`/blog/${post.slug}/`))}">` +
             `<time class="fp-blog-date" datetime="${escapeHtml(post.date)}">${escapeHtml(formatDate(post.date))}</time>` +
             `<h2 class="fp-blog-item-title">${escapeHtml(post.title)}</h2>` +
             (post.summary ? `<p class="fp-blog-item-summary">${escapeHtml(post.summary)}</p>` : '') +

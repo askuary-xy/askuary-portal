@@ -90,7 +90,28 @@ Copy-Item data\* public\data\ -Force
 | 友联页 | `/friends/` | ✅ |
 | 站点主页 | `/home/` + journal | ✅ |
 | 宇宙·博客 | `/blog/` + Markdown | ✅ |
-| 部署 | GitHub Pages 等 | 待做 |
+| 部署 | GitHub Pages | ✅ |
+
+## GitHub Pages 部署
+
+推送 `main` 分支后，GitHub Actions 会自动构建并发布站点。
+
+**首次启用（仓库 Settings 里操作一次）：**
+
+1. 打开 https://github.com/askuary-xy/askuary-portal/settings/pages
+2. **Build and deployment → Source** 选 **GitHub Actions**
+3. 保存后，在 **Actions** 页查看 `Deploy GitHub Pages` 工作流是否成功
+
+**线上地址：** https://askuary-xy.github.io/askuary-portal/
+
+本地模拟 Pages 构建：
+
+```powershell
+npm run build:pages
+npm run preview
+```
+
+若日后绑定自定义域名（根路径 `/`），改用 `npm run build` 即可，无需 `--base=/askuary-portal/`。
 
 ## 仓库
 

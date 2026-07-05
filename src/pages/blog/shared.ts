@@ -1,5 +1,6 @@
 import type { MeteorWord } from '../../types/config';
 import { Starfield } from '../../canvas/starfield';
+import { sitePath } from '../../utils/site-path';
 
 export function escapeHtml(text: string): string {
   return String(text)
@@ -38,11 +39,12 @@ export function renderFooterLinks(
   container.innerHTML = links
     .map((link) => {
       const icon = icons[link.icon ?? ''] ?? '';
+      const href = sitePath(link.url);
       const external = /^https?:\/\//i.test(link.url);
       const rel = external ? ' rel="noopener noreferrer"' : '';
       const target = external ? ' target="_blank"' : '';
       return (
-        `<a class="fp-about-link" href="${escapeHtml(link.url)}"${target}${rel}>` +
+        `<a class="fp-about-link" href="${escapeHtml(href)}"${target}${rel}>` +
         (icon ? `<span class="fp-about-link-icon" aria-hidden="true">${icon}</span>` : '') +
         `<span>${escapeHtml(link.label)}</span></a>`
       );

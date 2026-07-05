@@ -1,5 +1,6 @@
 import '../../styles/home.css';
 import { loadHomePage } from '../../config/loader';
+import { sitePath } from '../../utils/site-path';
 import type { BlogPostMeta, HomeShowcase } from '../../types/config';
 import {
   escapeHtml,
@@ -27,7 +28,7 @@ function renderSection(heading: string, body: string): string {
 
 function renderShowcase(item: HomeShowcase): string {
   return (
-    `<a class="home-showcase-card" href="${escapeHtml(item.url)}">` +
+    `<a class="home-showcase-card" href="${escapeHtml(sitePath(item.url))}">` +
     renderShowcaseIcon(item.icon) +
     `<h3 class="home-showcase-title">${escapeHtml(item.title)}</h3>` +
     (item.desc ? `<p class="home-showcase-desc">${escapeHtml(item.desc)}</p>` : '') +
@@ -38,7 +39,7 @@ function renderShowcase(item: HomeShowcase): string {
 function renderPostCard(post: BlogPostMeta): string {
   return (
     `<article class="home-post-card">` +
-    `<a class="home-post-link" href="/journal/${escapeHtml(post.slug)}/">` +
+    `<a class="home-post-link" href="${escapeHtml(sitePath(`/journal/${post.slug}/`))}">` +
     `<time class="home-post-date" datetime="${escapeHtml(post.date)}">${escapeHtml(formatDate(post.date))}</time>` +
     `<h3 class="home-post-title">${escapeHtml(post.title)}</h3>` +
     (post.summary ? `<p class="home-post-summary">${escapeHtml(post.summary)}</p>` : '') +
@@ -66,7 +67,7 @@ async function boot(): Promise<void> {
     `<h1 class="home-hero-title">${escapeHtml(page.title || site.name)}</h1>` +
     (page.tagline ? `<p class="home-hero-tagline">${escapeHtml(page.tagline)}</p>` : '') +
     (page.heroIntro ? `<p class="home-hero-intro">${escapeHtml(page.heroIntro)}</p>` : '') +
-    `<a class="home-hero-portal" href="/">← 返回宇宙门户</a>` +
+    `<a class="home-hero-portal" href="${escapeHtml(sitePath('/'))}">← 返回宇宙门户</a>` +
     `</section>`;
 
   const showcasesHtml = page.showcases?.length

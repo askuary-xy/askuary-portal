@@ -1,3 +1,5 @@
+import { sitePath } from '../../utils/site-path';
+
 export function escapeHtml(text: string): string {
   return String(text)
     .replace(/&/g, '&amp;')
@@ -36,16 +38,18 @@ const NAV_ICONS: Record<string, string> = {
 
 export function renderNavLinks(
   links: { label: string; url: string; icon?: string }[] | undefined,
-  currentPath: string,
+  _currentPath?: string,
 ): string {
   if (!links?.length) return '';
+  const current = window.location.pathname;
   return links
     .map((link) => {
+      const href = sitePath(link.url);
       const active =
-        link.url === currentPath ||
-        (link.url !== '/' && currentPath.startsWith(link.url.replace(/\/$/, '')));
+        current === href ||
+        (link.url !== '/' && current.startsWith(href.replace(/\/$/, '')));
       const cls = active ? 'home-nav-link is-active' : 'home-nav-link';
-      return `<a class="${cls}" href="${escapeHtml(link.url)}">${escapeHtml(link.label)}</a>`;
+      return `<a class="${cls}" href="${escapeHtml(href)}">${escapeHtml(link.label)}</a>`;
     })
     .join('');
 }
@@ -57,11 +61,12 @@ export function renderFooterLinks(
   return links
     .map((link) => {
       const icon = NAV_ICONS[link.icon ?? ''] ?? '';
+      const href = sitePath(link.url);
       const external = /^https?:\/\//i.test(link.url);
       const rel = external ? ' rel="noopener noreferrer"' : '';
       const target = external ? ' target="_blank"' : '';
       return (
-        `<a class="home-footer-link" href="${escapeHtml(link.url)}"${target}${rel}>` +
+        `<a class="home-footer-link" href="${escapeHtml(href)}"${target}${rel}>` +
         (icon ? `<span class="home-footer-icon" aria-hidden="true">${icon}</span>` : '') +
         `<span>${escapeHtml(link.label)}</span></a>`
       );
@@ -84,7 +89,7 @@ export function renderHomeShell(options: {
     `<a class="home-skip" href="#homeMain">跳到正文</a>` +
     `<header class="home-header">` +
     `<div class="home-header-inner">` +
-    `<a class="home-brand" href="/home/">${escapeHtml(options.siteName)}</a>` +
+    `<a class="home-brand" href="${escapeHtml(sitePath('/home/'))}">${escapeHtml(options.siteName)}</a>` +
     `<nav class="home-nav" aria-label="站点导航">${options.navHtml}</nav>` +
     `</div></header>` +
     `<main class="home-main" id="homeMain">${options.mainHtml}</main>` +

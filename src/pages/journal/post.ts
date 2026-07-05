@@ -1,5 +1,6 @@
 import '../../styles/home.css';
 import { loadHomePage, loadJournalPostPage } from '../../config/loader';
+import { sitePath } from '../../utils/site-path';
 import {
   escapeHtml,
   formatDate,
@@ -40,7 +41,7 @@ async function boot(): Promise<void> {
 
   const articleHtml =
     `<article class="home-article">` +
-    `<a class="home-back" href="/home/">← 返回主页</a>` +
+    `<a class="home-back" href="${escapeHtml(sitePath('/home/'))}">← 返回主页</a>` +
     `<header class="home-article-header">` +
     (post.date
       ? `<time class="home-post-date" datetime="${escapeHtml(post.date)}">${escapeHtml(formatDate(post.date))}</time>`

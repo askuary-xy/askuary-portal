@@ -1,4 +1,5 @@
 import type { NavStarHit } from '../canvas/nav-stars';
+import { sitePath } from '../utils/site-path';
 import { showToast } from './toast';
 
 const ICONS: Record<string, string> = {
@@ -56,7 +57,7 @@ export function showNavPanel(hit: NavStarHit): void {
     } else {
       link.hidden = false;
       link.onclick = null;
-      link.href = star.url;
+      link.href = sitePath(star.url);
       link.textContent = star.url.startsWith('#') ? '查看' : '前往';
       link.removeAttribute('rel');
       if (star.url.startsWith('#')) {
