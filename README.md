@@ -73,4 +73,4 @@ git push -u origin main
 
 ## 来源
 
-视觉与交互自 [Sakurairo-child](https://www.askuary.cn/) Link Start 页迁移；门户交互参考 [yukari.one](https://yukari.one/) 的简洁入口思路，入口改为宇宙恒星。
+视觉与交互自 [Sakurairo-child](https://www.askuary.cn/) Link Start 页迁移
