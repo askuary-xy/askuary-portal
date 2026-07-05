@@ -11,7 +11,8 @@
 | 构建 | Vite 8 + TypeScript |
 | 渲染 | Canvas 2D（星空、地球、黑洞） |
 | 配置 | `data/*.json` |
-| 博客 | **待在本项目内新建**（见 `docs/ROADMAP.md`） |
+| 博客 | Markdown 双轨：`content/journal/`（主页）+ `content/posts/`（宇宙·博客） |
+
 
 ## 快速开始
 
@@ -36,7 +37,18 @@ askuary-portal/
     └── ui/            # 恒星弹层
 ```
 
-## 博客
+## 页面与内容
+
+| 路径 | 说明 | 内容源 |
+|------|------|--------|
+| `/` | 宇宙门户 | `data/*.json` |
+| `/home/` | 站点主页（黑洞穿越） | `content/journal/*.md` |
+| `/blog/` | 宇宙·博客 | `content/posts/*.md` |
+| `/about/`、`/friends/` | 关于、友联 | `data/about.json` 等 |
+
+`npm run dev` / `npm run build` 会自动执行 `content:build`（宇宙博客 + 主页 journal）。
+
+## 博客（宇宙·博客）
 
 文章放在 `content/posts/*.md`，frontmatter 示例：
 
@@ -49,16 +61,18 @@ tags: [随笔]
 ---
 ```
 
-`npm run dev` / `npm run build` 会自动执行 `posts:build`，生成：
+`npm run content:build` 生成：
 
-- `/blog/` 列表页
-- `/blog/{slug}/` 文章页
-- `public/data/posts-index.json` 与 `public/data/posts/*.json`
+- `/blog/` 列表页与 `/blog/{slug}/`
+- `/home/` 主页与 `/journal/{slug}/`
+- `public/data/posts-index.json`、`public/data/journal-index.json`
+
 
 ## 配置
 
-- `data/site.json` — 站名、`blogUrl`、黑洞穿越开关
-- `data/blog-page.json` — 博客页标题与导语
+- `data/site.json` — 站名、`homeUrl`（黑洞穿越目标）、黑洞开关
+- `data/home.json` — 站点主页文案与展示区块
+- `data/blog-page.json` — 宇宙·博客页标题与导语
 - `data/nav-stars.json` — 背景导航恒星
 - `data/friends.json` — 友联列表（地球卫星 + 友联页共用）
 - `data/friends-page.json` — 友联页标题与空状态文案
@@ -74,9 +88,9 @@ Copy-Item data\* public\data\ -Force
 | Phase 0–2 | 门户 + 地球 + 黑洞 + 流星 | ✅ |
 | 关于页 | `/about/` | ✅ |
 | 友联页 | `/friends/` | ✅ |
-| 博客 | `/blog/` + Markdown | ✅ |
-| Phase 3 | 博客模块（Markdown） | 待做 |
-| Phase 4 | 部署 | 待做 |
+| 站点主页 | `/home/` + journal | ✅ |
+| 宇宙·博客 | `/blog/` + Markdown | ✅ |
+| 部署 | GitHub Pages 等 | 待做 |
 
 ## 仓库
 
@@ -86,4 +100,5 @@ https://github.com/askuary-xy/askuary-portal
 
 - **视觉与交互**：延续 [askuary.cn](https://askuary.cn) 线上宇宙门户（粒子地球、光点、深空流星、黑洞穿越、星图导航等）。
 - **门户入口**：背景恒星导航为本项目独立设计，**并非**参考 yukari.one。
-- **技术实现**：由 WordPress 主题页重构为 Vite + TypeScript + Canvas 2D 独立仓库；**数据、域名与文章内容均独立新建**，不承接旧站 WordPress 内容。
+- **技术实现**：由 WordPress Sakurairo-child Link Start 页重构为 Vite + TypeScript + Canvas 2D 独立仓库；**数据、域名与文章内容均独立新建**，不承接旧站 WordPress 内容。
+
