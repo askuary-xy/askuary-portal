@@ -1,0 +1,12 @@
+{
+  "name": "Askuary",
+  "intro": "Link Start — 宇宙门户",
+  "avatar": "",
+  "avatarAlt": "头像",
+  "homeUrl": "https://www.askuary.cn/",
+  "blogUrl": "https://www.askuary.cn/blog/",
+  "social": [
+    { "label": "GitHub", "url": "https://github.com/", "icon": "github" },
+    { "label": "Email", "url": "mailto:hello@example.com", "icon": "email" }
+  ]
+}

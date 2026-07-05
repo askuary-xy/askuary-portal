@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#05060a" />
+    <title>Askuary | Link Start</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <div class="fp-app" id="footprintIntro">
+      <canvas id="fpStars" class="fp-stars-canvas" aria-hidden="true"></canvas>
+
+      <section class="fp-screen fp-screen--hero" aria-label="Intro">
+        <div class="fp-profile">
+          <div class="fp-avatar" id="siteAvatarWrap" hidden>
+            <img id="siteAvatar" src="" alt="" width="80" height="80" decoding="async" />
+          </div>
+          <h1 class="fp-title" id="siteName">Askuary</h1>
+          <p class="fp-desc" id="siteIntro">Link Start — 宇宙门户</p>
+          <nav class="fp-social" id="siteSocial" aria-label="Social links"></nav>
+          <p class="fp-hint">点击背景中较亮的恒星打开入口 · 地球 / 黑洞模块迁移中</p>
+        </div>
+      </section>
+
+      <section class="fp-blackhole-placeholder" aria-hidden="true">
+        <p>第二屏：黑洞穿越 → 博客（待迁移）</p>
+      </section>
+    </div>
+
+    <div id="navPanel" class="nav-panel" hidden role="dialog" aria-modal="true" aria-labelledby="navPanelTitle">
+      <div class="nav-panel-card">
+        <h2 id="navPanelTitle"></h2>
+        <p id="navPanelDesc"></p>
+        <div class="nav-panel-actions">
+          <button type="button" id="navPanelClose">关闭</button>
+          <a id="navPanelLink" href="#">前往</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="bootError" hidden></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

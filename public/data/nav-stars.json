@@ -1,0 +1,38 @@
+[
+  {
+    "id": "blog",
+    "label": "博客",
+    "desc": "文章与随笔",
+    "url": "https://www.askuary.cn/blog/",
+    "icon": "blog",
+    "x": 0.18,
+    "y": 0.22
+  },
+  {
+    "id": "friends",
+    "label": "友联",
+    "desc": "朋友们的小站",
+    "url": "#friends",
+    "icon": "link",
+    "x": 0.82,
+    "y": 0.18
+  },
+  {
+    "id": "about",
+    "label": "关于",
+    "desc": "关于我",
+    "url": "#about",
+    "icon": "user",
+    "x": 0.75,
+    "y": 0.72
+  },
+  {
+    "id": "archive",
+    "label": "归档",
+    "desc": "全部文章",
+    "url": "/archive",
+    "icon": "archive",
+    "x": 0.22,
+    "y": 0.68
+  }
+]
