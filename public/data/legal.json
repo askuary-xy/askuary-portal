@@ -1,0 +1,33 @@
+{
+  "copyright": "",
+  "runtimeStart": "2025-07-01T00:00:00+08:00",
+  "showRuntime": true,
+  "runtimeIcon": "⏳",
+  "beian": [
+    {
+      "icon": "/legal/gongan.png",
+      "iconAlt": "公安备案",
+      "label": "沪公网安备31010502007431号",
+      "url": "https://beian.mps.gov.cn/#/query/webSearch?code=31010502007431",
+      "rel": "noreferrer"
+    },
+    {
+      "icon": "/legal/icp.ico",
+      "iconAlt": "ICP备案",
+      "label": "湘ICP备 2025131923号-1",
+      "url": "https://beian.miit.gov.cn/"
+    },
+    {
+      "icon": "/legal/moe-icp.png",
+      "iconAlt": "萌ICP备案",
+      "label": "萌ICP备20260154号",
+      "url": "https://icp.gov.moe/?keyword=20260154"
+    }
+  ],
+  "license": null,
+  "links": [
+    { "label": "关于", "url": "/about/" },
+    { "label": "隐私说明", "url": "/about/#privacy" },
+    { "label": "GitHub", "url": "https://github.com/askuary-xy/askuary-portal" }
+  ]
+}

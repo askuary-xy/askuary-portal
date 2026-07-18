@@ -1,22 +1,43 @@
-/* 关于页 — 文字浮于宇宙背景 */
+/* 关于页 — 文字浮于宇宙背景（不含浅色 home-hub 子页） */
 
-html.footprint-subpage-html,
-html.footprint-subpage-html body {
+html.footprint-subpage-html {
+  scroll-snap-type: none !important;
+  scroll-behavior: auto;
+  overflow-x: hidden;
+  height: auto;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+html.footprint-subpage-html body.fp-about-page:not(.home-hub-page) {
   scroll-snap-type: none !important;
   scroll-behavior: auto;
   overflow-x: hidden;
   overflow-y: auto;
   height: auto;
-  min-height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--fp-bg-deep, #020308);
+  color: var(--fp-text, rgba(240, 246, 255, 0.94));
 }
 
-.fp-about-page {
+.fp-about-page:not(.home-hub-page) {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
+  min-height: 100dvh;
   overflow-x: hidden;
   overflow-y: visible;
 }
 
-.fp-about-page .fp-stars-canvas {
+.fp-about-page:not(.home-hub-page) .fp-atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.fp-about-page:not(.home-hub-page) .fp-stars-canvas {
   position: fixed;
   inset: 0;
   z-index: 0;
@@ -24,13 +45,26 @@ html.footprint-subpage-html body {
   pointer-events: none;
 }
 
-.fp-about {
+.fp-about-page:not(.home-hub-page) .fp-about {
   position: relative;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
   width: min(640px, 92vw);
+  min-height: 0;
   margin: 0 auto;
-  padding: max(2.5rem, env(safe-area-inset-top)) 1.25rem max(4rem, env(safe-area-inset-bottom));
+  padding: max(2.5rem, env(safe-area-inset-top)) 1.25rem 0;
   animation: fpAboutFade 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.fp-about-page:not(.home-hub-page) .fp-about .fp-about-links {
+  margin-top: auto;
+  padding-top: 1.5rem;
+}
+
+.fp-about-page:not(.home-hub-page) .fp-about .site-legal {
+  margin-top: 0 !important;
 }
 
 @keyframes fpAboutFade {
@@ -115,12 +149,22 @@ html.footprint-subpage-html body {
   margin-bottom: 0;
 }
 
+.fp-about-section-body a {
+  color: rgba(160, 210, 255, 0.95);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  word-break: break-all;
+}
+
+.fp-about-section-body a:hover {
+  color: #fff;
+}
+
 .fp-about-links {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem 1.25rem;
   justify-content: center;
-  margin-top: 2.5rem;
   padding-top: 1.5rem;
   border-top: 1px solid rgba(142, 197, 255, 0.1);
 }
@@ -146,11 +190,34 @@ html.footprint-subpage-html body {
 }
 
 @media (max-width: 720px) {
-  .fp-about {
-    padding-top: max(1.75rem, env(safe-area-inset-top));
+  .fp-about-page:not(.home-hub-page) .fp-about {
+    width: min(640px, 100%);
+    padding-top: max(1.15rem, env(safe-area-inset-top));
+    padding-right: max(0.9rem, env(safe-area-inset-right));
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+    padding-left: max(0.9rem, env(safe-area-inset-left));
+  }
+
+  .fp-about-back {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.5rem;
+    margin-bottom: 1.1rem;
   }
 
   .fp-about-title {
-    letter-spacing: 0.12em;
+    font-size: clamp(1.45rem, 7vw, 1.85rem);
+    letter-spacing: 0.08em;
+  }
+
+  .fp-about-lead {
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .fp-about-link {
+    min-height: 2.4rem;
+    align-items: center;
+    padding: 0.45rem 0.2rem;
   }
 }

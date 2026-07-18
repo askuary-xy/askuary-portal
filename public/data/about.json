@@ -3,16 +3,36 @@
   "lead": "ASKUARY — 记录思考，探索次元",
   "sections": [
     {
-      "heading": "这个站点",
-      "body": "ASKUARY 是一座宇宙门户。首屏是粒子地球与深空背景，光点标记记忆与足迹，流星划过短语；下滑可探向黑洞与星图导航。\n\n本站由 Vite + TypeScript + Canvas 独立构建，视觉与交互延续 askuary.cn 的宇宙体验，内容与博客模块在此项目中持续搭建。"
+      "heading": "关于本站",
+      "body": "ASKUARY（次元纪闻斋）是我的个人站点，用来放文章、碎念、摄影与一点「宇宙感」的门户玩法。\n站点分为两层：宇宙门户（粒子地球、流星、黑洞穿越）负责氛围与导航；站点主页负责日常阅读。主页只展示文章，碎念单独成页，摄影与归档也在主页体系里。"
     },
     {
-      "heading": "可以做什么",
-      "body": "点击地球光点拾取记忆；悬停文字流星阅读短句；下滑至第二屏使用星图导航；点击背景恒星探索各入口。"
+      "heading": "站点结构",
+      "body": "宇宙门户 `/`：地球光点、友联卫星、导航恒星、黑洞穿越。\n站点主页 `/home/`：文章列表；碎念见 `/shuoshuo/`；摄影见 `/photos/`；归档见 `/archive/`。\n宇宙·博客 `/blog/`、关于 `/about/`、友联 `/friends/`：从宇宙门户的恒星进入。\n评论与友联申请由本站后端审核后公开显示。"
+    },
+    {
+      "heading": "关于我",
+      "body": "喜欢折腾网站、拍照和写一点日常。邮箱：2274801095@qq.com\n若想交换友联，请到友联页按申请条件提交；通过后会出现在友联列表里。"
+    },
+    {
+      "heading": "致谢与借鉴",
+      "body": "本站功能与设计有向这些项目/站点学习，特此致谢（排名不分先后）：\n· 安知鱼（https://blog.anheyu.com/ ）— 友联页的滚动墙、申请条件、卡片交互与信息结构多有参考；主题仓库见 https://github.com/anzhiyu-c/anheyu-app\n· Sakurairo 及旧站子主题 — 主页蓝粉白玻璃风、说说/碎念分区等视觉与信息架构的灵感来源\n· Vite、NestJS、Prisma 等开源工具 — 构建与后端基础设施\n文案、品牌与内容均为 ASKUARY 原创；借鉴的是交互与版式思路，而非照搬文案或素材。"
+    },
+    {
+      "heading": "隐私说明",
+      "body": "本站重视你的隐私，会尽量少收集信息：\n· 评论：可能收集昵称、邮箱（可选）、网址（可选）与留言内容；默认需站长审核通过后才会公开展示。\n· 友联申请：会收集站点名称、链接、简介、邮箱、头像/截图等申请材料，仅用于友联审核与展示。\n· 日志：服务器可能保留常规访问日志（IP、时间、路径），用于安全与排错，不会出售给第三方。\n· 第三方：友联头像/截图若使用外链，加载时会向对应图床或站点发起请求。\n如需删除某条评论或友联申请中的个人信息，请发邮件至 2274801095@qq.com，并注明相关页面与内容。"
+    },
+    {
+      "heading": "开源",
+      "body": "本站前端与相关代码托管在 GitHub，欢迎浏览与提建议（请勿直接提交含密钥的配置）。\n仓库：https://github.com/askuary-xy/askuary-portal"
     }
   ],
   "links": [
     { "label": "返回宇宙门户", "url": "/" },
-    { "label": "GitHub", "url": "https://github.com/askuary-xy/askuary-portal", "icon": "github" }
+    { "label": "站点主页", "url": "/home/" },
+    { "label": "友联", "url": "/friends/" },
+    { "label": "GitHub", "url": "https://github.com/askuary-xy/askuary-portal", "icon": "github" },
+    { "label": "安知鱼", "url": "https://blog.anheyu.com/", "icon": "link" },
+    { "label": "邮箱", "url": "mailto:2274801095@qq.com", "icon": "email" }
   ]
 }

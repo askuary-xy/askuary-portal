@@ -2,6 +2,7 @@ import '../../styles/universe.css';
 import '../../styles/about.css';
 import { Starfield } from '../../canvas/starfield';
 import { loadAboutPage } from '../../config/loader';
+import { mountLegalFooter } from '../../ui/mount-legal';
 import { sitePath } from '../../utils/site-path';
 
 const LINK_ICONS: Record<string, string> = {
@@ -16,6 +17,15 @@ function escapeHtml(text: string): string {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
+}
+
+/** 纯文本段落：转义后把 URL 变成可点击链接 */
+function renderBodyParagraph(text: string): string {
+  const escaped = escapeHtml(text);
+  return escaped.replace(
+    /(https?:\/\/[^\s<]+)/g,
+    '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>',
+  );
 }
 
 async function boot(): Promise<void> {
@@ -36,25 +46,37 @@ async function boot(): Promise<void> {
 
   if (sectionsEl && about.sections?.length) {
     sectionsEl.innerHTML = about.sections
-      .map(
-        (section) =>
-          `<section class="fp-about-section">` +
+      .map((section) => {
+        const anchor =
+          section.heading.includes('隐私')
+            ? ' id="privacy"'
+            : section.heading.includes('致谢') || section.heading.includes('借鉴')
+              ? ' id="credits"'
+              : '';
+        return (
+          `<section class="fp-about-section"${anchor}>` +
           `<h2 class="fp-about-section-title">${escapeHtml(section.heading)}</h2>` +
           `<div class="fp-about-section-body">${section.body
             .split('\n')
             .filter(Boolean)
-            .map((p) => `<p>${escapeHtml(p)}</p>`)
+            .map((p) => `<p>${renderBodyParagraph(p)}</p>`)
             .join('')}</div>` +
-          `</section>`,
-      )
+          `</section>`
+        );
+      })
       .join('');
+
+    if (window.location.hash === '#privacy' || window.location.hash === '#credits') {
+      document.querySelector(window.location.hash)?.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 
   if (linksEl && about.links?.length) {
     linksEl.innerHTML = about.links
       .map((link) => {
         const icon = LINK_ICONS[link.icon ?? ''] ?? '';
-        const href = sitePath(link.url);
+        const absolute = /^(https?:|mailto:)/i.test(link.url);
+        const href = absolute ? link.url : sitePath(link.url);
         const external = /^https?:\/\//i.test(link.url);
         const rel = external ? ' rel="noopener noreferrer"' : '';
         const target = external ? ' target="_blank"' : '';
@@ -74,6 +96,8 @@ async function boot(): Promise<void> {
     starfield.setMeteorWords(meteorWords);
     starfield.start();
   }
+
+  await mountLegalFooter(document.querySelector('.fp-about'), site.name);
 }
 
 boot().catch((err) => {
