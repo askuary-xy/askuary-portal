@@ -1,0 +1,74 @@
+/* 黑洞穿越后嵌入的传送门小游戏层 */
+
+body.gate-overlay-open {
+  overflow: hidden;
+}
+
+.gate-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: #070a12;
+  color: var(--retro-fg, #e8ecff);
+  animation: gate-overlay-in 0.45s ease-out;
+}
+
+@keyframes gate-overlay-in {
+  from {
+    opacity: 0;
+    transform: scale(1.04);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: none;
+  }
+}
+
+.gate-overlay-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  pointer-events: none;
+}
+
+.gate-overlay-exit {
+  pointer-events: auto;
+  font-family: var(--px-font-cn, 'Zpix', monospace);
+  font-size: var(--px-size-xs, 0.42rem);
+  letter-spacing: 0.04em;
+  padding: 8px 10px;
+  border: 2px solid #000;
+  background: #1a2240;
+  color: #7ec8ff;
+  box-shadow: 2px 2px 0 #000;
+  cursor: pointer;
+}
+
+.gate-overlay-exit:hover {
+  background: #243060;
+  color: #fff;
+}
+
+.gate-overlay-title {
+  font-family: var(--px-font-cn, 'Zpix', monospace);
+  font-size: var(--px-size-sm, 0.5rem);
+  opacity: 0.8;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.gate-overlay-root {
+  position: absolute;
+  inset: 0;
+}
+
+.gate-overlay .hp-hud-top {
+  margin-top: 44px;
+}

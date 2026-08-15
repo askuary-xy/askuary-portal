@@ -1,0 +1,565 @@
+/* ASKUARY 馆藏 — 像素 HUD（保留 lib-scifi-* 类名以兼容现有 DOM） */
+
+:root {
+  --lib-bg: #05060c;
+  --lib-cyan: #79d9ff;
+  --lib-green: #ffe566;
+  --lib-gold: #ffe566;
+  --lib-accent: #f0cf86;
+  --lib-text: #e8ecff;
+  --lib-muted: #8b93b0;
+  --lib-panel: rgba(8, 12, 24, 0.9);
+  --lib-font-display: var(--px-font, 'Press Start 2P', monospace);
+  --lib-font-body: var(--px-font-cn, 'Zpix', monospace);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html.lib-scifi-html {
+  font-size: 16px;
+}
+
+html.lib-scifi-html,
+body.lib-scifi-page {
+  margin: 0;
+  min-height: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--lib-bg);
+  color: var(--lib-text);
+  font-family: var(--lib-font-body);
+  font-size: 14px;
+  image-rendering: pixelated;
+  -webkit-font-smoothing: none;
+}
+
+.lib-scifi-app {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 40%, #0c1220 0%, #05060c 72%, #020308 100%);
+}
+
+.lib-scifi-stars {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.lib-scifi-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 1;
+  touch-action: none;
+  cursor: grab;
+  background: transparent;
+  image-rendering: pixelated;
+}
+
+.lib-scifi-canvas.is-dragging {
+  cursor: grabbing;
+}
+
+/* 像素框：直角 + 硬阴影，去掉切角与柔光 */
+.lib-hud-frame {
+  position: relative;
+  border: 3px solid #000;
+  background: var(--lib-panel);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  clip-path: none;
+  border-radius: 0;
+  box-shadow: 4px 4px 0 #000;
+}
+
+.lib-hud-frame::before,
+.lib-hud-frame::after {
+  content: none;
+}
+
+.lib-scifi-nav {
+  position: absolute;
+  top: max(0.65rem, env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: min(1080px, calc(100% - 1rem));
+  padding: 0.55rem 0.7rem;
+}
+
+.lib-scifi-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.lib-scifi-logo-mark {
+  width: 1.15rem;
+  height: 1.15rem;
+  border: 2px solid #000;
+  border-radius: 0;
+  background:
+    linear-gradient(90deg, var(--lib-cyan) 0 50%, var(--lib-gold) 50% 100%);
+  box-shadow: 2px 2px 0 #000;
+}
+
+.lib-scifi-logo-text {
+  font-family: var(--lib-font-display);
+  font-weight: 400;
+  font-size: clamp(0.48rem, 1.4vw, 0.62rem);
+  letter-spacing: 0.06em;
+  color: var(--lib-cyan);
+  text-shadow: 2px 2px 0 #000;
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  filter: none;
+}
+
+.lib-scifi-cats {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.lib-scifi-cat {
+  appearance: none;
+  border: 2px solid #000;
+  border-radius: 0;
+  background: #121828;
+  color: var(--lib-muted);
+  font-family: var(--lib-font-body);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  padding: 0.38rem 0.65rem;
+  clip-path: none;
+  box-shadow: 2px 2px 0 #000;
+  cursor: pointer;
+  transition: none;
+}
+
+.lib-scifi-cat:hover {
+  color: #fff;
+  background: #1a2848;
+}
+
+.lib-scifi-cat.is-active {
+  color: var(--lib-gold, #ffe566);
+  background: #1a2848;
+  border-color: var(--lib-gold, #ffe566);
+  box-shadow: 2px 2px 0 #000;
+}
+
+/* 分类条挂进统一像素顶栏 */
+body.has-pixel-nav .lib-scifi-cats {
+  flex: 1 1 auto;
+  justify-content: flex-end;
+  gap: 0.28rem;
+}
+
+body.has-pixel-nav .lib-scifi-cat {
+  font-size: 0.52rem;
+  padding: 0.28rem 0.45rem;
+}
+
+body.has-pixel-nav .lib-scifi-app {
+  padding-top: calc(var(--home-nav-offset, 4.2rem) + 0.35rem);
+}
+
+.lib-scifi-cat:disabled {
+  opacity: 0.45;
+  cursor: wait;
+}
+
+.lib-scifi-home {
+  flex-shrink: 0;
+  font-family: var(--lib-font-display);
+  font-size: 0.48rem;
+  letter-spacing: 0.06em;
+  color: var(--lib-muted);
+  text-decoration: none;
+  padding: 0.35rem 0.5rem;
+  border: 2px solid #000;
+  background: #121828;
+  box-shadow: 2px 2px 0 #000;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.lib-scifi-home:hover {
+  color: var(--lib-gold);
+  background: #1e2438;
+}
+
+.lib-scifi-bottom {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  z-index: 22;
+  width: min(720px, calc(100% - 1rem));
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0 0.25rem max(0.5rem, env(safe-area-inset-bottom));
+  pointer-events: none;
+}
+
+.lib-scifi-status {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-family: var(--lib-font-body);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  color: var(--lib-muted);
+}
+
+#libStatusCount {
+  margin-left: auto;
+  font-family: var(--lib-font-display);
+  font-size: 0.48rem;
+  color: var(--lib-green);
+  text-shadow: 1px 1px 0 #000;
+}
+
+.lib-scifi-legal {
+  pointer-events: auto;
+  padding: 0;
+}
+
+.lib-scifi-legal .site-legal {
+  gap: 0.2rem;
+  padding: 0.28rem 0.4rem;
+  border: 2px solid #000;
+  background: rgba(8, 12, 24, 0.86);
+  box-shadow: 2px 2px 0 #000;
+  border-radius: 0;
+}
+
+.lib-scifi-legal .site-legal,
+.lib-scifi-legal .site-legal * {
+  font-family: var(--lib-font-body) !important;
+}
+
+.lib-scifi-legal .site-legal-copy,
+.lib-scifi-legal .site-legal-runtime,
+.lib-scifi-legal .site-legal-link,
+.lib-scifi-legal .site-legal-badge {
+  color: #d4e0f5 !important;
+  font-size: 11px !important;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.lib-scifi-legal .site-legal-runtime {
+  display: none !important;
+}
+
+.lib-scifi-legal .site-legal-beian-item {
+  border-radius: 0 !important;
+  border: 2px solid #000 !important;
+  background: #121828 !important;
+  box-shadow: 1px 1px 0 #000 !important;
+  color: #e0eaff !important;
+  font-size: 10px !important;
+  padding: 0.14rem 0.32rem !important;
+}
+
+.lib-scifi-legal .site-legal-beian-item:hover {
+  color: var(--lib-gold) !important;
+  background: #1a2438 !important;
+  border-color: #000 !important;
+}
+
+.lib-scifi-legal #runtime_span {
+  color: var(--lib-gold) !important;
+}
+
+/* 详情模态 */
+.lib-scifi-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.lib-scifi-modal[hidden] {
+  display: none !important;
+}
+
+.lib-scifi-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(2, 4, 10, 0.78);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.lib-scifi-modal-card {
+  position: relative;
+  z-index: 1;
+  width: min(560px, 100%);
+  max-height: min(86vh, 720px);
+  overflow: auto;
+  padding: 1.15rem 1.1rem 1.25rem;
+  animation: libModalIn 0.28s steps(5, end) both;
+}
+
+@keyframes libModalIn {
+  from {
+    opacity: 0;
+    transform: translate(0, 8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+.lib-scifi-modal-stream {
+  font-family: var(--lib-font-display);
+  font-size: 0.42rem;
+  letter-spacing: 0.06em;
+  color: var(--lib-green);
+  margin-bottom: 0.65rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-shadow: 1px 1px 0 #000;
+  mask-image: none;
+}
+
+.lib-scifi-modal-close {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.7rem;
+  z-index: 3;
+  border: 2px solid #000;
+  border-radius: 0;
+  background: #1a2438;
+  color: var(--lib-gold);
+  font-family: var(--lib-font-display);
+  font-size: 0.42rem;
+  letter-spacing: 0.04em;
+  padding: 0.4rem 0.55rem;
+  clip-path: none;
+  box-shadow: 2px 2px 0 #000;
+  cursor: pointer;
+}
+
+.lib-scifi-modal-close:hover {
+  background: #79d9ff;
+  color: #041018;
+}
+
+.lib-scifi-detail-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+  margin-bottom: 0.3rem;
+  filter: none;
+  image-rendering: pixelated;
+}
+
+.lib-scifi-detail-kicker {
+  margin: 0 0 0.3rem;
+  font-family: var(--lib-font-display);
+  font-size: 0.42rem;
+  letter-spacing: 0.06em;
+  color: var(--lib-cyan);
+  text-transform: uppercase;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.lib-scifi-detail-title {
+  margin: 0 0 0.25rem;
+  font-family: var(--lib-font-body);
+  font-size: clamp(1.05rem, 3.2vw, 1.35rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  text-shadow: 2px 2px 0 #000;
+  padding-right: 4.5rem;
+}
+
+.lib-scifi-detail-author {
+  margin: 0 0 0.85rem;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--lib-muted);
+}
+
+.lib-scifi-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.45rem;
+  margin-bottom: 0.9rem;
+}
+
+.lib-scifi-detail-stat {
+  padding: 0.45rem 0.5rem;
+  border: 2px solid #000;
+  background: #0c1424;
+  clip-path: none;
+  border-radius: 0;
+  box-shadow: 2px 2px 0 #000;
+}
+
+.lib-scifi-detail-stat .label {
+  display: block;
+  font-family: var(--lib-font-display);
+  font-size: 0.38rem;
+  letter-spacing: 0.06em;
+  color: var(--lib-cyan);
+  margin-bottom: 0.18rem;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.lib-scifi-detail-stat .value {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: #eef4ff;
+  word-break: break-word;
+}
+
+.lib-scifi-detail-section {
+  margin-top: 0.75rem;
+}
+
+.lib-scifi-detail-section h3 {
+  margin: 0 0 0.35rem;
+  font-family: var(--lib-font-display);
+  font-size: 0.45rem;
+  letter-spacing: 0.06em;
+  color: var(--lib-gold);
+  text-shadow: 1px 1px 0 #000;
+}
+
+.lib-scifi-detail-section p,
+.lib-scifi-detail-section li {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: rgba(220, 232, 255, 0.9);
+}
+
+.lib-scifi-detail-section ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.lib-scifi-detail-section + .lib-scifi-detail-section {
+  border-top: 2px solid #000;
+  padding-top: 0.75rem;
+}
+
+.lib-scifi-detail-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.9rem;
+}
+
+.lib-scifi-detail-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.65rem;
+  border: 2px solid #000;
+  border-radius: 0;
+  background: #163528;
+  color: #9dffc2;
+  text-decoration: none;
+  font-family: var(--lib-font-body);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  clip-path: none;
+  box-shadow: 2px 2px 0 #000;
+}
+
+.lib-scifi-detail-link:hover {
+  background: #1e4a34;
+  color: #c8ffe0;
+}
+
+#bootError {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  padding: 0.55rem 1rem;
+  background: #4a1520;
+  border: 3px solid #000;
+  box-shadow: 3px 3px 0 #000;
+  color: #ffe8ee;
+  font-family: var(--lib-font-body);
+  font-size: 0.85rem;
+}
+
+@media (max-width: 720px) {
+  body.lib-scifi-page {
+    font-size: 13px;
+  }
+
+  .lib-scifi-nav {
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    padding: 0.5rem 0.55rem;
+  }
+
+  .lib-scifi-cats {
+    order: 3;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .lib-scifi-cat {
+    font-size: 0.72rem;
+    padding: 0.32rem 0.5rem;
+  }
+
+  .lib-scifi-home {
+    margin-left: auto;
+  }
+
+  .lib-scifi-status {
+    font-size: 0.72rem;
+  }
+
+  .lib-scifi-detail-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lib-scifi-modal-card {
+    animation: none;
+  }
+}

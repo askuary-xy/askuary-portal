@@ -1,0 +1,14 @@
+{
+  "title": "摄影",
+  "lead": "日常、街拍、旅途与山河——用快门收集路过的光。",
+  "empty": "还没有照片。把图放到 content/photowall/ 后构建即可。",
+  "heroKicker": "📷 定格瞬间",
+  "viewTitle": "浏览方式",
+  "viewLead": "按相册逛，或按时间轴回忆",
+  "noteTitle": "摄影笔记",
+  "categories": ["日常", "街拍", "旅途", "风景"],
+  "links": [
+    { "label": "返回主页", "url": "/home/" },
+    { "label": "宇宙入口", "url": "/" }
+  ]
+}

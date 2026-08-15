@@ -1,0 +1,281 @@
+/* 主页相册展示 — 宇宙像素风（图不被挡） */
+
+@import './pixel-fonts.css';
+
+.hr-photo-share {
+  margin-bottom: 1.6rem;
+}
+
+.hr-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-auto-rows: 148px;
+  gap: 0.55rem;
+}
+
+.hr-photo-card {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 0 !important;
+  text-align: left;
+  font: inherit;
+  cursor: zoom-in;
+  color: #e8ecff;
+  background: #0a1020;
+  border: 2px solid #000 !important;
+  box-shadow: 3px 3px 0 #000 !important;
+  transition: none;
+}
+
+.hr-photo-card--wide {
+  grid-column: span 2;
+}
+
+.hr-photo-card--tall {
+  grid-row: span 2;
+}
+
+.hr-photo-frame {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: none !important;
+  mix-blend-mode: normal !important;
+  box-shadow: inset 0 0 0 2px rgba(61, 231, 255, 0.22);
+}
+
+.hr-photo-frame::before,
+.hr-photo-frame::after {
+  content: none !important;
+  display: none !important;
+}
+
+.hr-photo-card[data-frame='neon'] .hr-photo-frame {
+  box-shadow: inset 0 0 0 2px #79d9ff;
+}
+
+.hr-photo-card[data-frame='film'] .hr-photo-frame {
+  /* 胶片边只留细描边，不再左右大条挡图 */
+  box-shadow: inset 0 0 0 2px #000;
+}
+
+.hr-photo-media {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  background: #0a1020;
+}
+
+.hr-photo-card img,
+.hr-photo-preview-stage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  image-rendering: auto;
+}
+
+.hr-photo-card:hover,
+.hr-photo-card:focus-visible {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 #000 !important;
+  outline: none;
+  z-index: 3;
+}
+
+/* 信息条默认淡出，悬停才出现，避免挡图 */
+.hr-photo-meta {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  padding: 0.3rem 0.4rem;
+  background: linear-gradient(180deg, transparent, rgba(6, 8, 18, 0.92));
+  border-top: 0;
+  font-family: var(--px-font-cn);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.12s steps(2), transform 0.12s steps(2);
+  pointer-events: none;
+}
+
+.hr-photo-card:hover .hr-photo-meta,
+.hr-photo-card:focus-visible .hr-photo-meta {
+  opacity: 1;
+  transform: none;
+}
+
+.hr-photo-meta strong {
+  display: block;
+  font-size: 0.55rem;
+  font-weight: 400;
+  color: #3de7ff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.hr-photo-meta em {
+  display: block;
+  margin-top: 0.1rem;
+  font-style: normal;
+  font-family: var(--px-font);
+  font-size: 0.34rem;
+  color: #c8d0e8;
+  letter-spacing: 0.04em;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.hr-photo-preview {
+  position: fixed;
+  inset: 0;
+  z-index: 220;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.hr-photo-preview[hidden] {
+  display: none !important;
+}
+
+.hr-photo-preview-backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(4, 8, 16, 0.82);
+  cursor: pointer;
+}
+
+.hr-photo-preview-dialog {
+  position: relative;
+  z-index: 1;
+  width: min(560px, 100%);
+  max-height: min(88vh, 720px);
+  overflow: auto;
+  padding: 0.75rem;
+  border: 2px solid #000;
+  background: #0e1424;
+  box-shadow: 4px 4px 0 #000;
+  color: #e8ecff;
+  font-family: var(--px-font-cn);
+}
+
+.hr-photo-preview-stage {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border: 2px solid #000;
+  background: #121828;
+  overflow: hidden;
+  margin-bottom: 0.65rem;
+}
+
+.hr-photo-preview-meta strong {
+  display: block;
+  font-size: 0.72rem;
+  color: #3de7ff;
+}
+
+.hr-photo-preview-meta em {
+  display: block;
+  margin-top: 0.2rem;
+  font-style: normal;
+  font-size: 0.55rem;
+  color: #8b93b0;
+}
+
+.hr-frame-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.65rem 0;
+}
+
+.hr-frame-btn {
+  appearance: none;
+  border: 2px solid #000;
+  background: #121828;
+  color: #8b93b0;
+  box-shadow: 2px 2px 0 #000;
+  padding: 0.3rem 0.45rem;
+  font-family: var(--px-font-cn);
+  font-size: 0.55rem;
+  cursor: pointer;
+}
+
+.hr-frame-btn.is-active,
+.hr-frame-btn:hover {
+  color: #041018;
+  background: #79d9ff;
+}
+
+.hr-photo-preview-actions {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.hr-photo-preview-story,
+.hr-photo-preview-close {
+  appearance: none;
+  border: 2px solid #000;
+  background: #121828;
+  color: #ffe566;
+  box-shadow: 2px 2px 0 #000;
+  padding: 0.4rem 0.6rem;
+  font-family: var(--px-font-cn);
+  font-size: 0.58rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.hr-photo-preview-close {
+  color: #e8ecff;
+}
+
+@media (max-width: 900px) {
+  .hr-photo-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: 124px;
+  }
+
+  /* 窄屏：标题改角标，不再铺底挡图 */
+  .hr-photo-meta {
+    opacity: 1;
+    transform: none;
+    left: auto;
+    right: 0;
+    bottom: auto;
+    top: 0;
+    max-width: 72%;
+    padding: 0.1rem 0.22rem;
+    background: rgba(6, 8, 18, 0.78);
+    border-left: 2px solid #000;
+    border-bottom: 2px solid #000;
+  }
+
+  .hr-photo-meta strong {
+    font-size: 0.45rem;
+  }
+
+  .hr-photo-meta em {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .hr-photo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

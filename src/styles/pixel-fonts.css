@@ -1,0 +1,19 @@
+/* 全站像素字体：英文 Press Start 2P + 中文 Zpix */
+
+@font-face {
+  font-family: 'Zpix';
+  src: url('https://cdn.jsdelivr.net/gh/SolidZORO/zpix-pixel-font@master/dist/zpix.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --px-font: 'Press Start 2P', 'Zpix', monospace;
+  --px-font-cn: 'Zpix', 'Press Start 2P', monospace;
+  --px-size-xs: 0.42rem;
+  --px-size-sm: 0.5rem;
+  --px-size-md: 0.58rem;
+  --px-size-lg: 0.72rem;
+  --px-size-title: clamp(0.85rem, 2.6vw, 1.15rem);
+}

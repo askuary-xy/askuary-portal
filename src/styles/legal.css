@@ -1,0 +1,330 @@
+@import './home-tokens.css';
+
+/* 页尾备案：全站硬边设备条 */
+
+.site-legal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.42rem;
+  margin-top: 0;
+  text-align: center;
+  width: 100%;
+}
+
+.site-legal-copy {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  color: #b9ccdc;
+  font-weight: 600;
+  font-family: var(--px-font-cn, "Noto Sans SC", sans-serif);
+}
+
+.site-legal-beian {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.35rem 0.45rem;
+  max-width: 40rem;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  border: none;
+}
+
+.site-legal-beian-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 0;
+  border: 2px solid #020713;
+  background: #101d31;
+  color: #d7e7f4;
+  box-shadow: 1px 1px 0 #020713;
+  font-size: 0.7rem;
+  font-weight: 650;
+  line-height: 1.35;
+  text-decoration: none;
+  transition:
+    color 140ms ease,
+    background-color 140ms ease,
+    transform 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.site-legal-beian-item:hover {
+  color: #041018;
+  background: #79d9ff;
+  transform: translate(-1px, -1px);
+  box-shadow: 2px 2px 0 #020713;
+}
+
+.site-legal-beian-item:active {
+  transform: translate(1px, 1px);
+  box-shadow: none;
+}
+
+.site-legal-beian-item img {
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
+.site-legal-runtime {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.3rem;
+  margin: 0;
+  max-width: 100%;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #b9ccdc;
+}
+
+.site-legal-runtime-icon {
+  opacity: 0.75;
+  font-size: 0.85em;
+}
+
+#runtime_span {
+  color: #ffe566;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  background: transparent;
+  padding: 0.1rem 0.35rem;
+  border: 2px solid #020713;
+  border-radius: 0;
+  box-shadow: 1px 1px 0 #020713;
+  line-height: 1.35;
+}
+
+.site-legal-badges {
+  margin: 0;
+}
+
+.site-legal-badge {
+  display: inline-flex;
+  padding: 0.1rem 0.45rem;
+  border-radius: 0;
+  border: 2px solid #020713;
+  background: #121828;
+  box-shadow: 1px 1px 0 #020713;
+  color: #b9ccdc;
+  font-size: 0.66rem;
+  text-decoration: none;
+}
+
+.site-legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem 0.4rem;
+  margin: 0;
+}
+
+.site-legal-link {
+  color: #cbe4f2;
+  font-size: 0.7rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: color 140ms ease;
+}
+
+.site-legal-link:hover,
+.home-page .site-legal-link:hover,
+.home-hub-page .site-legal-link:hover {
+  color: #79d9ff;
+}
+
+.site-legal-sep {
+  color: #627f92;
+  font-size: 0.65rem;
+  user-select: none;
+}
+
+.site-legal-extra {
+  margin: 0;
+  font-size: 0.66rem;
+  color: #8ea5b8;
+}
+
+.footer-card-wrapper,
+.footer-card {
+  display: contents;
+}
+
+/* 统一页脚条 */
+.home-footer,
+.home-hub-footer {
+  flex-shrink: 0;
+  width: 100%;
+  margin-top: auto !important;
+  margin-bottom: 0;
+  padding: 0;
+  background: transparent !important;
+  background-image: none !important;
+  border-top: 0 !important;
+  color: #b9ccdc;
+  box-shadow: none !important;
+  position: relative;
+  z-index: 6;
+  isolation: isolate;
+}
+
+.home-footer-inner,
+.home-hub-footer-inner {
+  width: min(720px, calc(100% - 1rem)) !important;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0.7rem 0.5rem max(0.8rem, env(safe-area-inset-bottom)) !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.home-footer .site-legal,
+.home-hub-footer .site-legal {
+  gap: 0.42rem;
+  margin-top: 0;
+  width: 100%;
+}
+
+.home-footer-inner > #pageLegal,
+.home-footer-inner > #homeLegal,
+.home-hub-footer-inner > #pageLegal {
+  width: 100%;
+}
+
+.home-footer-link,
+.home-hub-footer-link,
+.home-footer-copy {
+  color: #cbe4f2;
+  font-size: 0.74rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.home-footer-link:hover,
+.home-hub-footer-link:hover {
+  color: #79d9ff;
+}
+
+.home-article-page .home-particle-canvas,
+.home-article-page .home-article-deco {
+  z-index: 0 !important;
+}
+
+.home-article-page #homeShell,
+.home-page.ss-page #homeShell {
+  z-index: 2;
+}
+
+.home-article-page .home-footer,
+.home-article-page .home-hub-footer,
+.home-page.ss-page .home-footer,
+.home-page.ss-page .home-hub-footer {
+  z-index: 8;
+}
+
+.fp-portal-legal {
+  margin-top: 0.4rem;
+  padding-top: 0.4rem;
+  border-top: 1px solid rgba(121, 217, 255, 0.16);
+}
+
+.fp-portal-legal .site-legal {
+  margin-top: 0;
+  gap: 0.3rem;
+}
+
+body.fp-about-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body.fp-about-page > .fp-about {
+  flex: 1 0 auto;
+}
+
+body.fp-about-page > .fp-subpage-legal,
+body.fp-about-page > .home-hub-footer {
+  margin-top: auto;
+}
+
+:where(.home-footer, .home-hub-footer, .fp-subpage-legal, .lib-scifi-legal) .site-legal {
+  width: 100% !important;
+  gap: 0.25rem !important;
+  padding: 0.35rem 0.45rem !important;
+  border: 2px solid #020713 !important;
+  border-radius: 0 !important;
+  background: rgba(5, 16, 31, 0.92) !important;
+  box-shadow: 2px 2px 0 #020713 !important;
+}
+
+:where(.home-footer, .home-hub-footer, .fp-subpage-legal, .lib-scifi-legal) .site-legal-beian-item {
+  padding: 0.14rem 0.35rem !important;
+  border: 2px solid #020713 !important;
+  border-radius: 0 !important;
+  background: #101d31 !important;
+  box-shadow: 1px 1px 0 #020713 !important;
+  color: #d7e7f4 !important;
+  font-size: 0.64rem !important;
+}
+
+:where(.home-footer, .home-hub-footer, .fp-subpage-legal, .lib-scifi-legal)
+  :where(.site-legal-copy, .site-legal-runtime, .site-legal-link, #runtime_span) {
+  color: #b9ccdc !important;
+  background: transparent !important;
+  font-size: 0.65rem !important;
+  text-shadow: none !important;
+}
+
+:where(.home-footer, .home-hub-footer, .fp-subpage-legal, .lib-scifi-legal) #runtime_span {
+  border: 2px solid #020713 !important;
+  color: #ffe566 !important;
+  box-shadow: 1px 1px 0 #020713 !important;
+}
+
+@media (max-width: 720px) {
+  .site-legal {
+    gap: 0.25rem;
+  }
+
+  .site-legal-beian {
+    gap: 0.22rem;
+    width: 100%;
+  }
+
+  .site-legal-beian-item {
+    font-size: 0.62rem;
+    padding: 0.12rem 0.4rem;
+    max-width: 100%;
+  }
+
+  .site-legal-beian-item span {
+    overflow-wrap: anywhere;
+  }
+
+  #runtime_span {
+    font-size: 0.62rem;
+    padding: 0.08rem 0.38rem;
+    white-space: normal;
+  }
+
+  .home-footer-inner,
+  .home-hub-footer-inner {
+    padding-bottom: max(0.8rem, env(safe-area-inset-bottom)) !important;
+  }
+}

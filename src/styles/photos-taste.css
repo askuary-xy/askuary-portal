@@ -1,0 +1,262 @@
+/*
+ * 摄影页视觉系统
+ * 方形设备框 + 冷白摄影纸 + 单一青色强调；避免圆角玻璃与像素框混用。
+ */
+body.photos-rich {
+  --photo-ink: #071426;
+  --photo-panel: #0b1b2e;
+  --photo-line: #17334a;
+  --photo-cyan: #65d7f2;
+  --photo-paper: #edf3f6;
+  --photo-paper-2: #dce8ed;
+  --photo-text: #173247;
+  --photo-muted: #557083;
+}
+
+html body.photos-rich .pr-shell {
+  width: min(1120px, calc(100% - 24px)) !important;
+  margin-top: var(--ask-nav-safe-top, 88px) !important;
+  padding: 20px !important;
+  border: 3px solid #020713 !important;
+  border-radius: 2px !important;
+  background: rgba(7, 20, 38, .94) !important;
+  box-shadow: 7px 7px 0 rgba(0, 0, 0, .72) !important;
+}
+
+html.askuary-theme-light body.photos-rich .pr-shell {
+  color: var(--photo-text) !important;
+  background: rgba(237, 243, 246, .95) !important;
+}
+
+html body.photos-rich .pr-hero {
+  min-height: clamp(340px, 44vw, 500px) !important;
+  margin-bottom: 20px !important;
+  border: 2px solid #020713 !important;
+  border-radius: 2px !important;
+  box-shadow: 4px 4px 0 #020713 !important;
+}
+
+html body.photos-rich .pr-hero-img {
+  transform: scale(1.005) !important;
+  transition: transform 700ms cubic-bezier(.2,.7,.2,1) !important;
+}
+
+html body.photos-rich .pr-hero:hover .pr-hero-img {
+  transform: scale(1.025) !important;
+}
+
+html body.photos-rich .pr-hero-veil {
+  background:
+    linear-gradient(90deg, rgba(2, 9, 18, .82), rgba(2, 9, 18, .18) 62%, rgba(2, 9, 18, .06)) !important;
+}
+
+html body.photos-rich .pr-hero-copy {
+  align-items: flex-start !important;
+  justify-content: flex-end !important;
+  width: min(600px, 86%) !important;
+  padding: clamp(24px, 5vw, 58px) !important;
+}
+
+html body.photos-rich .pr-hero-title {
+  max-width: min(12ch, 100%) !important;
+  margin-block: 8px 10px !important;
+  font-size: clamp(36px, 6vw, 72px) !important;
+  line-height: 1.05 !important;
+  letter-spacing: -.04em !important;
+  color: #effaff !important;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55) !important;
+  overflow-wrap: anywhere !important;
+  position: relative !important;
+  z-index: 2 !important;
+  transition: letter-spacing 220ms ease !important;
+}
+
+html body.photos-rich .pr-hero:hover .pr-hero-title {
+  letter-spacing: -.02em !important;
+}
+
+html body.photos-rich .pr-section {
+  margin-bottom: 20px !important;
+  padding: 16px !important;
+  border: 2px solid #020713 !important;
+  border-radius: 2px !important;
+  background: var(--photo-panel) !important;
+  box-shadow: 3px 3px 0 #020713 !important;
+}
+
+html.askuary-theme-light body.photos-rich .pr-section {
+  background: var(--photo-paper-2) !important;
+}
+
+html body.photos-rich :where(.pr-tab,.pr-filter,.pr-album-back) {
+  min-height: 38px !important;
+  padding: 8px 12px !important;
+  border: 2px solid #020713 !important;
+  border-radius: 2px !important;
+  background: #10253a !important;
+  box-shadow: 2px 2px 0 #020713 !important;
+  color: #dff7ff !important;
+  transition: transform 130ms ease, background-color 130ms ease !important;
+}
+
+html body.photos-rich :where(.pr-tab,.pr-filter,.pr-album-back):hover {
+  background: #17354d !important;
+  transform: translate(-1px, -1px) !important;
+}
+
+html body.photos-rich :where(.pr-tab,.pr-filter,.pr-album-back):active {
+  transform: translate(1px, 1px) !important;
+  box-shadow: none !important;
+}
+
+html body.photos-rich :where(.pr-tab.is-active,.pr-filter.is-active) {
+  background: var(--photo-cyan) !important;
+  color: #041018 !important;
+}
+
+#photosAlbumsGrid.pr-albums {
+  grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  grid-auto-flow: row dense !important;
+  gap: 16px !important;
+}
+
+#photosAlbumsGrid > .pr-album,
+#photosAlbumsGrid > .pr-album[class*="pr-album--"] {
+  grid-column: span 4 !important;
+  border: 2px solid #020713 !important;
+  border-radius: 2px !important;
+  background: var(--photo-panel) !important;
+  box-shadow: 4px 4px 0 #020713 !important;
+  transform: none !important;
+  transition: transform 180ms ease, box-shadow 180ms ease !important;
+}
+
+#photosAlbumsGrid > .pr-album:nth-child(1),
+#photosAlbumsGrid > .pr-album:nth-child(6) {
+  grid-column: span 8 !important;
+}
+
+#photosAlbumsGrid > .pr-album:nth-child(1) .pr-album-cover,
+#photosAlbumsGrid > .pr-album:nth-child(6) .pr-album-cover {
+  aspect-ratio: 16 / 7 !important;
+}
+
+html body.photos-rich .pr-album:hover {
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 7px 7px 0 #020713 !important;
+}
+
+html body.photos-rich .pr-album:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 1px 1px 0 #020713 !important;
+}
+
+html body.photos-rich .pr-album-body {
+  padding: 14px !important;
+  background: var(--photo-panel) !important;
+}
+
+html body.photos-rich .pr-album-title {
+  color: #effaff !important;
+  font-size: clamp(17px, 1.7vw, 22px) !important;
+  line-height: 1.25 !important;
+}
+
+html body.photos-rich .pr-album-count {
+  color: var(--photo-cyan) !important;
+}
+
+html body.photos-rich .pr-album-bubble {
+  color: #b8ccd8 !important;
+}
+
+html body.photos-rich .pr-polaroid {
+  border: 2px solid #020713 !important;
+  border-radius: 2px !important;
+  box-shadow: 3px 3px 0 #020713 !important;
+  transition: transform 160ms ease, box-shadow 160ms ease !important;
+}
+
+html body.photos-rich .pr-polaroid:hover {
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 6px 6px 0 #020713 !important;
+}
+
+html body.photos-rich .pr-polaroid:active {
+  transform: translate(1px, 1px) !important;
+  box-shadow: 1px 1px 0 #020713 !important;
+}
+
+html body.photos-rich .pr-polaroid img {
+  transition: transform 420ms cubic-bezier(.2,.7,.2,1) !important;
+}
+
+html body.photos-rich .pr-polaroid:hover img {
+  transform: scale(1.04) !important;
+}
+
+@media (max-width: 900px) {
+  #photosAlbumsGrid > .pr-album,
+  #photosAlbumsGrid > .pr-album[class*="pr-album--"],
+  #photosAlbumsGrid > .pr-album:nth-child(n) {
+    grid-column: span 6 !important;
+  }
+
+  #photosAlbumsGrid > .pr-album:nth-child(n) .pr-album-cover {
+    aspect-ratio: 4 / 3 !important;
+  }
+}
+
+@media (max-width: 640px) {
+  html body.photos-rich .pr-shell {
+    width: calc(100% - 12px) !important;
+    padding: 10px !important;
+  }
+
+  html body.photos-rich .pr-hero {
+    min-height: 330px !important;
+  }
+
+  html body.photos-rich .pr-hero-copy {
+    width: 100% !important;
+    padding: 22px !important;
+  }
+
+  #photosAlbumsGrid > .pr-album,
+  #photosAlbumsGrid > .pr-album[class*="pr-album--"],
+  #photosAlbumsGrid > .pr-album:nth-child(n) {
+    grid-column: 1 / -1 !important;
+  }
+}
+
+/* 夜间标题/分区字可读；避免被封面顶边挡住 */
+html.askuary-theme-dark body.photos-rich .pr-section-title,
+body.home-theme-dark.photos-rich .pr-section-title {
+  color: #effaff !important;
+  -webkit-text-fill-color: #effaff !important;
+}
+
+html.askuary-theme-dark body.photos-rich .pr-note,
+body.home-theme-dark.photos-rich .pr-note {
+  color: #c5d7e6 !important;
+}
+
+html body.photos-rich .pr-section-title {
+  position: relative !important;
+  z-index: 2 !important;
+  padding-top: 0.15rem !important;
+}
+
+html body.photos-rich :where(.pr-tab.is-active,.pr-filter.is-active) {
+  background: #1a2848 !important;
+  color: #ffe566 !important;
+  border-color: #ffe566 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html body.photos-rich .pr-hero-img,
+  html body.photos-rich .pr-album,
+  html body.photos-rich .pr-polaroid {
+    transition: none !important;
+  }
+}

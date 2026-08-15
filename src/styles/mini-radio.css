@@ -1,0 +1,316 @@
+/* 左下角迷你电台 — 硬边设备坞（跨页续播） */
+
+.mini-radio {
+  --mr-pad: 0.45rem;
+  position: fixed;
+  left: max(0.85rem, env(safe-area-inset-left));
+  bottom: max(0.95rem, env(safe-area-inset-bottom));
+  z-index: 45;
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  align-items: center;
+  gap: 0.45rem 0.55rem;
+  width: min(18.2rem, calc(100vw - 1.6rem));
+  padding: var(--mr-pad) 0.55rem var(--mr-pad) 0.35rem;
+  border-radius: 2px;
+  border: 2px solid #020713;
+  background: rgba(8, 18, 34, 0.96);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: 3px 3px 0 #020713;
+  color: #eaf7ff;
+  font-family: var(--px-font-cn, "Noto Sans SC", sans-serif);
+  transition:
+    transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.2s ease,
+    box-shadow 0.12s ease,
+    width 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    padding 0.22s ease,
+    left 0.22s ease,
+    bottom 0.22s ease;
+}
+
+.mini-radio.is-loading {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.mini-radio.is-playing {
+  border-color: #79d9ff;
+}
+
+.mini-radio-dock {
+  width: 1.45rem;
+  height: 1.45rem;
+  border-radius: 0;
+  border: 2px solid #020713;
+  background: #121828;
+  color: #cbe4f2;
+  font-size: 0.85rem;
+  line-height: 1;
+  display: inline-grid;
+  place-items: center;
+  cursor: pointer;
+  padding: 0;
+  flex: 0 0 auto;
+  box-shadow: 1px 1px 0 #020713;
+  transition:
+    transform 120ms ease,
+    background-color 140ms ease,
+    color 140ms ease;
+}
+
+.mini-radio-dock:hover {
+  color: #041018;
+  background: #ffe566;
+}
+
+.mini-radio-disc {
+  position: relative;
+  width: 2.7rem;
+  height: 2.7rem;
+  border-radius: 0;
+  border: 2px solid #020713;
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+  background:
+    linear-gradient(135deg, rgba(8, 28, 48, 0.96), rgba(4, 14, 28, 0.98));
+  flex: 0 0 auto;
+  box-shadow: 2px 2px 0 #020713;
+}
+
+.mini-radio-disc::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow:
+    inset 0 0 0 1px rgba(121, 217, 255, 0.35),
+    inset 0 0 0 3px rgba(2, 7, 19, 0.35);
+  background:
+    linear-gradient(180deg, rgba(4, 14, 28, 0.08), rgba(4, 14, 28, 0.28));
+}
+
+.mini-radio-disc img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+  filter: saturate(0.82) contrast(1.05);
+}
+
+.mini-radio-hole {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 0.55rem;
+  height: 0.55rem;
+  margin: -0.275rem 0 0 -0.275rem;
+  border-radius: 0;
+  background: #020713;
+  box-shadow: 0 0 0 2px #ffe566;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.mini-radio-disc.is-playing {
+  animation: miniRadioSpin 8s linear infinite;
+}
+
+@keyframes miniRadioSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.mini-radio-meta {
+  min-width: 0;
+  display: grid;
+  gap: 0.08rem;
+}
+
+.mini-radio-title,
+.mini-radio-artist,
+.mini-radio-time {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mini-radio-title {
+  color: #eff8ff;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.mini-radio-artist {
+  color: #8ea5b8;
+  font-size: 0.62rem;
+}
+
+.mini-radio-time {
+  color: #79d9ff;
+  font-family: var(--px-font, monospace);
+  font-size: 0.5rem;
+  letter-spacing: 0.04em;
+}
+
+.mini-radio-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.mini-radio-btn {
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 0;
+  border: 2px solid #020713;
+  background: #121828;
+  color: #dff5ff;
+  font-size: 0.72rem;
+  display: inline-grid;
+  place-items: center;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 0;
+  line-height: 1;
+  box-shadow: 1px 1px 0 #020713;
+  transition:
+    transform 120ms ease,
+    background-color 140ms ease,
+    color 140ms ease,
+    box-shadow 120ms ease;
+}
+
+.mini-radio-btn:hover {
+  color: #041018;
+  background: #79d9ff;
+  transform: translate(-1px, -1px);
+  box-shadow: 2px 2px 0 #020713;
+}
+
+.mini-radio-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: none;
+}
+
+.mini-radio-home {
+  font-size: 0.85rem;
+}
+
+/* 收进左侧：只留唱盘 + 展开钮 */
+.mini-radio.is-collapsed {
+  grid-template-columns: auto;
+  grid-template-rows: auto auto;
+  justify-items: center;
+  gap: 0.35rem;
+  width: auto;
+  padding: 0.45rem 0.4rem 0.55rem;
+  border-radius: 0;
+  left: 0;
+  right: auto;
+  bottom: max(5.5rem, calc(env(safe-area-inset-bottom) + 4.2rem));
+  box-shadow: 3px 3px 0 #020713;
+}
+
+.mini-radio.is-collapsed .mini-radio-meta,
+.mini-radio.is-collapsed .mini-radio-actions {
+  display: none;
+}
+
+.mini-radio.is-collapsed .mini-radio-dock {
+  order: 2;
+  width: 1.65rem;
+  height: 1.65rem;
+  border-radius: 0;
+  font-size: 0.78rem;
+}
+
+.mini-radio.is-collapsed .mini-radio-disc {
+  order: 1;
+  width: 2.55rem;
+  height: 2.55rem;
+}
+
+/* 收起态：压住封面高饱和粉彩，露出设备感音符 */
+.mini-radio.is-collapsed .mini-radio-disc img {
+  filter: saturate(0.35) contrast(1.1) brightness(0.72);
+}
+
+.mini-radio.is-collapsed .mini-radio-disc::before {
+  content: '♪';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  color: #ffe566;
+  font-size: 1.05rem;
+  font-weight: 800;
+  text-shadow: 1px 1px 0 #020713;
+  pointer-events: none;
+}
+
+.mini-radio.is-collapsed .mini-radio-hole {
+  display: none;
+}
+
+body.home-theme-dark .mini-radio,
+body.askuary-theme-dark .mini-radio {
+  background: rgba(8, 18, 34, 0.96);
+  border-color: #020713;
+  color: #eaf7ff;
+  box-shadow: 3px 3px 0 #020713;
+}
+
+body.home-theme-dark .mini-radio-title {
+  color: #eff8ff;
+}
+
+body.home-theme-dark .mini-radio-artist,
+body.home-theme-dark .mini-radio-time {
+  color: #8ea5b8;
+}
+
+body.home-theme-dark .mini-radio-btn,
+body.home-theme-dark .mini-radio-dock {
+  background: #121828;
+  border-color: #020713;
+  color: #dff5ff;
+}
+
+@media (max-width: 720px) {
+  .mini-radio:not(.is-collapsed) {
+    width: min(16rem, calc(100vw - 1.4rem));
+    bottom: max(5.8rem, calc(env(safe-area-inset-bottom) + 5rem));
+  }
+
+  .mini-radio.is-collapsed {
+    bottom: max(0.75rem, env(safe-area-inset-bottom));
+    width: 2.8rem;
+    padding: 0.35rem 0.25rem 0.4rem;
+  }
+
+  .mini-radio.is-collapsed .mini-radio-disc {
+    width: 2.15rem;
+    height: 2.15rem;
+  }
+
+  .mini-radio.is-collapsed .mini-radio-dock {
+    width: 1.35rem;
+    height: 1.35rem;
+    font-size: 0.65rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mini-radio-disc.is-playing {
+    animation: none;
+  }
+
+  .mini-radio {
+    transition: none;
+  }
+}

@@ -1,0 +1,104 @@
+/* 全站共同的宇宙环境。内容页不再各自加载风景图或雾化背景。 */
+:root.askuary-cosmos {
+  --cosmos-void: #020813;
+  --cosmos-surface: rgba(6, 17, 31, 0.94);
+  --cosmos-line: rgba(125, 210, 232, 0.18);
+  background: var(--cosmos-void);
+}
+
+html.askuary-cosmos,
+html.askuary-cosmos body {
+  min-height: 100%;
+  background: var(--cosmos-void) !important;
+}
+
+body.askuary-cosmos:not(.fp-journey) {
+  color: #e7f1fb;
+  background:
+    radial-gradient(circle at 72% 15%, rgba(24, 94, 133, 0.16), transparent 30rem),
+    radial-gradient(circle at 18% 82%, rgba(15, 68, 108, 0.12), transparent 34rem),
+    var(--cosmos-void) !important;
+}
+
+/* 图片 API、首页滚动字和天气的满屏光照不再参与内容页背景。 */
+body.askuary-cosmos:not(.fp-journey) :where(.home-bg, .quote-bg, .weather-atmosphere) {
+  display: none !important;
+}
+
+.cosmic-shell-stars,
+body.askuary-cosmos:not(.fp-journey) .fp-stars-canvas,
+body.askuary-cosmos:not(.fp-journey) .lib-scifi-stars {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none !important;
+}
+
+/* Canvas 加载前也有可辨识的星点，避免内容页退化为纯色空白。 */
+.cosmic-shell-fallback {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 14% 24%, rgba(211, 239, 255, 0.9) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 71% 68%, rgba(126, 208, 255, 0.72) 0 1px, transparent 1.7px),
+    radial-gradient(circle at 37% 82%, rgba(255, 255, 255, 0.72) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 86% 19%, rgba(229, 247, 255, 0.8) 0 1px, transparent 1.7px);
+  background-size: 284px 252px, 426px 354px, 326px 418px, 496px 304px;
+  opacity: 0.62;
+}
+
+.cosmic-shell-stars {
+  z-index: 1 !important;
+}
+
+body.askuary-cosmos:not(.fp-journey) .fp-stars-canvas,
+body.askuary-cosmos:not(.fp-journey) .lib-scifi-stars {
+  z-index: 2 !important;
+  opacity: 0.38;
+}
+
+/* 内容仍使用实体深色阅读面，星空只作为环境而不是文字底色。 */
+body.askuary-cosmos:not(.fp-journey) :where(#homeShell, .pr-shell, .fp-about, .archive-rich, .lib-scifi-app, #gamesRoot, .home-hub-footer, .fp-subpage-legal) {
+  position: relative;
+  z-index: 3;
+}
+
+body.askuary-cosmos:not(.fp-journey) :where(.hr-glass, .hr-panel, .hr-profile-card, .hr-post, .ss-stage, .ar-card, .pr-section, .pr-note, .fp-about-section, .fp-friends-card, .archive-stage) {
+  background: var(--cosmos-surface) !important;
+  border-color: var(--cosmos-line) !important;
+}
+
+/* 宇宙壳层不跟随旧的日间白底皮肤，内容始终停靠在深海阅读面。 */
+html.askuary-theme-light body.askuary-cosmos:not(.fp-journey) :where(.hr-glass, .hr-panel, .hr-profile-card, .hr-post, .ss-stage, .ar-card, .pr-section, .pr-note, .fp-about-section, .fp-friends-card, .archive-stage, .ask-read-card) {
+  color: #e7f1fb !important;
+  background: var(--cosmos-surface) !important;
+  border-color: var(--cosmos-line) !important;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.24) !important;
+}
+
+html.askuary-theme-light body.askuary-cosmos:not(.fp-journey) :where(.hr-post-body, .home-hero, .ar-hero, .ar-list-head) {
+  color: #e7f1fb !important;
+  background: rgba(5, 15, 29, 0.9) !important;
+}
+
+html.askuary-theme-light body.askuary-cosmos:not(.fp-journey) :where(.hr-post-title, .ar-title, .ar-post-title, .home-hero-title, .ar-hero .home-hero-title, .ss-title, .fp-about-title, .fp-friends-title, .pr-section-title) {
+  color: #edf7ff !important;
+  -webkit-text-fill-color: #edf7ff !important;
+}
+
+html.askuary-theme-light body.askuary-cosmos:not(.fp-journey) :where(.hr-post-date, .hr-post-ai-body, .ar-summary, .ss-card p, .pr-note, .fp-about-lead, .fp-friends-sub) {
+  color: #b5c9d9 !important;
+}
+
+html.askuary-theme-light body.askuary-cosmos:not(.fp-journey) :where(.ss-bar, .ss-chip, .ss-btn, .pr-section-head) {
+  color: #dcecf6 !important;
+  background: rgba(7, 20, 36, 0.96) !important;
+  border-color: var(--cosmos-line) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cosmic-shell-stars { opacity: .68; }
+}

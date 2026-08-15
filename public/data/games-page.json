@@ -1,0 +1,140 @@
+{
+  "title": "像素街机",
+  "kicker": "ASKUARY ARCADE",
+  "lead": "游戏大厅 · 成就墙 · 玩家画廊 · 嵌入即玩",
+  "activeId": "pokemon-radical-red",
+  "cabinetLabel": "PLAYER 1",
+  "insertCoin": "PRESS START",
+  "spriteDeck": [
+    "/games/sprites/pixel-mon-yellow.svg",
+    "/games/sprites/pixel-mon-red.svg",
+    "/games/sprites/pixel-mon-blue.svg",
+    "/games/sprites/pixel-ball.svg"
+  ],
+  "games": [
+    {
+      "id": "pokemon-radical-red",
+      "title": "宝可梦 激进红版",
+      "subtitle": "Pokémon Radical Red",
+      "platform": "GBA",
+      "year": "2022",
+      "tags": ["宝可梦", "ROM Hack", "RPG", "高难度"],
+      "cover": "/games/sprites/radical-red-cover.svg",
+      "playable": true,
+      "embedUrl": "https://retrogamesnexus.com/zh/embed/games/pokemon-radical-red",
+      "sourceUrl": "https://retrogamesnexus.com/zh/games/pokemon-radical-red",
+      "downloadUrl": "https://retrogamesnexus.com/zh/games/pokemon-radical-red",
+      "blurb": "粉丝制作的高难度关都改版：遭遇与训练家更强，队伍构筑与属性克制更吃策略。适合想重温关都、又想被认真揍一顿的训练家。",
+      "features": [
+        "全图更强野怪与训练家 AI",
+        "丰富的难度与挑战选项",
+        "现代对战机制向的改版体验",
+        "浏览器嵌入即玩，模拟器内可存档"
+      ],
+      "controls": [
+        { "keys": "↑↓←→", "action": "移动训练家 / 菜单选择" },
+        { "keys": "Z", "action": "A：确认 / 对话 / 调查" },
+        { "keys": "X", "action": "B：取消；按住奔跑" },
+        { "keys": "A / S", "action": "L / R：战斗中切换宝可梦（视模拟器）" },
+        { "keys": "Enter", "action": "Start：打开菜单" },
+        { "keys": "Shift", "action": "Select：快捷背包等" }
+      ],
+      "saveTips": [
+        "嵌入模拟器自带存档：可用底部软盘 / Save State 等按钮在模拟器内保存与读取。",
+        "本站不托管 ROM；若需下载 ROM，请前往原网站 Retro Games Nexus。",
+        "建议在模拟器里定期 Export 存档；更换浏览器、清缓存或隐私模式可能导致进度丢失。"
+      ],
+      "screenshots": [
+        "/games/sprites/radical-red-cover.svg",
+        "/games/sprites/pixel-mon-red.svg",
+        "/games/sprites/pixel-mon-yellow.svg",
+        "/games/sprites/pixel-mon-blue.svg",
+        "/games/sprites/pixel-ball.svg"
+      ]
+    },
+    {
+      "id": "coming-crystal",
+      "title": "水晶街机位",
+      "subtitle": "NEXT CART",
+      "platform": "GBA",
+      "year": "TBD",
+      "tags": ["即将上架"],
+      "cover": "/games/sprites/pixel-ball.svg",
+      "playable": false,
+      "comingSoon": true,
+      "blurb": "预留的第二台机位。后续会接入更多可嵌入的复古作品。",
+      "features": ["敬请期待", "欢迎在评论区点菜"]
+    }
+  ],
+  "news": [
+    {
+      "id": "n1",
+      "date": "2026-07-26",
+      "tag": "UPDATE",
+      "title": "街机大厅 2.0 上线",
+      "body": "新增成就墙、任务板、玩家画廊、评分评论与攻略一键复制。侧栏改为叠层面板，不再把整页撑开。"
+    },
+    {
+      "id": "n2",
+      "date": "2026-07-25",
+      "tag": "EVENT",
+      "title": "夜间训练家活动",
+      "body": "22:00 后开局可解锁「夜间训练」徽章。分享本页链接可拿「街机广播员」勋章。"
+    },
+    {
+      "id": "n3",
+      "date": "2026-07-20",
+      "tag": "TIP",
+      "title": "存档请用模拟器内导出",
+      "body": "嵌入页存档在原站浏览器存储中。重要进度请 Export；下载 ROM 请去 Retro Games Nexus。"
+    }
+  ],
+  "guides": [
+    {
+      "id": "g-team",
+      "title": "新手开局思路",
+      "summary": "前期优先补全属性覆盖，别硬刚高难度道馆。背包里留回复药，野怪也别全抓。",
+      "copyText": "【激进红·开局备忘】\n1. 先摸清难度选项再认真推进\n2. 队伍至少覆盖 4 种进攻属性\n3. 定期 Save State + Export\n4. 卡住就换配置，别死磕同一队",
+      "copyLabel": "复制开局备忘"
+    },
+    {
+      "id": "g-controls",
+      "title": "常用键位速查",
+      "summary": "方向移动，Z=A，X=B，Enter=Start。外接手柄体验更佳。",
+      "copyText": "↑↓←→ 移动 | Z=A | X=B | Enter=Start | Shift=Select | A/S=L/R",
+      "copyLabel": "复制键位"
+    },
+    {
+      "id": "g-export",
+      "title": "存档导出口诀",
+      "summary": "模拟器底部软盘保存，再找 Export / 导出。清缓存前先备份。",
+      "copyText": "Save State → Export → 本地备份文件；换浏览器前务必导出。",
+      "copyLabel": "复制口诀"
+    }
+  ],
+  "gallerySeed": [
+    {
+      "id": "seed-1",
+      "nick": "站长",
+      "note": "第一台街机位就位：激进红，浏览器里也能被道馆虐。",
+      "kind": "tip"
+    },
+    {
+      "id": "seed-2",
+      "nick": "像素旅人",
+      "note": "悬停背景道具会躲开——别只顾打架，也摸摸宇宙里的宝箱。",
+      "kind": "art"
+    }
+  ],
+  "notices": [
+    "本页仅为个人站点娱乐入口，与任天堂、GAME FREAK、Creatures、The Pokémon Company 及其关联公司无关，亦非官方授权产品。",
+    "「宝可梦 / Pokémon」等名称与相关形象的商标、版权归原权利方所有。页面装饰用像素图为站长自备的非商业素材 / 自制示意图，不代表官方美术。",
+    "《激进红版》等 ROM 改版由社区粉丝制作；本站通过 Retro Games Nexus 提供的公开嵌入地址加载模拟器，不托管 ROM 文件。",
+    "请遵守当地法律法规与平台条款；未成年人请在监护人指导下使用。若权利方提出异议，本站将及时下架相关嵌入。"
+  ],
+  "credit": {
+    "host": "Retro Games Nexus",
+    "hostUrl": "https://retrogamesnexus.com/zh",
+    "note": "模拟器与嵌入能力由 Retro Games Nexus 提供，请支持原站点。下载 ROM 请前往原站。"
+  }
+}

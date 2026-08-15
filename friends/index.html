@@ -13,18 +13,99 @@
     <canvas id="fpStars" class="fp-stars-canvas" aria-hidden="true"></canvas>
 
     <main class="fp-about fp-friends" aria-labelledby="friendsTitle">
-      <a class="fp-about-back" href="../">← 返回宇宙</a>
 
-      <header class="fp-about-header">
+      <header class="fp-friends-head" id="friendsExchange">
+        <p class="fp-friends-kicker" id="friendsExchangeTitle">友站卫星</p>
         <h1 class="fp-about-title" id="friendsTitle">友联</h1>
         <p class="fp-about-lead" id="friendsLead"></p>
+        <p class="fp-friends-sub" id="friendsExchangeSub"></p>
+        <div class="fp-friends-actions">
+          <button type="button" class="fp-friends-action" id="friendsRandomBtn">随机跃迁</button>
+          <button type="button" class="fp-friends-action" id="friendsCopyBtn">复制本站信号</button>
+          <a class="fp-friends-action is-accent" id="friendsApplyToggle" href="#friendsApply">申请接入</a>
+        </div>
       </header>
 
-      <div class="fp-friends-grid" id="friendsGrid" role="list"></div>
-      <p class="fp-friends-empty" id="friendsEmpty" hidden></p>
+      <!-- 本站信号（便于对方添加） -->
+      <section class="fp-friend-signal" id="friendsMine" hidden>
+        <div class="fp-friend-signal-top">
+          <img
+            class="fp-friend-signal-avatar"
+            id="friendsExchangeAvatar"
+            src="/brand/avatar.png"
+            alt="ASKUARY 头像"
+            width="56"
+            height="56"
+            decoding="async"
+          />
+          <div>
+            <h2 class="fp-friend-signal-title">本站信号</h2>
+            <p class="fp-friend-signal-note">把这段信息加到你的友联里，再来申请接入。</p>
+          </div>
+        </div>
+        <dl class="fp-friend-signal-meta" id="friendsExchangeMeta"></dl>
+      </section>
+
+      <!-- 友站列表：名牌列表，不再用截图卡片 -->
+      <section class="fp-friends-section" aria-label="友站列表">
+        <div class="fp-friends-section-head">
+          <h2 class="fp-friends-section-title">已接入</h2>
+          <span class="fp-friends-section-count" id="friendsCount"></span>
+        </div>
+        <div class="fp-friends-rail" id="friendsGrid" role="list"></div>
+        <p class="fp-friends-empty" id="friendsEmpty" hidden></p>
+      </section>
+
+      <!-- 申请区 -->
+      <section class="fp-friend-apply" id="friendsApply" aria-labelledby="friendsApplyTitle">
+        <h2 class="fp-friend-apply-title" id="friendsApplyTitle">申请接入</h2>
+        <p class="fp-friend-exchange-hint" id="friendsExchangeHint" hidden></p>
+        <div class="fp-friend-reqs-box" id="friendsReqsBox" hidden>
+          <p class="fp-friend-reqs-label">接入基本要求</p>
+          <ol class="fp-friend-exchange-reqs" id="friendsExchangeReqs"></ol>
+          <p class="fp-friend-reqs-warn" id="friendsReqsWarn" hidden>请确认全部条件后再填写申请。</p>
+        </div>
+        <form class="fp-friend-apply-form" id="friendsApplyForm" hidden>
+          <label class="fp-friend-field">
+            <span>网站名称</span>
+            <input name="name" type="text" required placeholder="例如：ASKUARY" autocomplete="organization" />
+          </label>
+          <label class="fp-friend-field">
+            <span>网站链接</span>
+            <input name="url" type="url" required placeholder="例如：https://www.askuary.cn/" autocomplete="url" />
+          </label>
+          <label class="fp-friend-field">
+            <span>头像链接</span>
+            <input name="avatar" type="url" placeholder="例如：https://www.askuary.cn/brand/avatar.png" />
+          </label>
+          <label class="fp-friend-field">
+            <span>网站简介</span>
+            <input name="desc" type="text" required placeholder="例如：点击光点，拾取记忆" maxlength="80" />
+          </label>
+          <label class="fp-friend-field">
+            <span>网站截图（可选）</span>
+            <input name="screenshot" type="url" placeholder="例如：https://www.askuary.cn/brand/site-shot.png" />
+          </label>
+          <label class="fp-friend-field">
+            <span>联系邮箱（可选）</span>
+            <input name="email" type="email" placeholder="例如：2274801095@qq.com" autocomplete="email" />
+          </label>
+          <div class="fp-friend-apply-actions">
+            <button type="submit" class="fp-friends-action is-accent">提交申请</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="fp-friend-comments" id="friendsComments" aria-label="评论区" hidden></section>
+
+      <p class="fp-friend-exchange-toast" id="friendsCopyToast" hidden role="status">已复制到剪贴板</p>
 
       <nav class="fp-about-links" id="friendsLinks" aria-label="相关链接"></nav>
     </main>
+
+    <footer class="fp-subpage-legal" aria-label="备案信息">
+      <div id="pageLegal" class="fp-portal-legal"></div>
+    </footer>
 
     <div id="bootError" hidden></div>
     <script type="module" src="/src/pages/friends/main.ts"></script>

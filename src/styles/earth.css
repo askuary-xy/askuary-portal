@@ -33,9 +33,10 @@
 .fp-sky-texts {
   position: fixed;
   inset: 0;
-  z-index: 2;
+  z-index: 4;
   pointer-events: none;
-  overflow: hidden;
+  /* 勿 clip：卫星/文字飞出时会像撞上边框 */
+  overflow: visible;
   transition: opacity 0.6s ease;
 }
 
@@ -162,13 +163,13 @@
 
 .fp-sky-text-avatar {
   display: block;
-  width: 72px;
-  height: 72px;
+  width: 56px;
+  height: 56px;
   margin: 0 auto 10px;
-  border-radius: 50%;
+  border-radius: 0;
   object-fit: cover;
-  border: 2px solid rgba(180, 220, 255, 0.55);
-  box-shadow: 0 0 24px rgba(120, 190, 255, 0.35);
+  border: 2px solid #020713;
+  box-shadow: 2px 2px 0 #020713;
 }
 
 .fp-sky-text-link {
@@ -177,18 +178,30 @@
   gap: 0.35rem;
   margin-top: 12px;
   padding: 0.45rem 0.85rem;
-  border-radius: 999px;
+  border-radius: 0;
   font-size: 0.85rem;
   text-decoration: none;
   color: #e8f4ff;
-  background: rgba(80, 140, 220, 0.28);
-  border: 1px solid rgba(140, 200, 255, 0.35);
-  transition: background 0.2s ease, transform 0.2s ease;
+  background: rgba(8, 22, 40, 0.92);
+  border: 2px solid #020713;
+  box-shadow: 2px 2px 0 #020713;
+  transition:
+    background-color var(--ask-motion-ui, 140ms) var(--ask-ease, ease),
+    color var(--ask-motion-ui, 140ms) var(--ask-ease, ease),
+    transform var(--ask-motion-fast, 120ms) var(--ask-ease, ease),
+    box-shadow var(--ask-motion-fast, 120ms) var(--ask-ease, ease);
 }
 
 .fp-sky-text-link:hover {
-  background: rgba(100, 160, 230, 0.42);
-  transform: translateY(-1px);
+  color: #041018;
+  background: #79d9ff;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #020713;
+}
+
+.fp-sky-text-link:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 #020713;
 }
 
 .fp-sky-text.is-star .fp-sky-text-avatar,
@@ -218,6 +231,8 @@
   line-height: inherit;
   max-width: min(88vw, 420px);
   white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
 }
 
 .fp-sky-text.is-revealed .fp-sky-text-body,
@@ -228,7 +243,7 @@
 .fp-spot-star { --fp-spot-ring: 120, 210, 255; --fp-spot-glow: 160, 230, 255; --fp-spot-accent: #dff4ff; }
 .fp-spot-amber { --fp-spot-ring: 255, 180, 90; --fp-spot-glow: 255, 200, 120; --fp-spot-accent: #ffe7bc; }
 .fp-spot-violet { --fp-spot-ring: 180, 120, 255; --fp-spot-glow: 200, 160, 255; --fp-spot-accent: #ead9ff; }
-.fp-spot-rose { --fp-spot-ring: 255, 130, 190; --fp-spot-glow: 255, 170, 210; --fp-spot-accent: #ffd9ec; }
+.fp-spot-rose { --fp-spot-ring: 170, 180, 255; --fp-spot-glow: 190, 200, 255; --fp-spot-accent: #dce4ff; }
 .fp-spot-mint { --fp-spot-ring: 100, 230, 190; --fp-spot-glow: 130, 255, 210; --fp-spot-accent: #d6fff0; }
 .fp-spot-ember { --fp-spot-ring: 255, 130, 60; --fp-spot-glow: 255, 160, 80; --fp-spot-accent: #ffd9bf; }
 .fp-spot-friend { --fp-spot-ring: 255, 175, 110; --fp-spot-glow: 255, 210, 150; --fp-spot-accent: #ffe8cc; }
@@ -237,12 +252,13 @@
   display: inline-block;
   margin-bottom: 8px;
   padding: 0.15rem 0.55rem;
-  border-radius: 999px;
+  border-radius: 0;
   font-size: 0.72rem;
   letter-spacing: 0.08em;
-  color: #fff6eb;
-  background: linear-gradient(135deg, rgba(255, 170, 100, 0.55), rgba(255, 120, 160, 0.35));
-  border: 1px solid rgba(255, 200, 150, 0.45);
+  color: #041018;
+  background: #ffe566;
+  border: 2px solid #020713;
+  box-shadow: 2px 2px 0 #020713;
 }
 
 .fp-sky-text.is-friend-link.is-star .fp-sky-text-friend-badge {
@@ -252,12 +268,12 @@
 .fp-sky-text.is-friend-link.is-revealed .fp-sky-text-avatar,
 .fp-sky-text.is-friend-link.is-reverting .fp-sky-text-avatar {
   border-color: rgba(255, 190, 130, 0.75);
-  box-shadow: 0 0 28px rgba(255, 150, 90, 0.42);
+  box-shadow: 0 0 28px rgba(140, 180, 255, 0.42);
 }
 
 .fp-sky-text.is-friend-link.is-revealed .fp-sky-text-link,
 .fp-sky-text.is-friend-link.is-reverting .fp-sky-text-link {
-  background: linear-gradient(135deg, rgba(255, 150, 90, 0.42), rgba(255, 110, 150, 0.28));
+  background: linear-gradient(135deg, rgba(140, 180, 255, 0.42), rgba(167, 139, 250, 0.28));
   border-color: rgba(255, 190, 130, 0.5);
 }
 
@@ -277,9 +293,17 @@
   color: rgba(var(--fp-spot-glow), 0.95);
 }
 
-@media (max-width: 768px) {
-  .fp-earth-canvas:not(.fp-to-hole),
-  .fp-stars-canvas:not(.fp-to-hole) {
-    transform: translateY(-10vh) scale(0.88);
+@media (max-width: 720px) {
+  /* 地球尺寸改由 JS GLOBE_R 控制，勿再 CSS scale 整块 canvas（卫星会像被框住） */
+
+  .fp-sky-text.is-revealed {
+    --fp-sky-y: 28%;
+    max-width: min(86vw, 18rem);
+    padding: 0 0.25rem;
+  }
+
+  .fp-sky-text.is-revealed .fp-sky-text-title {
+    white-space: normal;
+    font-size: clamp(0.95rem, 4.4vw, 1.12rem);
   }
 }

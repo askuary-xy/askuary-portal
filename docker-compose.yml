@@ -1,0 +1,22 @@
+services:
+  askuary-api:
+    build: ./api
+    container_name: askuary-api
+    restart: unless-stopped
+    ports:
+      # 仅本机可访问，由 Nginx 反代；勿裸开到公网
+      - "127.0.0.1:8787:8787"
+    env_file:
+      - ./api/.env
+    environment:
+      PORT: 8787
+      NODE_ENV: production
+      # 绝对路径 → 落在下方宿主机绑定目录；rebuild 不会丢后台数据
+      DATABASE_URL: file:/app/data/askuary.db
+      COVERS_DIR: /app/covers
+      AUDIT_LOG_PATH: /app/data/audit.log
+    volumes:
+      # 宿主机目录持久化（比 named volume 更直观，down -v 也不会删）
+      - ./api/data:/app/data
+      # 把 JPG/PNG 放进宿主机 api/covers/{journal,shuoshuo,blog}/ 即可生效
+      - ./api/covers:/app/covers

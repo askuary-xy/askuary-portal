@@ -67,18 +67,160 @@ export function setEarthConfig(config) {
 
     var settings = {
         ROTATION: 0.005,
+        /** PC 地球自转更慢，手机保持稍快一点便于感知 */
+        ROTATION_DESKTOP: 0.0022,
         FOV: 420,
-        GLOBE_R: 136,
-        SAT_ORBIT_BASE: 46,
-        SAT_ORBIT_STEP: 14,
+        GLOBE_R: 42,
+        GLOBE_R_DESKTOP: 175,
+        /** 手机用更小球体；像素模式另按画布逻辑尺寸缩放（见 applyViewportGlobeSettings） */
+        GLOBE_R_MOBILE: 64,
+        SAT_ORBIT_BASE: 34,
+        SAT_ORBIT_STEP: 11,
+        SAT_ORBIT_BASE_MOBILE: 38,
+        SAT_ORBIT_STEP_MOBILE: 11,
         MAX_SPEED: 0.012,
         DESIRED_SEPARATION: 0.8,
         SEPARATION_WEIGHT: 2.5
     };
 
-    var landColors = ['#2d8a52', '#3da864', '#4cb978', '#6a9a4a', '#8b7355'];
-    var oceanColors = ['#0e3d6b', '#145a8a', '#1a6fa3', '#0b3058'];
+    function isMobileViewport() {
+        return typeof window !== 'undefined' && window.innerWidth <= 720;
+    }
+
+    function applyViewportGlobeSettings() {
+        var pixelMode =
+            typeof document !== 'undefined' &&
+            document.documentElement &&
+            document.documentElement.classList.contains('pixel-cosmos');
+        // 像素模式 canvas 逻辑分辨率是 CSS 的 1/3，半径若仍按 CSS 像素设会被放大 3 倍铺满屏
+        if (pixelMode) {
+            var scale = 3;
+            var logicalMin = Math.min(window.innerWidth || 1200, window.innerHeight || 800) / scale;
+            // 视觉约占较短边约 24%
+            settings.GLOBE_R = Math.max(26, Math.min(52, Math.round(logicalMin * 0.24)));
+            // 卫星轨道略抬，给头像留空，避免嵌进球体
+            settings.SAT_ORBIT_BASE = Math.max(10, Math.round(settings.GLOBE_R * 0.28));
+            settings.SAT_ORBIT_STEP = Math.max(4, Math.round(settings.GLOBE_R * 0.1));
+            return;
+        }
+        if (isMobileViewport()) {
+            settings.GLOBE_R = settings.GLOBE_R_MOBILE;
+            settings.SAT_ORBIT_BASE = settings.SAT_ORBIT_BASE_MOBILE;
+            settings.SAT_ORBIT_STEP = settings.SAT_ORBIT_STEP_MOBILE;
+        } else {
+            settings.GLOBE_R = settings.GLOBE_R_DESKTOP;
+            settings.SAT_ORBIT_BASE = 34;
+            settings.SAT_ORBIT_STEP = 11;
+        }
+    }
+
+    /** 悬停/选中光点时减速（勿停转，否则手机难点空白取消） */
+    var SPIN_FOCUS_MUL = 0.22;
+    var spinHold = 1;
+
+    function earthSpinSpeed() {
+        var base = isMobileViewport() ? settings.ROTATION : settings.ROTATION_DESKTOP;
+        return base * spinHold;
+    }
+
+    function setSpinHold(focused) {
+        spinHold = focused ? SPIN_FOCUS_MUL : 1;
+    }
+
+    /** 手机端星点锚点：躲开中央地球，按槽位错开，避免随机重叠 */
+    var MOBILE_STAR_SLOTS = [
+        { x: 16, y: 11 },
+        { x: 84, y: 11 },
+        { x: 10, y: 30 },
+        { x: 90, y: 30 },
+        { x: 12, y: 52 },
+        { x: 88, y: 52 },
+        { x: 22, y: 74 },
+        { x: 78, y: 74 },
+        { x: 50, y: 8 },
+        { x: 50, y: 78 }
+    ];
+
+    function pickStarAnchor(index, total) {
+        if (!isMobileViewport()) {
+            return {
+                x: (10 + Math.random() * 80).toFixed(2) + '%',
+                y: (8 + Math.random() * 48).toFixed(2) + '%'
+            };
+        }
+        var slot = MOBILE_STAR_SLOTS[index % MOBILE_STAR_SLOTS.length];
+        var jitter = total > MOBILE_STAR_SLOTS.length ? ((index * 7) % 5) - 2 : 0;
+        return {
+            x: Math.min(92, Math.max(8, slot.x + jitter)) + '%',
+            y: Math.min(80, Math.max(6, slot.y + jitter * 0.6)) + '%'
+        };
+    }
+
+    var landColors = ['#2d8a52', '#3da864', '#4cb978', '#6a9a4a', '#8b7355', '#2a7a4a', '#5a8f3e'];
+    var oceanColors = ['#0e3d6b', '#145a8a', '#1a6fa3', '#0b3058', '#0a2748', '#1c7ab5'];
     var cloudColor = 'rgba(235, 245, 255, 0.55)';
+    /** 与地表点同步的累计自转角，用于把真实太阳方向转到视空间 */
+    var globeSpin = 0;
+
+    function dayOfYearUTC(date) {
+        var start = Date.UTC(date.getUTCFullYear(), 0, 0);
+        return (date.getTime() - start) / 86400000;
+    }
+
+    /** 当前真太阳直射点（纬度 / 经度） */
+    function getSubsolar() {
+        var now = new Date();
+        var utc = now.getUTCHours() + now.getUTCMinutes() / 60 + now.getUTCSeconds() / 3600;
+        var lng = normalizeLon(15 * (12 - utc));
+        var lat = 23.44 * Math.sin((2 * Math.PI / 365) * (dayOfYearUTC(now) - 81));
+        return { lat: lat, lng: lng };
+    }
+
+    function rotateYVec(x, y, z, angle) {
+        var cos = Math.cos(angle);
+        var sin = Math.sin(angle);
+        return {
+            x: x * cos + z * sin,
+            y: y,
+            z: x * -sin + z * cos
+        };
+    }
+
+    /** 视空间太阳单位向量（随真实时间变化，并跟随地球展示自转） */
+    function sunViewDir() {
+        var sun = getSubsolar();
+        var v = latLngToVector(sun.lat, sun.lng, 1);
+        var r = rotateYVec(v.x, v.y, v.z, globeSpin);
+        var mag = Math.sqrt(r.x * r.x + r.y * r.y + r.z * r.z) || 1;
+        return { x: r.x / mag, y: r.y / mag, z: r.z / mag };
+    }
+
+    /** 视空间太阳方向 → 实时昼夜 */
+    function sunShade(pos) {
+        var r = settings.GLOBE_R || 1;
+        var nx = pos.x / r;
+        var ny = pos.y / r;
+        var nz = pos.z / r;
+        var sun = sunViewDir();
+        var ndotl = nx * sun.x + ny * sun.y + nz * sun.z;
+        // 昼侧提亮，夜侧保留城市微光；随太阳移动而变化
+        return 0.22 + Math.max(0, ndotl) * 0.95 + Math.max(0, -ndotl) * 0.08;
+    }
+
+    function shadeHexColor(hex, shade) {
+        var h = String(hex || '#888888').replace('#', '');
+        if (h.length === 3) {
+            h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
+        }
+        var r = parseInt(h.slice(0, 2), 16);
+        var g = parseInt(h.slice(2, 4), 16);
+        var b = parseInt(h.slice(4, 6), 16);
+        if (isNaN(r) || isNaN(g) || isNaN(b)) {
+            return hex;
+        }
+        var s = Math.max(0.08, Math.min(1.35, shade));
+        return 'rgb(' + Math.round(r * s) + ',' + Math.round(g * s) + ',' + Math.round(b * s) + ')';
+    }
 
     var LAND_SHAPES = [
         { lon: -98, lat: 58, w: 62, h: 16 },
@@ -255,6 +397,15 @@ export function setEarthConfig(config) {
 
     Point.prototype.step = function (neighbors) {
         if (this.type === 'cloud') {
+            var pixelMode =
+                typeof document !== 'undefined' &&
+                document.documentElement &&
+                document.documentElement.classList.contains('pixel-cosmos');
+            if (pixelMode) {
+                // 像素模式：云贴地表随球转，不自由飘散
+                this.rotateY(earthSpinSpeed());
+                return;
+            }
             var z = this.pos.z;
             var acc = this.flock(neighbors);
             acc.x += (Math.random() - 0.5) * 0.0004;
@@ -264,9 +415,9 @@ export function setEarthConfig(config) {
             this.pos.z = z;
             this.rotateX(this.vel.x);
             this.rotateY(this.vel.y);
-            this.rotateY(settings.ROTATION * 0.5);
+            this.rotateY(earthSpinSpeed() * 0.5);
         } else {
-            this.rotateY(settings.ROTATION);
+            this.rotateY(earthSpinSpeed());
         }
     };
 
@@ -291,8 +442,12 @@ export function setEarthConfig(config) {
 
         var radius = Math.max(0.35, p.scale * this.size);
         var ctx = this.ctx;
+        var pixelMode =
+            typeof document !== 'undefined' &&
+            document.documentElement &&
+            document.documentElement.classList.contains('pixel-cosmos');
 
-        if (this.type === 'cloud' && this.history.length) {
+        if (this.type === 'cloud' && this.history.length && !pixelMode) {
             var h;
             for (h = 0; h < this.history.length; h++) {
                 var hp = this.history[h];
@@ -306,10 +461,23 @@ export function setEarthConfig(config) {
             ctx.globalAlpha = 1;
         }
 
-        ctx.fillStyle = this.color;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
-        ctx.fill();
+        var shade = sunShade(this.pos);
+        if (this.type === 'cloud') {
+            // 像素模式云更贴球、更薄，避免大块白色“空气”漂在远处
+            ctx.globalAlpha = pixelMode ? 0.22 + shade * 0.28 : 0.35 + shade * 0.55;
+            ctx.fillStyle = pixelMode ? 'rgba(220, 235, 255, 0.7)' : cloudColor;
+        } else {
+            ctx.fillStyle = shadeHexColor(this.color, shade);
+        }
+        if (pixelMode) {
+            var size = Math.max(1, Math.round(radius * (this.type === 'land' ? 1.15 : this.type === 'cloud' ? 0.9 : 1)));
+            ctx.fillRect(Math.round(p.x - size / 2), Math.round(p.y - size / 2), size, size);
+        } else {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, radius * (this.type === 'land' ? 1 + (1 - shade) * 0.08 : 1), 0, Math.PI * 2);
+            ctx.fill();
+        }
+        ctx.globalAlpha = 1;
     };
 
     function EarthSpot(data) {
@@ -340,7 +508,7 @@ export function setEarthConfig(config) {
     };
 
     EarthSpot.prototype.step = function () {
-        this.rotateY(settings.ROTATION);
+        this.rotateY(earthSpinSpeed());
         this.pulse += 0.045;
     };
 
@@ -365,29 +533,67 @@ export function setEarthConfig(config) {
             return;
         }
 
-        var base = 5 + p.scale * 3;
-        var pulse = 0.55 + Math.sin(this.pulse) * 0.25;
-        var alpha = this.active ? 1 : (this.hover ? 0.95 : 0.78);
+        var pixelMode =
+            typeof document !== 'undefined' &&
+            document.documentElement &&
+            document.documentElement.classList.contains('pixel-cosmos');
+        var base = (isMobileViewport() ? 7.5 : 5) + p.scale * 3;
+        var pulse = 0.55 + Math.sin(this.pulse) * 0.28;
+        var pulse2 = 0.55 + Math.sin(this.pulse * 1.7 + 1.2) * 0.18;
+        var alpha = this.active ? 1 : (this.hover ? 0.98 : 0.82);
         var palette = this.palette || SPOT_PALETTES.star;
+        // 夜侧光点更亮（城市灯）
+        var nightBoost = 1 + Math.max(0, -sunShade(this.pos) + 0.35) * 0.55;
 
         ctx.save();
         ctx.globalCompositeOperation = 'lighter';
 
+        if (pixelMode) {
+            // 像素宇宙：方块光点，无柔光晕
+            var px = Math.round(p.x);
+            var py = Math.round(p.y);
+            var cell = Math.max(2, Math.round(2 + p.scale * 1.2 + pulse * 0.8));
+            var outer = cell + (this.active || this.hover ? 2 : 1);
+            ctx.globalAlpha = 0.35 * alpha * nightBoost * pulse;
+            ctx.fillStyle = 'rgb(' + palette.glow + ')';
+            ctx.fillRect(px - outer, py - outer, outer * 2, outer * 2);
+            ctx.globalAlpha = 0.7 * alpha * nightBoost;
+            ctx.fillStyle = 'rgb(' + palette.ring + ')';
+            ctx.fillRect(px - cell, py - cell, cell * 2, cell * 2);
+            ctx.globalAlpha = alpha;
+            ctx.fillStyle = palette.core;
+            var core = Math.max(1, Math.round(cell * (0.55 + pulse * 0.1)));
+            ctx.fillRect(px - core, py - core, core * 2, core * 2);
+            ctx.globalAlpha = 1;
+            ctx.restore();
+            return;
+        }
+
+        // 外层大气晕
+        var halo = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, base + 14 + pulse * 8);
+        halo.addColorStop(0, 'rgba(' + palette.glow + ', ' + (0.22 * alpha * nightBoost) + ')');
+        halo.addColorStop(0.45, 'rgba(' + palette.ring + ', ' + (0.1 * alpha * pulse) + ')');
+        halo.addColorStop(1, 'rgba(' + palette.ring + ', 0)');
+        ctx.fillStyle = halo;
         ctx.beginPath();
-        ctx.strokeStyle = 'rgba(' + palette.ring + ', ' + (0.18 + pulse * 0.22) + ')';
-        ctx.lineWidth = 1.2;
-        ctx.arc(p.x, p.y, base + 6 + pulse * 4, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, base + 14 + pulse * 8, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.strokeStyle = 'rgba(' + palette.ring + ', ' + (0.2 + pulse * 0.28) * nightBoost + ')';
+        ctx.lineWidth = 1.15;
+        ctx.arc(p.x, p.y, base + 7 + pulse * 5, 0, Math.PI * 2);
         ctx.stroke();
 
         ctx.beginPath();
-        ctx.fillStyle = 'rgba(' + palette.glow + ', ' + (alpha * 0.35) + ')';
-        ctx.arc(p.x, p.y, base + 2 + pulse * 2, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(' + palette.glow + ', ' + (alpha * 0.42 * pulse2 * nightBoost) + ')';
+        ctx.arc(p.x, p.y, base + 2.5 + pulse * 2.4, 0, Math.PI * 2);
         ctx.fill();
 
         ctx.beginPath();
         ctx.fillStyle = palette.core;
         ctx.globalAlpha = alpha;
-        ctx.arc(p.x, p.y, base * 0.55, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, base * (0.5 + pulse * 0.08), 0, Math.PI * 2);
         ctx.fill();
         ctx.globalAlpha = 1;
 
@@ -398,7 +604,9 @@ export function setEarthConfig(config) {
         if (!this.screen) {
             return 0;
         }
-        return 16 + this.screen.scale * 4;
+        // 手机命中区贴合光晕，避免“点旁边取消不了”
+        var base = 18 + this.screen.scale * 4.5;
+        return isMobileViewport() ? base * 1.12 : base;
     };
 
     function EarthSatellite(data, index, total) {
@@ -413,7 +621,9 @@ export function setEarthConfig(config) {
         this.orbitR = settings.GLOBE_R + settings.SAT_ORBIT_BASE + (index % 3) * settings.SAT_ORBIT_STEP;
         this.orbitAngle = (index / Math.max(total, 1)) * Math.PI * 2 + Math.random() * 0.5;
         this.orbitTilt = 0.45 + (index % 4) * 0.2;
-        this.orbitSpeed = 0.011 + (index % 5) * 0.0035;
+        this.orbitSpeed = isMobileViewport()
+            ? 0.011 + (index % 5) * 0.0035
+            : 0.0042 + (index % 5) * 0.0012;
         this.pos = new Vector(0, 0, 0);
         this.screen = null;
         this.hover = false;
@@ -433,7 +643,9 @@ export function setEarthConfig(config) {
     };
 
     EarthSatellite.prototype.step = function () {
-        this.orbitAngle += this.orbitSpeed;
+        if (spinHold > 0) {
+            this.orbitAngle += this.orbitSpeed * spinHold;
+        }
         this.pulse += 0.05;
         this.updatePosition();
     };
@@ -459,13 +671,41 @@ export function setEarthConfig(config) {
             return;
         }
 
-        var base = 8 + p.scale * 3.5;
+        var pixelMode =
+            typeof document !== 'undefined' &&
+            document.documentElement &&
+            document.documentElement.classList.contains('pixel-cosmos');
+        // 像素模式约 12–16 逻辑像素（×3 ≈ 36–48 CSS），头像清楚
+        var base = pixelMode ? 11 + p.scale * 3.2 : 8 + p.scale * 3.5;
         var pulse = 0.58 + Math.sin(this.pulse) * 0.26;
         var alpha = this.active ? 1 : (this.hover ? 0.98 : 0.86);
         var palette = SPOT_PALETTES.friend;
 
         ctx.save();
         ctx.globalCompositeOperation = 'lighter';
+
+        if (pixelMode) {
+            var size = Math.max(8, Math.round(base * (this.hover || this.active ? 1.2 : 1)));
+            var x = Math.round(p.x - size / 2);
+            var y = Math.round(p.y - size / 2);
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.globalAlpha = 1;
+            ctx.fillStyle = '#000';
+            ctx.fillRect(x - 2, y - 2, size + 4, size + 4);
+            ctx.fillStyle = 'rgba(' + palette.ring + ', 0.95)';
+            ctx.fillRect(x - 1, y - 1, size + 2, size + 2);
+            if (this.avatarImg && this.avatarImg.complete && this.avatarImg.naturalWidth > 0) {
+                ctx.imageSmoothingEnabled = false;
+                ctx.drawImage(this.avatarImg, x, y, size, size);
+            } else {
+                ctx.fillStyle = palette.core;
+                ctx.fillRect(x, y, size, size);
+                ctx.fillStyle = 'rgba(' + palette.glow + ', 0.85)';
+                ctx.fillRect(x + 2, y + 2, Math.max(2, size - 4), Math.max(2, size - 4));
+            }
+            ctx.restore();
+            return;
+        }
 
         ctx.beginPath();
         ctx.strokeStyle = 'rgba(' + palette.ring + ', ' + (0.32 + pulse * 0.22) + ')';
@@ -506,7 +746,12 @@ export function setEarthConfig(config) {
         if (!this.screen) {
             return 0;
         }
-        return 24 + this.screen.scale * 5;
+        var pixelMode =
+            typeof document !== 'undefined' &&
+            document.documentElement &&
+            document.documentElement.classList.contains('pixel-cosmos');
+        var base = pixelMode ? 14 + this.screen.scale * 3 : 24 + this.screen.scale * 5;
+        return isMobileViewport() ? base * 1.1 : base;
     };
 
     function zSort(a, b) {
@@ -544,15 +789,19 @@ export function setEarthConfig(config) {
         this.nodes = [];
     };
 
-    SkyTextLayer.prototype.createCard = function (item, index, kind) {
+    SkyTextLayer.prototype.createCard = function (item, index, kind, layoutIndex, layoutTotal) {
         var el = document.createElement('article');
         var isSatellite = kind === 'satellite';
         el.className = 'fp-sky-text fp-spot-' + item.style + ' is-star' + (isSatellite ? ' is-friend-link' : '');
         el.setAttribute('data-spot-index', String(index));
         el.setAttribute('data-spot-kind', kind);
 
-        var starX = (10 + Math.random() * 80).toFixed(2) + '%';
-        var starY = (8 + Math.random() * 48).toFixed(2) + '%';
+        var anchor = pickStarAnchor(
+            typeof layoutIndex === 'number' ? layoutIndex : index,
+            typeof layoutTotal === 'number' ? layoutTotal : 1
+        );
+        var starX = anchor.x;
+        var starY = anchor.y;
         el.style.setProperty('--fp-sky-x', starX);
         el.style.setProperty('--fp-sky-y', starY);
         el.dataset.starX = starX;
@@ -614,12 +863,16 @@ export function setEarthConfig(config) {
             return;
         }
 
+        var total = spots.length + satellites.length;
+        var layoutIndex = 0;
         var i;
         for (i = 0; i < spots.length; i++) {
-            this.createCard(spots[i], i, 'spot');
+            this.createCard(spots[i], i, 'spot', layoutIndex, total);
+            layoutIndex += 1;
         }
         for (i = 0; i < satellites.length; i++) {
-            this.createCard(satellites[i], i, 'satellite');
+            this.createCard(satellites[i], i, 'satellite', layoutIndex, total);
+            layoutIndex += 1;
         }
     };
 
@@ -733,8 +986,9 @@ export function setEarthConfig(config) {
                 clientX = event.changedTouches[0].clientX;
                 clientY = event.changedTouches[0].clientY;
             }
-            var target = that.pickTarget(clientX, clientY);
+            var target = that.pickTarget(clientX, clientY, { sticky: true });
             that.hoveredTarget = target;
+            setSpinHold(Boolean(target || that.activeTarget));
             that.canvas.style.cursor = target ? 'pointer' : 'default';
         };
 
@@ -746,18 +1000,31 @@ export function setEarthConfig(config) {
                     clientX = event.changedTouches[0].clientX;
                     clientY = event.changedTouches[0].clientY;
                 }
-                event.preventDefault();
+                // 点击不用粘滞半径，才能点空白取消选中
+                var tentative = that.pickTarget(clientX, clientY, { sticky: false });
+                if (tentative) {
+                    event.preventDefault();
+                } else if (!that.activeTarget) {
+                    return;
+                }
             }
-            var target = that.pickTarget(clientX, clientY);
+            var target = that.pickTarget(clientX, clientY, { sticky: false });
             if (target) {
+                // 仅在命中光点时阻止默认，避免吞掉导航恒星的后续 click
+                if (event.type === 'touchend') {
+                    event.preventDefault();
+                }
                 that.setActiveTarget(target);
+                setSpinHold(true);
             } else if (that.activeTarget) {
                 that.setActiveTarget(null);
+                setSpinHold(Boolean(that.hoveredTarget));
             }
         };
 
         this.onLeave = function () {
             that.hoveredTarget = null;
+            setSpinHold(Boolean(that.activeTarget));
             that.canvas.style.cursor = 'default';
         };
 
@@ -789,19 +1056,38 @@ export function setEarthConfig(config) {
     };
 
     Scene.prototype.setSize = function () {
-        var w = window.innerWidth;
-        var h = window.innerHeight;
+        var cssW = window.innerWidth;
+        var cssH = window.innerHeight;
+        var pixelMode =
+            typeof document !== 'undefined' &&
+            document.documentElement &&
+            document.documentElement.classList.contains('pixel-cosmos');
+        var scale = pixelMode ? 3 : 1;
+        var w = Math.max(1, Math.floor(cssW / scale));
+        var h = Math.max(1, Math.floor(cssH / scale));
         if (this.canvas.width !== w || this.canvas.height !== h) {
             this.canvas.width = w;
             this.canvas.height = h;
         }
+        this.canvas.style.width = cssW + 'px';
+        this.canvas.style.height = cssH + 'px';
+        if (pixelMode) {
+            this.canvas.style.imageRendering = 'pixelated';
+            this.canvas.style.imageRendering = 'crisp-edges';
+        } else {
+            this.canvas.style.imageRendering = 'auto';
+        }
         this.logicalW = w;
         this.logicalH = h;
         this.ensureCtx();
+        if (this.ctx) {
+            this.ctx.imageSmoothingEnabled = !pixelMode;
+        }
         this.syncPointsCtx();
     };
 
     Scene.prototype.seed = function () {
+        applyViewportGlobeSettings();
         this.setSize();
         this.points = [];
         this.clouds = [];
@@ -849,19 +1135,27 @@ export function setEarthConfig(config) {
             this.points.push(point);
         }
 
+        var pixelModeSeed =
+            typeof document !== 'undefined' &&
+            document.documentElement &&
+            document.documentElement.classList.contains('pixel-cosmos');
+        // 像素模式去掉飘散白云，避免白色“空气”离球太远
+        var cloudCount = pixelModeSeed ? 0 : 120;
+        var cloudAlt = 24;
         var i;
-        for (i = 0; i < 90; i++) {
+        for (i = 0; i < cloudCount; i++) {
             var cTheta = Math.random() * Math.PI * 2;
             var cPhi = Math.acos(Math.random() * 2 - 1);
+            var cR = R + cloudAlt + (pixelModeSeed ? Math.random() * 1.2 : 0);
             var cVec = new Vector(
-                (R + 24) * Math.sin(cPhi) * Math.cos(cTheta),
-                (R + 24) * Math.sin(cPhi) * Math.sin(cTheta),
-                (R + 24) * Math.cos(cPhi)
+                cR * Math.sin(cPhi) * Math.cos(cTheta),
+                cR * Math.sin(cPhi) * Math.sin(cTheta),
+                cR * Math.cos(cPhi)
             );
             var sign = Math.random() > 0.5 ? 1 : -1;
             var cloud = new Point(cVec, new Vector(sign * Math.random() / 220, sign * Math.random() / 220, 0), this.ctx);
             cloud.type = 'cloud';
-            cloud.size = 4.5;
+            cloud.size = pixelModeSeed ? 1.6 + Math.random() * 0.8 : 4.5;
             this.clouds.push(cloud);
         }
 
@@ -911,38 +1205,128 @@ export function setEarthConfig(config) {
         this.skyTexts.build(this.spots, this.satellites);
     };
 
-    Scene.prototype.drawAtmosphere = function (cx, cy) {
+    Scene.prototype.drawAtmosphere = function (cx, cy, phase) {
         var ctx = this.ctx;
-        var glow = ctx.createRadialGradient(cx, cy, settings.GLOBE_R * 0.2, cx, cy, settings.GLOBE_R * 1.55);
-        glow.addColorStop(0, 'rgba(40, 120, 200, 0.08)');
-        glow.addColorStop(0.55, 'rgba(20, 80, 160, 0.12)');
-        glow.addColorStop(1, 'rgba(0, 0, 0, 0)');
-        ctx.fillStyle = glow;
+        var R = settings.GLOBE_R;
+        var pixelMode =
+            typeof document !== 'undefined' &&
+            document.documentElement &&
+            document.documentElement.classList.contains('pixel-cosmos');
+
+        if (pixelMode) {
+            // 紧贴地表 1px，不再画第二层远环
+            if (phase === 'rim') {
+                ctx.strokeStyle = 'rgba(180, 225, 255, 0.5)';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.arc(cx, cy, Math.round(R), 0, Math.PI * 2);
+                ctx.stroke();
+            }
+            return;
+        }
+
+        if (phase !== 'rim') {
+            // 背后散射光晕
+            var glow = ctx.createRadialGradient(cx, cy, R * 0.15, cx, cy, R * 1.72);
+            glow.addColorStop(0, 'rgba(50, 140, 220, 0.1)');
+            glow.addColorStop(0.42, 'rgba(30, 100, 190, 0.14)');
+            glow.addColorStop(0.72, 'rgba(20, 70, 150, 0.08)');
+            glow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            ctx.fillStyle = glow;
+            ctx.beginPath();
+            ctx.arc(cx, cy, R * 1.72, 0, Math.PI * 2);
+            ctx.fill();
+
+            if (this.satellites.length) {
+                var orbitVisual = R + settings.SAT_ORBIT_BASE + settings.SAT_ORBIT_STEP;
+                ctx.save();
+                ctx.strokeStyle = 'rgba(255, 190, 130, 0.08)';
+                ctx.lineWidth = 1;
+                ctx.setLineDash([5, 8]);
+                ctx.beginPath();
+                ctx.ellipse(cx, cy, orbitVisual, orbitVisual * 0.62, 0.35, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.restore();
+            }
+            return;
+        }
+
+        // 菲涅尔式边缘大气（画在球体之后）
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        var rim = ctx.createRadialGradient(cx, cy, R * 0.78, cx, cy, R * 1.18);
+        rim.addColorStop(0, 'rgba(120, 190, 255, 0)');
+        rim.addColorStop(0.55, 'rgba(100, 180, 255, 0.04)');
+        rim.addColorStop(0.82, 'rgba(160, 220, 255, 0.28)');
+        rim.addColorStop(0.94, 'rgba(200, 235, 255, 0.38)');
+        rim.addColorStop(1, 'rgba(140, 200, 255, 0)');
+        ctx.fillStyle = rim;
         ctx.beginPath();
-        ctx.arc(cx, cy, settings.GLOBE_R * 1.55, 0, Math.PI * 2);
+        ctx.arc(cx, cy, R * 1.18, 0, Math.PI * 2);
         ctx.fill();
 
-        ctx.strokeStyle = 'rgba(120, 190, 255, 0.12)';
-        ctx.lineWidth = 2;
+        // 日照侧更亮的大气弧
+        var sunX = cx + R * 0.55;
+        var sunY = cy - R * 0.22;
+        var litRim = ctx.createRadialGradient(sunX, sunY, R * 0.1, cx, cy, R * 1.12);
+        litRim.addColorStop(0, 'rgba(255, 240, 210, 0.14)');
+        litRim.addColorStop(0.35, 'rgba(180, 220, 255, 0.08)');
+        litRim.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = litRim;
         ctx.beginPath();
-        ctx.arc(cx, cy, settings.GLOBE_R * 1.02, 0, Math.PI * 2);
-        ctx.stroke();
-
-        if (this.satellites.length) {
-            var orbitVisual = settings.GLOBE_R + settings.SAT_ORBIT_BASE + settings.SAT_ORBIT_STEP;
-            ctx.save();
-            ctx.strokeStyle = 'rgba(255, 190, 130, 0.08)';
-            ctx.lineWidth = 1;
-            ctx.setLineDash([5, 8]);
-            ctx.beginPath();
-            ctx.ellipse(cx, cy, orbitVisual, orbitVisual * 0.62, 0.35, 0, Math.PI * 2);
-            ctx.stroke();
-            ctx.setLineDash([]);
-            ctx.restore();
-        }
+        ctx.arc(cx, cy, R * 1.12, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
     };
 
-    Scene.prototype.pickTarget = function (clientX, clientY) {
+    /** 球体表面昼夜软阴影罩（跟随真实太阳方向） */
+    Scene.prototype.drawTerminator = function (cx, cy) {
+        var ctx = this.ctx;
+        var R = settings.GLOBE_R * 1.02;
+        var scale = settings.FOV / (settings.FOV + 0);
+        var rad = R * scale;
+        var sun = sunViewDir();
+        // 把太阳方向投影到屏幕：x 右、y 下（canvas）
+        var sx = sun.x;
+        var sy = -sun.y;
+        var len = Math.hypot(sx, sy) || 1;
+        sx /= len;
+        sy /= len;
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(cx, cy, rad, 0, Math.PI * 2);
+        ctx.clip();
+        var night = ctx.createLinearGradient(
+            cx - sx * rad,
+            cy - sy * rad,
+            cx + sx * rad * 0.35,
+            cy + sy * rad * 0.35
+        );
+        night.addColorStop(0, 'rgba(2, 6, 18, 0.52)');
+        night.addColorStop(0.45, 'rgba(2, 8, 22, 0.22)');
+        night.addColorStop(0.68, 'rgba(4, 12, 28, 0.04)');
+        night.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = night;
+        ctx.fillRect(cx - rad, cy - rad, rad * 2, rad * 2);
+        var day = ctx.createRadialGradient(
+            cx + sx * rad * 0.42,
+            cy + sy * rad * 0.42,
+            0,
+            cx + sx * rad * 0.15,
+            cy + sy * rad * 0.15,
+            rad
+        );
+        day.addColorStop(0, 'rgba(255, 230, 180, 0.14)');
+        day.addColorStop(0.55, 'rgba(180, 210, 255, 0.04)');
+        day.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = day;
+        ctx.fillRect(cx - rad, cy - rad, rad * 2, rad * 2);
+        ctx.restore();
+    };
+
+    Scene.prototype.pickTarget = function (clientX, clientY, options) {
+        var sticky = options && options.sticky;
         var rect = this.canvas.getBoundingClientRect();
         if (!rect.width || !rect.height) {
             return null;
@@ -960,6 +1344,20 @@ export function setEarthConfig(config) {
         var g;
         var i;
 
+        // 粘滞仅用于悬停跟手，点击路径勿开，否则手机难取消
+        if (sticky && this.hoveredTarget) {
+            var held = this.hoveredTarget;
+            var hp = held.project(cx, cy);
+            if (hp) {
+                var hdx = x - hp.x;
+                var hdy = y - hp.y;
+                var holdR = Math.max(held.hitRadius() * 1.25, isMobileViewport() ? 30 : 26);
+                if (hdx * hdx + hdy * hdy <= holdR * holdR) {
+                    return held;
+                }
+            }
+        }
+
         for (g = 0; g < groups.length; g++) {
             for (i = 0; i < groups[g].length; i++) {
                 var item = groups[g][i];
@@ -970,9 +1368,10 @@ export function setEarthConfig(config) {
                 var dx = x - p.x;
                 var dy = y - p.y;
                 var dist2 = dx * dx + dy * dy;
-                var radius = Math.max(item.hitRadius(), 18);
+                var radius = Math.max(item.hitRadius(), isMobileViewport() ? 26 : 20);
                 if (dist2 <= radius * radius) {
-                    var score = dist2 + p.z * 12;
+                    // 近距离优先屏幕距离；深度只作轻微 tie-break
+                    var score = dist2 + Math.max(0, p.z) * 2;
                     if (score < bestScore) {
                         best = item;
                         bestScore = score;
@@ -1056,6 +1455,8 @@ export function setEarthConfig(config) {
             this.satellites[i].active = this.satellites[i] === target;
         }
 
+        setSpinHold(Boolean(target || this.hoveredTarget));
+
         if (target) {
             this.skyTexts.reveal(target);
         } else {
@@ -1072,7 +1473,10 @@ export function setEarthConfig(config) {
         this.syncPointsCtx();
         this.ctx.clearRect(0, 0, this.logicalW, this.logicalH);
 
-        this.drawAtmosphere(cx, cy);
+        this.drawAtmosphere(cx, cy, 'back');
+
+        // 与 Point.step 的自转增量一致，供真实太阳方向转到视空间
+        globeSpin += earthSpinSpeed();
 
         for (i = 0; i < this.points.length; i++) {
             this.points[i].step();
@@ -1081,7 +1485,7 @@ export function setEarthConfig(config) {
             var cloud = this.clouds[i];
             cloud.step(this.clouds);
             cloud.history.push({ x: cloud.pos.x, y: cloud.pos.y, z: cloud.pos.z });
-            if (cloud.history.length > 12) {
+            if (cloud.history.length > 14) {
                 cloud.history.shift();
             }
         }
@@ -1098,6 +1502,9 @@ export function setEarthConfig(config) {
         for (i = 0; i < drawables.length; i++) {
             drawables[i].draw(cx, cy);
         }
+
+        this.drawTerminator(cx, cy);
+        this.drawAtmosphere(cx, cy, 'rim');
 
         var visibleSpots = this.spots.slice().sort(zSort);
         for (i = 0; i < visibleSpots.length; i++) {

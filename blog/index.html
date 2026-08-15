@@ -7,15 +7,15 @@
     <meta name="description" content="博客 — ASKUARY 文章与随笔" />
     <title>博客 · ASKUARY</title>
     <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+    <link rel="alternate" type="application/rss+xml" title="ASKUARY RSS" href="/rss.xml" />
   </head>
   <body class="fp-about-page fp-blog-page">
     <div class="fp-atmosphere" aria-hidden="true"></div>
     <canvas id="fpStars" class="fp-stars-canvas" aria-hidden="true"></canvas>
 
     <main class="fp-about fp-blog" aria-labelledby="blogTitle">
-      <a class="fp-about-back" href="../">← 返回宇宙</a>
-
       <header class="fp-about-header">
+        <p class="starport-blog-kicker">OBSERVATION LOG · 观测日志室</p>
         <h1 class="fp-about-title" id="blogTitle">博客</h1>
         <p class="fp-about-lead" id="blogLead"></p>
       </header>
@@ -25,6 +25,10 @@
 
       <nav class="fp-about-links" id="blogLinks" aria-label="相关链接"></nav>
     </main>
+
+    <footer class="fp-subpage-legal" aria-label="备案信息">
+      <div id="pageLegal" class="fp-portal-legal"></div>
+    </footer>
 
     <div id="bootError" hidden></div>
     <script type="module" src="/src/pages/blog/list.ts"></script>

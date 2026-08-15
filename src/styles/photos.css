@@ -1,0 +1,517 @@
+/* 摄影 — 参考风记星辰大气图文排版，保留 ASKUARY 浅色体系 */
+
+.fp-photos {
+  width: min(1120px, 100%);
+  max-width: 100%;
+}
+
+.home-hub-page .fp-photos.fp-about {
+  width: min(1120px, 100%);
+}
+
+.fp-photos-stats {
+  margin: 0.35rem 0 0;
+  font-size: 0.82rem;
+  color: var(--child-text-light);
+}
+
+.fp-photos-tabs,
+.fp-photos-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0 0 1.25rem;
+}
+
+.fp-photos-tab,
+.fp-photos-filter {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.2rem;
+  padding: 0.32rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(139, 157, 255, 0.18);
+  background: var(--child-primary-soft);
+  color: var(--child-primary);
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.fp-photos-tab.is-active,
+.fp-photos-tab:hover,
+.fp-photos-filter.is-active,
+.fp-photos-filter:hover {
+  background: rgba(79, 172, 254, 0.12);
+  border-color: rgba(79, 172, 254, 0.28);
+  color: var(--child-accent);
+}
+
+.fp-photos-filter-count {
+  align-self: center;
+  margin-left: 0.25rem;
+  font-size: 0.78rem;
+  color: var(--child-text-light);
+}
+
+.fp-photos-view[hidden] {
+  display: none !important;
+}
+
+.fp-photos-view.is-album-open .fp-photos-albums {
+  display: none;
+}
+
+/* 相册封面：大图 + 底部标题叠层 */
+.fp-photos-albums {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  gap: 1.15rem;
+}
+
+.fp-photos-album-card {
+  margin: 0;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid var(--child-border-glass);
+  background: #111;
+  box-shadow: var(--child-shadow);
+  cursor: pointer;
+  transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease;
+}
+
+.fp-photos-album-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--child-shadow-hover);
+}
+
+.fp-photos-album-cover {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #1a1f2c;
+}
+
+.fp-photos-album-cover img,
+.fp-photos-album-fallback {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.55s ease;
+}
+
+.fp-photos-album-card:hover .fp-photos-album-cover img {
+  transform: scale(1.05);
+}
+
+.fp-photos-album-fallback {
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+  opacity: 0.45;
+}
+
+.fp-photos-album-veil {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 2.4rem 1rem 1rem;
+  background: linear-gradient(transparent, rgba(8, 10, 16, 0.82));
+  color: #fff;
+}
+
+.fp-photos-album-veil h3 {
+  margin: 0 0 0.3rem;
+  font-size: 1.2rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+}
+
+.fp-photos-album-veil span {
+  font-size: 0.78rem;
+  opacity: 0.85;
+}
+
+.fp-photos-album-cover-link {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  text-decoration: none;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+.fp-photos-album-actions {
+  display: flex;
+  gap: 0.45rem;
+  padding: 0.7rem 0.8rem 0.85rem;
+  background: var(--child-bg-glass-strong);
+}
+
+.fp-photos-album-story,
+.fp-photos-album-browse {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(99, 179, 255, 0.22);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--child-text-muted);
+  font: inherit;
+  font-size: 0.78rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.fp-photos-album-story:hover,
+.fp-photos-album-browse:hover {
+  color: var(--child-primary);
+  border-color: rgba(139, 157, 255, 0.28);
+}
+
+.fp-photos-album-story.is-on-hero {
+  display: inline-flex;
+  margin-top: 0.75rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  backdrop-filter: blur(8px);
+}
+
+/* 相册故事头图 */
+.fp-photos-story-hero {
+  position: relative;
+  margin: 0 0 1.35rem;
+  min-height: 220px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #141820;
+}
+
+.fp-photos-story-hero img {
+  width: 100%;
+  height: min(42vh, 360px);
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.72);
+}
+
+.fp-photos-story-hero-copy {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1.25rem 1.25rem 1.35rem;
+  color: #fff;
+}
+
+.fp-photos-story-hero-copy h2 {
+  margin: 0.55rem 0 0.35rem;
+  font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+}
+
+.fp-photos-story-hero-copy p {
+  margin: 0;
+  font-size: 0.88rem;
+  opacity: 0.88;
+}
+
+.fp-photos-album-back {
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+.fp-photos-album-back:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.fp-photos-group {
+  margin: 0 0 1.75rem;
+}
+
+.fp-photos-group header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  margin-bottom: 0.85rem;
+}
+
+.fp-photos-group h2 {
+  margin: 0;
+  font-size: 1.08rem;
+  color: var(--child-text);
+}
+
+.fp-photos-group span {
+  font-size: 0.8rem;
+  color: var(--child-text-light);
+}
+
+/* 瀑布流 */
+.fp-photos-masonry {
+  column-count: 3;
+  column-gap: 1rem;
+}
+
+.fp-photos-item {
+  position: relative;
+  break-inside: avoid;
+  margin: 0 0 1rem;
+}
+
+.fp-photos-story-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.fp-photos-story-hint {
+  display: inline-block;
+  margin-top: 0.35rem;
+  font-size: 0.75rem;
+  font-style: normal;
+  opacity: 0.85;
+}
+
+.fp-photos-preview-btn {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  z-index: 2;
+  padding: 0.28rem 0.55rem;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(10, 14, 22, 0.55);
+  color: #fff;
+  font-size: 0.72rem;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.fp-photos-item:hover .fp-photos-preview-btn,
+.fp-photos-item:focus-within .fp-photos-preview-btn {
+  opacity: 1;
+}
+
+.fp-photos-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid var(--child-border-glass);
+  background: var(--child-bg-glass-strong);
+  box-shadow: var(--child-shadow);
+}
+
+.fp-photos-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+  transition: transform 0.45s ease;
+}
+
+.fp-photos-item:hover .fp-photos-frame img {
+  transform: scale(1.03);
+}
+
+.fp-photos-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 1.6rem 0.85rem 0.8rem;
+  background: linear-gradient(transparent, rgba(10, 14, 24, 0.78));
+  color: rgba(255, 255, 255, 0.95);
+  opacity: 0;
+  transition: opacity 0.22s ease;
+}
+
+.fp-photos-overlay strong {
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.fp-photos-overlay span {
+  font-size: 0.74rem;
+  opacity: 0.82;
+}
+
+.fp-photos-item:hover .fp-photos-overlay,
+.fp-photos-item:focus-within .fp-photos-overlay {
+  opacity: 1;
+}
+
+.fp-photos-badge {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  padding: 0.14rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  color: #fff;
+  background: rgba(20, 24, 36, 0.55);
+  backdrop-filter: blur(6px);
+}
+
+.fp-photos-empty {
+  margin: 1.25rem 0 0;
+  padding: 1.25rem 1rem;
+  text-align: center;
+  color: var(--child-text-light);
+  border: 1px dashed rgba(99, 179, 255, 0.25);
+  border-radius: var(--child-radius);
+  background: var(--child-bg-glass);
+}
+
+/* 全屏幻灯 */
+.fp-photos-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  padding: 1.25rem;
+  background: rgba(4, 6, 12, 0.92);
+  backdrop-filter: blur(10px);
+}
+
+.fp-photos-modal[hidden] {
+  display: none !important;
+}
+
+.fp-photos-modal-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(94vw, 1180px);
+}
+
+.fp-photos-modal-img {
+  max-width: min(92vw, 1100px);
+  max-height: min(72vh, 860px);
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+}
+
+.fp-photos-modal-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font-size: 1.35rem;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+}
+
+.fp-photos-modal-nav:hover {
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.fp-photos-modal-nav.is-prev {
+  left: 0.35rem;
+}
+
+.fp-photos-modal-nav.is-next {
+  right: 0.35rem;
+}
+
+.fp-photos-modal-meta {
+  max-width: min(92vw, 720px);
+  text-align: center;
+  color: rgba(240, 246, 255, 0.92);
+}
+
+.fp-photos-modal-meta h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+}
+
+.fp-photos-modal-meta p,
+.fp-photos-modal-counter {
+  margin: 0;
+  font-size: 0.86rem;
+  color: rgba(210, 225, 245, 0.72);
+}
+
+.fp-photos-modal-counter {
+  margin-top: 0.25rem;
+  letter-spacing: 0.04em;
+}
+
+.fp-photos-modal-close {
+  position: absolute;
+  top: max(0.85rem, env(safe-area-inset-top));
+  right: max(0.85rem, env(safe-area-inset-right));
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .fp-photos-masonry {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 720px) {
+  .fp-photos-albums {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .fp-photos-masonry {
+    column-count: 1;
+  }
+
+  .fp-photos-album-card:hover {
+    transform: none;
+  }
+
+  .fp-photos-overlay {
+    opacity: 1;
+  }
+
+  .fp-photos-modal-nav {
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+}

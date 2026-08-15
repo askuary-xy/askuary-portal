@@ -1,14 +1,7 @@
 import type { NavStarHit } from '../canvas/nav-stars';
 import { sitePath } from '../utils/site-path';
 import { showToast } from './toast';
-
-const ICONS: Record<string, string> = {
-  blog: '✦',
-  link: '◈',
-  user: '◎',
-  star: '✧',
-  archive: '▤',
-};
+import { navIconHtml } from './site-icons';
 
 const panel = () => document.getElementById('navPanel');
 const titleEl = () => document.getElementById('navPanelTitle');
@@ -16,6 +9,23 @@ const descEl = () => document.getElementById('navPanelDesc');
 const iconEl = () => document.getElementById('navPanelIcon');
 const linkEl = () => document.getElementById('navPanelLink') as HTMLAnchorElement | null;
 const closeBtn = () => document.getElementById('navPanelClose');
+
+const CLASSIC_NAV_ICONS: Record<string, string> = {
+  blog: '✎',
+  link: '🔗',
+  user: '◎',
+  star: '✦',
+  archive: '▤',
+  camera: '◎',
+  explore: '✧',
+};
+
+function panelIconHtml(iconKey: string): string {
+  if (document.documentElement.classList.contains('pixel-cosmos')) {
+    return navIconHtml(iconKey);
+  }
+  return CLASSIC_NAV_ICONS[iconKey] || CLASSIC_NAV_ICONS.star;
+}
 
 export function initNavPanel(): void {
   closeBtn()?.addEventListener('click', hideNavPanel);
@@ -33,9 +43,8 @@ export function showNavPanel(hit: NavStarHit): void {
   if (!root) return;
 
   const enabled = star.enabled !== false;
-  const icon = ICONS[star.icon ?? ''] ?? '✦';
 
-  if (iconEl()) iconEl()!.textContent = icon;
+  if (iconEl()) iconEl()!.innerHTML = panelIconHtml(star.icon ?? 'star');
   if (titleEl()) titleEl()!.textContent = star.label;
   if (descEl()) {
     descEl()!.textContent = enabled ? star.desc || '' : star.disabledHint || '即将开放';

@@ -1,0 +1,226 @@
+{
+  "items": [
+    {
+      "id": "zhang-kong-xi-guan",
+      "title": "掌控习惯",
+      "author": "詹姆斯·克利尔",
+      "type": "book",
+      "typeLabel": "图书",
+      "cover": "/library/covers/zhang-kong-xi-guan.jpg",
+      "status": "reading",
+      "statusLabel": "进行中",
+      "progress": "在读中",
+      "progressCurrent": 0,
+      "progressTotal": 0,
+      "progressPercent": 0,
+      "rating": 8.5,
+      "ratingStars": {
+        "score": 8.5,
+        "stars": 4.5,
+        "max": 5,
+        "label": "8.5 / 10"
+      },
+      "year": "2019",
+      "platform": "豆瓣",
+      "link": "https://book.douban.com/subject/34326931/",
+      "links": [
+        {
+          "label": "豆瓣",
+          "url": "https://book.douban.com/subject/34326931/"
+        }
+      ],
+      "genre": "自我提升 · 习惯",
+      "summary": "通过行为改变四大定律，养成好习惯并戒除坏习惯。",
+      "thoughts": "不是鸡汤，而是把「习惯」拆成可操作的微步骤。最有用的是：降低好习惯的摩擦力，提高坏习惯的门槛。",
+      "quotes": [
+        "你不会升到目标的高度，只会落到系统的水平。",
+        "习惯是自我提升的复利。"
+      ],
+      "takeaways": [
+        "用环境设计代替意志力对抗。",
+        "先追求可重复，再追求完美。",
+        "把身份认同写进日常：我是那种会……的人。"
+      ],
+      "updated": "2026-07-08"
+    },
+    {
+      "id": "sheng-si-pi-lao",
+      "title": "生死疲劳",
+      "author": "莫言",
+      "type": "novel",
+      "typeLabel": "小说",
+      "cover": "/library/covers/sheng-si-pi-lao.jpg",
+      "status": "reading",
+      "statusLabel": "进行中",
+      "progress": "在读中",
+      "progressCurrent": 0,
+      "progressTotal": 0,
+      "progressPercent": 0,
+      "rating": 9,
+      "ratingStars": {
+        "score": 9,
+        "stars": 4.5,
+        "max": 5,
+        "label": "9 / 10"
+      },
+      "year": "2006",
+      "platform": "豆瓣",
+      "link": "https://book.douban.com/subject/34841773/",
+      "links": [
+        {
+          "label": "豆瓣",
+          "url": "https://book.douban.com/subject/34841773/"
+        }
+      ],
+      "genre": "文学 · 魔幻现实主义",
+      "summary": "西门闹历经六道轮回，以驴牛猪狗猴的视角见证半个世纪乡土变迁。",
+      "thoughts": "读得慢，因为语言太密、太有力。动物视角把「人」的荒唐与韧性放大了，像一场长长的乡野史诗。",
+      "quotes": [
+        "一切来于土地的都将回归土地。",
+        "人活着，就得受罪；不受罪的，就不是人。"
+      ],
+      "takeaways": [
+        "土地、牲畜与人的命运缠在同一条绳上。",
+        "轮回不是解脱，是另一种旁观与见证。"
+      ],
+      "updated": "2026-07-08"
+    },
+    {
+      "id": "lian-ai-sui-yi-lian-jie",
+      "title": "恋爱随意链接",
+      "author": "庵田定夏 · SILVER LINK.",
+      "type": "anime",
+      "typeLabel": "动漫",
+      "cover": "/library/covers/lian-ai-sui-yi-lian-jie.jpg",
+      "status": "finished",
+      "statusLabel": "已完成",
+      "progress": "17 / 17",
+      "progressCurrent": 17,
+      "progressTotal": 17,
+      "progressPercent": 100,
+      "rating": 8.2,
+      "ratingStars": {
+        "score": 8.2,
+        "stars": 4,
+        "max": 5,
+        "label": "8.2 / 10"
+      },
+      "year": "2012",
+      "platform": "Bangumi",
+      "link": "https://bgm.tv/subject/37154",
+      "links": [
+        {
+          "label": "Bangumi",
+          "url": "https://bgm.tv/subject/37154"
+        },
+        {
+          "label": "B站搜索",
+          "url": "https://search.bilibili.com/all?keyword=%E6%81%8B%E7%88%B1%E9%9A%8F%E6%84%8F%E9%93%BE%E6%8E%A5"
+        }
+      ],
+      "genre": "校园 · 青春 · 超自然",
+      "summary": "文化研究部五人被「风船葛」卷入互换身心等超自然实验的青春群像剧。",
+      "thoughts": "轻快又有点别扭的青春感。互换身体那几集最有意思——不是靠误会堆笑，而是逼角色认真看见对方。",
+      "quotes": [
+        "所谓链接，也许就是把对方的世界接进自己的日常。"
+      ],
+      "takeaways": [
+        "群像节奏舒服，适合当周末轻松番。",
+        "超自然设定服务角色关系，不喧宾夺主。"
+      ],
+      "updated": "2026-07-08"
+    },
+    {
+      "id": "ha-ha-ha-ha-ha-s6",
+      "title": "哈哈哈哈哈（五哈 第六季）",
+      "author": "邓超 · 陈赫 · 鹿晗 · 范志毅 · 王勉",
+      "type": "variety",
+      "typeLabel": "综艺",
+      "cover": "/library/covers/ha-ha-ha-ha-ha-s6.jpg",
+      "status": "finished",
+      "statusLabel": "已完成",
+      "progress": "12 / 12",
+      "progressCurrent": 12,
+      "progressTotal": 12,
+      "progressPercent": 100,
+      "rating": 7.5,
+      "ratingStars": {
+        "score": 7.5,
+        "stars": 4,
+        "max": 5,
+        "label": "7.5 / 10"
+      },
+      "year": "2026",
+      "platform": "豆瓣",
+      "link": "https://movie.douban.com/subject/37561228/",
+      "links": [
+        {
+          "label": "豆瓣",
+          "url": "https://movie.douban.com/subject/37561228/"
+        },
+        {
+          "label": "B站搜索",
+          "url": "https://search.bilibili.com/all?keyword=%E5%93%88%E5%93%88%E5%93%88%E5%93%88%E5%93%88%EF%BC%88%E4%BA%94%E5%93%88%20%E7%AC%AC%E5%85%AD%E5%AD%A3%EF%BC%89"
+        }
+      ],
+      "genre": "综艺 · 真人秀 · 旅行",
+      "summary": "邓超、陈赫、鹿晗「铁三角」重聚，与范志毅、王勉开启第六季南往北走之旅。",
+      "thoughts": "老友局的松弛感还在。南北走一趟，笑点多半来自默契与互损，而不是硬任务。",
+      "quotes": [],
+      "takeaways": [
+        "旅行综艺最好的部分，往往是路上的闲聊。",
+        "固定班底的化学反应，比新颖玩法更耐看。"
+      ],
+      "updated": "2026-07-08"
+    }
+  ],
+  "kinds": {
+    "book": {
+      "label": "图书",
+      "emoji": "📚"
+    },
+    "novel": {
+      "label": "小说",
+      "emoji": "📖"
+    },
+    "manga": {
+      "label": "漫画",
+      "emoji": "📕"
+    },
+    "game": {
+      "label": "游戏",
+      "emoji": "🎮"
+    },
+    "anime": {
+      "label": "动漫",
+      "emoji": "🎬"
+    },
+    "movie": {
+      "label": "电影",
+      "emoji": "🎞"
+    },
+    "drama": {
+      "label": "电视剧",
+      "emoji": "📺"
+    },
+    "variety": {
+      "label": "综艺",
+      "emoji": "🎙"
+    }
+  },
+  "statuses": {
+    "reading": {
+      "label": "进行中"
+    },
+    "finished": {
+      "label": "已完成"
+    },
+    "planned": {
+      "label": "想看"
+    },
+    "dropped": {
+      "label": "弃坑"
+    }
+  },
+  "generatedAt": "2026-08-15T11:59:54.266Z"
+}

@@ -10,7 +10,7 @@
 /                 ← 宇宙门户（本仓库，已实现）
 /blog/            ← 博客首页（已实现）
 /blog/:slug       ← 文章详情（已实现）
-/archive/         ← 归档列表（待开发）
+/archive/         ← 归档列表（全部文章 + 标签）
 /about/           ← 关于页（已实现）
 /friends/         ← 友联页（已实现）
 ```
@@ -85,9 +85,9 @@ Copy-Item data\* public\data\ -Force
 |------|------|
 | ✅ Phase 0–2 | 门户脚手架、恒星、地球、黑洞、流星 |
 | Phase 3 | 博客 Markdown 管线 + `/blog/` 列表页 | ✅ |
-| Phase 4 | 标签、RSS、归档 | 待做 |
+| Phase 4 | 标签、RSS、归档 | ✅ 归档 + RSS；标签筛选在归档页 |
 | ✅ Phase 5 | 星图导航（第二屏 atlas） |
-| Phase 6 | 生产部署 + 自定义域名 |
+| Phase 6 | 生产部署 + 自定义域名 | GitHub Actions 已配置 |
 
 ---
 

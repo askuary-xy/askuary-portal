@@ -1,0 +1,514 @@
+/* 枢纽页像素宇宙壳：主页 / 文章 / 摄影 / 归档 / 碎念 / 故事阅读 */
+
+@import './pixel-fonts.css';
+@import './page-chrome.css';
+@import './site-widgets.css';
+@import './content-baseline.css';
+
+body.pixel-hub {
+  --px-cyan: #79d9ff;
+  --px-gold: #ffe566;
+  --px-accent: #f0cf86;
+  --px-panel: rgba(8, 18, 34, 0.92);
+  --page-chrome-footer-pad: max(2.6rem, calc(0.35rem + env(safe-area-inset-bottom)));
+  font-family: var(--px-font-cn);
+  color: #e8ecff;
+}
+
+body.pixel-hub .home-brand--glitch,
+body.pixel-hub .hr-glitch--nav {
+  font-family: var(--px-font) !important;
+  letter-spacing: 0.04em;
+}
+
+body.pixel-hub .home-nav a,
+body.pixel-hub .home-hero-title,
+body.pixel-hub .home-posts-title,
+body.pixel-hub .ar-list-head h2,
+body.pixel-hub .pr-section-title,
+body.pixel-hub .pr-hero-title,
+body.pixel-hub .ask-hero-title {
+  font-family: var(--px-font-cn);
+}
+
+body.pixel-hub .home-hero-title,
+body.pixel-hub .pr-hero-title,
+body.pixel-hub .ask-hero-title {
+  font-size: clamp(0.95rem, 3vw, 1.35rem);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+}
+
+/* 玻璃卡 → 像素硬边实色 */
+body.pixel-hub .home-glass-card,
+body.pixel-hub .hr-gallery-shot,
+body.pixel-hub .pr-album-card,
+body.pixel-hub .pr-note,
+body.pixel-hub .archive-card,
+body.pixel-hub .ask-read-card {
+  border-radius: 0 !important;
+  border: 2px solid rgba(0, 0, 0, 0.45) !important;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.22) !important;
+  background: #0e1424 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+body.pixel-hub .hr-gallery-cap {
+  font-family: var(--px-font-cn);
+  font-size: 0.55rem;
+  border-radius: 0;
+  border: 2px solid #000;
+  background: rgba(8, 12, 24, 0.92);
+  box-shadow: 2px 2px 0 #000;
+}
+
+body.pixel-hub .home-header,
+body.home-page.pixel-hub .home-header {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: #080c18;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.55);
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25);
+}
+
+body.pixel-hub .home-header-inner {
+  gap: 0.45rem;
+}
+
+body.pixel-hub .home-nav a,
+body.pixel-hub .home-nav .home-nav-link,
+body.home-page.pixel-hub .home-nav a {
+  border: 2px solid #000;
+  background: #121828;
+  box-shadow: 2px 2px 0 #000;
+  border-radius: 0;
+  padding: 0.32rem 0.5rem;
+  font-family: var(--px-font-cn);
+  font-size: 0.58rem;
+  color: #8b93b0;
+  text-decoration: none;
+}
+
+body.pixel-hub .home-nav a:hover,
+body.pixel-hub .home-nav .home-nav-link:hover {
+  color: #fff;
+  background: #1a2848;
+}
+
+body.pixel-hub .home-nav a.is-active,
+body.pixel-hub .home-nav .home-nav-link.is-active {
+  color: var(--px-gold, #ffe566);
+  background: #1a2848;
+  border-color: var(--px-gold, #ffe566);
+}
+
+body.pixel-hub .home-search-field,
+body.pixel-hub .home-search input {
+  border-radius: 0 !important;
+  border: 2px solid #000 !important;
+  box-shadow: 2px 2px 0 #000 !important;
+  background: #121828 !important;
+  color: #e8ecff !important;
+  font-family: var(--px-font-cn);
+}
+
+body.pixel-hub button:not(.pixel-pet-body):not(.pixel-pet-action):not(.pixel-pet-switch):not(.pixel-pet-hide):not(.pixel-pet-restore),
+body.pixel-hub .hr-frame-btn,
+body.pixel-hub .hr-photo-preview-close,
+body.pixel-hub .hr-photo-preview-story,
+body.pixel-hub .gate-console-btn {
+  border-radius: 0;
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0 #000;
+  font-family: var(--px-font-cn);
+}
+
+body.pixel-hub .pixel-pet-body,
+body.pixel-hub .pixel-pet-body:hover {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+body.pixel-hub .page-back,
+body.pixel-hub .pr-back,
+body.pixel-hub .fp-about-back,
+body.pixel-hub .ask-hero-back,
+body.pixel-hub .pr-album-back {
+  font-family: var(--px-font-cn);
+  font-size: 0.58rem;
+  color: var(--px-cyan);
+  background: var(--px-panel);
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0 #000;
+  padding: 0.35rem 0.55rem;
+}
+
+body.pixel-hub .page-back:hover,
+body.pixel-hub .pr-back:hover,
+body.pixel-hub .ask-hero-back:hover,
+body.pixel-hub .pr-album-back:hover {
+  color: var(--px-gold);
+}
+
+/* —— 主页社交 / 芯片 / 统计 / 资料卡 / 指挥台 像素化 —— */
+body.pixel-hub .hr-profile-card,
+body.pixel-hub .hr-brand-mark,
+body.pixel-hub .hr-glass,
+body.pixel-hub .hr-panel,
+body.pixel-hub .hr-post,
+body.pixel-hub .hr-lyric-bar {
+  border-radius: 0 !important;
+  border: 2px solid rgba(0, 0, 0, 0.45) !important;
+  background: #0e1424 !important;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.22) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #e8ecff !important;
+}
+
+body.pixel-hub .hr-brand-mark {
+  background: #080c18 !important;
+}
+
+body.pixel-hub .hr-chips {
+  display: none !important;
+}
+
+body.pixel-hub .hr-social-link {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0 !important;
+  border: 2px solid rgba(0, 0, 0, 0.65) !important;
+  background: #121828 !important;
+  color: #3de7ff !important;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.35) !important;
+  transform: none !important;
+  backdrop-filter: none !important;
+}
+
+body.pixel-hub .hr-social-link:hover {
+  color: #041018 !important;
+  background: #79d9ff !important;
+  box-shadow: 1px 1px 0 #000 !important;
+  transform: none !important;
+}
+
+body.pixel-hub .hr-social-link svg {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+body.pixel-hub .hr-status-line {
+  font-family: var(--px-font) !important;
+  font-size: 0.38rem !important;
+  color: #8b93b0 !important;
+  letter-spacing: 0.08em;
+}
+
+body.pixel-hub .hr-status-dot {
+  border-radius: 0 !important;
+  width: 0.4rem;
+  height: 0.4rem;
+  background: #79d9ff !important;
+  box-shadow: 0 0 0 1px #000;
+  animation: none !important;
+}
+
+body.pixel-hub .hr-kicker {
+  font-family: var(--px-font) !important;
+  font-size: 0.42rem !important;
+  color: #8b93b0 !important;
+}
+
+body.pixel-hub .hr-profile-name,
+body.pixel-hub .hr-profile-name .hr-glitch,
+body.pixel-hub .hr-glitch {
+  font-family: var(--px-font-cn) !important;
+  font-size: clamp(0.95rem, 3vw, 1.25rem) !important;
+  font-weight: 400 !important;
+  color: #3de7ff !important;
+  background: none !important;
+  -webkit-text-fill-color: #3de7ff !important;
+  text-shadow: 2px 2px 0 #000;
+}
+
+body.pixel-hub .hr-glitch::before,
+body.pixel-hub .hr-glitch::after {
+  display: none !important;
+}
+
+body.pixel-hub .hr-profile-bio,
+body.pixel-hub .hr-notice-body {
+  font-family: var(--px-font-cn);
+  font-size: 0.7rem;
+  color: #c8d0e8 !important;
+}
+
+body.pixel-hub .hr-stat-num {
+  font-family: var(--px-font) !important;
+  font-size: 0.85rem !important;
+  color: #ffe566 !important;
+  -webkit-text-fill-color: #ffe566 !important;
+}
+
+body.pixel-hub .hr-stat-label {
+  font-family: var(--px-font) !important;
+  font-size: 0.38rem !important;
+  color: #8b93b0 !important;
+}
+
+body.pixel-hub .hr-chip {
+  border-radius: 0 !important;
+  border: 2px solid #000 !important;
+  background: #121828 !important;
+  color: #e8ecff !important;
+  box-shadow: 2px 2px 0 #000 !important;
+  font-family: var(--px-font-cn) !important;
+  font-size: 0.58rem !important;
+  font-weight: 400 !important;
+  padding: 0.35rem 0.55rem !important;
+  backdrop-filter: none !important;
+  transform: none !important;
+}
+
+body.pixel-hub .hr-chip:hover {
+  color: #041018 !important;
+  background: #79d9ff !important;
+  transform: none !important;
+}
+
+body.pixel-hub .hr-chip svg,
+body.pixel-hub .hr-chip .hr-chip-svg {
+  width: 0.9rem;
+  height: 0.9rem;
+  color: #3de7ff !important;
+}
+
+body.pixel-hub .hr-wave-slim {
+  border-radius: 0 !important;
+  border: 2px solid rgba(0, 0, 0, 0.55) !important;
+  background: #080c18 !important;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3) !important;
+}
+
+body.pixel-hub .hr-wave-slim-label {
+  font-family: var(--px-font) !important;
+  font-size: 0.38rem !important;
+  color: #3de7ff !important;
+}
+
+body.pixel-hub .hr-bubble {
+  border-radius: 0 !important;
+  border: 2px solid rgba(0, 0, 0, 0.55) !important;
+  background: #121828 !important;
+  color: #e8ecff !important;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3) !important;
+  font-family: var(--px-font-cn) !important;
+  font-size: 0.55rem !important;
+}
+
+body.pixel-hub .hr-panel-head h2,
+body.pixel-hub .hr-notice-title,
+body.pixel-hub .hr-section-title,
+body.pixel-hub .hr-post-title,
+body.pixel-hub .hr-vinyl-title {
+  font-family: var(--px-font-cn) !important;
+  color: #e8ecff !important;
+  -webkit-text-fill-color: #e8ecff !important;
+  background: none !important;
+  font-weight: 400 !important;
+}
+
+body.pixel-hub .hr-panel-code {
+  font-family: var(--px-font) !important;
+  font-size: 0.4rem !important;
+  color: #ffe566 !important;
+}
+
+body.pixel-hub .hr-notice-tag {
+  border-radius: 0 !important;
+  border: 2px solid #000 !important;
+  background: #ffe566 !important;
+  color: #041018 !important;
+  box-shadow: 1px 1px 0 #000 !important;
+  font-family: var(--px-font) !important;
+  font-size: 0.34rem !important;
+}
+
+body.pixel-hub .hr-vinyl-btn {
+  border-radius: 0 !important;
+  border: 2px solid #000 !important;
+  background: #121828 !important;
+  color: #ffe566 !important;
+  box-shadow: 2px 2px 0 #000 !important;
+  backdrop-filter: none !important;
+}
+
+body.pixel-hub .hr-vinyl-btn--play {
+  background: #ffe566 !important;
+  color: #041018 !important;
+}
+
+body.pixel-hub .hr-vinyl-disc {
+  border: 2px solid #000 !important;
+  box-shadow: 3px 3px 0 #000 !important;
+}
+
+/* —— 备案：对齐馆藏，占比缩小 —— */
+body.pixel-hub .home-footer,
+body.pixel-hub .home-hub-footer,
+body.pixel-hub.photos-rich .home-hub-footer,
+body.pixel-hub.ss-page .home-footer,
+body.pixel-hub.ar-page .home-footer,
+body.pixel-hub.archive-rich-page .home-hub-footer,
+body.pixel-hub.home-article-page .home-footer {
+  background: transparent !important;
+  border-top: 0 !important;
+  box-shadow: none !important;
+  z-index: 6 !important;
+}
+
+body.pixel-hub .home-footer-inner,
+body.pixel-hub .home-hub-footer-inner {
+  width: min(720px, 100%) !important;
+  padding: 0.28rem 0.45rem var(--page-chrome-footer-pad) !important;
+  gap: 0.2rem !important;
+}
+
+body.pixel-hub .site-legal {
+  gap: 0.12rem !important;
+  padding: 0.12rem 0.22rem !important;
+  border: 2px solid #000 !important;
+  background: rgba(8, 12, 24, 0.86) !important;
+  box-shadow: 2px 2px 0 #000 !important;
+  border-radius: 0 !important;
+  width: auto !important;
+  max-width: 100%;
+  margin-inline: auto;
+}
+
+body.pixel-hub .site-legal-beian {
+  gap: 0.2rem !important;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+body.pixel-hub .site-legal-runtime,
+body.pixel-hub #runtime_span {
+  display: none !important;
+}
+
+body.pixel-hub .site-legal-beian-item,
+body.pixel-hub a.site-legal-beian-item {
+  border-radius: 0 !important;
+  border: 2px solid #000 !important;
+  background: #121828 !important;
+  box-shadow: 1px 1px 0 #000 !important;
+  color: #c8d4f0 !important;
+  font-family: var(--px-font-cn) !important;
+  font-size: 10px !important;
+  font-weight: 400 !important;
+  padding: 0.1rem 0.28rem !important;
+  text-shadow: none !important;
+}
+
+body.pixel-hub .site-legal-beian-item img {
+  width: 10px !important;
+  height: 10px !important;
+}
+
+body.pixel-hub .site-legal-copy,
+body.pixel-hub .site-legal-link,
+body.pixel-hub .home-footer-link,
+body.pixel-hub .home-hub-footer-link,
+body.pixel-hub .home-footer-copy {
+  color: #d4e0f5 !important;
+  font-family: var(--px-font-cn) !important;
+  font-size: 11px !important;
+  font-weight: 400 !important;
+  text-shadow: 1px 1px 0 #000;
+}
+
+/* 弹层压过页脚 / 宠物 / 电台 */
+body.pixel-hub .pr-modal,
+body.pixel-hub .hr-photo-preview,
+.pr-modal {
+  z-index: 320 !important;
+}
+
+body.pr-modal-open .home-hub-footer,
+body.pr-modal-open .home-footer,
+body.hr-preview-open .home-hub-footer,
+body.hr-preview-open .home-footer,
+body:has(.pr-modal:not([hidden])) .home-hub-footer,
+body:has(.pr-modal:not([hidden])) .home-footer,
+body:has(.hr-photo-preview:not([hidden])) .home-hub-footer,
+body:has(.hr-photo-preview:not([hidden])) .home-footer,
+body.pr-modal-open .pixel-pet,
+body.hr-preview-open .pixel-pet,
+body:has(.pr-modal:not([hidden])) .pixel-pet,
+body:has(.hr-photo-preview:not([hidden])) .pixel-pet,
+body.pr-modal-open .mini-radio,
+body.hr-preview-open .mini-radio,
+body:has(.pr-modal:not([hidden])) .mini-radio,
+body:has(.hr-photo-preview:not([hidden])) .mini-radio,
+body.pr-modal-open .site-widgets,
+body.hr-preview-open .site-widgets,
+body:has(.pr-modal:not([hidden])) .site-widgets,
+body:has(.hr-photo-preview:not([hidden])) .site-widgets {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+
+body.pixel-hub .pr-modal {
+  background: rgba(4, 8, 16, 0.88) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+body.pixel-hub .pr-modal-card {
+  border-radius: 0 !important;
+  border: 2px solid #000 !important;
+  background: #0e1424 !important;
+  box-shadow: 4px 4px 0 #000 !important;
+  color: #e8ecff;
+}
+
+body.pixel-hub .pr-modal-meta h2 {
+  font-family: var(--px-font-cn);
+  color: #3de7ff !important;
+}
+
+body.pixel-hub .pr-modal-meta p,
+body.pixel-hub .pr-modal-counter,
+body.pixel-hub .pr-modal-story {
+  font-family: var(--px-font-cn);
+  color: #8b93b0 !important;
+}
+
+body.pixel-hub .pr-modal-story-link,
+body.pixel-hub .pr-modal-close,
+body.pixel-hub .pr-modal-nav {
+  border-radius: 0 !important;
+  border: 2px solid #000 !important;
+  background: #121828 !important;
+  box-shadow: 2px 2px 0 #000 !important;
+  font-family: var(--px-font-cn);
+  color: #ffe566 !important;
+  backdrop-filter: none !important;
+}
+
+body.pixel-hub .pr-tabs button,
+body.pixel-hub .pr-filters button,
+body.pixel-hub .pr-album-card,
+body.pixel-hub .pr-polaroid,
+body.pixel-hub .pr-note {
+  border-radius: 0 !important;
+  border: 2px solid #000 !important;
+  box-shadow: 2px 2px 0 #000 !important;
+}

@@ -1,5 +1,5 @@
 {
-  "copyright": "",
+  "copyright": "© ASKUARY",
   "runtimeStart": "2025-07-01T00:00:00+08:00",
   "showRuntime": true,
   "runtimeIcon": "⏳",
@@ -27,7 +27,7 @@
   "license": null,
   "links": [
     { "label": "关于", "url": "/about/" },
-    { "label": "隐私说明", "url": "/about/#privacy" },
-    { "label": "GitHub", "url": "https://github.com/askuary-xy/askuary-portal" }
+    { "label": "主页", "url": "/home/" },
+    { "label": "宇宙入口", "url": "/" }
   ]
 }

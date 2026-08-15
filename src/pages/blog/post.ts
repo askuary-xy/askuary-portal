@@ -1,13 +1,18 @@
 import '../../styles/universe.css';
 import '../../styles/about.css';
 import '../../styles/blog.css';
-import { loadBlogPostPage } from '../../config/loader';
-import {
-  formatDate,
-  initBlogStarfield,
-  renderFooterLinks,
-  renderTags,
-} from './shared';
+import '../../styles/comments.css';
+import '../../styles/pixel-subpage.css';
+import '../../styles/blog-starport.css';
+import { Starfield } from '../../canvas/starfield';
+import { loadBlogPostPage, loadCommentsConfig } from '../../config/loader';
+import { mountLegalFooter } from '../../ui/mount-legal';
+import { mountPixelNav } from '../../ui/mount-pixel-nav';
+import { mountComments } from '../../ui/mount-comments';
+import { mountArticlePlugins } from '../../ui/mount-article-plugins';
+import { mountReadingJourney } from '../../ui/mount-reading-journey';
+import { commentPathFor } from '../../utils/content';
+import { formatDate, renderFooterLinks, renderTags } from './shared';
 
 const LINK_ICONS: Record<string, string> = {
   github: '⌘',
@@ -16,19 +21,40 @@ const LINK_ICONS: Record<string, string> = {
 };
 
 function resolveSlug(): string {
+  const fromQuery = new URLSearchParams(window.location.search).get('slug')?.trim();
+  if (fromQuery) {
+    try {
+      return decodeURIComponent(fromQuery);
+    } catch {
+      return fromQuery;
+    }
+  }
   const fromDataset = document.body.dataset.postSlug?.trim();
   if (fromDataset) return fromDataset;
   const match = window.location.pathname.match(/\/blog\/([^/]+)\/?$/);
-  return match?.[1] ?? '';
+  if (match?.[1] && match[1] !== 'view' && match[1] !== 'archive') return match[1];
+  return '';
 }
 
 async function boot(): Promise<void> {
+  document.documentElement.classList.add('pixel-subpage');
+  document.body.classList.add('starport-blog', 'starport-blog-post');
   const slug = resolveSlug();
   if (!slug) throw new Error('missing post slug');
 
-  const { post, site, meteorWords } = await loadBlogPostPage(slug);
+  const [{ post, site, meteorWords }, comments] = await Promise.all([
+    loadBlogPostPage(slug),
+    loadCommentsConfig(),
+  ]);
 
   document.title = `${post.title} · ${site.name}`;
+  mountPixelNav({
+    brand: site.name || 'ASKUARY',
+    title: post.title || '博客',
+    backHref: '/blog/',
+    backLabel: '← 博客',
+    widgets: { weather: site.weather, themeDefault: 'auto' },
+  });
 
   const metaDesc = post.summary || post.title;
   let descEl = document.querySelector('meta[name="description"]');
@@ -44,6 +70,7 @@ async function boot(): Promise<void> {
   const tagsEl = document.getElementById('postTags');
   const contentEl = document.getElementById('postContent');
   const linksEl = document.getElementById('postLinks');
+  const commentsEl = document.getElementById('postComments');
 
   if (dateEl) {
     dateEl.setAttribute('datetime', post.date);
@@ -59,7 +86,12 @@ async function boot(): Promise<void> {
       tagsEl.hidden = true;
     }
   }
-  if (contentEl) contentEl.innerHTML = post.html;
+  // 详情不插封面；正文保留图片（首图可作列表封面，文章内也不删）
+  if (contentEl) {
+    contentEl.innerHTML = post.html || '';
+    mountArticlePlugins(contentEl);
+    mountReadingJourney(document);
+  }
 
   renderFooterLinks(
     linksEl,
@@ -70,7 +102,22 @@ async function boot(): Promise<void> {
     LINK_ICONS,
   );
 
-  initBlogStarfield(meteorWords);
+  mountComments(
+    commentsEl,
+    comments,
+    site.apiBase,
+    commentPathFor('blog', slug),
+  );
+
+  const canvas = document.getElementById('fpStars') as HTMLCanvasElement | null;
+  if (canvas) {
+    const starfield = new Starfield(canvas, () => {});
+    starfield.setNavStars([]);
+    starfield.setMeteorWords(meteorWords);
+    starfield.start();
+  }
+
+  await mountLegalFooter(document.getElementById('pageLegal'), site.name);
 }
 
 boot().catch((err) => {

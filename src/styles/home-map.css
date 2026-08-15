@@ -1,0 +1,520 @@
+/* 主页足迹地图 — 像素宇宙探索图 */
+
+@import './pixel-fonts.css';
+
+.hr-map {
+  margin: 0 0 1.5rem;
+}
+
+.hr-map-card {
+  --hm-bg0: #070b16;
+  --hm-bg1: #121a2e;
+  --hm-panel: rgba(8, 14, 28, 0.92);
+  --hm-border: rgba(80, 200, 255, 0.35);
+  --hm-text: #e8ecff;
+  --hm-muted: #8b93b0;
+  --hm-cyan: #79d9ff;
+  --hm-gold: #ffe566;
+  --hm-visit: #79d9ff;
+  --hm-land: #152038;
+  --hm-land-line: rgba(100, 160, 220, 0.45);
+
+  padding: 0.85rem 0.9rem 0.95rem;
+  border-radius: 0;
+  overflow: hidden;
+  background:
+    linear-gradient(165deg, rgba(20, 36, 64, 0.95), rgba(6, 10, 20, 0.98)),
+    var(--hm-bg0);
+  border: 2px solid #000;
+  box-shadow:
+    3px 3px 0 #000,
+    inset 0 0 0 1px rgba(80, 200, 255, 0.15);
+  color: var(--hm-text);
+  font-family: var(--px-font-cn);
+  image-rendering: pixelated;
+}
+
+.hr-map-card.is-day {
+  --hm-bg0: #102040;
+  --hm-bg1: #2a4a78;
+  --hm-panel: rgba(18, 36, 64, 0.9);
+  --hm-border: rgba(120, 210, 255, 0.4);
+  --hm-visit: #5ec8ff;
+  --hm-land: #2a4a72;
+  --hm-land-line: rgba(150, 210, 255, 0.55);
+}
+
+.hr-map-card.is-day .hr-map-stage {
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 30%, #3a6aaa 0%, transparent 55%),
+    radial-gradient(ellipse 80% 70% at 50% 40%, var(--hm-bg1) 0%, var(--hm-bg0) 75%),
+    var(--hm-bg0);
+}
+
+.hr-map-card.is-night .hr-map-stage {
+  background:
+    radial-gradient(ellipse 70% 55% at 70% 20%, rgba(46, 137, 202, 0.22) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 70% at 50% 40%, var(--hm-bg1) 0%, var(--hm-bg0) 75%),
+    var(--hm-bg0);
+}
+
+.hr-map-card.is-night {
+  --hm-bg0: #05060c;
+  --hm-bg1: #07182b;
+  --hm-visit: #68dcff;
+  --hm-land: #071527;
+  --hm-land-line: rgba(77, 151, 204, 0.45);
+}
+
+.hr-map-head {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin: 0 0 0.75rem;
+  flex-wrap: wrap;
+}
+
+.hr-map-metrics {
+  display: flex;
+  align-items: stretch;
+  gap: 0.55rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.hr-map-metric {
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  padding: 0.4rem 0.55rem;
+  background: var(--hm-panel);
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0 #000;
+  color: var(--hm-text);
+}
+
+.hr-map-metric--progress {
+  flex: 1;
+  min-width: 120px;
+  flex-direction: column;
+  gap: 0.3rem;
+  align-items: stretch;
+}
+
+.hr-map-metric-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.4rem;
+}
+
+.hr-map-metric-label {
+  font-family: var(--px-font);
+  font-size: 0.42rem;
+  color: var(--hm-muted);
+  letter-spacing: 0.06em;
+}
+
+.hr-map-metric-value,
+.hr-map-metric strong {
+  font-family: var(--px-font);
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--hm-cyan);
+  font-variant-numeric: tabular-nums;
+}
+
+.hr-map-card.is-night .hr-map-metric-value,
+.hr-map-card.is-night .hr-map-metric strong {
+  color: #8de7ff;
+}
+
+.hr-map-metric small {
+  font-size: 0.58rem;
+  color: var(--hm-muted);
+}
+
+.hr-map-progress {
+  height: 8px;
+  background: #0a1020;
+  border: 2px solid #000;
+  overflow: hidden;
+  image-rendering: pixelated;
+}
+
+.hr-map-progress > span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--hm-cyan) 0 6px,
+    #1a6080 6px 8px
+  );
+  transition: width 0.4s steps(8);
+}
+
+.hr-map-card.is-night .hr-map-progress > span {
+  background: repeating-linear-gradient(
+    90deg,
+    #68dcff 0 6px,
+    #17618e 6px 8px
+  );
+}
+
+/* 地图尚未滚入视口、图表仍在懒加载时，也必须先与全站主题一致。 */
+html.askuary-theme-light .hr-map-card {
+  --hm-bg0: #102040;
+  --hm-bg1: #2a4a78;
+  --hm-panel: rgba(18, 36, 64, 0.9);
+  --hm-border: rgba(120, 210, 255, 0.4);
+  --hm-visit: #5ec8ff;
+  --hm-land: #2a4a72;
+  --hm-land-line: rgba(150, 210, 255, 0.55);
+}
+
+html.askuary-theme-light .hr-map-stage {
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 30%, #3a6aaa 0%, transparent 55%),
+    radial-gradient(ellipse 80% 70% at 50% 40%, var(--hm-bg1) 0%, var(--hm-bg0) 75%),
+    var(--hm-bg0) !important;
+}
+
+.hr-map-term {
+  padding: .38rem .55rem;
+  border: 2px solid #000;
+  background: var(--hm-panel);
+  box-shadow: 2px 2px 0 #000;
+  color: var(--hm-gold);
+  font: 600 .62rem/1 var(--px-font-cn);
+}
+
+.hr-map-tools {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.hr-map-btn {
+  font-family: var(--px-font-cn);
+  font-size: 0.58rem;
+  color: var(--hm-text);
+  background: var(--hm-panel);
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0 #000;
+  padding: 0.4rem 0.5rem;
+  cursor: pointer;
+}
+
+.hr-map-btn:hover {
+  color: var(--hm-cyan);
+}
+
+.hr-map-btn[aria-pressed='true'] {
+  color: var(--hm-gold);
+}
+
+.hr-map-weather {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  padding: 0.35rem 0.5rem;
+  background: var(--hm-panel);
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0 #000;
+  min-width: 5.5rem;
+}
+
+.hr-map-weather-main {
+  font-family: var(--px-font);
+  font-size: 0.42rem;
+  color: var(--hm-cyan);
+  letter-spacing: 0.04em;
+}
+
+.hr-map-weather-sub {
+  font-size: 0.58rem;
+  color: var(--hm-muted);
+}
+
+.hr-map-more {
+  margin-left: auto;
+  font-family: var(--px-font-cn);
+  font-size: 0.58rem;
+  font-weight: 400;
+  color: var(--hm-muted);
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 0.4rem 0.5rem;
+  border: 2px solid #000;
+  background: var(--hm-panel);
+  box-shadow: 2px 2px 0 #000;
+}
+
+.hr-map-more:hover {
+  color: var(--hm-gold);
+}
+
+.hr-map-stage {
+  position: relative;
+  overflow: hidden;
+  border: 2px solid #000;
+  background:
+    radial-gradient(ellipse 80% 70% at 50% 40%, var(--hm-bg1) 0%, var(--hm-bg0) 75%),
+    var(--hm-bg0);
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.45);
+}
+
+.hr-map-paper {
+  display: none;
+}
+
+.hr-map-canvas {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: min(520px, 68vw);
+  min-height: 320px;
+  background: transparent;
+}
+
+.hr-map-fx {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  image-rendering: pixelated;
+}
+
+.hr-map-scan {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.1;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.06) 0,
+    rgba(255, 255, 255, 0.06) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+.hr-map-compass {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 4;
+  width: 44px;
+  height: 44px;
+  opacity: 0.75;
+  pointer-events: none;
+  filter: drop-shadow(0 0 6px rgba(61, 231, 255, 0.35));
+}
+
+.hr-map-card.is-night .hr-map-compass {
+  filter: drop-shadow(0 0 6px rgba(192, 132, 252, 0.4));
+  opacity: 0.85;
+}
+
+.hr-map-hover {
+  position: absolute;
+  z-index: 5;
+  padding: 0.28rem 0.45rem;
+  background: rgba(8, 14, 28, 0.92);
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0 #000;
+  color: var(--hm-cyan);
+  font-family: var(--px-font-cn);
+  font-size: 0.58rem;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.hr-map-focus {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 5;
+  width: min(230px, calc(100% - 20px));
+  padding: 0.7rem 0.75rem 0.65rem;
+  background: rgba(8, 14, 28, 0.94);
+  border: 2px solid #000;
+  box-shadow: 3px 3px 0 #000;
+  color: var(--hm-text);
+  pointer-events: none;
+}
+
+.hr-map-focus a,
+.hr-map-focus button {
+  pointer-events: auto;
+}
+
+.hr-map-focus-kicker {
+  display: block;
+  font-family: var(--px-font);
+  font-size: 0.38rem;
+  letter-spacing: 0.1em;
+  color: var(--hm-muted);
+  margin-bottom: 0.35rem;
+}
+
+.hr-map-focus-title {
+  display: block;
+  font-family: var(--px-font-cn);
+  font-size: 0.85rem;
+  margin: 0 0 0.25rem;
+  color: var(--hm-cyan);
+  text-shadow: 0 0 8px rgba(61, 231, 255, 0.35);
+}
+
+.hr-map-card.is-night .hr-map-focus-title {
+  color: #d4b4ff;
+  text-shadow: 0 0 8px rgba(192, 132, 252, 0.4);
+}
+
+.hr-map-focus-sub {
+  display: block;
+  font-size: 0.58rem;
+  color: var(--hm-muted);
+  margin-bottom: 0.5rem;
+}
+
+.hr-map-focus-cover {
+  margin: 0 0 0.45rem;
+  border: 2px solid #000;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  background: #121828;
+}
+
+.hr-map-focus-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  image-rendering: auto;
+}
+
+.hr-map-focus-list {
+  margin: 0 0 0.5rem;
+  padding: 0;
+  list-style: none;
+  font-size: 0.58rem;
+  color: rgba(232, 236, 255, 0.75);
+}
+
+.hr-map-focus-list li + li {
+  margin-top: 0.12rem;
+}
+
+.hr-map-focus-link {
+  display: inline-block;
+  font-family: var(--px-font-cn);
+  font-size: 0.58rem;
+  color: var(--hm-gold);
+  text-decoration: none;
+}
+
+.hr-map-focus-link:hover {
+  color: var(--hm-cyan);
+}
+
+.hr-map-lazy {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: rgba(5, 8, 16, 0.82);
+  color: var(--hm-muted);
+  font-family: var(--px-font-cn);
+  font-size: 0.65rem;
+}
+
+.hr-map-lazy[hidden] {
+  display: none !important;
+}
+
+.hr-map-lazy-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--hm-cyan);
+  box-shadow: 0 0 8px var(--hm-cyan);
+  animation: hr-map-pulse 1s steps(2) infinite;
+}
+
+@keyframes hr-map-pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.hr-map-hint {
+  display: none;
+}
+
+.hr-map-stage.is-locked {
+  cursor: pointer;
+}
+
+.hr-map-stage.is-armed {
+  cursor: grab;
+  box-shadow: inset 0 0 0 2px rgba(61, 231, 255, 0.35);
+}
+
+.hr-map-stage.is-locked .hr-map-canvas {
+  pointer-events: none;
+}
+
+.hr-map-stage.is-armed .hr-map-canvas {
+  pointer-events: auto;
+}
+
+/* FX / 扫描层只负责观感，永远不抢地图指针 */
+.hr-map-fx,
+.hr-map-scan {
+  pointer-events: none !important;
+}
+
+.hr-map-empty {
+  margin: 0;
+  padding: 2.5rem 1rem;
+  text-align: center;
+  color: var(--hm-muted);
+  font-size: 0.7rem;
+}
+
+@media (max-width: 720px) {
+  .hr-map-canvas {
+    height: min(420px, 78vw);
+    min-height: 280px;
+  }
+
+  .hr-map-compass {
+    width: 36px;
+    height: 36px;
+  }
+
+  .hr-map-focus {
+    right: 6px;
+    left: 6px;
+    width: auto;
+    bottom: 6px;
+  }
+
+  .hr-map-more {
+    width: 100%;
+    text-align: center;
+  }
+}

@@ -1,0 +1,14 @@
+import { Controller, Get } from '@nestjs/common';
+
+@Controller('api/health')
+export class HealthController {
+  @Get()
+  health() {
+    return {
+      ok: true,
+      service: 'askuary-api',
+      time: new Date().toISOString(),
+      uptimeSeconds: Math.round(process.uptime()),
+    };
+  }
+}

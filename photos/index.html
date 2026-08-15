@@ -1,0 +1,71 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a1020" />
+    <meta name="description" content="摄影 — ASKUARY" />
+    <title>摄影 · ASKUARY</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+  <body class="photos-rich">
+    <canvas id="fpStars" class="fp-stars-canvas" aria-hidden="true"></canvas>
+
+    <div class="pr-shell">
+      <header class="pr-hero pr-reveal" id="photosHero">
+        <img class="pr-hero-img" id="photosHeroImg" alt="" decoding="async" />
+        <div class="pr-hero-veil" aria-hidden="true"></div>
+        <div class="pr-hero-copy">
+          <p class="pr-hero-kicker" id="photosHeroKicker">📷 定格瞬间</p>
+          <h1 class="pr-hero-title" id="photosTitle">摄影</h1>
+          <p class="pr-hero-stats" id="photosStats"></p>
+        </div>
+      </header>
+
+      <section class="pr-section pr-reveal" aria-labelledby="prViewTitle">
+        <div class="pr-section-head">
+          <h2 class="pr-section-title" id="prViewTitle">浏览方式</h2>
+          <p class="pr-section-sub">相册或时间轴</p>
+        </div>
+        <nav class="pr-tabs" id="photosTabs" aria-label="视图切换"></nav>
+        <nav class="pr-filters" id="photosFilters" aria-label="分类筛选"></nav>
+      </section>
+
+      <div class="pr-panels" id="photosPanels"></div>
+      <p class="pr-empty" id="photosEmpty" hidden>还没有照片。</p>
+
+      <section class="pr-note pr-reveal" aria-labelledby="prNoteTitle">
+        <h2 class="pr-section-title" id="prNoteTitle" style="margin-bottom: 0.75rem">摄影笔记</h2>
+        <p class="pr-note-quote" id="photosNote">用快门收集世界的碎片</p>
+        <p class="pr-note-sign">— ASKUARY</p>
+      </section>
+    </div>
+
+    <div id="photoModal" class="pr-modal" hidden>
+      <div class="pr-modal-card" role="dialog" aria-modal="true" aria-labelledby="photoModalTitle">
+        <div class="pr-modal-stage">
+          <button type="button" class="pr-modal-close" id="photoModalClose" aria-label="关闭">×</button>
+          <button type="button" class="pr-modal-nav is-prev" id="photoModalPrev" aria-label="上一张">‹</button>
+          <img id="photoModalImg" class="pr-modal-img" alt="" />
+          <button type="button" class="pr-modal-nav is-next" id="photoModalNext" aria-label="下一张">›</button>
+        </div>
+        <div class="pr-modal-meta">
+          <h2 id="photoModalTitle"></h2>
+          <p id="photoModalInfo"></p>
+          <p class="pr-modal-story" id="photoModalStory"></p>
+          <p class="pr-modal-counter" id="photoModalCounter"></p>
+          <a class="pr-modal-story-link" id="photoModalStoryLink" href="#">阅读完整故事 →</a>
+        </div>
+      </div>
+    </div>
+
+    <footer class="home-hub-footer">
+      <div class="home-hub-footer-inner" id="pageLegal"></div>
+    </footer>
+
+    <div id="bootError" hidden></div>
+    <script type="module" src="/src/pages/photos/main.ts"></script>
+  </body>
+</html>

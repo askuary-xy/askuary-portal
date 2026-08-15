@@ -1,0 +1,855 @@
+/* 摄影页丰富版 — 青金硬边 + 拍立得 + 季节氛围 */
+
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Yomogi&display=swap');
+
+body.photos-rich {
+  --pr-font: 'M PLUS Rounded 1c', 'PingFang SC', 'Microsoft YaHei UI', sans-serif;
+  --pr-hand: 'Yomogi', 'M PLUS Rounded 1c', cursive;
+  --pr-lilac: #79d9ff;
+  --pr-blue: #79d9ff;
+  --pr-purple: #f0cf86;
+  font-family: var(--pr-font);
+  min-height: 100vh;
+  margin: 0;
+  color: #e8f4ff;
+  background: linear-gradient(165deg, #071422 0%, #0a1a2e 45%, #081626 100%);
+}
+
+body.photos-rich:has(.home-bg) {
+  background: transparent;
+}
+
+body.photos-rich[data-season='spring'] {
+  --pr-accent: #f0cf86;
+  --pr-accent-soft: rgba(240, 207, 134, 0.35);
+}
+body.photos-rich[data-season='summer'] {
+  --pr-accent: #79d9ff;
+  --pr-accent-soft: rgba(121, 217, 255, 0.35);
+}
+body.photos-rich[data-season='autumn'] {
+  --pr-accent: #ffe566;
+  --pr-accent-soft: rgba(255, 229, 102, 0.35);
+}
+body.photos-rich[data-season='winter'] {
+  --pr-accent: #9fd4ea;
+  --pr-accent-soft: rgba(159, 212, 234, 0.35);
+}
+
+.photos-rich .pr-shell {
+  position: relative;
+  z-index: 1;
+}
+
+.photos-rich .fp-atmosphere {
+  display: none !important;
+}
+
+.photos-rich .fp-stars-canvas {
+  display: block !important;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.photos-rich .home-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  background: rgba(255, 255, 255, 0.62);
+  backdrop-filter: blur(16px) saturate(1.25);
+  -webkit-backdrop-filter: blur(16px) saturate(1.25);
+  border-bottom: 1px solid rgba(255, 190, 220, 0.3);
+}
+
+.pr-shell {
+  position: relative;
+  z-index: 1;
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  padding: 1.25rem 1rem 2.5rem;
+}
+
+.pr-back {
+  display: inline-flex;
+  margin-bottom: 1rem;
+  color: #6b5f88;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 0.88rem;
+}
+
+.pr-back:hover {
+  color: var(--pr-accent, var(--pr-lilac));
+}
+
+/* —— 英雄 —— */
+.pr-hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: 28px;
+  min-height: min(42vw, 360px);
+  margin-bottom: 1.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow: 0 16px 40px rgba(140, 160, 220, 0.16);
+  background: #dfe9f8;
+}
+
+.pr-hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.02);
+}
+
+.pr-hero-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    rgba(40, 30, 60, 0.55) 0%,
+    rgba(60, 40, 90, 0.25) 45%,
+    rgba(190, 200, 255, 0.2) 100%
+  );
+}
+
+.pr-hero-copy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: min(42vw, 360px);
+  padding: 2rem 1.6rem 1.7rem;
+  color: #fff;
+}
+
+.pr-hero-kicker {
+  margin: 0 0 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+
+.pr-hero-title {
+  margin: 0;
+  font-size: clamp(2.2rem, 6vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+.pr-hero-stats {
+  margin: 0.65rem 0 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  opacity: 0.92;
+}
+
+/* —— 区块标题 —— */
+.pr-section {
+  margin-bottom: 1.85rem;
+}
+
+.pr-section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  margin: 0 0 0.95rem;
+}
+
+.pr-section-title {
+  margin: 0;
+  font-size: 1.22rem;
+  font-weight: 800;
+  background: linear-gradient(115deg, var(--pr-lilac), var(--pr-blue) 50%, var(--pr-purple));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.pr-section-sub {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #8a839e;
+}
+
+/* —— 视图切换 / 筛选 —— */
+.pr-tabs,
+.pr-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.1rem;
+}
+
+.pr-tab,
+.pr-filter {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(10px);
+  color: #5a4e78;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 700;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.pr-tab:hover,
+.pr-filter:hover {
+  transform: translateY(-2px);
+}
+
+.pr-tab.is-active,
+.pr-filter.is-active {
+  color: #fff;
+  background: linear-gradient(135deg, var(--pr-accent, var(--pr-lilac)), var(--pr-blue));
+  box-shadow: 0 6px 18px var(--pr-accent-soft, rgba(170, 180, 255, 0.4));
+}
+
+.pr-filter--风景.is-active {
+  background: linear-gradient(135deg, #5eb8ff, #8ec5ff);
+}
+.pr-filter--街拍.is-active {
+  background: linear-gradient(135deg, #b794f6, #b4a8f5);
+}
+.pr-filter--日常.is-active {
+  background: linear-gradient(135deg, #9bb0ff, #c4b5fd);
+}
+
+.pr-filter-count {
+  align-self: center;
+  margin-left: 0.25rem;
+  font-size: 0.8rem;
+  color: #8a839e;
+  font-weight: 600;
+}
+
+.pr-panels {
+  position: relative;
+}
+
+.pr-view {
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
+}
+
+.pr-view[hidden] {
+  display: none !important;
+}
+
+.pr-view.is-leaving {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.pr-view.is-album-open .pr-albums {
+  display: none;
+}
+
+/* —— 相册瀑布 —— */
+.pr-albums {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.2rem;
+  grid-auto-flow: dense;
+}
+
+.pr-album {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 0;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 22px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.62);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 12px 30px rgba(140, 160, 220, 0.12);
+  font: inherit;
+  color: inherit;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.pr-album--lg {
+  grid-column: span 2;
+  grid-row: span 2;
+  min-height: 360px;
+}
+
+.pr-album--sm {
+  min-height: 240px;
+}
+
+.pr-album:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 18px 40px rgba(170, 180, 255, 0.18),
+    0 0 0 1px rgba(160, 200, 255, 0.25);
+}
+
+.pr-album-cover {
+  position: relative;
+  flex: 1;
+  min-height: 140px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #ffd0e4, #c8e4ff);
+}
+
+.pr-album--lg .pr-album-cover {
+  min-height: 220px;
+}
+
+.pr-album-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.45s ease;
+}
+
+.pr-album:hover .pr-album-cover img {
+  transform: scale(1.06);
+}
+
+.pr-album-shine {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.42) 48%,
+    transparent 62%
+  );
+  transform: translateX(-120%);
+  opacity: 0;
+}
+
+.pr-album:hover .pr-album-shine {
+  opacity: 1;
+  animation: pr-shine 0.85s ease forwards;
+}
+
+@keyframes pr-shine {
+  to {
+    transform: translateX(120%);
+  }
+}
+
+.pr-album-body {
+  padding: 0.9rem 1rem 1.05rem;
+}
+
+.pr-album-title {
+  margin: 0 0 0.3rem;
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: #3d3558;
+}
+
+.pr-album--lg .pr-album-title {
+  font-size: 1.35rem;
+}
+
+.pr-album-count {
+  margin: 0 0 0.55rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--pr-accent, var(--pr-lilac));
+}
+
+.pr-album-bubble {
+  position: relative;
+  margin: 0;
+  padding: 0.55rem 0.75rem;
+  border-radius: 14px;
+  background: rgba(255, 240, 248, 0.9);
+  border: 1px solid rgba(190, 200, 255, 0.35);
+  font-family: var(--pr-hand);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #6b5f88;
+}
+
+.pr-album-bubble::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 18px;
+  width: 12px;
+  height: 12px;
+  background: rgba(255, 240, 248, 0.9);
+  border-left: 1px solid rgba(190, 200, 255, 0.35);
+  border-top: 1px solid rgba(190, 200, 255, 0.35);
+  transform: rotate(45deg);
+}
+
+/* —— 相册详情 —— */
+.pr-album-detail {
+  animation: pr-fade-up 0.4s ease;
+}
+
+.pr-album-detail[hidden] {
+  display: none !important;
+}
+
+.pr-album-detail-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1.1rem;
+  padding: 1rem 1.15rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.pr-album-back {
+  appearance: none;
+  border: 0;
+  background: linear-gradient(135deg, var(--pr-lilac), var(--pr-blue));
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.82rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.pr-album-detail-head h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.pr-album-detail-head p {
+  margin: 0;
+  width: 100%;
+  font-size: 0.88rem;
+  color: #6b5f88;
+}
+
+/* —— 拍立得网格 —— */
+.pr-polaroid-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1.15rem;
+}
+
+.pr-polaroid {
+  display: flex;
+  flex-direction: column;
+  padding: 0.65rem 0.65rem 0.85rem;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(80, 90, 130, 0.14);
+  text-decoration: none;
+  color: inherit;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease;
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.pr-polaroid.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+.pr-polaroid:hover {
+  transform: translateY(-4px) rotate(-0.5deg);
+  box-shadow: 0 14px 32px rgba(170, 180, 255, 0.2);
+}
+
+.pr-polaroid-photo {
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: #eef2f8;
+}
+
+.pr-polaroid-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.pr-polaroid:hover .pr-polaroid-photo img {
+  transform: scale(1.04);
+}
+
+.pr-polaroid-caption {
+  margin: 0.55rem 0 0;
+  font-family: var(--pr-hand);
+  font-size: 0.88rem;
+  color: #5a4e78;
+  text-align: center;
+  line-height: 1.35;
+}
+
+.pr-polaroid-date {
+  margin: 0.2rem 0 0;
+  font-size: 0.72rem;
+  color: #9a93ae;
+  text-align: center;
+}
+
+/* —— 时间轴 —— */
+.pr-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.pr-tl-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.pr-tl-row:nth-child(even) {
+  grid-template-columns: 1fr 140px;
+}
+
+.pr-tl-row:nth-child(even) .pr-tl-meta {
+  order: 2;
+  text-align: left;
+}
+
+.pr-tl-row:nth-child(even) .pr-tl-thumbs {
+  order: 1;
+}
+
+.pr-tl-meta {
+  padding: 0.85rem 0.9rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.58);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  text-align: right;
+}
+
+.pr-tl-date {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #3d3558;
+}
+
+.pr-tl-season {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 1.35rem;
+}
+
+.pr-tl-count {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.76rem;
+  color: #8a839e;
+  font-weight: 600;
+}
+
+.pr-tl-thumbs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 0.65rem;
+}
+
+/* —— 弹窗 —— */
+.pr-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 320;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(4, 8, 16, 0.88);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s ease;
+}
+
+.pr-modal:not([hidden]) {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.pr-modal[hidden] {
+  display: grid !important;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pr-modal-card {
+  width: min(920px, 100%);
+  max-height: min(90vh, 860px);
+  display: grid;
+  grid-template-rows: 1fr auto;
+  border-radius: 24px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 24px 60px rgba(40, 30, 70, 0.28);
+  transform: scale(0.92);
+  transition: transform 0.32s cubic-bezier(0.22, 0.8, 0.28, 1);
+}
+
+.pr-modal:not([hidden]) .pr-modal-card {
+  transform: scale(1);
+}
+
+.pr-modal-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 280px;
+  background: #1a1528;
+}
+
+.pr-modal-img {
+  max-width: 100%;
+  max-height: min(58vh, 520px);
+  object-fit: contain;
+}
+
+.pr-modal-nav,
+.pr-modal-close {
+  appearance: none;
+  border: 0;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  font-size: 1.4rem;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+.pr-modal-close {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  z-index: 2;
+}
+
+.pr-modal-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.pr-modal-nav.is-prev {
+  left: 0.75rem;
+}
+.pr-modal-nav.is-next {
+  right: 0.75rem;
+}
+
+.pr-modal-meta {
+  padding: 1.1rem 1.25rem 1.2rem;
+}
+
+.pr-modal-meta h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #3d3558;
+}
+
+.pr-modal-meta p {
+  margin: 0.25rem 0;
+  font-size: 0.88rem;
+  color: #6b5f88;
+  line-height: 1.6;
+}
+
+.pr-modal-story {
+  font-family: var(--pr-hand);
+  font-size: 0.98rem !important;
+}
+
+.pr-modal-counter {
+  margin-top: 0.55rem !important;
+  font-size: 0.78rem !important;
+  color: #9a93ae !important;
+  font-weight: 700;
+}
+
+.pr-modal-story-link {
+  display: inline-flex;
+  margin-top: 0.65rem;
+  color: var(--pr-accent, var(--pr-lilac));
+  font-weight: 700;
+  font-size: 0.86rem;
+  text-decoration: none;
+}
+
+/* —— 摄影笔记 —— */
+.pr-note {
+  margin-top: 2.25rem;
+  padding: 1.5rem 1.35rem;
+  border-radius: 24px;
+  text-align: center;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.7),
+    rgba(255, 240, 250, 0.55)
+  );
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 12px 32px rgba(140, 160, 220, 0.12);
+}
+
+.pr-note-quote {
+  margin: 0;
+  font-family: var(--pr-hand);
+  font-size: 1.25rem;
+  color: #5a4e78;
+  line-height: 1.7;
+}
+
+.pr-note-sign {
+  margin: 0.75rem 0 0;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--pr-accent, var(--pr-lilac));
+  letter-spacing: 0.08em;
+}
+
+.pr-empty {
+  margin: 1.5rem 0;
+  padding: 2rem;
+  text-align: center;
+  color: #8a839e;
+  border-radius: 18px;
+  border: 1px dashed rgba(180, 160, 220, 0.35);
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.pr-empty-inline {
+  margin: 0.5rem 0 0;
+  color: #8a7f9c;
+  font-size: 0.95rem;
+}
+
+.pr-reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.pr-reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes pr-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.photos-rich .home-hub-footer {
+  position: relative;
+  z-index: 1;
+  margin-top: 0.6rem;
+  background: transparent;
+  border-top: 0;
+  color: #d4e0f5;
+}
+
+.photos-rich.pixel-hub .home-hub-footer-inner {
+  padding: 0.28rem 0.45rem max(3.2rem, calc(0.45rem + env(safe-area-inset-bottom)));
+}
+
+@media (max-width: 900px) {
+  .pr-albums {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pr-album--lg {
+    grid-column: span 2;
+    grid-row: span 1;
+    min-height: 280px;
+  }
+
+  .pr-tl-row,
+  .pr-tl-row:nth-child(even) {
+    grid-template-columns: 1fr;
+  }
+
+  .pr-tl-row:nth-child(even) .pr-tl-meta,
+  .pr-tl-meta {
+    order: 0;
+    text-align: left;
+  }
+}
+
+@media (max-width: 640px) {
+  .pr-albums {
+    grid-template-columns: 1fr;
+  }
+
+  .pr-album--lg,
+  .pr-album--sm {
+    grid-column: span 1;
+    min-height: 240px;
+  }
+
+  .pr-hero {
+    min-height: 260px;
+  }
+
+  .pr-hero-copy {
+    min-height: 260px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pr-album,
+  .pr-polaroid,
+  .pr-modal-card,
+  .pr-view {
+    transition: none;
+  }
+}

@@ -4,15 +4,60 @@
   "taglines": [
     "记录思考，探索次元",
     "点击光点，拾取记忆",
-    "悬停流星，阅读短句"
+    "悬停流星，阅读短句",
+    "下滑 · 点击黑洞进入传送门"
   ],
-  "avatar": "",
-  "showAvatar": false,
-  "avatarAlt": "ASKUARY",
+  "avatar": "/brand/avatar.png",
+  "showAvatar": true,
+  "avatarAlt": "ASKUARY · 次元纪闻斋",
+  "logo": "/brand/logo.png",
   "homeUrl": "/home/",
+  "siteUrl": "https://www.askuary.cn",
+  "apiBase": "https://www.askuary.cn",
+  "homeBackgroundApi": "https://t.alcy.cc/fj/",
+  "coverImageApi": "https://t.alcy.cc/moe/?t={seed}",
+  "coverRandom": true,
+  "amapKey": "2ee16e6ed7d852641765efb89c38fdea",
+  "amapSecurityJsCode": "b803152204b155cd0673417455c5441a",
+  "authorBio": "喜欢拍照、写一点日常，也喜欢把路过的光收进相册里。",
   "warpEnabled": true,
-  "warpHint": "穿越至主页",
+  "warpHint": "点击黑洞进入传送门枢纽",
+  "weather": {
+    "enabled": true,
+    "city": "上海",
+    "lat": 31.23,
+    "lng": 121.47
+  },
   "social": [
-    { "label": "GitHub", "url": "https://github.com/askuary-xy/askuary-portal", "icon": "github" }
+    {
+      "label": "Steam",
+      "url": "https://steamcommunity.com/profiles/76561198840095990/",
+      "icon": "steam"
+    },
+    {
+      "label": "哔哩哔哩",
+      "url": "https://space.bilibili.com/3546760714652599",
+      "icon": "bilibili"
+    },
+    {
+      "label": "X",
+      "url": "https://x.com/ASKUARY",
+      "icon": "x"
+    },
+    {
+      "label": "GitHub",
+      "url": "https://github.com/askuary-xy/askuary-portal",
+      "icon": "github"
+    },
+    {
+      "label": "Instagram",
+      "url": "https://www.instagram.com/askuary/",
+      "icon": "instagram"
+    },
+    {
+      "label": "QQ",
+      "url": "https://wpa.qq.com/msgrd?v=3&uin=1875604545&site=qq&menu=yes",
+      "icon": "qq"
+    }
   ]
 }

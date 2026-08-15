@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none">
+  <circle cx="48" cy="48" r="44" stroke="#2d2722" stroke-width="2.2" fill="#f6efe2"/>
+  <circle cx="48" cy="48" r="34" stroke="#2d2722" stroke-width="1.2" opacity="0.55"/>
+  <path d="M48 10 L54 48 L48 40 L42 48 Z" fill="#9b6b43"/>
+  <path d="M48 86 L42 48 L48 56 L54 48 Z" fill="#2d2722" opacity="0.85"/>
+  <path d="M10 48 L48 42 L40 48 L48 54 Z" fill="#2d2722" opacity="0.55"/>
+  <path d="M86 48 L48 54 L56 48 L48 42 Z" fill="#2d2722" opacity="0.55"/>
+  <circle cx="48" cy="48" r="4" fill="#2d2722"/>
+  <text x="48" y="22" text-anchor="middle" font-size="9" font-family="Georgia, serif" fill="#2d2722">N</text>
+</svg>

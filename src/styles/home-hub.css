@@ -1,0 +1,610 @@
+@import './home-tokens.css';
+@import './home-bg.css';
+
+/* 主页枢纽子页 — 与 Sakurairo 蓝粉白同系 */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html.footprint-subpage-html,
+html.footprint-subpage-html body.home-hub-page {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+.home-hub-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  max-width: 100%;
+  overflow-x: hidden;
+  position: relative;
+  background: transparent;
+  color: var(--child-text);
+  font-family: var(--home-font);
+}
+
+/* 只抬主内容层；勿波及 fixed 挂件（天气/宠物/电台），否则会进文档流导致叠层与页脚错位 */
+.home-hub-page > main,
+.home-hub-page > #photoStoryRoot,
+.home-hub-page > .home-hub-footer,
+.home-hub-page > .archive-deco,
+.home-hub-page > .pr-shell,
+.home-hub-page > .lib-shell,
+.home-hub-page > #bootError {
+  position: relative;
+  z-index: 5;
+}
+
+.home-hub-page > .home-bg {
+  z-index: 0 !important;
+}
+
+/* 全站挂件强制 fixed；天气已嵌在宠物槽内，不再单独钉右上 */
+.home-hub-page > .pixel-pet,
+.home-hub-page > .mini-radio,
+.home-hub-page #pixelPet,
+.home-hub-page #miniRadio {
+  position: fixed !important;
+}
+
+/* 宠物尚未就绪时，天气临时落在 body 上仍用右下定位（见 site-widgets.css） */
+.home-hub-page > .site-widgets,
+.home-hub-page > #siteWidgets {
+  position: fixed !important;
+  top: auto !important;
+  left: auto !important;
+  right: max(0.9rem, env(safe-area-inset-right)) !important;
+  bottom: max(6.2rem, calc(env(safe-area-inset-bottom) + 5.4rem)) !important;
+  z-index: 41 !important;
+}
+
+.home-hub-page .pixel-pet-climate .site-widgets,
+.home-hub-page .pixel-pet-climate #siteWidgets {
+  position: static !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  z-index: auto !important;
+}
+
+.home-hub-page > .pixel-pet,
+.home-hub-page #pixelPet {
+  top: auto !important;
+  right: max(0.9rem, env(safe-area-inset-right)) !important;
+  bottom: max(0.9rem, env(safe-area-inset-bottom)) !important;
+  left: auto !important;
+  z-index: 42 !important;
+}
+
+.home-hub-page > .mini-radio,
+.home-hub-page #miniRadio {
+  top: auto !important;
+  left: max(0.85rem, env(safe-area-inset-left)) !important;
+  bottom: max(0.95rem, env(safe-area-inset-bottom)) !important;
+  right: auto !important;
+  z-index: 45 !important;
+}
+
+.home-hub-page > .mini-radio.is-collapsed,
+.home-hub-page #miniRadio.is-collapsed {
+  left: 0 !important;
+  bottom: max(5.5rem, calc(env(safe-area-inset-bottom) + 4.2rem)) !important;
+}
+
+@media (max-width: 720px) {
+  .home-hub-page > .mini-radio:not(.is-collapsed),
+  .home-hub-page #miniRadio:not(.is-collapsed) {
+    bottom: max(5.8rem, calc(env(safe-area-inset-bottom) + 5rem)) !important;
+  }
+
+  .home-hub-page > .mini-radio.is-collapsed,
+  .home-hub-page #miniRadio.is-collapsed {
+    bottom: max(6.4rem, calc(env(safe-area-inset-bottom) + 5.4rem)) !important;
+  }
+}
+
+/* 顶栏必须钉死 */
+.home-hub-page > .home-header,
+.home-hub-page .home-header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0;
+  right: 0;
+  z-index: 50 !important;
+}
+
+html.footprint-subpage-html {
+  min-height: 100vh;
+  min-height: 100dvh;
+  height: auto;
+}
+
+html.footprint-subpage-html body.home-hub-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  height: auto;
+  background: transparent;
+  color: var(--child-text);
+}
+
+.home-hub-page .fp-atmosphere,
+.home-hub-page .fp-stars-canvas {
+  display: none;
+}
+
+.home-hub-page.fp-about-page {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.home-hub-page .fp-about {
+  display: block;
+  flex: 1 1 auto;
+  width: min(720px, 100%);
+  max-width: 100%;
+  margin: 0 auto;
+  padding:
+    calc(var(--home-nav-offset, 4.75rem) + 1rem + env(safe-area-inset-top, 0px))
+    1.25rem
+    1.5rem;
+}
+
+/* 归档等内容更宽：撑开中间，把页脚顶到底 */
+.home-hub-page .fp-archive.archive-rich,
+.home-hub-page main.archive-rich {
+  width: min(1120px, 100%);
+  flex: 1 1 auto;
+}
+
+/* 枢纽页由内容区自己让顶栏，避免与 body padding 叠两层或失效 */
+body.has-fixed-home-nav.home-hub-page {
+  padding-top: 0;
+}
+
+.home-hub-page .fp-blog,
+.home-hub-page .fp-archive,
+.home-hub-page .fp-photos,
+.home-hub-page .fp-friends {
+  width: auto;
+  max-width: 100%;
+}
+
+/* 与主页一致的顶部导航（摄影 / 归档等枢纽子页） */
+.home-hub-page .home-header-inner {
+  width: min(1080px, 100%);
+}
+
+@media (max-width: 720px) {
+  .home-hub-page .home-header-inner {
+    flex-direction: row;
+    align-items: center;
+    padding:
+      0.5rem
+      max(0.75rem, env(safe-area-inset-right))
+      0.5rem
+      max(0.75rem, env(safe-area-inset-left));
+  }
+
+  .home-hub-page .home-nav {
+    justify-content: flex-start;
+    width: auto;
+    flex: 1 1 auto;
+  }
+}
+
+.home-hub-page .fp-about-back {
+  color: var(--child-text-muted);
+  border-bottom: none;
+  padding: 0.42rem 1rem 0.42rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(99, 179, 255, 0.22);
+  background: var(--child-bg-glass-strong);
+  box-shadow: var(--child-shadow);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.home-hub-page .fp-about-back:hover {
+  color: var(--child-primary);
+  border-color: rgba(139, 157, 255, 0.3);
+  background: #fff;
+  text-shadow: none;
+  box-shadow: var(--child-shadow-hover);
+}
+
+.home-hub-page .fp-about-title {
+  color: var(--child-text);
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+  filter: none;
+}
+
+.home-hub-page .fp-about-lead,
+.home-hub-page .fp-blog-item-summary,
+.home-hub-page .fp-about-section-body p {
+  color: var(--child-text-muted);
+}
+
+.home-hub-page .fp-blog-item,
+.home-hub-page .fp-friend-card,
+.home-hub-page .fp-about-section {
+  border-color: var(--child-border-glass);
+  background: var(--child-bg-glass-strong);
+  box-shadow: var(--child-shadow);
+}
+
+.home-hub-page .fp-blog-item:hover,
+.home-hub-page .fp-friend-card:hover {
+  border-color: rgba(99, 179, 255, 0.28);
+  box-shadow: var(--child-shadow-hover);
+}
+
+.home-hub-page .fp-blog-tag,
+.home-hub-page .fp-archive-tag {
+  background: var(--child-primary-soft);
+  border-color: rgba(139, 157, 255, 0.2);
+  color: var(--child-primary);
+}
+
+.home-hub-page .fp-archive-tag.is-active,
+.home-hub-page .fp-archive-tag:hover {
+  background: rgba(79, 172, 254, 0.12);
+  border-color: rgba(79, 172, 254, 0.28);
+  color: var(--child-accent);
+}
+
+.home-hub-page .fp-blog-item-title,
+.home-hub-page .fp-blog-post-title {
+  color: var(--child-text);
+}
+
+.home-hub-page .fp-blog,
+.home-hub-page .fp-archive,
+.home-hub-page .fp-friends {
+  padding-bottom: 0;
+}
+
+.home-hub-page .site-legal {
+  margin-top: 0;
+  padding: 0;
+  background: none;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+  border-top: none;
+  gap: 0.65rem;
+}
+
+.home-hub-page .fp-about-links {
+  margin-top: 2rem;
+  border-top-color: var(--child-border);
+}
+
+/* 独立页脚：青金硬边设备感 */
+.home-hub-footer {
+  flex-shrink: 0;
+  width: 100%;
+  margin-top: auto !important;
+  margin-bottom: 0;
+  background: rgba(6, 14, 28, 0.96);
+  border-top: 2px solid #020713;
+  color: #8ba3b8;
+  box-shadow: none;
+  position: relative;
+  z-index: 6;
+}
+
+.home-hub-footer-inner {
+  width: min(720px, 100%);
+  max-width: 100%;
+  margin: 0 auto;
+  /* 底部留出迷你电台 / 像素宠物的安全区，避免盖住备案 */
+  padding: 0.85rem 1rem max(5.25rem, calc(0.95rem + env(safe-area-inset-bottom)));
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.home-hub-footer .site-legal {
+  gap: 0.42rem;
+  margin-top: 0;
+  width: 100%;
+}
+
+.home-hub-footer .site-legal-beian-item {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(255, 180, 210, 0.45);
+  color: #5a5472;
+  font-size: 0.7rem;
+  font-weight: 650;
+  padding: 0.2rem 0.55rem;
+}
+
+.home-hub-footer .site-legal-runtime,
+.home-hub-footer .site-legal-link,
+.home-hub-footer .site-legal-copy {
+  color: #5a5472;
+  font-size: 0.7rem;
+}
+
+.home-hub-footer #runtime_span {
+  color: #5a5472;
+  font-size: 0.7rem;
+  padding: 0.14rem 0.5rem;
+  background: linear-gradient(135deg, rgba(255, 190, 220, 0.5), rgba(180, 220, 255, 0.5));
+}
+
+/* 子页统一浅色排版 — 覆盖宇宙深色残留 */
+
+.home-hub-page .fp-about-title,
+.home-hub-page .fp-about-lead,
+.home-hub-page .fp-about-section-body p,
+.home-hub-page .fp-friends-empty,
+.home-hub-page .fp-blog-empty {
+  text-shadow: none;
+}
+
+.home-hub-page .fp-about-title {
+  letter-spacing: 0.04em;
+  font-weight: 700;
+}
+
+.home-hub-page .fp-about-back {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  text-shadow: none;
+}
+
+.home-hub-page .fp-about-sections {
+  gap: 1.25rem;
+}
+
+.home-hub-page .fp-about-section {
+  padding: 1.15rem 1.25rem;
+  border-radius: var(--child-radius);
+}
+
+.home-hub-page .fp-about-section-title {
+  margin: 0 0 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: none;
+  color: var(--child-accent);
+  opacity: 1;
+}
+
+.home-hub-page .fp-about-links {
+  gap: 0.65rem 0.85rem;
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+}
+
+.home-hub-page .fp-about-link {
+  min-height: 2.3rem;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(99, 179, 255, 0.2);
+  background: var(--child-bg-glass-strong);
+  box-shadow: var(--child-shadow);
+  text-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.home-hub-page .fp-about-link:hover {
+  color: var(--child-primary);
+  text-shadow: none;
+  border-color: rgba(139, 157, 255, 0.28);
+  background: #fff;
+  box-shadow: var(--child-shadow-hover);
+  transform: translateY(-1px);
+}
+
+.home-hub-page .fp-blog-date {
+  color: var(--child-text-light);
+  letter-spacing: normal;
+}
+
+.home-hub-page .fp-blog-item-title,
+.home-hub-page .fp-blog-post-title {
+  text-shadow: none;
+}
+
+.home-hub-page .fp-blog-item-foot {
+  border-top-color: rgba(99, 179, 255, 0.1);
+}
+
+.home-hub-page .fp-blog-read {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.22rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--child-primary);
+  background: var(--child-primary-soft);
+  border: 1px solid rgba(139, 157, 255, 0.2);
+  opacity: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.home-hub-page .fp-blog-item:hover .fp-blog-read {
+  opacity: 1;
+  background: rgba(139, 157, 255, 0.16);
+  border-color: rgba(139, 157, 255, 0.28);
+}
+
+.home-hub-page .fp-blog-empty,
+.home-hub-page .fp-friends-empty {
+  color: var(--child-text-light);
+  border: 1px dashed rgba(99, 179, 255, 0.25);
+  border-radius: var(--child-radius);
+  background: var(--child-bg-glass);
+  padding: 1.5rem 1rem;
+}
+
+.home-hub-page .fp-archive-source {
+  color: var(--child-accent);
+  background: rgba(79, 172, 254, 0.1);
+  border-color: rgba(79, 172, 254, 0.22);
+}
+
+.home-hub-page .fp-archive-tags {
+  margin-bottom: 1.25rem;
+}
+
+.home-hub-page .fp-friend-card {
+  background: var(--child-bg-glass-strong);
+  border-color: var(--child-border-glass);
+  box-shadow: var(--child-shadow);
+}
+
+.home-hub-page .fp-friend-card:hover {
+  box-shadow: var(--child-shadow-hover);
+}
+
+.home-hub-page .fp-friend-card-link {
+  flex-direction: column;
+  align-items: stretch;
+  height: 100%;
+}
+
+.home-hub-page .fp-friend-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+}
+
+.home-hub-page .fp-friend-name {
+  color: var(--child-text);
+  text-shadow: none;
+}
+
+.home-hub-page .fp-friend-desc {
+  color: var(--child-text-muted);
+  flex: 1;
+}
+
+.home-hub-page .fp-friend-foot {
+  margin-top: 0.75rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid rgba(99, 179, 255, 0.1);
+}
+
+.home-hub-page .fp-friend-visit {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.22rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--child-primary);
+  background: var(--child-primary-soft);
+  border: 1px solid rgba(139, 157, 255, 0.2);
+  opacity: 1;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.home-hub-page .fp-friend-card:hover .fp-friend-visit {
+  opacity: 1;
+  background: rgba(139, 157, 255, 0.16);
+  border-color: rgba(139, 157, 255, 0.28);
+}
+
+@media (max-width: 720px) {
+  .home-hub-page .fp-about {
+    width: min(720px, 100%);
+    max-width: 100%;
+    padding:
+      calc(var(--home-nav-offset, 3.35rem) + 0.65rem + env(safe-area-inset-top, 0px))
+      max(0.9rem, env(safe-area-inset-right))
+      1.15rem
+      max(0.9rem, env(safe-area-inset-left));
+  }
+
+  .home-hub-page .fp-about-back {
+    min-height: 2.5rem;
+    padding: 0.45rem 0.95rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .home-hub-page .fp-about-title {
+    font-size: clamp(1.45rem, 7vw, 1.85rem);
+    letter-spacing: 0.03em;
+  }
+
+  .home-hub-page .fp-about-lead {
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .home-hub-page .fp-archive-tags {
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .home-hub-page .fp-archive-tag {
+    min-height: 2.2rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .home-hub-page .fp-blog-item-foot {
+    padding: 0.65rem 0.95rem 0.9rem;
+    gap: 0.55rem;
+  }
+
+  .home-hub-page .fp-blog-read,
+  .home-hub-page .fp-friend-visit {
+    min-height: 2.2rem;
+    padding: 0.35rem 0.8rem;
+  }
+
+  .home-hub-page .fp-about-link {
+    min-height: 2.35rem;
+    align-items: center;
+    padding: 0.4rem 0.85rem;
+  }
+
+  .home-hub-page .fp-about-section {
+    padding: 1rem 1.05rem;
+  }
+
+  .home-hub-footer-inner {
+    width: min(720px, 100%);
+    max-width: 100%;
+    padding:
+      1rem
+      max(0.9rem, env(safe-area-inset-right))
+      max(1.1rem, env(safe-area-inset-bottom))
+      max(0.9rem, env(safe-area-inset-left));
+  }
+}

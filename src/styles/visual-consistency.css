@@ -1,0 +1,136 @@
+@import './interaction-polish.css';
+
+/* 全站视觉校准：HUD/导航保留像素字；长文正文用可读中文无衬线（不用 Inter 覆盖 --px-*） */
+:root{
+  --ask-font-body:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  --ask-font-display:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  --ask-font-code:"JetBrains Mono","Cascadia Code",Consolas,monospace;
+  --ask-readable:#26364a;
+  --ask-readable-muted:#5b6e80;
+  --ask-readable-link:#22658e;
+}
+body:not(.games-pixel-page){
+  --fp-ui-font:var(--px-font-cn);
+  --fp-font:var(--px-font);
+  --hr-tech:var(--px-font);
+  --ar-font:var(--ask-font-body);
+  --ar-body:var(--ask-font-body);
+  --hr-font:var(--ask-font-body);
+  text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased
+}
+/* 正文可读；不覆盖 .px-nav / .home-nav / 宠物 / 天气 HUD */
+body:not(.games-pixel-page) :where(.home-prose,.ask-read-card,.ask-read-body,.fp-about-section,.fp-friends-card,.ss-card-body,.ar-card,.pr-note,.lib-summary,p,li,dd,figcaption,blockquote){font-family:var(--ask-font-body);overflow-wrap:anywhere;word-break:break-word}
+body:not(.games-pixel-page) :where(h1,h2,h3,h4,h5,h6){font-family:var(--ask-font-display);line-height:1.28;overflow-wrap:anywhere;text-wrap:balance}
+body:not(.games-pixel-page) :where(button,a,.home-nav-link,.pixel-nav-link,.px-nav-link){max-width:100%}
+
+/* HUD 强制像素字 */
+body:not(.games-pixel-page) :where(.px-nav,.px-nav-link,.px-nav-logo-text,.px-nav-back,.px-nav-title,.home-nav,.home-nav-link,.home-brand,.site-widget,.site-widget-term-pill,.pixel-pet-toolbar,.pixel-pet-bubble,.lib-scifi-cat,.gp-frame){font-family:var(--px-font-cn)!important}
+
+/* 英文技术标签 */
+body:not(.games-pixel-page) :where(.admin-kicker,.ask-hero-kicker,.hr-kicker,.star-search-dialog header small,.reading-journey em,[class$="-eyebrow"],[class$="-kicker"]){font-family:var(--ask-font-code)!important;letter-spacing:.1em}
+
+/* 浅色主题：避免白底浅蓝字 */
+html.askuary-theme-light body:not(.games-pixel-page) :where(.home-prose,.ask-read-card,.fp-about-section,.fp-friends-card,.ss-card,.ar-card,.pr-section,.lib-card){color:var(--ask-readable)}
+html.askuary-theme-light body:not(.games-pixel-page) :where(.home-prose p,.home-prose li,.ask-read-card p,.ask-read-card li,.fp-about-lead,.fp-friends-sub,.ss-card p,.ar-card p,.pr-note,.lib-summary){color:var(--ask-readable-muted)!important;text-shadow:none!important}
+html.askuary-theme-light body:not(.games-pixel-page) :where(.home-prose a,.ask-read-card a,.fp-about-section a,.ss-card a,.ar-card a){color:var(--ask-readable-link)}
+html.askuary-theme-light .ask-read-card{--ask-read-ink:#26364a;--ask-read-muted:#53687b}
+html.askuary-theme-light body:not(.games-pixel-page) :where(.ar-post-title,.ar-title,.ss-title,.fp-about-title,.fp-friends-title,.pr-section-title,.lib-title){color:#20344a!important;-webkit-text-fill-color:#20344a!important;text-shadow:none!important}
+html.askuary-theme-light body:not(.games-pixel-page) :where(.ar-tag,.ss-tag,.fp-blog-tag,.ask-hero-meta-item){color:#20384d!important;background:#e7f0f5!important;border:2px solid #020713!important;border-radius:0!important;box-shadow:1px 1px 0 #020713!important}
+
+/* 深色星空页标题不能再被旧渐变压成近黑色 */
+html.askuary-theme-dark body:not(.games-pixel-page) :where(.fp-about-title,.fp-friends-title,.home-hero-title),body.home-theme-dark:not(.games-pixel-page) :where(.fp-about-title,.fp-friends-title,.home-hero-title){color:#edf7ff!important;-webkit-text-fill-color:#edf7ff!important;text-shadow:0 3px 24px rgba(75,185,235,.2)!important}
+html.askuary-theme-dark body:not(.games-pixel-page) :where(.fp-about-lead,.fp-friends-sub,.home-hero-lead),body.home-theme-dark:not(.games-pixel-page) :where(.fp-about-lead,.fp-friends-sub,.home-hero-lead){color:#aabed0!important;text-shadow:none!important}
+.fp-screen--hero .fp-scroll-hint-label{color:rgba(205,228,247,.76)!important;text-shadow:0 2px 14px rgba(0,0,0,.7)}
+.fp-screen--hero .fp-scroll-hint-arrow{color:#75d8ff!important;opacity:.9}
+html.askuary-theme-light body.starport-identity:not(.games-pixel-page) :where(.fp-about-title,.fp-friends-title),body.starport-identity :where(.fp-about-title,.fp-friends-title){color:#edf7ff!important;-webkit-text-fill-color:#edf7ff!important;text-shadow:0 3px 24px rgba(75,185,235,.2)!important}
+html.askuary-theme-light body.starport-identity:not(.games-pixel-page) :where(.fp-about-lead,.fp-friends-sub),body.starport-identity :where(.fp-about-lead,.fp-friends-sub){color:#aabed0!important;text-shadow:none!important}
+
+/* 控件文字不再跑出边框 */
+body:not(.games-pixel-page) :where(.home-nav-link,.pixel-nav-link,.fp-about-back,.fp-friends-action,.ask-ai-btn,.site-widget){white-space:normal;overflow-wrap:anywhere;text-align:center;line-height:1.35}
+body:not(.games-pixel-page) :where(.admin-row button,.admin-top button){white-space:nowrap;text-align:center;line-height:1.25}
+body:not(.games-pixel-page) :where(.admin-row,.admin-panel,.ask-read-card,.fp-about-section,.fp-friends-card,.ss-card,.ar-card,.pr-section,.lib-card){min-width:0}
+body:not(.games-pixel-page) :where(img,video,canvas,iframe,table){max-width:100%}
+body:not(.games-pixel-page) :where(pre,table){overflow-x:auto}
+
+/* 天气 HUD 保持像素字；搜索/阅读浮层用可读体 */
+.star-search-trigger,.star-search-dialog,.reading-journey{font-family:var(--ask-font-body)!important}
+.site-widget,.site-widget-term-pill,#siteThemeLabel{font-family:var(--px-font-cn)!important}
+.site-widget{font-size:.58rem;line-height:1.25;image-rendering:pixelated}
+.site-widget-term-pill{font-size:.48rem}
+.site-widget-temp{font-family:var(--px-font)!important;font-size:.42rem}
+
+@media(max-width:720px){
+  body:not(.games-pixel-page){font-size:16px}
+  body:not(.games-pixel-page) :where(.home-nav-link,.pixel-nav-link){font-size:.72rem;letter-spacing:0}
+  body:not(.games-pixel-page) :where(h1){font-size:clamp(1.45rem,7vw,2rem)}
+  body:not(.games-pixel-page) :where(button,a){overflow-wrap:anywhere}
+}
+
+/* 完整日间画布：硬边设备语言 + 高对比正文（无粉雾玻璃）。 */
+html.askuary-theme-light{color-scheme:light;--ask-void:#d5e2ea;--ask-navy:#c4d5e0;--ask-panel:rgba(242,247,250,.96);--ask-ink:#142b3e;--ask-muted:#3f586c;--ask-line:#020713}
+html.askuary-theme-light body:not(.games-pixel-page){color:#1d3346!important;background-color:#d5e2ea!important;background-image:radial-gradient(circle at 14% 8%,rgba(90,170,200,.16),transparent 32rem),radial-gradient(circle at 82% 16%,rgba(70,130,165,.1),transparent 30rem)!important}
+html.askuary-theme-light body:not(.games-pixel-page) :where(.home-header,.pixel-nav,.page-chrome,.hr-glass,.hr-panel,.hr-profile-card,.hr-post,.hr-lyric-bar,.ss-stage,.ss-card,.ar-card,.pr-section,.pr-note,.pr-album,.lib-card,.fp-about-section,.fp-friends-card,.fp-blog-card,.ask-read-card){color:#1d3346!important;background:rgba(242,247,250,.96)!important;border:2px solid #020713!important;border-radius:2px!important;box-shadow:3px 3px 0 #020713!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;text-shadow:none!important}
+html.askuary-theme-light body:not(.games-pixel-page) :where(.home-header,.pixel-nav,.page-chrome){background:rgba(236,244,248,.98)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+html.askuary-theme-light body:not(.games-pixel-page) :where(.home-nav-link,.pixel-nav-link,.home-brand,.home-brand .hr-glitch,.page-chrome a,.page-chrome button){color:#20384d!important;-webkit-text-fill-color:#20384d!important}
+html.askuary-theme-light body:not(.games-pixel-page) :where(.home-nav-link.is-active,.pixel-nav-link.is-active){color:#8a6a00!important;-webkit-text-fill-color:#8a6a00!important;border-color:#c9a227!important;background:#fff4c2!important}
+html.askuary-theme-light body:not(.games-pixel-page) :where(.home-bg,.home-bg-veil,.weather-atmosphere){opacity:.14!important;mix-blend-mode:multiply!important}
+html.askuary-theme-light body:not(.games-pixel-page) :where(.home-particles,.home-particle-canvas){opacity:.2!important}
+html.askuary-theme-light body:not(.games-pixel-page) :where(input,textarea,select){color:#1d3346!important;background:#f7fbfd!important;border:2px solid #020713!important;border-radius:0!important;box-shadow:2px 2px 0 #020713!important}
+html.askuary-theme-light body:not(.games-pixel-page) :where(h1,h2,h3,h4,strong,.hr-profile-name,.hr-panel-head,.ar-title,.ss-title,.pr-section-title,.lib-title){color:#102636!important;-webkit-text-fill-color:#102636!important;text-shadow:none!important}
+html.askuary-theme-light body:not(.games-pixel-page) :where(p,li,small,time,.hr-profile-bio,.hr-notice-body,.hr-gallery-cap,.ar-summary,.ss-hero-lead,.pr-note,.lib-summary){color:#334f63!important;text-shadow:none!important}
+html.askuary-theme-light body:not(.games-pixel-page) :where(.hr-kicker,[class$="-kicker"],[class$="-eyebrow"]){color:#1f6f8f!important}
+html.askuary-theme-light body.starport-content .px-nav{color:#1d3346!important;background:rgba(236,244,248,.98)!important;border:2px solid #020713!important;box-shadow:3px 3px 0 #020713!important;backdrop-filter:none!important}
+html.askuary-theme-light body.starport-content :where(.px-nav-logo-text,.px-nav-back,.px-nav-title,.px-nav-search){color:#20384d!important;background:#e7f0f5!important;border:2px solid #020713!important;box-shadow:2px 2px 0 #020713!important;text-shadow:none!important}
+html.askuary-theme-light body.starport-articles .ar-hero{color:#173047!important;background:linear-gradient(180deg,#eef5f9,#e2eef5)!important;border:2px solid #020713!important;box-shadow:4px 4px 0 #020713!important}
+html.askuary-theme-light body.starport-articles :where(.home-hero-title,.ar-list-head h2,.hr-post-title){color:#102636!important;-webkit-text-fill-color:#102636!important;opacity:1!important}
+html.askuary-theme-light body.starport-articles .ar-hero::after{color:#3f6076!important;opacity:.85!important;text-shadow:none!important}
+html.askuary-theme-light body.starport-articles .hr-post{color:#1d3346!important;background:#f2f7fa!important;border:2px solid #020713!important;box-shadow:3px 3px 0 #020713!important}
+html.askuary-theme-light body.starport-articles .hr-post-body{background:#eaf2f7!important}
+html.askuary-theme-light body.starport-articles :where(.hr-post-date,.hr-post-ai-body){color:#3f586c!important}
+html.askuary-theme-light body.starport-signals .ss-stage{background:#eaf2f7!important;border:2px solid #020713!important;box-shadow:4px 4px 0 #020713!important}
+html.askuary-theme-light body:not(.games-pixel-page) :where(.site-widget,.mini-radio,.star-search-dialog>section,.fp-friend-comments,.ask-read-comments){border:2px solid #020713!important;border-radius:2px!important;box-shadow:3px 3px 0 #020713!important;backdrop-filter:none!important}
+
+/* 夜间统一为深海军蓝硬边设备，不使用紫灰软阴影。 */
+html.askuary-theme-dark{color-scheme:dark;--child-text:#e7f1fb;--child-text-muted:#a9bfd2;--child-text-light:#7893aa;--child-bg:#071222;--child-bg-soft:#0b1a2d;--child-border:#020713;--footer-text:#b8cada;--footer-text-dim:#8198ac;--footer-border:#020713;--footer-bg-start:#071222;--footer-bg-end:#09182a;--ask-void:#020814;--ask-navy:#06152a;--ask-panel:rgba(7,22,41,.96);--ask-ink:#edf6ff;--ask-muted:#94abc0;--ask-line:#020713}
+html.askuary-theme-dark body:not(.games-pixel-page){color:#e7f1fb!important;background-color:#030a16!important;background-image:radial-gradient(circle at 18% 10%,rgba(22,87,132,.2),transparent 34rem),radial-gradient(circle at 82% 18%,rgba(17,66,108,.16),transparent 30rem)!important}
+html.askuary-theme-dark body:not(.games-pixel-page) :where(.home-header,.pixel-nav,.page-chrome,.hr-glass,.hr-panel,.hr-profile-card,.hr-post,.hr-lyric-bar,.ss-stage,.ss-card,.ar-card,.pr-section,.pr-note,.pr-album,.lib-card,.fp-about-section,.fp-friends-card,.fp-blog-card,.ask-read-card){color:#e7f1fb!important;background:rgba(7,19,35,.96)!important;border:2px solid #020713!important;border-radius:2px!important;box-shadow:3px 3px 0 #020713!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+html.askuary-theme-dark body:not(.games-pixel-page) :where(.home-nav-link,.pixel-nav-link,.home-brand,.home-brand .hr-glitch,.page-chrome a,.page-chrome button){color:#dceaf6!important;-webkit-text-fill-color:#dceaf6!important}
+html.askuary-theme-dark body:not(.games-pixel-page) :where(.home-nav-link.is-active,.pixel-nav-link.is-active){color:#ffe566!important;-webkit-text-fill-color:#ffe566!important;border-color:#ffe566!important;background:#1a2848!important}
+html.askuary-theme-dark body:not(.games-pixel-page) :where(.home-bg-veil){background:linear-gradient(180deg,rgba(3,12,25,.36),rgba(3,11,23,.72))!important}
+html.askuary-theme-dark body:not(.games-pixel-page) :where(input,textarea,select){color:#e4eff8!important;background:#04101f!important;border:2px solid #020713!important;border-radius:0!important;box-shadow:2px 2px 0 #020713!important}
+
+/* 主页只保留导航栏搜索；全站搜索仍可用 / 快捷键打开。 */
+body.starport-home .star-search-trigger{display:none!important}
+
+/* 主页背景滚动字：提高对比，仍不抢前景面板。 */
+html.askuary-theme-light body.starport-home .quote-bg{opacity:1!important;mix-blend-mode:normal!important}
+html.askuary-theme-light body.starport-home .quote-bg-line{color:rgba(18,48,70,.78)!important;text-shadow:0 1px 0 rgba(255,255,255,.45)!important;font-weight:800!important;font-size:clamp(.86rem,1.35vw,1.12rem)!important}
+html.askuary-theme-dark body.starport-home .quote-bg{opacity:1!important;mix-blend-mode:normal!important}
+html.askuary-theme-dark body.starport-home .quote-bg-line{color:rgba(186,224,248,.42)!important;text-shadow:none!important;font-weight:700!important}
+body.starport-home .quote-bg-col{opacity:.9!important}
+html.askuary-theme-dark body.home-theme-dark.starport-home{background:#030a16 radial-gradient(circle at 18% 10%,rgba(22,87,132,.2),transparent 34rem)!important}
+html.askuary-theme-dark body.home-theme-dark.starport-home::before{background:linear-gradient(180deg,rgba(3,12,25,.2),rgba(3,10,22,.68))!important}
+
+/* 浅色：控件与短代码保持硬边可读，不回退粉紫玻璃 */
+html.askuary-theme-light body:not(.games-pixel-page) :where(.site-widget,.mini-radio,.star-search-dialog>section){color:#1d3346!important;background:rgba(242,247,250,.98)!important}
+html.askuary-theme-light body:not(.games-pixel-page) :where(.mini-radio-title,.mini-radio-artist,.mini-radio-time){color:#1d3346!important;-webkit-text-fill-color:#1d3346!important}
+html.askuary-theme-light body:not(.games-pixel-page) :where(.mini-radio-btn,.mini-radio-dock){color:#20384d!important;background:#e7f0f5!important;border-color:#020713!important}
+html.askuary-theme-light body:not(.games-pixel-page) .site-widget-temp{color:#8a6a00!important}
+html.askuary-theme-light body:not(.games-pixel-page) .site-widget-city{color:#1f6f8f!important}
+html.askuary-theme-light body:not(.games-pixel-page) :where(.ask-note,.ask-fold,.ask-tabs,.child-alert,.admonition){color:#1d3346!important;background:#eef5f9!important;border:2px solid #020713!important;border-radius:0!important;box-shadow:2px 2px 0 #020713!important}
+html.askuary-theme-light body:not(.games-pixel-page) :where(.ask-tabs-btn,.child-badge){color:#20384d!important;background:#e7f0f5!important;border:2px solid #020713!important;border-radius:0!important;box-shadow:1px 1px 0 #020713!important}
+html.askuary-theme-light body:not(.games-pixel-page) :where(.ask-tabs-btn.is-active,.ask-tabs-btn:hover){color:#041018!important;background:#79d9ff!important}
+html.askuary-theme-light body:not(.games-pixel-page) .ask-note--warning{background:#fff4c2!important;border-left:4px solid #c9a227!important}
+html.askuary-theme-light body:not(.games-pixel-page) :where(.pixel-pet-bubble,.pixel-pet-toolbar){color:#1d3346!important;background:rgba(242,247,250,.98)!important;border:2px solid #020713!important;box-shadow:2px 2px 0 #020713!important;backdrop-filter:none!important}
+html.askuary-theme-light body:not(.games-pixel-page) :where(.pixel-pet-action,.pixel-pet-switch,.pixel-pet-hide,.pixel-pet-restore){color:#20384d!important;background:#e7f0f5!important;border:2px solid #020713!important;box-shadow:2px 2px 0 #020713!important}
+html.askuary-theme-light body.starport-home #homeShell :where(.hr-panel--notice .hr-notice-item,.hr-notice-track){background:#050e1c!important;color:#eaf7ff!important;border-color:#020713!important;box-shadow:none!important}
+html.askuary-theme-light body.starport-blog .fp-blog-item,html.askuary-theme-light body.starport-blog-post .fp-blog-article{color:#1d3346!important;background:rgba(242,247,250,.98)!important;border:2px solid #020713!important;box-shadow:3px 3px 0 #020713!important}
+html.askuary-theme-light body.starport-blog :where(.fp-about-title,.fp-blog-item-title,.fp-blog-post-title){color:#102636!important;-webkit-text-fill-color:#102636!important}
+html.askuary-theme-light body.starport-blog :where(.fp-about-lead,.fp-blog-item-summary,.fp-blog-prose){color:#334f63!important}
+
+/* 暗色：正文与次级信息再抬一点对比 */
+html.askuary-theme-dark body:not(.games-pixel-page) :where(p,li,small,time,.hr-profile-bio,.hr-notice-body,.ar-summary,.ss-hero-lead,.pr-note,.lib-summary,.fp-blog-item-summary,.ask-ai-body,.ask-ai-sub){color:#c5d8e8!important}
+html.askuary-theme-dark body:not(.games-pixel-page) :where(.ask-note,.ask-fold,.ask-tabs,.child-alert,.admonition){color:#d7e6f2!important;background:rgba(8,22,40,.9)!important;border:2px solid #020713!important;box-shadow:2px 2px 0 #020713!important}
+html.askuary-theme-dark body:not(.games-pixel-page) :where(.pixel-pet-bubble,.pixel-pet-toolbar){color:#eaf7ff!important;background:rgba(8,18,34,.96)!important;border:2px solid #020713!important;box-shadow:2px 2px 0 #020713!important}
+html.askuary-theme-dark body.starport-home #homeShell :where(.hr-panel--notice,.hr-panel--music,.hr-profile-card){border-color:#020713!important}
+html.askuary-theme-dark body.starport-home #homeShell .hr-notice-item{background:#050e1c!important;color:#eaf7ff!important}

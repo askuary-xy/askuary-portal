@@ -1,0 +1,41 @@
+/* 内容页亮度/面板基准（源自碎念），供文章·馆藏·归档·摄影·身份页共用 */
+
+body.pixel-hub,
+body.starport-content,
+body.archive-rich-page,
+body.photos-rich,
+body.starport-identity,
+body.lib-scifi-page,
+body.ss-page {
+  --starport-ink: #e8f4ff;
+  --starport-muted: #8ba3b8;
+  --starport-cyan: #79d9ff;
+  --starport-gold: #ffe566;
+  --starport-accent: #f0cf86;
+  --starport-panel: #0e1424;
+  --starport-surface: rgba(8, 18, 34, 0.92);
+  --starport-veil: linear-gradient(180deg, rgba(2, 8, 18, 0.3), rgba(2, 8, 18, 0.58));
+}
+
+body.ss-page.pixel-hub {
+  --ss-ink: var(--starport-ink);
+  --ss-muted: var(--starport-muted);
+  --ss-cyan: var(--starport-cyan);
+  --ss-gold: var(--starport-gold);
+  --ss-accent: var(--starport-accent);
+}
+
+/* 单层氛围罩：压掉额外亮雾 */
+body.starport-content .home-bg-veil,
+body.archive-rich-page .home-bg-veil,
+body.photos-rich .home-bg-veil {
+  opacity: 0.45 !important;
+  mix-blend-mode: normal !important;
+  background: var(--starport-veil) !important;
+}
+
+body.starport-content .home-bg::after,
+body.archive-rich-page::after {
+  background: var(--starport-veil) !important;
+  opacity: 0.85;
+}

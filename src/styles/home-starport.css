@@ -1,0 +1,317 @@
+body.home-page.starport-home {
+  --sp-bg: #030817;
+  --sp-panel: rgba(7, 17, 37, 0.82);
+  --sp-panel-soft: rgba(10, 25, 50, 0.68);
+  --sp-border: rgba(120, 215, 255, 0.16);
+  --sp-border-strong: rgba(232, 183, 91, 0.32);
+  --sp-text: #eef6ff;
+  --sp-muted: #8fa4c3;
+  --sp-cyan: #78d7ff;
+  --sp-gold: #e8b75b;
+  --sp-shadow: 0 22px 70px rgba(0, 4, 16, 0.46);
+  color: var(--sp-text);
+  background:
+    radial-gradient(circle at 18% 12%, rgba(29, 91, 150, 0.2), transparent 30%),
+    radial-gradient(circle at 82% 18%, rgba(232, 183, 91, 0.08), transparent 26%),
+    radial-gradient(circle at 50% 90%, rgba(32, 74, 126, 0.15), transparent 38%),
+    linear-gradient(180deg, #030817 0%, #071229 48%, #030817 100%);
+  background-attachment: fixed;
+}
+
+body.starport-home::before {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  content: "";
+  pointer-events: none;
+  opacity: 0.42;
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.7) 0 1px, transparent 1.4px),
+    radial-gradient(circle at 72% 32%, rgba(120, 215, 255, 0.65) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 38% 76%, rgba(232, 183, 91, 0.58) 0 1px, transparent 1.4px);
+  background-size: 180px 180px, 240px 240px, 320px 320px;
+}
+
+body.starport-home .quote-bg {
+  opacity: 1;
+  mix-blend-mode: normal;
+}
+
+body.starport-home .quote-bg-line {
+  color: rgba(186, 224, 248, 0.42);
+  text-shadow: none;
+  font-weight: 700;
+}
+
+body.starport-home .home-header,
+body.starport-home .home-header.is-scrolled {
+  background: rgba(3, 8, 23, 0.8);
+  border-bottom: 1px solid var(--sp-border);
+  box-shadow: 0 12px 36px rgba(0, 4, 16, 0.28);
+  backdrop-filter: blur(18px) saturate(1.15);
+  -webkit-backdrop-filter: blur(18px) saturate(1.15);
+}
+
+body.starport-home .home-brand {
+  color: var(--sp-cyan);
+  background: none;
+  font-family: var(--hr-tech);
+  font-weight: 600;
+  text-shadow: 0 0 16px rgba(120, 215, 255, 0.35);
+}
+
+body.starport-home .home-nav a,
+body.starport-home .home-nav .home-nav-link {
+  padding: 0.42rem 0.65rem;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--sp-muted);
+  background: transparent;
+  box-shadow: none;
+  font-family: var(--hr-font);
+  font-size: 0.72rem;
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+body.starport-home .home-nav a:hover,
+body.starport-home .home-nav a.is-active,
+body.starport-home .home-nav .home-nav-link:hover,
+body.starport-home .home-nav .home-nav-link.is-active {
+  color: var(--sp-text);
+  border-color: var(--sp-border);
+  background: rgba(120, 215, 255, 0.08);
+}
+
+body.starport-home .home-search-field {
+  border: 1px solid var(--sp-border);
+  border-radius: 8px;
+  color: var(--sp-text);
+  background: rgba(7, 17, 37, 0.72);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+body.starport-home .home-search-field input {
+  color: var(--sp-text);
+}
+
+body.starport-home .home-search-panel {
+  border: 1px solid var(--sp-border);
+  border-radius: 12px;
+  color: var(--sp-text);
+  background: rgba(5, 13, 30, 0.96);
+  box-shadow: var(--sp-shadow);
+}
+
+body.starport-home .home-main {
+  position: relative;
+  z-index: 2;
+  padding-top: 2rem;
+}
+
+body.starport-home .hr-glass,
+body.starport-home .hr-profile-card,
+body.starport-home .hr-brand-mark,
+body.starport-home .hr-panel,
+body.starport-home .hr-post,
+body.starport-home .hr-lyric-bar {
+  border: 1px solid var(--sp-border);
+  border-radius: 16px;
+  color: var(--sp-text);
+  background:
+    linear-gradient(135deg, rgba(120, 215, 255, 0.045), transparent 36%),
+    var(--sp-panel);
+  box-shadow:
+    var(--sp-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+  backdrop-filter: blur(18px) saturate(1.1);
+  -webkit-backdrop-filter: blur(18px) saturate(1.1);
+}
+
+body.starport-home .hr-profile-card {
+  position: relative;
+  min-height: 275px;
+  padding: 1.25rem 17rem 1.5rem 1.4rem;
+  overflow: hidden;
+  border-color: rgba(120, 215, 255, 0.2);
+}
+
+body.starport-home .hr-profile-card::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 42%;
+  height: 100%;
+  content: "";
+  pointer-events: none;
+  background: radial-gradient(circle at 65% 48%, rgba(120, 215, 255, 0.12), transparent 60%);
+}
+
+.hr-home-navigator {
+  position: absolute;
+  right: 1rem;
+  bottom: -8rem;
+  z-index: 1;
+  width: 15rem;
+  height: auto;
+  pointer-events: none;
+  filter: brightness(0.82) saturate(0.82) drop-shadow(0 0 22px rgba(120, 215, 255, 0.13));
+  opacity: 0.82;
+}
+
+body.starport-home .hr-brand-mark {
+  position: relative;
+  z-index: 2;
+  padding: 0.7rem 0.85rem;
+  background: rgba(3, 10, 24, 0.54);
+}
+
+body.starport-home .hr-profile-copy {
+  position: relative;
+  z-index: 2;
+}
+
+body.starport-home .hr-profile-name,
+body.starport-home .hr-section-title {
+  color: var(--sp-text);
+  background: none;
+  -webkit-text-fill-color: currentColor;
+}
+
+body.starport-home .hr-glitch,
+body.starport-home .home-brand--glitch {
+  color: var(--sp-text);
+  background: none;
+  text-shadow: none;
+  -webkit-text-fill-color: currentColor;
+}
+
+body.starport-home .hr-glitch::before,
+body.starport-home .hr-glitch::after,
+body.starport-home .home-brand--glitch::before,
+body.starport-home .home-brand--glitch::after {
+  display: none;
+  content: none;
+}
+
+body.starport-home .hr-kicker,
+body.starport-home .hr-section-code,
+body.starport-home .hr-panel-code,
+body.starport-home .hr-wave-slim-label {
+  color: var(--sp-cyan);
+}
+
+body.starport-home .hr-profile-bio,
+body.starport-home .hr-notice-body,
+body.starport-home .hr-post-summary {
+  color: var(--sp-muted);
+}
+
+body.starport-home .hr-stat-num,
+body.starport-home .hr-panel-head h2,
+body.starport-home .hr-notice-title {
+  color: var(--sp-text);
+}
+
+body.starport-home .hr-stat-label,
+body.starport-home .hr-notice-date,
+body.starport-home .hr-status-line {
+  color: var(--sp-muted);
+}
+
+body.starport-home .hr-notice-tag {
+  color: var(--sp-gold);
+}
+
+body.starport-home .hr-social-link {
+  color: var(--sp-muted);
+  border: 1px solid var(--sp-border);
+  border-radius: 9px;
+  background: rgba(8, 23, 47, 0.78);
+  box-shadow: none;
+}
+
+body.starport-home .hr-social-link:hover {
+  color: var(--sp-cyan);
+  border-color: rgba(120, 215, 255, 0.34);
+  background: rgba(120, 215, 255, 0.09);
+  box-shadow: 0 8px 24px rgba(0, 4, 16, 0.25);
+}
+
+body.starport-home .hr-bubble {
+  color: var(--sp-muted);
+  border: 1px solid var(--sp-border);
+  border-radius: 999px;
+  background: rgba(9, 23, 46, 0.72);
+}
+
+body.starport-home .hr-panel,
+body.starport-home .hr-deck-col--notice .hr-panel--notice {
+  min-height: 270px;
+}
+
+body.starport-home .hr-panel:hover,
+body.starport-home a.hr-notice-item:hover {
+  border-color: rgba(120, 215, 255, 0.3);
+  background:
+    linear-gradient(135deg, rgba(120, 215, 255, 0.075), transparent 42%),
+    rgba(9, 23, 46, 0.9);
+}
+
+body.starport-home .hr-hud-corners::before,
+body.starport-home .hr-hud-corners::after {
+  border-color: rgba(232, 183, 91, 0.5);
+}
+
+body.starport-home .home-footer {
+  color: var(--sp-muted);
+  background: rgba(3, 8, 23, 0.9);
+  border-top: 1px solid var(--sp-border);
+  box-shadow: none;
+}
+
+body.starport-home .home-footer-copy,
+body.starport-home .home-footer-link {
+  color: var(--sp-muted);
+}
+
+@media (max-width: 840px) {
+  body.starport-home .hr-profile-card {
+    min-height: 245px;
+    padding-right: 10rem;
+  }
+
+  .hr-home-navigator {
+    right: -2rem;
+    bottom: -6rem;
+    width: 13rem;
+    opacity: 0.6;
+  }
+}
+
+@media (max-width: 620px) {
+  body.starport-home .home-main {
+    padding-top: 1rem;
+  }
+
+  body.starport-home .hr-profile-card {
+    min-height: 270px;
+    padding: 1rem 6rem 1.15rem 1rem;
+  }
+
+  .hr-home-navigator {
+    right: -4.5rem;
+    bottom: -2rem;
+    width: 11rem;
+    opacity: 0.42;
+  }
+
+  body.starport-home .hr-brand-mark {
+    padding-right: 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.starport-home .quote-bg {
+    opacity: 0.09;
+  }
+}

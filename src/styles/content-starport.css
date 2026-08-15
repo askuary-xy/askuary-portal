@@ -1,0 +1,782 @@
+﻿/* 航行记录系统：文章、日志、通讯与归档共用的星港视觉语言 */
+
+@import './content-baseline.css';
+
+body.starport-content,
+body.archive-rich-page {
+  --sc-cyan: #79d9ff;
+  --sc-gold: #f0cf86;
+  --sc-ink: #edf6ff;
+  --sc-muted: #9eb3c9;
+  --sc-line: rgba(121, 217, 255, .19);
+  --sc-panel: rgba(6, 16, 31, .82);
+  color: var(--sc-ink);
+  background: #030812;
+}
+
+html:has(body.starport-content),
+html:has(body.archive-rich-page) {
+  background: #030812;
+}
+
+body.starport-content .home-bg::after,
+body.archive-rich-page::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: var(--starport-veil, linear-gradient(180deg, rgba(2, 8, 18, .3), rgba(2, 8, 18, .58)));
+}
+
+body.starport-content .home-shell,
+body.starport-content .home-main,
+body.archive-rich-page .archive-rich {
+  position: relative;
+  z-index: 2;
+}
+
+body.starport-content .px-nav,
+body.archive-rich-page .px-nav {
+  top: max(.85rem, env(safe-area-inset-top));
+  width: min(1080px, calc(100% - 2rem));
+  min-height: 3.45rem;
+  padding: .55rem .75rem;
+  border: 2px solid #020713;
+  border-radius: 2px;
+  background: rgba(4, 12, 25, .94);
+  box-shadow: 3px 3px 0 #020713;
+  backdrop-filter: none;
+  font-family: var(--px-font-cn);
+  image-rendering: pixelated;
+}
+
+body.starport-content .px-nav-logo-mark,
+body.archive-rich-page .px-nav-logo-mark {
+  width: 1.7rem;
+  height: 1.7rem;
+  border: 2px solid #020713;
+  border-radius: 0;
+  background: url("/brand/avatar.png") center/cover;
+  box-shadow: 2px 2px 0 #020713;
+}
+
+body.starport-content .px-nav-logo-text,
+body.archive-rich-page .px-nav-logo-text {
+  color: var(--sc-ink);
+  font: 400 .58rem/1 var(--px-font-cn);
+  letter-spacing: .14em;
+  text-shadow: none;
+}
+
+body.starport-content .px-nav-back,
+body.archive-rich-page .px-nav-back {
+  padding: .42rem .68rem;
+  border: 2px solid #020713;
+  border-radius: 0;
+  background: #121828;
+  box-shadow: 2px 2px 0 #020713;
+  color: var(--sc-muted);
+  font: 400 .52rem/1 var(--px-font-cn);
+  transition: transform 120ms ease, background-color 140ms ease, box-shadow 120ms ease;
+}
+
+body.starport-content .px-nav-back:hover,
+body.archive-rich-page .px-nav-back:hover {
+  color: var(--sc-gold);
+  background: #1a2848;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #020713;
+}
+
+body.starport-content .px-nav-back:active,
+body.archive-rich-page .px-nav-back:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 #020713;
+}
+
+body.starport-content .px-nav-title,
+body.archive-rich-page .px-nav-title {
+  color: #dcecff;
+  font: 400 .58rem/1.35 var(--px-font-cn);
+  letter-spacing: .06em;
+  text-shadow: none;
+}
+
+/* 日志详情 */
+body.starport-journal {
+  font-family: var(--ask-font-body, "Noto Sans SC", "Microsoft YaHei", sans-serif);
+}
+
+body.starport-journal .ask-hero {
+  min-height: clamp(18rem, 43vw, 25rem);
+  background: #071426;
+}
+
+body.starport-journal .ask-hero-media img {
+  filter: saturate(.72) brightness(.65);
+}
+
+body.starport-journal .ask-hero-veil {
+  background:
+    linear-gradient(180deg, rgba(3,10,22,.2), rgba(3,10,22,.88)),
+    linear-gradient(90deg, rgba(3,10,22,.54), transparent 70%);
+}
+
+body.starport-journal .ask-hero-inner {
+  width: min(800px, calc(100% - 2rem));
+  justify-content: flex-end;
+}
+
+body.starport-journal .ask-hero-title {
+  max-width: 720px;
+  font: 750 clamp(1.8rem, 5vw, 3rem)/1.25 var(--ask-font-body, "Noto Sans SC", sans-serif);
+  letter-spacing: -.025em;
+}
+
+body.starport-journal .ask-hero-back,
+body.starport-journal .ask-hero-tag,
+body.starport-journal .ask-hero-meta-item {
+  border: 2px solid #020713;
+  border-radius: 0;
+  background: rgba(6, 20, 38, .88);
+  backdrop-filter: none;
+  box-shadow: 2px 2px 0 #020713;
+}
+
+body.starport-journal .ask-hero-back:hover {
+  color: #041018;
+  background: var(--sc-cyan);
+}
+
+body.starport-journal .ask-hero-wave,
+body.starport-journal .home-article-deco {
+  display: none;
+}
+
+body.starport-journal .ask-read-main {
+  width: min(800px, calc(100% - 2rem));
+  margin: -2.2rem auto 0;
+}
+
+body.starport-journal .ask-read-card,
+body.starport-journal .ask-read-comments {
+  border: 2px solid #020713 !important;
+  border-radius: 2px !important;
+  background: rgba(6, 16, 31, .96) !important;
+  box-shadow: 5px 5px 0 #020713 !important;
+  color: #cad9e6 !important;
+  backdrop-filter: none !important;
+  text-shadow: none !important;
+}
+
+body.starport-journal .home-prose {
+  color: #d7e6f2;
+  font: 400 1rem/1.95 "Noto Serif SC", "Songti SC", serif;
+}
+
+html.askuary-theme-light body.starport-journal .ask-read-card,
+html.askuary-theme-light body.starport-journal .ask-read-comments {
+  color: #1d3346 !important;
+  background: rgba(244, 248, 252, .96) !important;
+  border-color: #020713 !important;
+  box-shadow: 5px 5px 0 #020713 !important;
+}
+
+html.askuary-theme-light body.starport-journal .home-prose {
+  color: #1d3346;
+}
+
+html.askuary-theme-light body.starport-journal .home-prose h2,
+html.askuary-theme-light body.starport-journal .home-prose h3,
+html.askuary-theme-light body.starport-journal .ask-hero-title {
+  color: #142b3e;
+  -webkit-text-fill-color: #142b3e;
+}
+
+body.starport-journal .home-prose-shell {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+body.starport-journal .home-prose-block {
+  color: inherit;
+  border: 2px solid #020713;
+  border-radius: 0;
+  background: rgba(8, 23, 42, .55);
+  box-shadow: 2px 2px 0 #020713;
+}
+
+body.starport-journal .home-prose h2,
+body.starport-journal .home-prose h3 {
+  color: #eef7ff;
+}
+
+body.starport-journal .ask-ai-card {
+  border: 2px solid #020713 !important;
+  border-radius: 2px !important;
+  background: rgba(10, 30, 51, .9) !important;
+  box-shadow: 3px 3px 0 #020713 !important;
+}
+
+html.askuary-theme-light body.starport-journal .ask-ai-card {
+  background: rgba(232, 242, 250, .96) !important;
+}
+
+body.starport-journal .ask-ai-badge {
+  border: 2px solid #020713;
+  border-radius: 0;
+  background: var(--sc-cyan);
+  color: #041018;
+  box-shadow: 2px 2px 0 #020713;
+}
+
+body.starport-journal .ask-ai-title,
+body.starport-journal .ask-ai-panel-title {
+  color: #eff8ff;
+}
+
+body.starport-journal .ask-ai-body,
+body.starport-journal .ask-ai-sub,
+body.starport-journal .ask-ai-panel {
+  color: #b7c9d9;
+}
+
+body.starport-journal .ask-ai-panel {
+  border: 2px solid #020713;
+  border-radius: 0;
+  background: rgba(3, 12, 23, .72);
+  box-shadow: 2px 2px 0 #020713;
+}
+
+body.starport-journal .ask-ai-btn {
+  border: 2px solid #020713;
+  border-radius: 0;
+  background: #121828;
+  box-shadow: 2px 2px 0 #020713;
+  color: #a7d9f0;
+  font-family: var(--px-font-cn, "Noto Sans SC", sans-serif);
+  transition: transform 120ms ease, background-color 140ms ease, box-shadow 120ms ease, color 140ms ease;
+}
+
+body.starport-journal .ask-ai-btn:hover {
+  color: #041018;
+  background: var(--sc-cyan);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #020713;
+}
+
+body.starport-journal .ask-ai-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 #020713;
+}
+
+body.starport-journal .ask-ai-btn.is-active {
+  color: #041018;
+  background: var(--sc-gold);
+}
+
+/* 文章总览 */
+body.starport-articles .home-main {
+  width: min(1080px, calc(100% - 2rem));
+  padding-top: 7rem;
+}
+
+body.starport-articles .ar-hero {
+  border: 2px solid #020713 !important;
+  border-radius: 2px !important;
+  background:
+    linear-gradient(180deg, rgba(8, 22, 40, .94), rgba(3, 10, 20, .96)) !important;
+  box-shadow: 4px 4px 0 #020713 !important;
+  backdrop-filter: none !important;
+}
+
+body.starport-articles .home-hero-title {
+  color: var(--sc-ink);
+  font: 750 clamp(2.2rem, 7vw, 4.3rem)/1.05 var(--ask-font-body, "Noto Sans SC", sans-serif);
+  letter-spacing: -.04em;
+  text-shadow: 0 0 35px rgba(121,217,255,.18);
+}
+
+body.starport-articles .home-hero-title::before {
+  content: "VOYAGE RECORDS · 航行日志";
+  display: block;
+  margin-bottom: .65rem;
+  color: var(--sc-cyan);
+  font-size: .68rem;
+  letter-spacing: .2em;
+}
+
+body.starport-articles .ar-list-head h2 {
+  color: var(--sc-ink);
+}
+
+body.starport-articles .ar-list-count {
+  color: var(--sc-gold);
+}
+
+body.starport-articles .hr-post {
+  border: 2px solid #020713 !important;
+  border-radius: 2px !important;
+  background: rgba(7,18,34,.92) !important;
+  box-shadow: 3px 3px 0 #020713 !important;
+  overflow: hidden;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+body.starport-articles .hr-post:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 #020713 !important;
+}
+
+body.starport-articles .hr-post:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 #020713 !important;
+}
+
+body.starport-articles .hr-post-title {
+  color: var(--sc-ink);
+}
+
+body.starport-articles .hr-post-body {
+  background: rgba(7,18,34,.9) !important;
+}
+
+body.starport-articles .hr-post-date,
+body.starport-articles .hr-post-ai-body {
+  color: var(--sc-muted);
+}
+
+body.starport-articles .hr-post-ai {
+  border-color: var(--sc-line);
+  background: rgba(121,217,255,.06);
+}
+
+body.starport-articles .hr-post-tag {
+  color: #b4d5e8;
+  border-color: rgba(121,217,255,.2);
+  background: rgba(121,217,255,.07);
+}
+
+/* 通讯频道：保留可拖拽便签的玩法，去掉生硬像素边框。 */
+body.starport-signals .home-main {
+  padding-top: 6.3rem;
+}
+
+body.starport-signals .ss-stage {
+  border: 2px solid #020713;
+  border-radius: 2px;
+  background: rgba(5,15,29,.82);
+  box-shadow: 4px 4px 0 #020713;
+  backdrop-filter: none;
+}
+
+body.starport-signals .ss-bar {
+  padding: .8rem 1rem;
+  border-bottom: 1px solid var(--sc-line);
+  background: rgba(5,16,31,.82);
+}
+
+body.starport-signals .ss-bar-title {
+  color: var(--sc-ink);
+  font: 700 1rem/1 var(--ask-font-body, "Noto Sans SC", sans-serif);
+  letter-spacing: .08em;
+  text-shadow: none;
+}
+
+body.starport-signals .ss-bar-title::before {
+  content: "SIGNAL CHANNEL · ";
+  color: var(--sc-cyan);
+  font-size: .62rem;
+  letter-spacing: .16em;
+}
+
+body.starport-signals .ss-chip,
+body.starport-signals .ss-btn {
+  border: 2px solid #020713;
+  border-radius: 0;
+  background: #121828;
+  box-shadow: 2px 2px 0 #000;
+  color: #b4ccdd;
+  font: 400 .58rem/1 var(--px-font-cn, "Noto Sans SC", sans-serif);
+}
+
+body.starport-signals .ss-btn.is-active {
+  color: #071522;
+  background: var(--sc-gold);
+}
+
+/* 归档页：作为星图档案，压住旧粉白主题。 */
+body.archive-rich-page {
+  font-family: var(--ask-font-body, "Noto Sans SC", sans-serif);
+}
+
+body.archive-rich-page .archive-rich {
+  width: min(1080px, calc(100% - 2rem));
+  padding-top: 7.5rem;
+}
+
+body.archive-rich-page .archive-kicker {
+  color: var(--sc-cyan);
+  letter-spacing: .2em;
+}
+
+body.archive-rich-page .archive-hero {
+  border: 2px solid #020713;
+  border-radius: 2px;
+  background: linear-gradient(180deg, rgba(8, 22, 40, .94), rgba(3, 10, 20, .96));
+  box-shadow: 4px 4px 0 #020713;
+  color: var(--sc-ink);
+  backdrop-filter: none;
+}
+
+body.archive-rich-page .fp-about-title,
+body.archive-rich-page .archive-stats {
+  color: var(--sc-ink);
+  text-shadow: none;
+}
+
+body.archive-rich-page .archive-card,
+body.archive-rich-page .archive-timeline-item {
+  border: 2px solid #020713 !important;
+  border-radius: 2px !important;
+  background: rgba(7,18,34,.92) !important;
+  box-shadow: 3px 3px 0 #020713 !important;
+  color: var(--sc-ink);
+  transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
+}
+
+body.archive-rich-page .archive-card:hover,
+body.archive-rich-page .archive-timeline-item:hover {
+  transform: translate(-2px, -2px);
+  border-color: #79d9ff !important;
+  box-shadow: 5px 5px 0 #020713 !important;
+}
+
+body.archive-rich-page .archive-random-btn:hover,
+body.archive-rich-page .archive-view-btn:hover,
+body.archive-rich-page .archive-load-more:hover,
+body.archive-rich-page .fp-archive-tag:hover,
+body.archive-rich-page .archive-month-link:hover,
+body.archive-rich-page .archive-month-btn:hover {
+  color: #eff8ff !important;
+  background: #12263a !important;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #020713 !important;
+}
+
+body.archive-rich-page .archive-card-title,
+body.archive-rich-page .archive-timeline-title {
+  color: var(--sc-ink) !important;
+}
+
+body.archive-rich-page .archive-card-summary,
+body.archive-rich-page .archive-timeline-summary {
+  color: var(--sc-muted) !important;
+}
+
+body.archive-rich-page .archive-random-btn,
+body.archive-rich-page .archive-view-btn,
+body.archive-rich-page .archive-load-more,
+body.archive-rich-page .fp-archive-tag,
+body.archive-rich-page .archive-month-link,
+body.archive-rich-page .archive-month-chip {
+  border: 2px solid #020713 !important;
+  border-radius: 0 !important;
+  background: rgba(8, 22, 40, .9) !important;
+  color: #bdd5e6 !important;
+  box-shadow: 2px 2px 0 #020713 !important;
+}
+
+body.archive-rich-page .archive-view-toggle {
+  border: 2px solid #020713 !important;
+  border-radius: 0 !important;
+  background: rgba(5, 14, 28, .96) !important;
+  backdrop-filter: none !important;
+  box-shadow: 2px 2px 0 #020713 !important;
+}
+
+body.archive-rich-page .archive-card-source,
+body.archive-rich-page .archive-card-tags li {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+body.archive-rich-page .archive-month,
+body.archive-rich-page .archive-month-btn {
+  border: 2px solid #020713 !important;
+  border-radius: 0 !important;
+  background: rgba(8, 22, 40, .9) !important;
+  box-shadow: 2px 2px 0 #020713 !important;
+  color: #bdd5e6 !important;
+}
+
+body.archive-rich-page .archive-card-cover {
+  background:
+    radial-gradient(circle at 28% 24%, rgba(121,217,255,.18), transparent 38%),
+    linear-gradient(135deg, #0a1c33, #071426) !important;
+}
+
+body.archive-rich-page .fp-about-title {
+  background: none;
+  -webkit-text-fill-color: var(--sc-ink);
+  color: var(--sc-ink);
+}
+
+body.archive-rich-page .fp-archive-tag.is-active,
+body.archive-rich-page .archive-view-btn.is-active {
+  border-color: rgba(240,207,134,.45) !important;
+  background: rgba(240,207,134,.14) !important;
+  color: var(--sc-gold) !important;
+}
+
+body.archive-rich-page .archive-card-source,
+body.archive-rich-page .archive-card-date,
+body.archive-rich-page .archive-timeline-date {
+  color: var(--sc-gold) !important;
+}
+
+/* 短代码 / 阅读插件：星港硬边，压住粉紫胶囊 */
+body.starport-content :where(.ask-note, .ask-fold, .ask-tabs, .child-alert, .admonition, .collapse-block),
+body.starport-blog-post :where(.ask-note, .ask-fold, .ask-tabs, .child-alert, .admonition, .collapse-block) {
+  border: 2px solid #020713 !important;
+  border-radius: 0 !important;
+  background: rgba(8, 22, 40, .88) !important;
+  box-shadow: 2px 2px 0 #020713 !important;
+  color: #d5e6f2 !important;
+}
+
+body.starport-content :where(.ask-note-label, .ask-fold-summary, .admonition-title, .collapse-title),
+body.starport-blog-post :where(.ask-note-label, .ask-fold-summary, .admonition-title, .collapse-title) {
+  color: #eff8ff !important;
+  background: rgba(121, 217, 255, .08) !important;
+}
+
+body.starport-content :where(.ask-tabs-btn, .child-badge, .child-badge-pill),
+body.starport-blog-post :where(.ask-tabs-btn, .child-badge, .child-badge-pill) {
+  border: 2px solid #020713 !important;
+  border-radius: 0 !important;
+  background: #121828 !important;
+  box-shadow: 1px 1px 0 #020713 !important;
+  color: #bdd5e6 !important;
+}
+
+body.starport-content .ask-tabs-btn.is-active,
+body.starport-content .ask-tabs-btn:hover,
+body.starport-blog-post .ask-tabs-btn.is-active,
+body.starport-blog-post .ask-tabs-btn:hover {
+  color: #041018 !important;
+  background: var(--sc-cyan, #79d9ff) !important;
+}
+
+body.starport-content .ask-note--tip,
+body.starport-blog-post .ask-note--tip,
+body.starport-content .admonition-tip {
+  border-left: 4px solid var(--sc-cyan, #79d9ff) !important;
+}
+
+body.starport-content .ask-note--warning,
+body.starport-blog-post .ask-note--warning,
+body.starport-content .admonition-warning {
+  border-left: 4px solid var(--sc-gold, #f0cf86) !important;
+  background: rgba(60, 42, 12, .35) !important;
+}
+
+body.starport-content .child-badge-gradient-primary,
+body.starport-content .child-badge-gradient-secondary,
+body.starport-blog-post .child-badge-gradient-primary,
+body.starport-blog-post .child-badge-gradient-secondary {
+  background: var(--sc-cyan, #79d9ff) !important;
+  color: #041018 !important;
+}
+
+/* 评论 / 申请表单：统一成设备甲板，压住粉蓝圆角 */
+body.starport-content .fp-friend-comments,
+body.starport-content .ask-read-comments,
+body.starport-blog-post .fp-friend-comments,
+body.archive-rich-page .fp-friend-comments {
+  border: 2px solid #020713 !important;
+  border-radius: 2px !important;
+  background: rgba(6, 16, 31, .94) !important;
+  box-shadow: 4px 4px 0 #020713 !important;
+  backdrop-filter: none !important;
+  color: #d5e6f2 !important;
+}
+
+body.starport-content .fp-comment-title,
+body.starport-blog-post .fp-comment-title {
+  color: #eff8ff !important;
+  font-family: var(--px-font-cn, "Noto Sans SC", sans-serif);
+}
+
+body.starport-content .fp-comment-form-hint,
+body.starport-content .fp-comment-empty,
+body.starport-content .fp-comment-date,
+body.starport-blog-post .fp-comment-form-hint,
+body.starport-blog-post .fp-comment-empty {
+  color: #8ea5b8 !important;
+}
+
+body.starport-content .fp-comment-empty,
+body.starport-blog-post .fp-comment-empty {
+  border: 2px dashed rgba(121, 217, 255, .22) !important;
+  border-radius: 0 !important;
+  background: rgba(4, 12, 25, .45) !important;
+}
+
+body.starport-content .fp-comment-item,
+body.starport-blog-post .fp-comment-item {
+  border: 2px solid #020713 !important;
+  border-radius: 0 !important;
+  background: rgba(8, 22, 40, .88) !important;
+  box-shadow: 2px 2px 0 #020713 !important;
+}
+
+body.starport-content .fp-comment-avatar,
+body.starport-blog-post .fp-comment-avatar {
+  border: 2px solid #020713 !important;
+  border-radius: 0 !important;
+  background: #79d9ff !important;
+  color: #041018 !important;
+  box-shadow: 2px 2px 0 #020713 !important;
+}
+
+body.starport-content .fp-comment-author,
+body.starport-blog-post .fp-comment-author {
+  color: var(--sc-gold, #f0cf86) !important;
+}
+
+body.starport-content .fp-comment-body,
+body.starport-blog-post .fp-comment-body {
+  color: #d5e6f2 !important;
+}
+
+body.starport-content .fp-comment-action,
+body.starport-content .fp-emoji-toggle,
+body.starport-content .fp-emoji-tab,
+body.starport-content .fp-flink-btn,
+body.starport-blog-post .fp-comment-action,
+body.starport-blog-post .fp-emoji-toggle,
+body.starport-blog-post .fp-emoji-tab,
+body.starport-blog-post .fp-flink-btn {
+  border: 2px solid #020713 !important;
+  border-radius: 0 !important;
+  background: #121828 !important;
+  box-shadow: 2px 2px 0 #020713 !important;
+  color: #bdd5e6 !important;
+  transition:
+    transform 120ms ease,
+    background-color 140ms ease,
+    box-shadow 120ms ease,
+    color 140ms ease !important;
+}
+
+body.starport-content .fp-comment-action:hover,
+body.starport-content .fp-comment-action.is-liked,
+body.starport-content .fp-emoji-toggle:hover,
+body.starport-content .fp-emoji-toggle[aria-expanded='true'],
+body.starport-content .fp-emoji-tab.is-active,
+body.starport-content .fp-emoji-tab:hover,
+body.starport-content .fp-flink-btn:hover,
+body.starport-blog-post .fp-comment-action:hover,
+body.starport-blog-post .fp-comment-action.is-liked,
+body.starport-blog-post .fp-emoji-toggle:hover,
+body.starport-blog-post .fp-flink-btn:hover {
+  color: #041018 !important;
+  background: var(--sc-cyan, #79d9ff) !important;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #020713 !important;
+}
+
+body.starport-content .fp-flink-btn.is-primary,
+body.starport-blog-post .fp-flink-btn.is-primary {
+  color: #041018 !important;
+  background: var(--sc-gold, #f0cf86) !important;
+}
+
+body.starport-content .fp-emoji-panel,
+body.starport-blog-post .fp-emoji-panel {
+  border: 2px solid #020713 !important;
+  border-radius: 2px !important;
+  background: rgba(8, 18, 34, .98) !important;
+  box-shadow: 4px 4px 0 #020713 !important;
+  backdrop-filter: none !important;
+}
+
+body.starport-content .fp-friend-field,
+body.starport-blog-post .fp-friend-field {
+  color: #9eb3c9 !important;
+  font-family: var(--px-font-cn, "Noto Sans SC", sans-serif);
+}
+
+body.starport-content .fp-friend-field input,
+body.starport-content .fp-friend-field textarea,
+body.starport-blog-post .fp-friend-field input,
+body.starport-blog-post .fp-friend-field textarea {
+  border: 2px solid #020713 !important;
+  border-radius: 0 !important;
+  background: #030d1a !important;
+  color: #edf8ff !important;
+  box-shadow: 2px 2px 0 #020713 !important;
+  font-family: inherit !important;
+}
+
+body.starport-content .fp-friend-field input:focus,
+body.starport-content .fp-friend-field textarea:focus,
+body.starport-blog-post .fp-friend-field input:focus,
+body.starport-blog-post .fp-friend-field textarea:focus {
+  border-color: #79d9ff !important;
+  box-shadow: 2px 2px 0 #020713 !important;
+  outline: none !important;
+}
+
+html.askuary-theme-light body.starport-content .fp-friend-comments,
+html.askuary-theme-light body.starport-content .ask-read-comments,
+html.askuary-theme-light body.starport-blog-post .fp-friend-comments {
+  color: #1d3346 !important;
+  background: rgba(244, 248, 252, .96) !important;
+}
+
+html.askuary-theme-light body.starport-content .fp-comment-item,
+html.askuary-theme-light body.starport-blog-post .fp-comment-item {
+  background: rgba(236, 243, 248, .96) !important;
+}
+
+html.askuary-theme-light body.starport-content .fp-friend-field input,
+html.askuary-theme-light body.starport-content .fp-friend-field textarea,
+html.askuary-theme-light body.starport-blog-post .fp-friend-field input,
+html.askuary-theme-light body.starport-blog-post .fp-friend-field textarea {
+  color: #1d3346 !important;
+  background: #f7fafc !important;
+}
+
+html.askuary-theme-light body.starport-content .fp-comment-body,
+html.askuary-theme-light body.starport-blog-post .fp-comment-body {
+  color: #243848 !important;
+}
+
+@media (max-width: 720px) {
+  body.starport-content .px-nav,
+  body.archive-rich-page .px-nav {
+    top: .5rem;
+    width: calc(100% - 1rem);
+    min-height: 3.2rem;
+    border-radius: 2px;
+  }
+
+  body.starport-journal .ask-hero-inner,
+  body.starport-journal .ask-read-main {
+    width: calc(100% - 1rem);
+  }
+
+  body.starport-journal .ask-read-card {
+    padding: 1.15rem 1rem;
+  }
+
+  body.starport-articles .home-main,
+  body.archive-rich-page .archive-rich {
+    width: calc(100% - 1rem);
+  }
+}

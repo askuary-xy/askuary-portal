@@ -1,0 +1,459 @@
+/* ASKUARY 观测日志室：博客列表与正文的统一星港阅读体验 */
+
+body.starport-blog {
+  --log-cyan: #79d9ff;
+  --log-cyan-soft: rgba(121, 217, 255, 0.16);
+  --log-gold: #f0cf86;
+  --log-ink: #edf6ff;
+  --log-muted: #9eb3c9;
+  --log-panel: rgba(7, 17, 32, 0.96);
+  --log-line: rgba(140, 213, 255, 0.18);
+  min-height: 100vh;
+  color: var(--log-ink);
+  background:
+    radial-gradient(circle at 16% 18%, rgba(31, 112, 160, 0.13), transparent 32rem),
+    radial-gradient(circle at 86% 72%, rgba(40, 90, 130, 0.1), transparent 34rem),
+    #030812;
+  font-family: var(--px-font-cn, "Noto Sans SC", "Microsoft YaHei", sans-serif);
+}
+
+html.pixel-subpage body.starport-blog,
+html.pixel-subpage body.starport-blog .fp-about,
+html.pixel-subpage body.starport-blog .fp-blog {
+  font-family: var(--px-font-cn, "Noto Sans SC", "Microsoft YaHei", sans-serif);
+  font-size: 1rem;
+  letter-spacing: 0;
+  image-rendering: auto;
+}
+
+body.starport-blog .px-nav {
+  top: max(0.85rem, env(safe-area-inset-top));
+  width: min(1080px, calc(100% - 2rem));
+  min-height: 3.45rem;
+  padding: 0.55rem 0.75rem;
+  border: 2px solid #020713;
+  border-radius: 2px;
+  background: rgba(4, 12, 25, 0.94);
+  box-shadow: 3px 3px 0 #020713;
+  backdrop-filter: none;
+  font-family: var(--px-font-cn, "Noto Sans SC", sans-serif);
+  image-rendering: auto;
+}
+
+body.starport-blog .px-nav-logo-mark {
+  width: 1.7rem;
+  height: 1.7rem;
+  border: 2px solid #020713;
+  border-radius: 0;
+  background: url("/brand/avatar.png") center / cover;
+  box-shadow: 2px 2px 0 #020713;
+}
+
+body.starport-blog .px-nav-logo-text {
+  color: var(--log-ink);
+  font: 400 .58rem/1 var(--px-font-cn, "Noto Sans SC", sans-serif);
+  letter-spacing: .14em;
+  text-shadow: none;
+}
+
+body.starport-blog .px-nav-back {
+  padding: .42rem .68rem;
+  border: 2px solid #020713;
+  border-radius: 0;
+  background: #121828;
+  box-shadow: 2px 2px 0 #020713;
+  color: var(--log-muted);
+  font: 400 .52rem/1 var(--px-font-cn, "Noto Sans SC", sans-serif);
+  transition: transform 120ms ease, background-color 140ms ease, box-shadow 120ms ease, color 140ms ease;
+}
+
+body.starport-blog .px-nav-back:hover {
+  color: var(--log-gold);
+  background: #1a2848;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #020713;
+}
+
+body.starport-blog .px-nav-title {
+  max-width: 48vw;
+  overflow: hidden;
+  color: #dcecff;
+  font: 400 .58rem/1.35 var(--px-font-cn, "Noto Sans SC", sans-serif);
+  letter-spacing: .08em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body.has-pixel-nav.starport-blog {
+  --home-nav-offset: 5.4rem;
+}
+
+body.has-pixel-nav.starport-blog .fp-blog {
+  padding-top: calc(var(--home-nav-offset) + 2rem);
+}
+
+body.starport-blog .fp-blog {
+  position: relative;
+  z-index: 2;
+  width: min(860px, calc(100% - 2rem));
+}
+
+body.starport-blog .fp-about-header {
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.starport-blog-kicker {
+  margin: 0 0 .65rem;
+  color: var(--log-cyan);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+html.pixel-subpage body.starport-blog .fp-about-title {
+  margin: 0;
+  color: var(--log-ink);
+  font: 750 clamp(2rem, 6vw, 3.6rem)/1.08 var(--px-font-cn, "Noto Sans SC", sans-serif) !important;
+  letter-spacing: -.035em;
+  text-shadow: none;
+}
+
+body.starport-blog .fp-about-lead {
+  max-width: 42rem;
+  margin: .8rem 0 0;
+  color: var(--log-muted);
+  font-size: .95rem;
+  line-height: 1.8;
+  text-shadow: none !important;
+}
+
+body.starport-blog .fp-blog-list {
+  gap: .8rem;
+  counter-reset: log-entry;
+}
+
+html.pixel-subpage body.starport-blog .fp-blog-item {
+  counter-increment: log-entry;
+  position: relative;
+  border: 2px solid #020713 !important;
+  border-radius: 2px !important;
+  background: linear-gradient(180deg, rgba(10, 25, 45, .96), rgba(7, 16, 31, .96)) !important;
+  box-shadow: 3px 3px 0 #020713 !important;
+  backdrop-filter: none !important;
+  transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
+}
+
+html.pixel-subpage body.starport-blog .fp-blog-item::before {
+  content: "LOG " counter(log-entry, decimal-leading-zero);
+  position: absolute;
+  top: 1rem;
+  right: 1.1rem;
+  color: rgba(121, 217, 255, .38);
+  font: 400 .5rem/1 var(--px-font, monospace);
+  letter-spacing: .14em;
+}
+
+html.pixel-subpage body.starport-blog .fp-blog-item:hover {
+  transform: translate(-2px, -2px);
+  border-color: #79d9ff !important;
+  box-shadow: 5px 5px 0 #020713 !important;
+}
+
+html.pixel-subpage body.starport-blog .fp-blog-item:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 #020713 !important;
+}
+
+body.starport-blog .fp-blog-item-link {
+  padding: 1.15rem 1.25rem .8rem;
+}
+
+body.starport-blog .fp-blog-item-link > * {
+  padding-left: 0;
+  padding-right: 3.2rem;
+}
+
+body.starport-blog .fp-blog-date {
+  color: var(--log-gold);
+  font: 400 .55rem/1.3 var(--px-font, monospace);
+  letter-spacing: .12em;
+}
+
+body.starport-blog .fp-blog-item-title {
+  color: var(--log-ink);
+  font-size: clamp(1.05rem, 2.5vw, 1.28rem);
+  line-height: 1.45;
+  text-shadow: none;
+}
+
+body.starport-blog .fp-blog-item-summary {
+  color: var(--log-muted);
+  font-size: .88rem;
+  line-height: 1.75;
+  text-shadow: none !important;
+}
+
+body.starport-blog .fp-blog-item-foot {
+  padding: .65rem 1.25rem 1rem;
+  border-top-color: rgba(121, 217, 255, .08);
+}
+
+html.pixel-subpage body.starport-blog .fp-blog-tag,
+html.pixel-subpage body.starport-blog .fp-blog-read {
+  padding: .22rem .58rem;
+  border: 2px solid #020713 !important;
+  border-radius: 0 !important;
+  background: rgba(121, 217, 255, .07);
+  box-shadow: 2px 2px 0 #020713 !important;
+  color: #b9d8eb;
+  font: 400 .58rem/1.3 var(--px-font-cn, "Noto Sans SC", sans-serif) !important;
+}
+
+html.pixel-subpage body.starport-blog .fp-blog-item:hover .fp-blog-read {
+  color: #041018 !important;
+  background: var(--log-cyan) !important;
+}
+
+body.starport-blog .fp-about-links {
+  margin-top: 2rem;
+}
+
+html.pixel-subpage body.starport-blog .fp-about-links a {
+  border: 2px solid #020713 !important;
+  border-radius: 0 !important;
+  background: #121828 !important;
+  box-shadow: 2px 2px 0 #020713 !important;
+  transition: transform 120ms ease, background-color 140ms ease, box-shadow 120ms ease;
+}
+
+html.pixel-subpage body.starport-blog .fp-about-links a:hover {
+  color: #041018 !important;
+  background: var(--log-cyan) !important;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #020713 !important;
+}
+
+/* 正文：像素作为仪表点缀，阅读区域回归安静、清晰的排版。 */
+body.starport-blog-post .fp-blog {
+  width: min(800px, calc(100% - 2rem));
+}
+
+body.starport-blog-post .fp-blog-article {
+  padding: clamp(1.2rem, 4vw, 2.4rem);
+  border: 2px solid #020713;
+  border-radius: 2px;
+  background: var(--log-panel);
+  box-shadow: 5px 5px 0 #020713;
+  backdrop-filter: none;
+}
+
+body.starport-blog-post .fp-blog-post-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--log-line);
+  text-align: left;
+}
+
+body.starport-blog-post .fp-blog-post-title {
+  margin: .55rem 0 .9rem;
+  color: var(--log-ink);
+  font: 750 clamp(1.65rem, 5vw, 2.65rem)/1.3 var(--px-font-cn, "Noto Sans SC", sans-serif);
+  letter-spacing: -.025em;
+  text-shadow: none;
+}
+
+body.starport-blog-post .fp-blog-prose {
+  color: #cddcea;
+  font: 400 1rem/1.95 "Noto Serif SC", "Songti SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  letter-spacing: .01em;
+}
+
+body.starport-blog-post .fp-blog-prose h2,
+body.starport-blog-post .fp-blog-prose h3 {
+  color: #edf6ff;
+  font-family: var(--px-font-cn, "Noto Sans SC", sans-serif);
+  letter-spacing: -.01em;
+}
+
+body.starport-blog-post .fp-blog-prose h2 {
+  margin-top: 2.4rem;
+  padding-left: .8rem;
+  border-left: 3px solid var(--log-cyan);
+  font-size: 1.35rem;
+}
+
+body.starport-blog-post .fp-blog-prose a {
+  color: #8bdbff;
+  border-bottom-color: rgba(139, 219, 255, .35);
+}
+
+body.starport-blog-post .fp-blog-prose blockquote {
+  border-left-color: var(--log-gold);
+  color: #b9cad9;
+  background: rgba(240, 207, 134, .05);
+}
+
+body.starport-blog-post .fp-blog-prose img {
+  max-width: 100%;
+  height: auto;
+  border: 2px solid #020713;
+  border-radius: 0;
+  box-shadow: 3px 3px 0 #020713;
+}
+
+body.starport-blog-post .ask-note,
+body.starport-blog-post .ask-fold,
+body.starport-blog-post .ask-tabs,
+body.starport-blog-post .ask-ai-card {
+  color: #cddcea;
+  border: 2px solid #020713;
+  border-radius: 0;
+  background: rgba(11, 30, 50, .86);
+  box-shadow: 2px 2px 0 #020713;
+}
+
+body.starport-blog-post .ask-note {
+  border-left-color: var(--log-cyan);
+}
+
+body.starport-blog-post .ask-note--warning {
+  border-left-color: var(--log-gold);
+  background: rgba(79, 59, 29, .36);
+}
+
+body.starport-blog-post .ask-note-label,
+body.starport-blog-post .ask-ai-title,
+body.starport-blog-post .ask-ai-panel-title,
+body.starport-blog-post .ask-fold-summary {
+  color: #eef7ff;
+}
+
+body.starport-blog-post .ask-note-body,
+body.starport-blog-post .ask-ai-body,
+body.starport-blog-post .ask-ai-sub,
+body.starport-blog-post .ask-ai-panel,
+body.starport-blog-post .ask-fold-body,
+body.starport-blog-post .ask-tabs-panel {
+  color: #b9cad9;
+}
+
+body.starport-blog-post .ask-fold-summary,
+body.starport-blog-post .ask-tabs-nav {
+  background: rgba(121, 217, 255, .07);
+}
+
+body.starport-blog-post .ask-fold-body,
+body.starport-blog-post .ask-tabs-nav {
+  border-color: rgba(121, 217, 255, .14);
+}
+
+body.starport-blog-post .ask-tabs-btn,
+body.starport-blog-post .ask-ai-btn {
+  border: 2px solid #020713;
+  border-radius: 0;
+  background: #121828;
+  box-shadow: 2px 2px 0 #020713;
+  color: #a9c7da;
+  transition: transform 120ms ease, background-color 140ms ease, box-shadow 120ms ease, color 140ms ease;
+}
+
+body.starport-blog-post .ask-tabs-btn.is-active,
+body.starport-blog-post .ask-tabs-btn:hover,
+body.starport-blog-post .ask-ai-btn.is-active,
+body.starport-blog-post .ask-ai-btn:hover {
+  color: #041018;
+  border-color: #020713;
+  background: var(--log-cyan);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #020713;
+}
+
+body.starport-blog-post .ask-ai-btn.is-active {
+  background: var(--log-gold);
+}
+
+body.starport-blog-post .ask-ai-panel {
+  border-color: rgba(121, 217, 255, .16);
+  background: rgba(3, 12, 23, .55);
+}
+
+body.starport-blog-post .admonition,
+body.starport-blog-post .collapse-block {
+  color: #c5d6e5;
+  border-color: rgba(121, 217, 255, .24);
+  background: rgba(11, 30, 50, .72);
+  box-shadow: none;
+}
+
+body.starport-blog-post .admonition-title,
+body.starport-blog-post .collapse-title {
+  color: #eef7ff;
+  background: rgba(121, 217, 255, .07);
+}
+
+body.starport-blog-post .admonition-warning,
+body.starport-blog-post .collapse-block-warning {
+  border-left-color: var(--log-gold);
+  background: rgba(79, 59, 29, .34);
+}
+
+body.starport-blog-post .fp-friend-comments {
+  margin-top: 1rem;
+  border-color: var(--log-line);
+}
+
+@media (max-width: 720px) {
+  body.starport-blog .px-nav {
+    width: calc(100% - 1rem);
+    top: .5rem;
+    min-height: 3.2rem;
+    border-radius: 2px;
+  }
+
+  body.starport-blog .px-nav-title {
+    max-width: 42vw;
+    font-size: .68rem;
+  }
+
+  body.has-pixel-nav.starport-blog .fp-blog {
+    padding-top: 6.2rem;
+  }
+
+  body.starport-blog .fp-blog {
+    width: calc(100% - 1rem);
+  }
+
+  body.starport-blog .fp-about-header {
+    padding: 0 .35rem;
+  }
+
+  body.starport-blog .fp-blog-item-link {
+    padding: 1rem 1rem .7rem;
+  }
+
+  body.starport-blog .fp-blog-item-link > * {
+    padding-right: 2.5rem;
+  }
+
+  body.starport-blog .fp-blog-item-foot {
+    padding: .6rem 1rem .9rem;
+  }
+
+  body.starport-blog-post .fp-blog-article {
+    padding: 1.2rem 1rem;
+    border-radius: 2px;
+  }
+
+  body.starport-blog-post .fp-blog-prose {
+    font-size: .95rem;
+    line-height: 1.85;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.starport-blog .fp-blog-item {
+    transition: none;
+  }
+}

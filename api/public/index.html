@@ -1,0 +1,4966 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>次元指挥中心 · ASKUARY</title>
+    <link rel="stylesheet" href="./shortcodes.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+    <style>
+      @font-face {
+        font-family: 'Zpix';
+        src: url('https://cdn.jsdelivr.net/gh/SolidZORO/zpix-pixel-font@master/dist/zpix.ttf') format('truetype');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      :root {
+        color-scheme: dark;
+        --c-lavender: #c084fc;
+        --c-sky: #3de7ff;
+        --c-pink: #ff6bcb;
+        --c-purple: #a78bfa;
+        --c-mint: #7dffb2;
+        --bg-1: #060812;
+        --bg-2: #0e1424;
+        --bg-3: #121828;
+        --surface: rgba(18, 24, 40, 0.92);
+        --surface-strong: rgba(10, 16, 32, 0.96);
+        --line: #000;
+        --text: #e8ecff;
+        --muted: #8b93b0;
+        --ok: #7dffb2;
+        --bad: #ff6b8a;
+        --warn: #ffe566;
+        --radius: 0px;
+        --shadow: 3px 3px 0 #000;
+        --shadow-hover: 4px 4px 0 #000;
+        --font: 'Zpix', 'Press Start 2P', monospace;
+      }
+
+      *, *::before, *::after { box-sizing: border-box; }
+
+      /* pixel cosmos overrides */
+      body { image-rendering: pixelated; }
+      .login-card, .topbar, .card, .panel, .side, .nav-item, button, .btn, input, select, textarea {
+        border: 2px solid #000 !important;
+        box-shadow: 2px 2px 0 #000 !important;
+        border-radius: 0 !important;
+      }
+      .topbar { border-bottom: 2px solid #000 !important; }
+      .logo-mark {
+        border-radius: 0 !important;
+        border: 2px solid #000;
+        box-shadow: 2px 2px 0 #000 !important;
+        background: linear-gradient(90deg, var(--c-sky) 0 50%, var(--c-pink) 50% 100%) !important;
+      }
+      .brand-title {
+        font-family: 'Press Start 2P', monospace !important;
+        font-size: 0.55rem !important;
+        font-weight: 400 !important;
+        color: var(--c-sky) !important;
+        text-shadow: 2px 2px 0 #000;
+        background: none !important;
+        -webkit-text-fill-color: var(--c-sky) !important;
+      }
+      button, .btn, .nav-item {
+        font-family: var(--font) !important;
+        background: #121828 !important;
+        color: var(--text) !important;
+      }
+      button:hover, .btn:hover, .nav-item:hover, .nav-item.active {
+        color: #06140c !important;
+        background: var(--c-mint) !important;
+      }
+      input, select, textarea {
+        background: #0a1020 !important;
+        color: var(--text) !important;
+      }
+
+
+      body {
+        margin: 0;
+        font: 14px/1.55 var(--font);
+        color: var(--text);
+        min-height: 100vh;
+        background:
+          radial-gradient(ellipse 70% 50% at 70% 10%, rgba(120,60,180,0.22), transparent 50%),
+          linear-gradient(165deg, var(--bg-2), var(--bg-1));
+        background-attachment: fixed;
+      }
+
+      /* 浮动粒子画布 */
+      #particleCanvas {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.28;
+      }
+
+      .hidden { display: none !important; }
+
+      /* ── 登录 ── */
+      .login-wrap {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+
+      .login-card {
+        width: min(420px, 100%);
+        background: var(--surface-strong);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        border-radius: 0;
+        padding: 32px 28px 28px;
+        box-shadow: var(--shadow), 0 0 28px rgba(180, 150, 180, 0.12);
+      }
+
+      .brand { text-align: center; margin-bottom: 1.5rem; }
+      .brand-word {
+        margin: 0 0 0.35rem;
+        font-family: 'Press Start 2P', monospace;
+        font-size: 0.85rem;
+        font-weight: 400;
+        letter-spacing: 0.08em;
+        color: var(--c-sky);
+        text-shadow: 2px 2px 0 #000;
+        background: none;
+        -webkit-background-clip: initial;
+        -webkit-text-fill-color: initial;
+        background-clip: initial;
+      }
+      .brand p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+
+      /* ── 顶栏 + 主体 ── */
+      .app-shell {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 20px;
+        background: rgba(8, 12, 24, 0.94);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border-bottom: 1px solid var(--line);
+        box-shadow: 0 4px 24px rgba(170, 150, 218, 0.12);
+      }
+
+      .topbar-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+      }
+      .logo-mark {
+        width: 36px;
+        height: 36px;
+        border-radius: 0;
+        display: grid;
+        place-items: center;
+        font-size: 1.1rem;
+        background: linear-gradient(135deg, var(--c-pink), var(--c-purple));
+        color: #fff;
+        box-shadow: 0 4px 14px rgba(255, 183, 197, 0.45);
+        flex-shrink: 0;
+      }
+      .brand-title {
+        font-weight: 800;
+        font-size: 1.05rem;
+        letter-spacing: 0.04em;
+        white-space: nowrap;
+        background: linear-gradient(135deg, var(--c-purple), #7B6BB0);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .topbar-center {
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.86rem;
+        font-weight: 500;
+      }
+      .breadcrumb {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 14px;
+        border-radius: 0;
+        background: rgba(8, 12, 24, 0.94);
+        border: 1px solid var(--line);
+      }
+      .breadcrumb .sep { opacity: 0.45; }
+      .breadcrumb .current { color: var(--text); font-weight: 700; }
+
+      .topbar-right {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .admin-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 4px 10px 4px 4px;
+        border-radius: 0;
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid var(--line);
+      }
+      .avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at 35% 30%, #fff 0 12%, transparent 13%),
+          linear-gradient(145deg, var(--c-pink), var(--c-sky));
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.8);
+        flex-shrink: 0;
+      }
+      .admin-name { font-size: 0.82rem; font-weight: 700; color: var(--text); }
+
+      .nav-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 12px 20px 0;
+        max-width: 1180px;
+        width: 100%;
+        margin: 0 auto;
+      }
+      .nav-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border: 1px solid transparent;
+        border-radius: 0;
+        background: rgba(255, 255, 255, 0.45);
+        color: var(--muted);
+        font: inherit;
+        font-size: 0.84rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s, background 0.2s, color 0.2s, border-color 0.2s;
+      }
+      .nav-btn:hover {
+        background: rgba(255, 255, 255, 0.8);
+        color: var(--text);
+        border-color: var(--line);
+        transform: translateY(-1px);
+      }
+      .nav-btn.is-active {
+        background: linear-gradient(135deg, rgba(255, 183, 197, 0.55), rgba(168, 216, 234, 0.55));
+        border-color: rgba(170, 150, 218, 0.45);
+        color: var(--text);
+        box-shadow: 0 6px 18px rgba(170, 150, 218, 0.22);
+      }
+      .nav-icon { font-size: 0.95rem; }
+
+      .main {
+        flex: 1;
+        padding: 16px 20px 40px;
+        max-width: 1180px;
+        width: 100%;
+        margin: 0 auto;
+      }
+
+      .page-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+      .page-head h1 { margin: 0; font-size: 1.4rem; font-weight: 800; }
+      .page-head .sub { margin: 4px 0 0; color: var(--muted); font-size: 0.88rem; }
+
+      .panel { display: none; animation: fadeIn 0.28s ease; }
+      .panel.is-active { display: block; }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: none; }
+      }
+
+      /* ── 毛玻璃卡片 ── */
+      .glass-card {
+        background: var(--surface);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border: 1px solid rgba(255, 255, 255, 0.72);
+        border-radius: var(--radius);
+        padding: 18px 20px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+      }
+      .glass-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .glass-card.no-hover:hover { transform: none; box-shadow: var(--shadow); }
+
+      /* ── 统计卡 ── */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+        margin-bottom: 16px;
+      }
+      .stat-card {
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(145deg, rgba(255,255,255,0.75), rgba(232,213,242,0.35));
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: var(--radius);
+        padding: 18px 14px;
+        text-align: center;
+        box-shadow: var(--shadow);
+        transition: transform 0.25s, box-shadow 0.25s;
+      }
+      .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-hover);
+      }
+      .stat-card.sweep::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.55) 50%, transparent 65%);
+        transform: translateX(-120%);
+        animation: sweep 0.85s ease;
+      }
+      @keyframes sweep {
+        to { transform: translateX(120%); }
+      }
+      .stat-icon { font-size: 1.35rem; margin-bottom: 4px; }
+      .stat-num {
+        font-size: 2rem;
+        font-weight: 800;
+        line-height: 1.15;
+        background: linear-gradient(135deg, var(--c-purple), var(--c-pink));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .stat-unit {
+        font-size: 0.85rem;
+        font-weight: 700;
+        margin-left: 2px;
+        -webkit-text-fill-color: var(--muted);
+        background: none;
+        color: var(--muted);
+      }
+      .stat-label { color: var(--muted); font-size: 0.82rem; margin-top: 6px; font-weight: 600; }
+
+      /* 待办提醒 */
+      .todo-card {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+        padding: 14px 18px;
+      }
+      .pulse-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--bad);
+        box-shadow: 0 0 0 0 rgba(232, 106, 122, 0.55);
+        animation: breath 1.6s ease-in-out infinite;
+        flex-shrink: 0;
+      }
+      .pulse-dot.is-idle {
+        background: var(--ok);
+        box-shadow: none;
+        animation: none;
+      }
+      @keyframes breath {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(232, 106, 122, 0.5); transform: scale(1); }
+        50% { box-shadow: 0 0 0 8px rgba(232, 106, 122, 0); transform: scale(1.15); }
+      }
+      .todo-text { flex: 1; font-weight: 600; }
+      .todo-text span { color: var(--bad); font-weight: 800; }
+
+      /* 快捷操作 · 游戏风按钮 */
+      .quick-actions {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+      }
+      .game-btn {
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        min-height: 88px;
+        padding: 14px 10px;
+        border: 1px solid rgba(255, 255, 255, 0.75);
+        border-radius: 0;
+        font: inherit;
+        font-weight: 800;
+        color: var(--text);
+        cursor: pointer;
+        background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(181, 234, 215, 0.45));
+        box-shadow: 0 6px 20px rgba(170, 150, 218, 0.2), inset 0 1px 0 rgba(255,255,255,0.8);
+        transition: transform 0.22s, box-shadow 0.22s;
+      }
+      .game-btn:nth-child(1) { background: linear-gradient(145deg, #fff, rgba(255,183,197,0.45)); }
+      .game-btn:nth-child(2) { background: linear-gradient(145deg, #fff, rgba(168,216,234,0.5)); }
+      .game-btn:nth-child(3) { background: linear-gradient(145deg, #fff, rgba(170,150,218,0.4)); }
+      .game-btn:nth-child(4) { background: linear-gradient(145deg, #fff, rgba(181,234,215,0.5)); }
+      .game-btn:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 28px rgba(255, 183, 197, 0.4), 0 0 20px rgba(170, 150, 218, 0.25);
+      }
+      .game-btn:active { transform: translateY(-1px); }
+      .game-btn .g-ico { font-size: 1.4rem; }
+      .game-btn .ripple {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(8, 12, 24, 0.94);
+        transform: scale(0);
+        animation: ripple 0.55s ease-out;
+        pointer-events: none;
+      }
+      @keyframes ripple {
+        to { transform: scale(2.6); opacity: 0; }
+      }
+
+      /* 数据看板两列 */
+      .board-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-bottom: 16px;
+      }
+      .board-grid > .glass-card { margin-bottom: 0; }
+      .section-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 14px;
+        font-weight: 800;
+        font-size: 1rem;
+      }
+
+      /* CSS 柱状图 */
+      .bars {
+        display: flex;
+        align-items: flex-end;
+        gap: 8px;
+        height: 160px;
+        padding: 8px 4px 0;
+      }
+      .bar-col {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        height: 100%;
+        justify-content: flex-end;
+      }
+      .bar {
+        width: 100%;
+        max-width: 36px;
+        border-radius: 8px 8px 4px 4px;
+        background: linear-gradient(180deg, var(--c-pink), var(--c-purple));
+        min-height: 4px;
+        transition: height 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        box-shadow: 0 4px 12px rgba(170, 150, 218, 0.35);
+      }
+      .bar-label { font-size: 0.7rem; color: var(--muted); font-weight: 600; }
+      .bar-val { font-size: 0.72rem; font-weight: 700; color: var(--c-purple); }
+
+      .top-list { display: grid; gap: 8px; }
+      .top-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 10px;
+        border-radius: 0;
+        background: rgba(255, 255, 255, 0.45);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+      }
+      .top-rank {
+        width: 24px;
+        height: 24px;
+        border-radius: 8px;
+        display: grid;
+        place-items: center;
+        font-size: 0.75rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--c-pink), var(--c-sky));
+        color: #fff;
+        flex-shrink: 0;
+      }
+      .top-title { flex: 1; font-weight: 700; font-size: 0.88rem; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .top-meta { font-size: 0.75rem; color: var(--muted); white-space: nowrap; }
+
+      /* 最近文章 / 待审列表 */
+      .split-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-bottom: 16px;
+      }
+      .split-2 > .glass-card { margin-bottom: 0; }
+
+      .mini-item {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 0;
+        border-top: 1px solid rgba(170, 150, 218, 0.15);
+      }
+      .mini-item:first-child { border-top: none; padding-top: 0; }
+      .mini-item .title { font-weight: 700; flex: 1; min-width: 120px; }
+      .mini-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+
+      /* 系统状态 */
+      .sys-status {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      .sys-cell {
+        padding: 12px 14px;
+        border-radius: 0;
+        background: rgba(255, 255, 255, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+      }
+      .sys-cell .k { font-size: 0.78rem; color: var(--muted); font-weight: 600; }
+      .sys-cell .v { margin-top: 4px; font-weight: 800; font-size: 0.95rem; }
+
+      /* ── 表单 ── */
+      label {
+        display: grid;
+        gap: 6px;
+        margin-bottom: 12px;
+        font-size: 0.84rem;
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      input, select, textarea, button {
+        font: inherit;
+        border-radius: 0;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.85);
+        color: var(--text);
+        padding: 10px 12px;
+      }
+
+      input:focus, select:focus, textarea:focus {
+        outline: none;
+        border-color: rgba(170, 150, 218, 0.65);
+        box-shadow: 0 0 0 3px rgba(255, 183, 197, 0.25);
+      }
+
+      textarea {
+        width: 100%;
+        min-height: 200px;
+        resize: vertical;
+      }
+
+      button {
+        cursor: pointer;
+        background: linear-gradient(135deg, var(--c-pink), var(--c-purple));
+        border: none;
+        color: #fff;
+        font-weight: 700;
+        padding: 10px 16px;
+        transition: transform 0.18s, box-shadow 0.18s, opacity 0.18s;
+        box-shadow: 0 4px 14px rgba(170, 150, 218, 0.3);
+      }
+      button:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(255, 183, 197, 0.4); }
+      button:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+      button.ghost {
+        background: rgba(255, 255, 255, 0.65);
+        border: 1px solid var(--line);
+        color: var(--text);
+        font-weight: 600;
+        box-shadow: none;
+      }
+      button.ghost:hover { box-shadow: 0 4px 14px rgba(170, 150, 218, 0.18); }
+      button.ok { background: linear-gradient(135deg, #4ECB9A, #3CB88A); color: #fff; }
+      button.bad { background: linear-gradient(135deg, #F07A8A, #E86A7A); color: #fff; }
+      button.blue { background: linear-gradient(135deg, var(--c-sky), #7BC4DE); color: #1a3a4a; }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 10px 14px;
+        align-items: start;
+      }
+      .form-grid label {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--muted);
+        min-width: 0;
+      }
+      .form-grid label.full,
+      .form-grid > .full,
+      .form-grid > .row-2,
+      .form-grid > .row,
+      .form-grid > .cover-preview-wrap {
+        grid-column: 1 / -1;
+      }
+
+      /* 友联：主流程单列 */
+      #friendForm.form-grid {
+        grid-template-columns: 1fr;
+      }
+      #friendForm .row-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px 14px;
+      }
+      #friendForm textarea {
+        min-height: 220px;
+        width: 100%;
+      }
+
+      /* ── 写作工作台（类 WP） ── */
+      #panel-write .glass-card.write-shell {
+        padding: 0;
+        overflow: hidden;
+      }
+      .write-topbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px 14px;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.72);
+        position: sticky;
+        top: 0;
+        z-index: 5;
+      }
+      .write-status {
+        flex: 1;
+        min-width: 140px;
+        font-size: 0.86rem;
+        color: var(--muted);
+      }
+      .write-status strong { color: var(--text); }
+      .write-status .dirty { color: var(--warn); font-weight: 700; }
+      .write-topbar .row { margin: 0; flex-wrap: wrap; }
+      .write-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 300px;
+        gap: 0;
+        min-height: 70vh;
+      }
+      .write-main {
+        padding: 18px 20px 28px;
+        border-right: 1px solid var(--line);
+        min-width: 0;
+      }
+      .write-side {
+        padding: 14px 14px 24px;
+        background: rgba(248, 246, 252, 0.55);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .write-box {
+        border: 1px solid var(--line);
+        border-radius: 0;
+        background: rgba(255, 255, 255, 0.72);
+        padding: 12px 12px 14px;
+      }
+      .write-box h3 {
+        margin: 0 0 10px;
+        font-size: 0.82rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .write-title-input {
+        width: 100%;
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        font-size: 1.65rem !important;
+        font-weight: 800 !important;
+        line-height: 1.25 !important;
+        padding: 4px 0 8px !important;
+        color: var(--text);
+      }
+      .write-title-input:focus { outline: none; }
+      .write-permalink {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 12px;
+        font-size: 0.82rem;
+        color: var(--muted);
+      }
+      .write-permalink input {
+        flex: 1;
+        min-width: 120px;
+        padding: 6px 10px !important;
+        font-size: 0.84rem !important;
+      }
+      .md-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        padding: 8px;
+        margin-bottom: 0;
+        border: 1px solid var(--line);
+        border-bottom: none;
+        border-radius: 12px 12px 0 0;
+        background: rgba(255, 255, 255, 0.65);
+      }
+      .md-toolbar button {
+        border: 1px solid transparent;
+        background: transparent;
+        border-radius: 8px;
+        padding: 5px 9px;
+        font: inherit;
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: var(--muted);
+        cursor: pointer;
+      }
+      .md-toolbar button:hover {
+        background: rgba(255, 255, 255, 0.9);
+        color: var(--text);
+        border-color: var(--line);
+      }
+      .md-view-tabs {
+        display: flex;
+        gap: 4px;
+        margin-left: auto;
+      }
+      .md-view-tabs button.is-active {
+        background: rgba(168, 152, 192, 0.18);
+        color: var(--text);
+        border-color: var(--line);
+      }
+      .md-workspace {
+        display: grid;
+        grid-template-columns: 1fr;
+        border: 1px solid var(--line);
+        border-radius: 0 0 12px 12px;
+        overflow: hidden;
+        min-height: 420px;
+        background: rgba(8, 12, 24, 0.94);
+      }
+      .md-workspace.is-split {
+        grid-template-columns: 1fr 1fr;
+      }
+      .md-workspace.is-preview-only .md-editor-pane { display: none; }
+      .md-workspace.is-edit-only .md-preview-pane { display: none; }
+      .md-workspace.is-split .md-preview-pane {
+        border-left: 1px solid var(--line);
+      }
+      #contentMarkdown {
+        min-height: 420px;
+        width: 100%;
+        height: 100%;
+        border: none !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        resize: vertical;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.86rem;
+        line-height: 1.6;
+        padding: 14px !important;
+      }
+      .md-preview-pane {
+        padding: 14px 16px;
+        overflow: auto;
+        max-height: 70vh;
+        font-size: 0.95rem;
+        line-height: 1.7;
+      }
+      .md-preview-pane h1, .md-preview-pane h2, .md-preview-pane h3 {
+        margin: 1.1em 0 0.45em;
+        line-height: 1.3;
+      }
+      .md-preview-pane p { margin: 0.65em 0; }
+      .md-preview-pane img { max-width: 100%; border-radius: 0; }
+      .md-preview-pane pre {
+        background: rgba(74, 68, 96, 0.08);
+        padding: 10px 12px;
+        border-radius: 0;
+        overflow: auto;
+      }
+      .md-preview-pane code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.88em; }
+      .md-preview-pane blockquote {
+        margin: 0.8em 0;
+        padding: 0.2em 0 0.2em 12px;
+        border-left: 3px solid var(--c-purple);
+        color: var(--muted);
+      }
+      .write-side label { display: block; margin-bottom: 8px; }
+      .write-side .cover-preview-wrap {
+        flex-direction: column;
+        margin-top: 8px;
+      }
+      .write-side .cover-preview {
+        width: 100%;
+        max-height: 140px;
+        object-fit: cover;
+      }
+      .write-recover {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+        margin: 0 16px 12px;
+        padding: 10px 12px;
+        border-radius: 0;
+        border: 1px solid rgba(208, 160, 80, 0.45);
+        background: rgba(255, 244, 220, 0.85);
+        font-size: 0.86rem;
+      }
+      .write-preview-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 80;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        background: rgba(40, 36, 56, 0.45);
+        backdrop-filter: blur(6px);
+      }
+      .write-preview-modal.hidden { display: none !important; }
+      .write-preview-card {
+        width: min(820px, 100%);
+        max-height: min(88vh, 900px);
+        overflow: auto;
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: var(--shadow-hover);
+        padding: 22px 24px 28px;
+      }
+      .write-preview-card header {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: flex-start;
+        margin-bottom: 14px;
+      }
+      .write-preview-card h2 {
+        margin: 0 0 6px;
+        font-size: 1.45rem;
+      }
+      .write-preview-meta { color: var(--muted); font-size: 0.85rem; }
+      .write-preview-cover {
+        width: 100%;
+        max-height: 220px;
+        object-fit: cover;
+        border-radius: 0;
+        margin-bottom: 16px;
+      }
+      body.write-focus .nav-tabs,
+      body.write-focus .topbar,
+      body.write-focus .write-side {
+        display: none !important;
+      }
+      body.write-focus .write-layout {
+        grid-template-columns: 1fr;
+      }
+      body.write-focus .write-main {
+        border-right: none;
+        max-width: 920px;
+        margin: 0 auto;
+      }
+      body.write-focus #panel-write .page-head { display: none; }
+      @media (max-width: 960px) {
+        .write-layout { grid-template-columns: 1fr; }
+        .write-main { border-right: none; border-bottom: 1px solid var(--line); }
+        .md-workspace.is-split { grid-template-columns: 1fr; }
+        .md-workspace.is-split .md-preview-pane { border-left: none; border-top: 1px solid var(--line); }
+      }
+
+      .photos-admin-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 10px;
+        margin-top: 12px;
+      }
+      .library-admin-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 10px;
+        margin-top: 12px;
+      }
+      .library-admin-card {
+        border: 1px solid var(--line);
+        border-radius: 0;
+        overflow: hidden;
+        background: rgba(255,255,255,0.62);
+        padding: 0;
+        text-align: left;
+        font: inherit;
+        color: inherit;
+        cursor: pointer;
+      }
+      .library-admin-card.is-active {
+        outline: 2px solid rgba(200,130,170,0.55);
+      }
+      .library-admin-card img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 3 / 4.1;
+        object-fit: cover;
+        background: #eee;
+      }
+      .library-admin-card .cap {
+        padding: 8px 10px 10px;
+        font-size: 12px;
+        line-height: 1.4;
+      }
+      .library-admin-card .muted { color: var(--muted); }
+      .portal-subtabs {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+      }
+      .portal-subtabs button {
+        border: 1px solid var(--line);
+        background: rgba(255,255,255,0.55);
+        border-radius: 0;
+        padding: 6px 14px;
+        font: inherit;
+        font-weight: 700;
+        color: var(--muted);
+        cursor: pointer;
+      }
+      .portal-subtabs button.is-active {
+        color: var(--text);
+        background: rgba(255,255,255,0.9);
+        box-shadow: 0 4px 14px rgba(170,150,218,0.18);
+      }
+      .portal-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      .portal-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        align-items: center;
+        padding: 10px 12px;
+        border: 1px solid var(--line);
+        border-radius: 0;
+        background: rgba(255,255,255,0.55);
+        text-align: left;
+        font: inherit;
+        color: inherit;
+        cursor: pointer;
+        width: 100%;
+      }
+      .portal-row:hover { background: rgba(255,255,255,0.82); }
+      .portal-row strong { display: block; }
+      .portal-row span { color: var(--muted); font-size: 12px; }
+      .portal-meta {
+        color: var(--muted);
+        font-size: 12px;
+        margin: 0 0 8px;
+      }
+      .photos-admin-card {
+        border: 1px solid var(--line);
+        border-radius: 0;
+        overflow: hidden;
+        background: rgba(255,255,255,0.55);
+        cursor: pointer;
+        text-align: left;
+        padding: 0;
+        font: inherit;
+        color: inherit;
+      }
+      .photos-admin-card img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: cover;
+        background: #ddd;
+      }
+      .photos-admin-card .cap {
+        padding: 6px 8px 8px;
+        font-size: 0.75rem;
+        line-height: 1.35;
+      }
+      .photos-admin-card.is-active {
+        outline: 2px solid var(--c-purple, #AA96DA);
+      }
+      .row-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .card-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+      .card-head strong { font-size: 1rem; }
+
+      .edit-banner {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 12px 16px;
+        margin-bottom: 14px;
+        border-radius: 0;
+        background: linear-gradient(90deg, rgba(255,183,197,0.35), rgba(168,216,234,0.3));
+        border: 1px solid rgba(170, 150, 218, 0.35);
+        font-size: 0.9rem;
+      }
+      .edit-banner strong { color: #9B6BB0; }
+
+      .item {
+        border-top: 1px solid rgba(170, 150, 218, 0.18);
+        padding: 14px 0;
+      }
+      .item:first-child { border-top: none; padding-top: 0; }
+
+      .tag {
+        display: inline-block;
+        padding: 2px 10px;
+        border-radius: 0;
+        font-size: 11px;
+        font-weight: 700;
+        border: 1px solid var(--line);
+        background: rgba(8, 12, 24, 0.94);
+      }
+      .tag.published, .tag.approved {
+        color: var(--ok);
+        border-color: rgba(60, 184, 138, 0.4);
+        background: rgba(181, 234, 215, 0.35);
+      }
+      .tag.draft {
+        color: #B8942A;
+        border-color: rgba(224, 168, 74, 0.45);
+        background: rgba(255, 236, 190, 0.55);
+      }
+      .tag.pending {
+        color: var(--bad);
+        border-color: rgba(232, 106, 122, 0.4);
+        background: rgba(255, 183, 197, 0.35);
+      }
+      .tag.rejected {
+        color: var(--bad);
+        border-color: rgba(232, 106, 122, 0.4);
+      }
+
+      .muted { color: var(--muted); font-size: 12px; }
+      a { color: #6B8FD4; text-decoration: none; }
+      a:hover { text-decoration: underline; }
+
+      .err { color: var(--bad); margin: 8px 0 0; font-size: 0.84rem; }
+      .ok-msg { color: var(--ok); margin: 8px 0 0; font-size: 0.84rem; line-height: 1.55; }
+      .ok-msg a { color: #6B8FD4; font-weight: 600; }
+
+      .cover-preview-wrap {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        margin: 0 0 12px;
+      }
+      .cover-preview {
+        width: 168px;
+        aspect-ratio: 16 / 10;
+        border-radius: 0;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.7);
+        object-fit: cover;
+        flex: 0 0 auto;
+      }
+      .cover-preview.is-empty {
+        display: grid;
+        place-items: center;
+        color: var(--muted);
+        font-size: 0.78rem;
+        text-align: center;
+        padding: 8px;
+      }
+      .cover-hint { margin: 0; font-size: 0.78rem; color: var(--muted); }
+
+      .toast-bar { min-height: 1.4rem; margin-bottom: 10px; }
+      .adv { margin-top: 8px; font-size: 0.78rem; color: var(--muted); }
+      .adv summary { cursor: pointer; color: #6B8FD4; }
+      .filter-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+      .empty-hint {
+        text-align: center;
+        padding: 28px 16px;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 960px) {
+        .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        .quick-actions { grid-template-columns: repeat(2, 1fr); }
+        .board-grid, .split-2, .sys-status { grid-template-columns: 1fr; }
+        .topbar {
+          grid-template-columns: 1fr;
+          justify-items: start;
+        }
+        .topbar-center { justify-self: start; }
+        .topbar-right { justify-content: flex-start; }
+      }
+      @media (max-width: 640px) {
+        .stats-grid { grid-template-columns: 1fr 1fr; }
+        .row-2,
+        #friendForm .row-2 { grid-template-columns: 1fr; }
+        .stat-num { font-size: 1.6rem; }
+        .main { padding: 12px 12px 32px; }
+        .nav-tabs { padding: 10px 12px 0; }
+        .cover-preview-wrap { flex-direction: column; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 背景粒子 -->
+    <canvas id="particleCanvas" aria-hidden="true"></canvas>
+
+    <!-- 登录 -->
+    <div class="login-wrap" id="loginView">
+      <form class="login-card" id="loginForm">
+        <div class="brand">
+          <p class="brand-word">次元指挥中心</p>
+          <p>ASKUARY · 次元管理者登录</p>
+        </div>
+        <label>
+          管理密码
+          <input id="password" type="password" required autocomplete="current-password" placeholder="与服务器 ADMIN_TOKEN 一致（登录后存短时会话票）" />
+        </label>
+        <details class="adv">
+          <summary>高级：API 地址</summary>
+          <label style="margin-top: 10px">
+            API 地址
+            <input id="apiBase" type="url" placeholder="默认当前站点，如 https://www.askuary.cn" />
+          </label>
+        </details>
+        <div class="row" style="margin-top: 8px">
+          <button type="submit" id="loginBtn" style="width:100%; min-height:2.7rem">进入指挥中心</button>
+        </div>
+        <p class="err" id="loginErr" hidden></p>
+      </form>
+    </div>
+
+    <!-- 控制台 -->
+    <div class="app-shell hidden" id="dashView">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div class="logo-mark" aria-hidden="true">✧</div>
+          <span class="brand-title">次元指挥中心</span>
+        </div>
+        <div class="topbar-center">
+          <div class="breadcrumb" id="breadcrumb">
+            <span>指挥中心</span>
+            <span class="sep">/</span>
+            <span class="current" id="breadcrumbCurrent">总览</span>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="admin-chip" title="当前身份">
+            <span class="avatar" aria-hidden="true"></span>
+            <span class="admin-name">次元管理者</span>
+          </div>
+          <a class="ghost" id="previewFrontBtn" href="https://www.askuary.cn/home/" target="_blank" rel="noopener noreferrer"
+             style="display:inline-flex;align-items:center;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,0.65);color:var(--text);font-weight:700;text-decoration:none;box-shadow:none;">前台预览</a>
+          <button type="button" class="ghost" id="reloadBtn">刷新数据</button>
+          <button type="button" class="ghost" id="logoutBtn">退出登录</button>
+        </div>
+      </header>
+
+      <nav class="nav-tabs" id="navList">
+        <button type="button" class="nav-btn is-active" data-tab="overview"><span class="nav-icon">◈</span> 总览</button>
+        <button type="button" class="nav-btn" data-tab="write"><span class="nav-icon">✎</span> 写作发布</button>
+        <button type="button" class="nav-btn" data-tab="content"><span class="nav-icon">☰</span> 内容管理</button>
+        <button type="button" class="nav-btn" data-tab="photos"><span class="nav-icon">📷</span> 摄影管理</button>
+        <button type="button" class="nav-btn" data-tab="library"><span class="nav-icon">📚</span> 馆藏管理</button>
+        <button type="button" class="nav-btn" data-tab="portal"><span class="nav-icon">✦</span> 门户配置</button>
+        <button type="button" class="nav-btn" data-tab="friends"><span class="nav-icon">🔗</span> 友联管理</button>
+        <button type="button" class="nav-btn" data-tab="comments"><span class="nav-icon">💬</span> 评论管理</button>
+        <button type="button" class="nav-btn" data-tab="arcade"><span class="nav-icon">🕹️</span> 街机管理</button>
+      </nav>
+
+      <main class="main">
+        <div class="toast-bar">
+          <p class="err" id="err" hidden></p>
+          <p class="ok-msg" id="ok" hidden></p>
+        </div>
+
+        <!-- 总览仪表盘 -->
+        <section class="panel is-active" id="panel-overview" data-panel="overview">
+          <div class="page-head">
+            <div>
+              <h1>总览仪表盘</h1>
+              <p class="sub">次元站点运行态势一览</p>
+            </div>
+          </div>
+
+          <!-- 4 统计卡 -->
+          <div class="stats-grid" id="statsGrid">
+            <div class="stat-card" data-stat="content">
+              <div class="stat-icon">📝</div>
+              <div class="stat-num"><span id="statContentTotal">—</span><span class="stat-unit"> 篇</span></div>
+              <div class="stat-label">内容总数</div>
+            </div>
+            <div class="stat-card" data-stat="published">
+              <div class="stat-icon">📤</div>
+              <div class="stat-num" id="statPublished">—</div>
+              <div class="stat-label">已发布</div>
+            </div>
+            <div class="stat-card" data-stat="friends">
+              <div class="stat-icon">🔗</div>
+              <div class="stat-num" id="statPendingFriends">—</div>
+              <div class="stat-label">待审友联</div>
+            </div>
+            <div class="stat-card" data-stat="comments">
+              <div class="stat-icon">💬</div>
+              <div class="stat-num" id="statPendingComments">—</div>
+              <div class="stat-label">待审评论</div>
+            </div>
+          </div>
+
+          <!-- 待办提醒 -->
+          <div class="glass-card todo-card" id="todoCard">
+            <span class="pulse-dot" id="todoPulse"></span>
+            <div class="todo-text" id="todoText">正在同步待办…</div>
+            <button type="button" class="ghost" data-goto="comments" style="flex-shrink:0">去处理</button>
+          </div>
+
+          <!-- 快捷操作 -->
+          <div class="glass-card">
+            <div class="section-title"><span>快捷操作</span><span class="muted">游戏风入口</span></div>
+            <div class="quick-actions">
+              <button type="button" class="game-btn" data-goto="write"><span class="g-ico">✨</span>新建内容</button>
+              <button type="button" class="game-btn" data-goto="content"><span class="g-ico">📋</span>内容列表</button>
+              <button type="button" class="game-btn" data-goto="photos"><span class="g-ico">📷</span>摄影管理</button>
+              <button type="button" class="game-btn" data-goto="library"><span class="g-ico">📚</span>馆藏管理</button>
+              <button type="button" class="game-btn" data-goto="friends"><span class="g-ico">🔗</span>友联审核</button>
+              <button type="button" class="game-btn" data-goto="comments"><span class="g-ico">💬</span>评论审核</button>
+            </div>
+          </div>
+
+          <!-- 数据看板：趋势 + Top5 -->
+          <div class="board-grid">
+            <div class="glass-card">
+              <div class="section-title"><span>近 7 天发布趋势</span><span class="muted">篇/日</span></div>
+              <div class="bars" id="trendBars"></div>
+            </div>
+            <div class="glass-card">
+              <div class="section-title"><span>热门文章 Top5</span><span class="muted">按日期近新</span></div>
+              <div class="top-list" id="topArticles"></div>
+            </div>
+          </div>
+
+          <!-- 最近内容 -->
+          <div class="glass-card">
+            <div class="section-title">
+              <span>内容管理 · 最近 5 篇</span>
+              <button type="button" class="ghost" data-goto="content" style="padding:6px 12px;font-size:0.8rem">全部内容</button>
+            </div>
+            <div id="overviewRecentContent"></div>
+          </div>
+
+          <!-- 友联 & 评论待审 -->
+          <div class="split-2">
+            <div class="glass-card">
+              <div class="section-title">
+                <span>待审友联</span>
+                <button type="button" class="ghost" data-goto="friends" style="padding:6px 12px;font-size:0.8rem">管理</button>
+              </div>
+              <div id="overviewPendingFriends"></div>
+            </div>
+            <div class="glass-card">
+              <div class="section-title">
+                <span>待审评论</span>
+                <button type="button" class="ghost" data-goto="comments" style="padding:6px 12px;font-size:0.8rem">管理</button>
+              </div>
+              <div id="overviewPendingComments"></div>
+            </div>
+          </div>
+
+          <!-- 系统状态 -->
+          <div class="glass-card">
+            <div class="section-title"><span>系统状态 · 次元稳定性</span></div>
+            <div class="sys-status">
+              <div class="sys-cell">
+                <div class="k">运行状态</div>
+                <div class="v">🟢 稳定运行中</div>
+              </div>
+              <div class="sys-cell">
+                <div class="k">上次备份</div>
+                <div class="v">2026-07-19 02:00</div>
+              </div>
+              <div class="sys-cell">
+                <div class="k">已运行</div>
+                <div class="v" id="sysUptime">383 天</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 写作发布 -->
+        <section class="panel" id="panel-write" data-panel="write">
+          <div class="page-head">
+            <div>
+              <h1>写作发布</h1>
+              <p class="sub">主页文章 / 碎念 / 宇宙博客 · 类 WordPress 写作台</p>
+            </div>
+          </div>
+          <div class="glass-card no-hover write-shell">
+            <div class="write-topbar">
+              <div class="write-status" id="writeStatusText">新文章 · 尚未保存</div>
+              <div class="row">
+                <button type="button" id="contentDraftBtn">存草稿</button>
+                <button type="button" class="ok" id="contentPublishBtn">发布</button>
+                <button type="button" class="ghost" id="contentPreviewBtn">预览</button>
+                <button type="button" class="ghost" id="contentFocusBtn">专注</button>
+                <button type="button" class="ghost" id="contentResetBtn">新建</button>
+              </div>
+            </div>
+            <div class="write-recover hidden" id="writeRecoverBar">
+              <span>发现未提交的本地草稿，是否恢复？</span>
+              <button type="button" class="ok" id="writeRecoverBtn">恢复</button>
+              <button type="button" class="ghost" id="writeDiscardLocalBtn">丢弃</button>
+            </div>
+            <form id="contentForm">
+              <input type="hidden" id="contentId" value="" />
+              <input type="hidden" id="contentStatus" value="draft" />
+              <div class="write-layout">
+                <div class="write-main">
+                  <input id="contentTitle" class="write-title-input" type="text" required maxlength="200" placeholder="在此输入标题" />
+                  <div class="write-permalink">
+                    <span>永久链接</span>
+                    <input id="contentSlug" type="text" maxlength="120" placeholder="留空则按标题生成" />
+                    <button type="button" class="ghost" id="contentCancelEdit">取消编辑</button>
+                  </div>
+                  <div class="md-toolbar" id="mdToolbar" role="toolbar" aria-label="Markdown 工具栏">
+                    <button type="button" data-md="bold" title="粗体">B</button>
+                    <button type="button" data-md="italic" title="斜体"><i>I</i></button>
+                    <button type="button" data-md="strike" title="删除线">S̶</button>
+                    <button type="button" data-md="h2" title="二级标题">H2</button>
+                    <button type="button" data-md="h3" title="三级标题">H3</button>
+                    <button type="button" data-md="quote" title="引用">“”</button>
+                    <button type="button" data-md="code" title="代码块">&lt;/&gt;</button>
+                    <button type="button" data-md="ul" title="无序列表">• 列表</button>
+                    <button type="button" data-md="ol" title="有序列表">1. 列表</button>
+                    <button type="button" data-md="link" title="链接">链接</button>
+                    <button type="button" data-md="image" title="插图">图片</button>
+                    <button type="button" data-md="hr" title="分隔线">—</button>
+                    <button type="button" data-md="sc-alert" title="提示框短代码">提示</button>
+                    <button type="button" data-md="sc-fold" title="折叠短代码">折叠</button>
+                    <button type="button" data-md="sc-help" title="短代码教程">短代码?</button>
+                    <div class="md-view-tabs">
+                      <button type="button" data-view="edit" class="is-active">编辑</button>
+                      <button type="button" data-view="split">分栏</button>
+                      <button type="button" data-view="preview">预览</button>
+                    </div>
+                  </div>
+                  <div class="md-workspace is-edit-only" id="mdWorkspace">
+                    <div class="md-editor-pane">
+                      <textarea id="contentMarkdown" required placeholder="支持 Markdown… 可用上方工具栏快速插入格式"></textarea>
+                    </div>
+                    <div class="md-preview-pane" id="contentMdPreview" aria-live="polite"></div>
+                  </div>
+                </div>
+                <aside class="write-side">
+                  <div class="write-box">
+                    <h3>发布</h3>
+                    <label>
+                      类型
+                      <select id="contentMode">
+                        <option value="article">主页文章</option>
+                        <option value="shuoshuo">碎念</option>
+                        <option value="blog">宇宙博客</option>
+                      </select>
+                    </label>
+                    <label>
+                      日期
+                      <input id="contentDate" type="date" />
+                    </label>
+                    <p class="cover-hint" id="writeSideStatus">状态：草稿</p>
+                    <div class="row" style="margin-top:8px">
+                      <button type="button" id="contentDraftBtnSide">存草稿</button>
+                      <button type="button" class="ok" id="contentPublishBtnSide">发布</button>
+                    </div>
+                  </div>
+                  <div class="write-box">
+                    <h3>封面</h3>
+                    <label>
+                      封面图 URL（可选）
+                      <input id="contentCover" type="text" maxlength="800" placeholder="留空 = 随机图库；或填静态 URL" />
+                    </label>
+                    <div class="cover-preview-wrap">
+                      <img id="contentCoverPreview" class="cover-preview" alt="" hidden />
+                      <div id="contentCoverPreviewEmpty" class="cover-preview is-empty">保存后使用随机图库</div>
+                      <div class="row">
+                        <button type="button" class="ghost" id="contentRandomCoverBtn">随机封面</button>
+                        <button type="button" class="ghost" id="contentClearCoverBtn">改用随机</button>
+                      </div>
+                      <p class="cover-hint" id="contentCoverHint">列表卡默认按 slug 取随机封面。</p>
+                    </div>
+                  </div>
+                  <div class="write-box">
+                    <h3>摘要与标签</h3>
+                    <label>
+                      摘要
+                      <input id="contentSummary" type="text" maxlength="500" placeholder="列表摘要（可选）" />
+                    </label>
+                    <label>
+                      标签（逗号分隔）
+                      <input id="contentTags" type="text" placeholder="碎念会自动加「碎念」" />
+                    </label>
+                  </div>
+                </aside>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <div class="write-preview-modal hidden" id="writePreviewModal" role="dialog" aria-modal="true" aria-labelledby="writePreviewTitle">
+          <div class="write-preview-card">
+            <header>
+              <div>
+                <h2 id="writePreviewTitle">预览</h2>
+                <div class="write-preview-meta" id="writePreviewMeta"></div>
+              </div>
+              <button type="button" class="ghost" id="writePreviewClose">关闭</button>
+            </header>
+            <img id="writePreviewCover" class="write-preview-cover" alt="" hidden />
+            <div id="writePreviewBody" class="md-preview-pane"></div>
+          </div>
+        </div>
+
+        <!-- 内容管理 -->
+        <section class="panel" id="panel-content" data-panel="content">
+          <div class="page-head">
+            <div>
+              <h1>内容管理</h1>
+              <p class="sub">筛选、编辑、发布或删除；可一键导入前台静态文章（不会覆盖你已保存的编辑）</p>
+            </div>
+            <div class="row"><button type="button" class="ok" id="contentImportBtn">一键导入静态文章</button></div>
+          </div>
+          <div class="glass-card no-hover">
+            <div class="card-head">
+              <strong>内容列表</strong>
+              <div class="filter-bar">
+                <select id="contentKindFilter">
+                  <option value="all">全部类型</option>
+                  <option value="journal">主页 / 碎念</option>
+                  <option value="blog">宇宙博客</option>
+                </select>
+                <select id="contentStatusFilter">
+                  <option value="all">全部状态</option>
+                  <option value="published">已发布</option>
+                  <option value="draft">草稿</option>
+                </select>
+              </div>
+            </div>
+            <div id="contentList"></div>
+          </div>
+        </section>
+
+        <!-- 友联管理 -->
+        <section class="panel" id="panel-friends" data-panel="friends">
+          <div class="page-head">
+            <div>
+              <h1>友联管理</h1>
+              <p class="sub">新建、编辑与审核友链申请</p>
+            </div>
+          </div>
+          <div class="glass-card no-hover">
+            <div class="edit-banner hidden" id="friendEditBanner">
+              <span>正在编辑友联：<strong id="friendEditName"></strong></span>
+              <button type="button" class="ghost" id="friendCancelEdit">取消编辑</button>
+            </div>
+            <strong>新建 / 编辑友联</strong>
+            <form class="form-grid" id="friendForm" style="margin-top: 12px">
+              <input type="hidden" id="friendId" value="" />
+              <div class="row-2">
+                <label>
+                  站点名称
+                  <input id="friendName" type="text" required maxlength="80" placeholder="友站名称" />
+                </label>
+                <label>
+                  站点 URL
+                  <input id="friendUrl" type="url" required maxlength="500" placeholder="https://example.com" />
+                </label>
+              </div>
+              <div class="row-2">
+                <label>
+                  头像 URL（可选）
+                  <input id="friendAvatar" type="url" maxlength="500" placeholder="https://…" />
+                </label>
+                <label>
+                  截图 URL（可选）
+                  <input id="friendScreenshot" type="url" maxlength="500" placeholder="https://…" />
+                </label>
+              </div>
+              <label>
+                简介
+                <input id="friendDescription" type="text" maxlength="200" placeholder="一句话介绍" />
+              </label>
+              <label>
+                联系邮箱（可选）
+                <input id="friendEmail" type="email" maxlength="120" placeholder="admin@example.com" />
+              </label>
+              <div class="row">
+                <button type="button" class="ok" id="friendSaveApproved">保存并通过</button>
+                <button type="button" class="ghost" id="friendSavePending">保存为待审</button>
+                <button type="button" class="ghost" id="friendResetBtn">清空表单</button>
+              </div>
+            </form>
+          </div>
+          <div class="glass-card no-hover">
+            <div class="card-head">
+              <strong>友联列表</strong>
+              <select id="statusFilter">
+                <option value="pending">待审核</option>
+                <option value="all">全部</option>
+                <option value="approved">已通过</option>
+                <option value="rejected">已拒绝</option>
+              </select>
+            </div>
+            <div id="apps"></div>
+          </div>
+        </section>
+
+        <!-- 摄影管理 -->
+        <section class="panel" id="panel-photos" data-panel="photos">
+          <div class="page-head">
+            <div>
+              <h1>摄影管理</h1>
+              <p class="sub">编辑相册、坐标与单图故事。地图按「地点」打点：同一「日常」相册也可有多个坐标。文件夹支持 <code>2026.7.13香格里拉</code> 行程目录，以及 <code>日常/上海/</code> 分类+地点。</p>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button type="button" class="ghost" id="photosSyncBtn">从静态索引同步</button>
+              <button type="button" class="ghost" id="photosReloadBtn">刷新列表</button>
+              <button type="button" class="ghost" id="photosNewAlbumBtn">新建相册</button>
+            </div>
+          </div>
+          <div class="glass-card no-hover" style="margin-bottom:1rem;">
+            <div class="card-head">
+              <strong>相册筛选</strong>
+              <select id="photosAlbumFilter" title="相册">
+                <option value="all">全部相册</option>
+              </select>
+            </div>
+            <div id="photosList" class="photos-admin-grid"></div>
+          </div>
+          <div class="glass-card no-hover" id="photoEditCard" hidden>
+            <div class="card-head">
+              <strong id="photoEditTitle">编辑照片</strong>
+              <button type="button" class="ghost" id="photoEditCancel">关闭</button>
+            </div>
+            <form id="photoEditForm" class="form-grid">
+              <input type="hidden" id="photoEditId" />
+              <label>标题<input id="photoTitle" type="text" maxlength="200" /></label>
+              <label>日期<input id="photoDate" type="text" placeholder="YYYY-MM-DD" maxlength="40" /></label>
+              <label>地点名称<input id="photoLocation" type="text" maxlength="200" placeholder="地图标记用，如 上海" /></label>
+              <label>所属相册<select id="photoAlbumKey"></select></label>
+              <label>纬度 lat<input id="photoLat" type="number" step="any" placeholder="31.2304" /></label>
+              <label>经度 lng<input id="photoLng" type="number" step="any" placeholder="121.4737" /></label>
+              <label>设备<input id="photoDevice" type="text" maxlength="200" /></label>
+              <label>天气<input id="photoWeather" type="text" maxlength="120" /></label>
+              <label>时间标签<input id="photoTimeLabel" type="text" maxlength="120" placeholder="故事页展示的时间" /></label>
+              <label class="full">简介<textarea id="photoIntro" rows="5" maxlength="8000"></textarea></label>
+              <label>网易云 ID<input id="photoMusicId" type="text" maxlength="40" /></label>
+              <label>曲名<input id="photoMusicTitle" type="text" maxlength="200" /></label>
+              <label>艺术家<input id="photoMusicArtist" type="text" maxlength="200" /></label>
+              <p class="full muted" style="margin:0;font-size:12px;opacity:.75;">纬度/经度保存后会覆盖静态索引，并出现在主页足迹地图。地点名用于聚合同一位置的多张照片。</p>
+              <div class="full" style="display:flex;gap:8px;flex-wrap:wrap;">
+                <button type="submit" class="primary">保存元数据</button>
+                <button type="button" class="ghost" id="photoDeleteBtn">删除 DB 覆盖</button>
+              </div>
+            </form>
+          </div>
+          <div class="glass-card no-hover" id="albumEditCard">
+            <div class="card-head"><strong>编辑当前相册默认故事</strong></div>
+            <form id="albumEditForm" class="form-grid">
+              <input type="hidden" id="albumEditKey" />
+              <label>相册标题<input id="albumLabel" type="text" maxlength="200" /></label>
+              <label>相册日期<input id="albumDate" type="text" maxlength="40" /></label>
+              <label class="full">相册描述<textarea id="albumDescription" rows="2" maxlength="2000"></textarea></label>
+              <label class="full">默认简介<textarea id="albumIntro" rows="4" maxlength="8000"></textarea></label>
+              <label>默认天气<input id="albumWeather" type="text" maxlength="120" /></label>
+              <label>默认设备<input id="albumDevice" type="text" maxlength="200" /></label>
+              <div class="full"><button type="submit" class="primary">保存相册</button></div>
+            </form>
+          </div>
+        </section>
+
+        <!-- 馆藏管理 -->
+        <section class="panel" id="panel-library" data-panel="library">
+          <div class="page-head">
+            <div>
+              <h1>馆藏管理</h1>
+              <p class="sub">图书 / 小说 / 漫画 / 游戏 / 动漫 / 电影 / 电视剧 / 综艺。可从静态 library.json 导入，之后在后台增删改，前台自动读 API。</p>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button type="button" class="primary" id="libraryNewBtn">新建条目</button>
+              <button type="button" class="ghost" id="libraryImportBtn">从静态索引导入</button>
+              <button type="button" class="ghost" id="libraryReloadBtn">刷新列表</button>
+            </div>
+          </div>
+          <div class="glass-card no-hover" style="margin-bottom:1rem;">
+            <div class="card-head">
+              <strong>筛选</strong>
+              <div class="filter-bar">
+                <select id="libraryTypeFilter" title="类型">
+                  <option value="all">全部类型</option>
+                  <option value="book">图书</option>
+                  <option value="novel">小说</option>
+                  <option value="manga">漫画</option>
+                  <option value="game">游戏</option>
+                  <option value="anime">动漫</option>
+                  <option value="movie">电影</option>
+                  <option value="drama">电视剧</option>
+                  <option value="variety">综艺</option>
+                </select>
+                <select id="libraryStatusFilter" title="状态">
+                  <option value="all">全部状态</option>
+                  <option value="reading">进行中</option>
+                  <option value="finished">已完成</option>
+                  <option value="planned">想看</option>
+                  <option value="dropped">弃坑</option>
+                </select>
+              </div>
+            </div>
+            <div id="libraryList" class="library-admin-grid"></div>
+          </div>
+          <div class="glass-card no-hover" id="libraryEditCard" hidden>
+            <div class="card-head">
+              <strong id="libraryEditTitle">编辑馆藏</strong>
+              <button type="button" class="ghost" id="libraryEditCancel">关闭</button>
+            </div>
+            <form id="libraryEditForm" class="form-grid">
+              <input type="hidden" id="libraryEditSlug" />
+              <label>标题<input id="libraryTitle" type="text" maxlength="200" required /></label>
+              <label>作者 / 制作<input id="libraryAuthor" type="text" maxlength="200" /></label>
+              <label>Slug / ID<input id="librarySlug" type="text" maxlength="80" placeholder="可空，自动生成" /></label>
+              <label>类型
+                <select id="libraryType">
+                  <option value="book">图书</option>
+                  <option value="novel">小说</option>
+                  <option value="manga">漫画</option>
+                  <option value="game">游戏</option>
+                  <option value="anime">动漫</option>
+                  <option value="movie">电影</option>
+                  <option value="drama">电视剧</option>
+                  <option value="variety">综艺</option>
+                </select>
+              </label>
+              <label>状态
+                <select id="libraryStatus">
+                  <option value="reading">进行中</option>
+                  <option value="finished">已完成</option>
+                  <option value="planned">想看</option>
+                  <option value="dropped">弃坑</option>
+                </select>
+              </label>
+              <label>封面 URL<input id="libraryCover" type="text" maxlength="800" placeholder="/library/covers/xxx.jpg 或外链" /></label>
+              <label>进度文案<input id="libraryProgress" type="text" maxlength="120" placeholder="如 3 / 12" /></label>
+              <label>当前进度<input id="libraryProgressCurrent" type="number" min="0" step="1" /></label>
+              <label>总进度<input id="libraryProgressTotal" type="number" min="0" step="1" /></label>
+              <label>评分 (0-10)<input id="libraryRating" type="number" min="0" max="10" step="0.1" /></label>
+              <label>年份<input id="libraryYear" type="text" maxlength="20" /></label>
+              <label>平台<input id="libraryPlatform" type="text" maxlength="80" placeholder="豆瓣 / Bangumi / 微信读书" /></label>
+              <label class="full">外链<input id="libraryLink" type="url" maxlength="800" /></label>
+              <label class="full">标签<input id="libraryGenre" type="text" maxlength="200" placeholder="用 · 分隔" /></label>
+              <label class="full">简介<textarea id="librarySummary" rows="3" maxlength="4000"></textarea></label>
+              <label class="full">阅读想法<textarea id="libraryThoughts" rows="4" maxlength="8000"></textarea></label>
+              <label class="full">好句摘要（每行一句）<textarea id="libraryQuotes" rows="4" maxlength="8000"></textarea></label>
+              <label class="full">总结（每行一条）<textarea id="libraryTakeaways" rows="4" maxlength="8000"></textarea></label>
+              <label>更新日期<input id="libraryUpdated" type="text" maxlength="40" placeholder="YYYY-MM-DD" /></label>
+              <div class="full" style="display:flex;gap:8px;flex-wrap:wrap;">
+                <button type="submit" class="primary">保存</button>
+                <button type="button" class="ghost" id="libraryDeleteBtn">删除</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- 门户配置：光点 / 流星 / 恒星 -->
+        <section class="panel" id="panel-portal" data-panel="portal">
+          <div class="page-head">
+            <div>
+              <h1>门户配置</h1>
+              <p class="sub">编辑宇宙页地球光点、流星文案、恒星导航。保存后写入数据库并覆盖前台静态 JSON；可随时清除覆盖回退到 data/*.json。</p>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button type="button" class="ghost" id="portalImportBtn">从站点 JSON 导入</button>
+              <button type="button" class="ghost" id="portalClearBtn">清除当前覆盖</button>
+              <button type="button" class="ghost" id="portalReloadBtn">刷新</button>
+            </div>
+          </div>
+          <div class="portal-subtabs" id="portalSubtabs">
+            <button type="button" class="is-active" data-pkey="spots">地球光点</button>
+            <button type="button" data-pkey="meteor-words">流星文案</button>
+            <button type="button" data-pkey="nav-stars">恒星导航</button>
+            <button type="button" data-pkey="bg-quotes">励志背景字</button>
+            <button type="button" data-pkey="site-widgets">天气主题</button>
+            <button type="button" data-pkey="notices">主页公告</button>
+          </div>
+          <p class="portal-meta" id="portalMeta">尚未加载</p>
+          <div class="glass-card no-hover">
+            <div class="card-head">
+              <strong id="portalListTitle">地球光点</strong>
+              <button type="button" class="ghost" id="portalAddBtn">新增</button>
+            </div>
+            <div id="portalList" class="portal-list"></div>
+          </div>
+          <div class="glass-card no-hover" id="portalEditCard" hidden>
+            <div class="card-head">
+              <strong id="portalEditTitle">编辑</strong>
+              <button type="button" class="ghost" id="portalEditCancel">关闭</button>
+            </div>
+            <form id="portalEditForm" class="form-grid"></form>
+          </div>
+        </section>
+
+        <!-- 评论管理 -->
+        <section class="panel" id="panel-comments" data-panel="comments">
+          <div class="page-head">
+            <div>
+              <h1>评论管理</h1>
+              <p class="sub">审核全站留言（文章 / 碎念 / 友联 / 博客等）</p>
+            </div>
+          </div>
+          <div class="glass-card no-hover">
+            <div class="card-head">
+              <strong>评论列表</strong>
+              <div class="filter-bar">
+                <select id="commentPathFilter" title="评论路径">
+                  <option value="all" selected>全部路径</option>
+                  <option value="/friends/">友联页</option>
+                  <option value="/journal/">文章（journal）</option>
+                  <option value="/blog/">宇宙博客</option>
+                  <option value="/photos/">摄影</option>
+                  <option value="/games/">街机</option>
+                </select>
+                <select id="commentFilter">
+                  <option value="pending">待审核</option>
+                  <option value="published">已发布</option>
+                  <option value="all">全部状态</option>
+                </select>
+              </div>
+            </div>
+            <div id="comments"></div>
+          </div>
+        </section>
+
+        <!-- 街机管理：画廊审核 + 排行榜 -->
+        <section class="panel" id="panel-arcade" data-panel="arcade">
+          <div class="page-head">
+            <div>
+              <h1>街机管理</h1>
+              <p class="sub">玩家截图画廊审核 · 时长排行榜。可从静态 games-page.json 一键导入种子画廊。</p>
+            </div>
+            <div class="row">
+              <button type="button" class="ok" id="arcadeImportBtn">一键导入静态画廊</button>
+            </div>
+          </div>
+          <div class="glass-card no-hover" style="margin-bottom:16px">
+            <div class="card-head">
+              <strong>画廊投稿</strong>
+              <div class="filter-bar">
+                <input id="arcadeGameFilter" placeholder="gameId（可空）" style="min-width:160px" />
+                <select id="arcadeGalleryFilter">
+                  <option value="pending" selected>待审核</option>
+                  <option value="published">已发布</option>
+                  <option value="rejected">已拒绝</option>
+                  <option value="all">全部</option>
+                </select>
+                <button type="button" class="ghost" id="arcadeGalleryReload">刷新</button>
+              </div>
+            </div>
+            <div id="arcadeGallery"></div>
+          </div>
+          <div class="glass-card no-hover">
+            <div class="card-head">
+              <strong>排行榜条目</strong>
+              <div class="filter-bar">
+                <input id="arcadeScoreGame" placeholder="gameId（可空）" style="min-width:160px" />
+                <button type="button" class="ghost" id="arcadeScoreReload">刷新</button>
+              </div>
+            </div>
+            <div id="arcadeScores"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked@15.0.7/marked.min.js"></script>
+    <script>
+      const $ = (id) => document.getElementById(id);
+      const KEY_BASE = 'askuary_apiBase';
+      const KEY_TOKEN = 'askuary_admin_token';
+
+      const TAB_LABELS = {
+        overview: '总览',
+        write: '写作发布',
+        content: '内容管理',
+        photos: '摄影管理',
+        library: '馆藏管理',
+        portal: '门户配置',
+        friends: '友联管理',
+        comments: '评论管理',
+        arcade: '街机管理',
+      };
+
+      /* 静态 mock：API 失败时兜底展示（约 22 篇） */
+      const MOCK = {
+        contentTotal: 22,
+        published: 18,
+        pendingFriends: 2,
+        pendingComments: 3,
+        contentItems: [
+          { id: 'm1', title: '欢迎来到 ASKUARY', status: 'published', date: '2026-07-18', kind: 'journal', tags: [], slug: 'welcome' },
+          { id: 'm2', title: '夏日碎念 · 蝉鸣', status: 'published', date: '2026-07-17', kind: 'journal', tags: ['碎念'], slug: 'summer-note' },
+          { id: 'm3', title: '宇宙博客：星轨观测', status: 'published', date: '2026-07-16', kind: 'blog', tags: ['宇宙'], slug: 'star-trail' },
+          { id: 'm4', title: '主题配色笔记', status: 'draft', date: '2026-07-15', kind: 'journal', tags: [], slug: 'palette-notes' },
+          { id: 'm5', title: '友链页改版构想', status: 'pending', date: '2026-07-14', kind: 'journal', tags: [], slug: 'friends-redesign' },
+          { id: 'm6', title: '雨天电台清单', status: 'published', date: '2026-07-13', kind: 'journal', tags: [], slug: 'rainy-radio' },
+          { id: 'm7', title: '二次元美学碎片', status: 'published', date: '2026-07-12', kind: 'journal', tags: [], slug: 'anime-aesthetics' },
+          { id: 'm8', title: 'Markdown 写作技巧', status: 'published', date: '2026-07-11', kind: 'blog', tags: [], slug: 'md-tips' },
+          { id: 'm9', title: '深夜碎念', status: 'published', date: '2026-07-10', kind: 'journal', tags: ['碎念'], slug: 'late-night' },
+          { id: 'm10', title: '站点性能优化记录', status: 'published', date: '2026-07-09', kind: 'blog', tags: [], slug: 'perf-log' },
+          { id: 'm11', title: '樱花季摄影', status: 'published', date: '2026-07-08', kind: 'journal', tags: [], slug: 'sakura-photo' },
+          { id: 'm12', title: 'API 设计随笔', status: 'draft', date: '2026-07-07', kind: 'blog', tags: [], slug: 'api-essay' },
+          { id: 'm13', title: '周末散步日记', status: 'published', date: '2026-07-06', kind: 'journal', tags: [], slug: 'weekend-walk' },
+          { id: 'm14', title: '灯下读书', status: 'published', date: '2026-07-05', kind: 'journal', tags: [], slug: 'reading-lamp' },
+          { id: 'm15', title: '云端部署备忘', status: 'published', date: '2026-07-04', kind: 'blog', tags: [], slug: 'cloud-memo' },
+          { id: 'm16', title: '咖啡与代码', status: 'published', date: '2026-07-03', kind: 'journal', tags: [], slug: 'coffee-code' },
+          { id: 'm17', title: '月相观测笔记', status: 'published', date: '2026-07-02', kind: 'blog', tags: [], slug: 'moon-phase' },
+          { id: 'm18', title: '短篇：窗边的猫', status: 'published', date: '2026-07-01', kind: 'journal', tags: [], slug: 'window-cat' },
+          { id: 'm19', title: 'CSS 渐变实验', status: 'draft', date: '2026-06-30', kind: 'blog', tags: [], slug: 'css-gradient' },
+          { id: 'm20', title: '旅行清单草稿', status: 'pending', date: '2026-06-29', kind: 'journal', tags: [], slug: 'travel-list' },
+          { id: 'm21', title: '耳机里的夏天', status: 'published', date: '2026-06-28', kind: 'journal', tags: [], slug: 'summer-headphones' },
+          { id: 'm22', title: '次元入口说明书', status: 'published', date: '2026-06-27', kind: 'blog', tags: [], slug: 'portal-guide' },
+        ],
+        friends: [
+          { id: 'mf1', name: '星尘小站', description: '记录日常与星空', url: 'https://example.com/a', status: 'pending' },
+          { id: 'mf2', name: '猫猫图书馆', description: '安静的读书角落', url: 'https://example.com/b', status: 'pending' },
+        ],
+        comments: [
+          { id: 'mc1', author: '旅人A', content: '友联申请已提交，期待通过～', date: '2026-07-18', status: 'pending' },
+          { id: 'mc2', author: '小夜', content: '站点配色好可爱！', date: '2026-07-17', status: 'pending' },
+          { id: 'mc3', author: '云里雾里', content: '请问友链交换条件？', date: '2026-07-16', status: 'pending' },
+        ],
+        trend: [1, 0, 2, 1, 3, 0, 2],
+      };
+
+      const state = {
+        apiBase: localStorage.getItem(KEY_BASE) || location.origin,
+        token: localStorage.getItem(KEY_TOKEN) || '',
+        contentItems: [],
+        friendItems: [],
+        photoAlbums: [],
+        photoItems: [],
+        libraryItems: [],
+        currentTab: 'overview',
+        overviewCache: { allContent: [], pendingFriends: [], pendingComments: [] },
+        writeDirty: false,
+        writeView: 'edit',
+        writeAutosaveTimer: null,
+        writeRemoteTimer: null,
+        writeFocus: false,
+        writeSkipDirty: false,
+        pendingLocalDraft: null,
+      };
+
+      $('apiBase').value = state.apiBase === location.origin ? '' : state.apiBase;
+      if ($('contentDate') && !$('contentDate').value) {
+        $('contentDate').value = new Date().toISOString().slice(0, 10);
+      }
+
+      /* ── 粒子背景 ── */
+      (function initParticles() {
+        const canvas = $('particleCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let raf = 0;
+
+        function resize() {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+          const n = Math.min(70, Math.floor((canvas.width * canvas.height) / 18000));
+          particles = Array.from({ length: n }, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: Math.random() * 1.6 + 0.4,
+            a: Math.random() * 0.35 + 0.1,
+            vx: (Math.random() - 0.5) * 0.25,
+            vy: (Math.random() - 0.5) * 0.25 - 0.05,
+            tw: Math.random() * Math.PI * 2,
+          }));
+        }
+
+        function tick() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          for (const p of particles) {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.tw += 0.02;
+            if (p.x < 0) p.x = canvas.width;
+            if (p.x > canvas.width) p.x = 0;
+            if (p.y < 0) p.y = canvas.height;
+            if (p.y > canvas.height) p.y = 0;
+            const alpha = p.a * (0.65 + 0.35 * Math.sin(p.tw));
+            ctx.beginPath();
+            ctx.fillStyle = 'rgba(255,255,255,' + alpha + ')';
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fill();
+            // 偶发星芒
+            if (p.r > 1.4) {
+              ctx.strokeStyle = 'rgba(255,183,197,' + (alpha * 0.5) + ')';
+              ctx.lineWidth = 0.6;
+              ctx.beginPath();
+              ctx.moveTo(p.x - p.r * 2, p.y);
+              ctx.lineTo(p.x + p.r * 2, p.y);
+              ctx.moveTo(p.x, p.y - p.r * 2);
+              ctx.lineTo(p.x, p.y + p.r * 2);
+              ctx.stroke();
+            }
+          }
+          raf = requestAnimationFrame(tick);
+        }
+
+        resize();
+        tick();
+        window.addEventListener('resize', resize);
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden) cancelAnimationFrame(raf);
+          else tick();
+        });
+      })();
+
+      function showErr(el, msg) {
+        el.hidden = !msg;
+        el.textContent = msg || '';
+      }
+
+      function showOk(msg, opts) {
+        const el = $('ok');
+        if (!el) return;
+        el.hidden = !msg;
+        el.textContent = '';
+        if (!msg) return;
+        el.appendChild(document.createTextNode(msg));
+        if (opts && opts.href) {
+          el.appendChild(document.createTextNode(' · '));
+          const a = document.createElement('a');
+          a.href = opts.href;
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.textContent = opts.label || '打开查看';
+          el.appendChild(a);
+        }
+        clearTimeout(showOk._t);
+        showOk._t = setTimeout(() => { el.hidden = true; }, opts && opts.href ? 12000 : 5000);
+      }
+
+      function contentCoverKind() {
+        const mode = $('contentMode').value;
+        if (mode === 'blog') return 'blog';
+        if (mode === 'shuoshuo') return 'shuoshuo';
+        return 'journal';
+      }
+
+      function contentSeedSlug() {
+        const raw = $('contentSlug').value.trim() || $('contentTitle').value.trim() || 'askuary';
+        return String(raw).replace(/[^\w\u4e00-\u9fff-]+/g, '-') || 'askuary';
+      }
+
+      function resolveCoverPreviewUrl(raw) {
+        const v = String(raw || '').trim();
+        const base = currentBase();
+        if (!v || v.toLowerCase() === 'random') {
+          return 'https://t.alcy.cc/moe/?t=' + encodeURIComponent(contentSeedSlug());
+        }
+        if (/t\.alcy\.cc|tc\.alcy\.cc/i.test(v)) return v;
+        if (/\/api\/covers\//i.test(v)) {
+          let u = v;
+          if (u.startsWith('/')) u = base + u;
+          u = u.replace(/(\/api\/covers\/[^/?]+)(\?|$)/i, (m, p, q) => (/\/img$/i.test(p) ? m : p + '/img' + (q || '?')));
+          if (!/[?&]cv=/.test(u)) u += (u.includes('?') ? '&' : '?') + 'cv=3';
+          return u;
+        }
+        if (v.startsWith('/')) return (location.origin.replace(/\/$/, '')) + v;
+        return v;
+      }
+
+      function updateCoverPreview() {
+        const img = $('contentCoverPreview');
+        const empty = $('contentCoverPreviewEmpty');
+        const hint = $('contentCoverHint');
+        if (!img || !empty) return;
+        const raw = $('contentCover').value.trim();
+        const url = resolveCoverPreviewUrl(raw);
+        const isRandom = !raw || raw.toLowerCase() === 'random';
+        img.hidden = false;
+        empty.hidden = true;
+        img.onerror = () => {
+          img.hidden = true;
+          empty.hidden = false;
+          empty.textContent = '封面加载失败，请检查图库或 URL';
+        };
+        img.onload = () => {
+          img.hidden = false;
+          empty.hidden = true;
+        };
+        img.src = url;
+        if (hint) {
+          hint.textContent = isRandom
+            ? '未指定封面：发布后将按 slug 使用栗次元随机萌图（正文有图也不占用封面）。'
+            : /t\.alcy\.cc|\/api\/covers\//i.test(raw)
+              ? '当前为随机封面 API；保存时会规范为按 slug 的默认随机图。'
+              : '当前使用自定义静态封面 URL。';
+        }
+      }
+
+      function setAuthed(ok) {
+        $('loginView').classList.toggle('hidden', ok);
+        $('dashView').classList.toggle('hidden', !ok);
+      }
+
+      function currentBase() {
+        return (state.apiBase || location.origin).replace(/\/$/, '');
+      }
+
+      async function api(path, options = {}) {
+        const headers = Object.assign({ 'Content-Type': 'application/json' }, options.headers || {});
+        if (state.token) headers.Authorization = 'Bearer ' + state.token;
+        const res = await fetch(currentBase() + path, { ...options, headers });
+        if (!res.ok) {
+          let msg = res.statusText;
+          try {
+            const data = await res.json();
+            msg = data.message || JSON.stringify(data);
+          } catch {
+            try { msg = await res.text(); } catch {}
+          }
+          if (res.status === 401 && state.token) {
+            logout(false);
+          }
+          throw new Error(Array.isArray(msg) ? msg.join(', ') : String(msg || res.status));
+        }
+        if (res.status === 204) return null;
+        return res.json();
+      }
+
+      function escapeHtml(s) {
+        return String(s || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function escapeAttr(s) { return escapeHtml(s); }
+
+      function statusLabel(status) {
+        const map = {
+          published: '已发布',
+          draft: '草稿',
+          pending: '待审核',
+          approved: '已通过',
+          rejected: '已拒绝',
+        };
+        return map[status] || status;
+      }
+
+      function switchTab(tab) {
+        state.currentTab = tab;
+        document.querySelectorAll('.nav-btn').forEach((btn) => {
+          btn.classList.toggle('is-active', btn.dataset.tab === tab);
+        });
+        document.querySelectorAll('.panel').forEach((panel) => {
+          panel.classList.toggle('is-active', panel.dataset.panel === tab);
+        });
+        // 面包屑同步
+        const crumb = $('breadcrumbCurrent');
+        if (crumb) crumb.textContent = TAB_LABELS[tab] || tab;
+        if (tab === 'photos') {
+          loadPhotosAdmin().catch((e) => showErr($('err'), String(e.message || e)));
+        }
+        if (tab === 'library') {
+          loadLibraryAdmin().catch((e) => showErr($('err'), String(e.message || e)));
+        }
+        if (tab === 'portal') {
+          loadPortalAdmin().catch((e) => showErr($('err'), String(e.message || e)));
+        }
+        if (tab === 'arcade') {
+          loadArcadeAdmin().catch((e) => showErr($('err'), String(e.message || e)));
+        }
+        if (tab === 'write') {
+          updateContentEditBanner();
+          maybeOfferLocalRecover();
+          if (state.writeView !== 'edit') renderMarkdownPreview();
+        } else if (state.writeFocus) {
+          setWriteFocus(false);
+        }
+      }
+
+      function modeLabel(item) {
+        const tags = item.tags || [];
+        const isSs = tags.some((t) => {
+          const x = String(t || '').toLowerCase();
+          return x === '碎念' || x === '说说' || x === 'shuoshuo';
+        });
+        if (item.kind === 'blog') return '宇宙博客';
+        return isSs ? '碎念' : '主页文章';
+      }
+
+      function parseTagsInput(raw) {
+        return String(raw || '')
+          .split(/[,，]/)
+          .map((t) => t.trim())
+          .filter(Boolean);
+      }
+
+      /* 数字跳动动画 */
+      function animateNumber(el, to, opts) {
+        if (!el) return;
+        const unit = (opts && opts.unit) || '';
+        const from = Number(String(el.dataset.value || el.textContent).replace(/[^\d.-]/g, '')) || 0;
+        const target = Number(to) || 0;
+        el.dataset.value = String(target);
+        const dur = 650;
+        const t0 = performance.now();
+        function frame(now) {
+          const p = Math.min(1, (now - t0) / dur);
+          const eased = 1 - Math.pow(1 - p, 3);
+          const cur = Math.round(from + (target - from) * eased);
+          el.textContent = unit ? cur + unit : String(cur);
+          // 内容总数单独包了「篇」单位在兄弟节点
+          if (!unit && el.id === 'statContentTotal') el.textContent = String(cur);
+          if (p < 1) requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+      }
+
+      function triggerStatSweep() {
+        document.querySelectorAll('.stat-card').forEach((card) => {
+          card.classList.remove('sweep');
+          void card.offsetWidth;
+          card.classList.add('sweep');
+        });
+      }
+
+      const WRITE_LOCAL_PREFIX = 'askuary:admin:draft:';
+
+      function writeLocalKey(id) {
+        return WRITE_LOCAL_PREFIX + (id || 'new');
+      }
+
+      function snapshotWriteForm() {
+        return {
+          id: $('contentId').value.trim(),
+          status: $('contentStatus').value || 'draft',
+          mode: $('contentMode').value,
+          title: $('contentTitle').value,
+          slug: $('contentSlug').value,
+          tags: $('contentTags').value,
+          summary: $('contentSummary').value,
+          cover: $('contentCover').value,
+          markdown: $('contentMarkdown').value,
+          date: $('contentDate').value,
+          savedAt: Date.now(),
+        };
+      }
+
+      function applyWriteSnapshot(snap, opts) {
+        if (!snap) return;
+        state.writeSkipDirty = true;
+        if (opts && opts.setId !== false) $('contentId').value = snap.id || '';
+        $('contentStatus').value = snap.status || 'draft';
+        $('contentMode').value = snap.mode || 'article';
+        $('contentTitle').value = snap.title || '';
+        $('contentSlug').value = snap.slug || '';
+        $('contentTags').value = snap.tags || '';
+        $('contentSummary').value = snap.summary || '';
+        $('contentCover').value = snap.cover || '';
+        $('contentMarkdown').value = snap.markdown || '';
+        $('contentDate').value = snap.date || new Date().toISOString().slice(0, 10);
+        state.writeSkipDirty = false;
+        updateContentEditBanner();
+        updateCoverPreview();
+        renderMarkdownPreview();
+      }
+
+      function clearLocalWriteDraft(id) {
+        try {
+          localStorage.removeItem(writeLocalKey(id));
+          if (id) localStorage.removeItem(writeLocalKey(''));
+          localStorage.removeItem(writeLocalKey('new'));
+        } catch {}
+      }
+
+      function saveLocalWriteDraft() {
+        try {
+          const snap = snapshotWriteForm();
+          localStorage.setItem(writeLocalKey(snap.id), JSON.stringify(snap));
+        } catch {}
+      }
+
+      function loadLocalWriteDraft(id) {
+        try {
+          const raw = localStorage.getItem(writeLocalKey(id || 'new'));
+          if (!raw) return null;
+          return JSON.parse(raw);
+        } catch {
+          return null;
+        }
+      }
+
+      function updateContentEditBanner() {
+        const id = $('contentId').value.trim();
+        const status = $('contentStatus').value || 'draft';
+        const title = $('contentTitle').value.trim() || (id ? '未命名' : '新文章');
+        const statusLabel = status === 'published' ? '已发布' : '草稿';
+        const dirty = state.writeDirty
+          ? ' · <span class="dirty">有未保存更改</span>'
+          : ' · 已同步';
+        const el = $('writeStatusText');
+        if (el) {
+          el.innerHTML =
+            '<strong>' + escapeHtml(title) + '</strong> · ' +
+            escapeHtml(statusLabel) +
+            (id ? '' : ' · 尚未入库') +
+            dirty;
+        }
+        const side = $('writeSideStatus');
+        if (side) side.textContent = '状态：' + statusLabel + (id ? '' : '（未保存）');
+        const cancel = $('contentCancelEdit');
+        if (cancel) cancel.classList.toggle('hidden', !id);
+      }
+
+      function markWriteDirty() {
+        if (state.writeSkipDirty) return;
+        state.writeDirty = true;
+        updateContentEditBanner();
+        scheduleLocalAutosave();
+      }
+
+      function scheduleLocalAutosave() {
+        clearTimeout(state.writeAutosaveTimer);
+        state.writeAutosaveTimer = setTimeout(() => {
+          saveLocalWriteDraft();
+          updateContentEditBanner();
+        }, 1500);
+      }
+
+      let previewTimer = 0;
+
+      function bindPreviewShortcodes(root) {
+        if (!root) return;
+        root.querySelectorAll('.collapse-block-title').forEach((title) => {
+          if (title.dataset.scBound === '1') return;
+          title.dataset.scBound = '1';
+          const toggle = () => {
+            const block = title.closest('.collapse-block');
+            const body = block && block.querySelector('.collapse-block-body');
+            if (!block || !body) return;
+            const collapsed = block.classList.toggle('collapsed');
+            body.hidden = collapsed;
+          };
+          title.addEventListener('click', toggle);
+        });
+        root.querySelectorAll('.argon-hidden-text').forEach((el) => {
+          if (el.dataset.scBound === '1') return;
+          el.dataset.scBound = '1';
+          el.addEventListener('click', () => el.classList.add('revealed'));
+        });
+        root.querySelectorAll('[data-ask-tabs]').forEach((tabs) => {
+          if (tabs.dataset.scBound === '1') return;
+          tabs.dataset.scBound = '1';
+          const buttons = [...tabs.querySelectorAll('[data-ask-tab]')];
+          const panels = [...tabs.querySelectorAll('[data-ask-panel]')];
+          buttons.forEach((btn) => {
+            btn.addEventListener('click', () => {
+              const id = btn.dataset.askTab;
+              buttons.forEach((b) => {
+                const on = b.dataset.askTab === id;
+                b.classList.toggle('is-active', on);
+                b.setAttribute('aria-selected', on ? 'true' : 'false');
+              });
+              panels.forEach((p) => {
+                const on = p.dataset.askPanel === id;
+                p.classList.toggle('is-active', on);
+                p.hidden = !on;
+              });
+            });
+          });
+        });
+      }
+
+      function renderMarkdownPreview() {
+        const pane = $('contentMdPreview');
+        if (!pane) return;
+        const md = $('contentMarkdown').value || '';
+        clearTimeout(previewTimer);
+        previewTimer = setTimeout(async () => {
+          try {
+            if (state.token) {
+              const data = await api('/api/content/preview', {
+                method: 'POST',
+                body: JSON.stringify({ markdown: md }),
+              });
+              pane.innerHTML = data.html || '';
+              bindPreviewShortcodes(pane);
+              return;
+            }
+            if (typeof marked !== 'undefined' && marked.parse) {
+              pane.innerHTML = marked.parse(md, { gfm: true, breaks: false });
+            } else {
+              pane.textContent = md;
+            }
+          } catch {
+            try {
+              if (typeof marked !== 'undefined' && marked.parse) {
+                pane.innerHTML = marked.parse(md, { gfm: true, breaks: false });
+              } else {
+                pane.textContent = md;
+              }
+            } catch {
+              pane.textContent = md;
+            }
+          }
+        }, 280);
+      }
+
+      function setMdView(mode) {
+        state.writeView = mode;
+        const ws = $('mdWorkspace');
+        if (!ws) return;
+        ws.classList.remove('is-edit-only', 'is-preview-only', 'is-split');
+        if (mode === 'preview') ws.classList.add('is-preview-only');
+        else if (mode === 'split') ws.classList.add('is-split');
+        else ws.classList.add('is-edit-only');
+        document.querySelectorAll('#mdToolbar [data-view]').forEach((btn) => {
+          btn.classList.toggle('is-active', btn.getAttribute('data-view') === mode);
+        });
+        if (mode !== 'edit') renderMarkdownPreview();
+      }
+
+      function insertMarkdown(before, after, placeholder) {
+        const ta = $('contentMarkdown');
+        if (!ta) return;
+        const start = ta.selectionStart || 0;
+        const end = ta.selectionEnd || 0;
+        const value = ta.value;
+        const selected = value.slice(start, end) || placeholder || '';
+        const next = value.slice(0, start) + before + selected + after + value.slice(end);
+        ta.value = next;
+        const cursor = start + before.length + selected.length;
+        ta.focus();
+        ta.setSelectionRange(cursor, cursor);
+        markWriteDirty();
+        if (state.writeView !== 'edit') renderMarkdownPreview();
+      }
+
+      function handleMdToolbar(action) {
+        if (action === 'bold') return insertMarkdown('**', '**', '粗体');
+        if (action === 'italic') return insertMarkdown('*', '*', '斜体');
+        if (action === 'strike') return insertMarkdown('~~', '~~', '删除线');
+        if (action === 'h2') return insertMarkdown('\n## ', '\n', '标题');
+        if (action === 'h3') return insertMarkdown('\n### ', '\n', '小标题');
+        if (action === 'quote') return insertMarkdown('\n> ', '\n', '引用');
+        if (action === 'code') return insertMarkdown('\n```\n', '\n```\n', 'code');
+        if (action === 'ul') return insertMarkdown('\n- ', '\n', '列表项');
+        if (action === 'ol') return insertMarkdown('\n1. ', '\n', '列表项');
+        if (action === 'hr') return insertMarkdown('\n\n---\n\n', '', '');
+        if (action === 'link') {
+          const url = window.prompt('链接 URL', 'https://');
+          if (!url) return;
+          return insertMarkdown('[', '](' + url + ')', '链接文字');
+        }
+        if (action === 'image') {
+          const url = window.prompt('图片 URL', 'https://');
+          if (!url) return;
+          const alt = window.prompt('图片说明（alt）', '图片') || '图片';
+          return insertMarkdown('![', '](' + url + ')', alt);
+        }
+        if (action === 'sc-alert') {
+          return insertMarkdown(
+            '[alert color="blue" title="提示"]',
+            '[/alert]',
+            '在这里写提示内容',
+          );
+        }
+        if (action === 'sc-fold') {
+          return insertMarkdown(
+            '[collapse title="点击展开" collapsed="true"]\n',
+            '\n[/collapse]',
+            '折叠正文',
+          );
+        }
+        if (action === 'sc-help') {
+          window.alert(
+            '短代码速查（写在 Markdown 正文即可）\n\n' +
+              '[alert color="blue" title="提示"]内容[/alert]\n' +
+              '[admonition color="orange" title="注意"]内容[/admonition]\n' +
+              '[collapse title="展开"]内容[/collapse]\n' +
+              '[hidden tip="点击显示"]剧透[/hidden]\n' +
+              '[label color="red" shape="round"]标签[/label]\n' +
+              '[progressbar progress="80"]进度[/progressbar]\n' +
+              '[timeline]\\n2026/07|标题|说明\\n[/timeline]\n' +
+              '[downloadbtn link="https://..."]下载[/downloadbtn]\n' +
+              '[ghcard path="user/repo"]\n' +
+              '[friendlinks]\n\n' +
+              '也可用 ::: tip / ::: fold / ::: tabs\n\n' +
+              '完整教程文章：宇宙博客「短代码教程」或 docs/SHORTCODES.md',
+          );
+        }
+      }
+
+      function setWriteFocus(on) {
+        state.writeFocus = Boolean(on);
+        document.body.classList.toggle('write-focus', state.writeFocus);
+        const btn = $('contentFocusBtn');
+        if (btn) btn.textContent = state.writeFocus ? '退出专注' : '专注';
+      }
+
+      async function openWritePreviewModal() {
+        const title = $('contentTitle').value.trim() || '未命名';
+        const mode = $('contentMode').value;
+        const modeLabel =
+          mode === 'blog' ? '宇宙博客' : mode === 'shuoshuo' ? '碎念' : '主页文章';
+        $('writePreviewTitle').textContent = title;
+        $('writePreviewMeta').textContent =
+          modeLabel + ' · ' + ($('contentDate').value || '') +
+          ' · ' + (($('contentStatus').value === 'published') ? '已发布' : '草稿预览');
+        const coverImg = $('writePreviewCover');
+        const coverUrl = resolveCoverPreviewUrl($('contentCover').value.trim());
+        if (coverImg) {
+          coverImg.hidden = false;
+          coverImg.src = coverUrl;
+        }
+        const body = $('writePreviewBody');
+        const md = $('contentMarkdown').value || '';
+        body.innerHTML = '<p style="opacity:.7">渲染中…</p>';
+        try {
+          if (state.token) {
+            const data = await api('/api/content/preview', {
+              method: 'POST',
+              body: JSON.stringify({ markdown: md }),
+            });
+            body.innerHTML = data.html || '';
+            bindPreviewShortcodes(body);
+          } else if (typeof marked !== 'undefined' && marked.parse) {
+            body.innerHTML = marked.parse(md, { gfm: true, breaks: false });
+          } else {
+            body.textContent = md;
+          }
+        } catch {
+          try {
+            body.innerHTML =
+              typeof marked !== 'undefined' && marked.parse
+                ? marked.parse(md, { gfm: true, breaks: false })
+                : md;
+          } catch {
+            body.textContent = md;
+          }
+        }
+        $('writePreviewModal').classList.remove('hidden');
+      }
+
+      function closeWritePreviewModal() {
+        const modal = $('writePreviewModal');
+        if (modal) modal.classList.add('hidden');
+      }
+
+      function maybeOfferLocalRecover() {
+        const id = $('contentId').value.trim();
+        const local = loadLocalWriteDraft(id || 'new');
+        const bar = $('writeRecoverBar');
+        if (!bar) return;
+        if (!local || !(local.title || local.markdown)) {
+          bar.classList.add('hidden');
+          state.pendingLocalDraft = null;
+          return;
+        }
+        const current = snapshotWriteForm();
+        const same =
+          (local.title || '') === (current.title || '') &&
+          (local.markdown || '') === (current.markdown || '') &&
+          (local.summary || '') === (current.summary || '');
+        if (same) {
+          bar.classList.add('hidden');
+          state.pendingLocalDraft = null;
+          return;
+        }
+        state.pendingLocalDraft = local;
+        bar.classList.remove('hidden');
+      }
+
+      function resetContentForm() {
+        state.writeSkipDirty = true;
+        $('contentId').value = '';
+        $('contentStatus').value = 'draft';
+        $('contentMode').value = 'article';
+        $('contentTitle').value = '';
+        $('contentSlug').value = '';
+        $('contentTags').value = '';
+        $('contentSummary').value = '';
+        $('contentCover').value = '';
+        $('contentMarkdown').value = '';
+        $('contentDate').value = new Date().toISOString().slice(0, 10);
+        state.writeSkipDirty = false;
+        state.writeDirty = false;
+        clearLocalWriteDraft('new');
+        setWriteFocus(false);
+        closeWritePreviewModal();
+        updateContentEditBanner();
+        updateCoverPreview();
+        renderMarkdownPreview();
+        maybeOfferLocalRecover();
+      }
+
+      function fillContentForm(item) {
+        state.writeSkipDirty = true;
+        $('contentId').value = item.id || '';
+        $('contentStatus').value = item.status === 'published' ? 'published' : 'draft';
+        const tags = item.tags || [];
+        const isSs = tags.some((t) => {
+          const x = String(t || '').toLowerCase();
+          return x === '碎念' || x === '说说' || x === 'shuoshuo';
+        });
+        $('contentMode').value = item.kind === 'blog' ? 'blog' : (isSs ? 'shuoshuo' : 'article');
+        $('contentTitle').value = item.title || '';
+        $('contentSlug').value = item.slug || '';
+        $('contentTags').value = tags.join(', ');
+        $('contentSummary').value = item.summary || '';
+        $('contentCover').value = item.cover || '';
+        $('contentMarkdown').value = item.markdown || '';
+        $('contentDate').value = normalizeImportDate(item.date || '') || new Date().toISOString().slice(0, 10);
+        state.writeSkipDirty = false;
+        state.writeDirty = false;
+        updateContentEditBanner();
+        updateCoverPreview();
+        renderMarkdownPreview();
+        switchTab('write');
+        maybeOfferLocalRecover();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function frontUrlForContent(item) {
+        const slug = encodeURIComponent(item.slug || '');
+        const tags = item.tags || [];
+        const isSs = tags.some((t) => {
+          const x = String(t || '').toLowerCase();
+          return x === '碎念' || x === '说说' || x === 'shuoshuo';
+        });
+        if (item.kind === 'blog') return 'https://www.askuary.cn/blog/' + slug + '/';
+        if (isSs) return 'https://www.askuary.cn/shuoshuo/';
+        return 'https://www.askuary.cn/journal/' + slug + '/';
+      }
+
+      function coverResultLabel(cover) {
+        const c = String(cover || '').trim();
+        if (!c || /\/api\/covers\//i.test(c) || c.toLowerCase() === 'random') return '封面：随机图库';
+        return '封面：自定义图';
+      }
+
+      function updateFriendEditBanner() {
+        const id = $('friendId').value.trim();
+        const banner = $('friendEditBanner');
+        if (!id) {
+          banner.classList.add('hidden');
+          return;
+        }
+        banner.classList.remove('hidden');
+        $('friendEditName').textContent = $('friendName').value.trim() || id;
+      }
+
+      function resetFriendForm() {
+        $('friendId').value = '';
+        $('friendName').value = '';
+        $('friendUrl').value = '';
+        $('friendAvatar').value = '';
+        $('friendScreenshot').value = '';
+        $('friendDescription').value = '';
+        $('friendEmail').value = '';
+        updateFriendEditBanner();
+      }
+
+      function fillFriendForm(item) {
+        $('friendId').value = item.id || '';
+        $('friendName').value = item.name || '';
+        $('friendUrl').value = item.url || '';
+        $('friendAvatar').value = item.avatar || '';
+        $('friendScreenshot').value = item.screenshot || '';
+        $('friendDescription').value = item.description || '';
+        $('friendEmail').value = item.email || '';
+        updateFriendEditBanner();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function friendPayload(asApproved) {
+        return {
+          name: $('friendName').value.trim(),
+          url: $('friendUrl').value.trim(),
+          avatar: $('friendAvatar').value.trim() || undefined,
+          screenshot: $('friendScreenshot').value.trim() || undefined,
+          description: $('friendDescription').value.trim() || undefined,
+          email: $('friendEmail').value.trim() || undefined,
+          status: asApproved ? 'approved' : 'pending',
+        };
+      }
+
+      async function saveFriend(asApproved) {
+        const id = $('friendId').value.trim();
+        const body = friendPayload(asApproved);
+        if (!body.name || !body.url) {
+          throw new Error('站点名称与 URL 不能为空');
+        }
+
+        if (id) {
+          await api('/api/friend-applications/' + id, {
+            method: 'PATCH',
+            body: JSON.stringify(body),
+          });
+          showOk(asApproved ? '友联已更新并通过' : '友联已更新为待审');
+        } else {
+          await api('/api/friend-applications/admin', {
+            method: 'POST',
+            body: JSON.stringify(body),
+          });
+          showOk(asApproved ? '友联已创建并通过' : '友联已创建为待审');
+        }
+        resetFriendForm();
+        await loadApps();
+        await loadOverviewStats();
+      }
+
+      async function loadContent() {
+        const kind = $('contentKindFilter').value;
+        const status = $('contentStatusFilter').value;
+        const qs = [];
+        if (kind !== 'all') qs.push('kind=' + encodeURIComponent(kind));
+        if (status !== 'all') qs.push('status=' + encodeURIComponent(status));
+        const data = await api('/api/content' + (qs.length ? '?' + qs.join('&') : ''));
+        state.contentItems = data.items || [];
+        const box = $('contentList');
+        if (!state.contentItems.length) {
+          box.innerHTML = '<p class="empty-hint">暂无内容</p>';
+          return;
+        }
+        box.innerHTML = state.contentItems.map((item) => (
+          '<div class="item">' +
+          '<div class="row"><strong>' + escapeHtml(item.title) + '</strong>' +
+          '<span class="tag ' + escapeAttr(item.status) + '">' + escapeHtml(statusLabel(item.status)) + '</span>' +
+          '<span class="tag">' + escapeHtml(modeLabel(item)) + '</span></div>' +
+          '<div class="muted">' + escapeHtml(item.date || '') + ' · ' + escapeHtml(item.slug) +
+          (item.tags?.length ? ' · ' + escapeHtml(item.tags.join(', ')) : '') + '</div>' +
+          (item.summary ? '<div class="muted">' + escapeHtml(item.summary) + '</div>' : '') +
+          '<div class="row" style="margin-top:8px">' +
+          '<button class="ghost" type="button" data-edit-content="' + escapeAttr(item.id) + '">编辑</button>' +
+          (item.status !== 'published'
+            ? '<button class="ok" type="button" data-publish-content="' + escapeAttr(item.id) + '">发布</button>'
+            : '<button class="ghost" type="button" data-draft-content="' + escapeAttr(item.id) + '">改回草稿</button>') +
+          '<button class="bad" type="button" data-del-content="' + escapeAttr(item.id) + '">删除</button>' +
+          '</div></div>'
+        )).join('');
+      }
+
+      async function loadApps() {
+        const status = $('statusFilter').value;
+        const q = status === 'all' ? '' : '?status=' + encodeURIComponent(status);
+        const data = await api('/api/friend-applications' + q);
+        state.friendItems = data.applications || [];
+        const box = $('apps');
+        if (!state.friendItems.length) {
+          box.innerHTML = '<p class="empty-hint">暂无记录</p>';
+          return;
+        }
+        box.innerHTML = state.friendItems.map((a) => (
+          '<div class="item">' +
+          '<div class="row"><strong>' + escapeHtml(a.name) + '</strong>' +
+          '<span class="tag ' + a.status + '">' + escapeHtml(statusLabel(a.status)) + '</span></div>' +
+          '<div class="muted">' + escapeHtml(a.description || '') + '</div>' +
+          '<div><a href="' + escapeAttr(a.url) + '" target="_blank" rel="noopener">' + escapeHtml(a.url) + '</a></div>' +
+          '<div class="muted">' + (a.createdAt || '') + ' · ' + escapeHtml(a.email || '') + '</div>' +
+          (a.rejectReason ? '<div class="muted">拒绝原因：' + escapeHtml(a.rejectReason) + '</div>' : '') +
+          '<div class="row" style="margin-top:8px">' +
+          '<button class="ghost" type="button" data-edit-friend="' + escapeAttr(a.id) + '">编辑</button>' +
+          (a.status !== 'approved'
+            ? '<button class="ok" type="button" data-approve="' + a.id + '">通过</button>'
+            : '') +
+          (a.status !== 'rejected'
+            ? '<button class="bad" type="button" data-reject="' + a.id + '">拒绝</button>'
+            : '') +
+          '<button class="bad" type="button" data-del-friend="' + a.id + '">删除</button>' +
+          '</div></div>'
+        )).join('');
+      }
+
+      function photoThumbUrl(thumb) {
+        const t = String(thumb || '');
+        if (!t) return '';
+        if (/^https?:\/\//i.test(t)) return t;
+        // 静态图走网站同源路径，不要拼 API base（避免后台看不到缩略图）
+        return t.startsWith('/') ? t : '/' + t;
+      }
+
+      function fillAlbumEditor(album) {
+        if (!album) {
+          $('albumEditKey').value = '';
+          $('albumLabel').value = '';
+          $('albumDate').value = '';
+          $('albumDescription').value = '';
+          $('albumIntro').value = '';
+          $('albumWeather').value = '';
+          $('albumDevice').value = '';
+          return;
+        }
+        const story = album.story || {};
+        $('albumEditKey').value = album.key || '';
+        $('albumLabel').value = album.label || '';
+        $('albumDate').value = album.date || album.latestDate || '';
+        $('albumDescription').value = album.description || '';
+        $('albumIntro').value = story.intro || '';
+        $('albumWeather').value = story.weather || '';
+        $('albumDevice').value = story.device || '';
+      }
+
+      function fillPhotoAlbumSelect(selected) {
+        const sel = $('photoAlbumKey');
+        if (!sel) return;
+        const cur = selected || '';
+        sel.innerHTML = state.photoAlbums
+          .map(
+            (a) =>
+              '<option value="' +
+              escapeAttr(a.key) +
+              '"' +
+              (a.key === cur ? ' selected' : '') +
+              '>' +
+              escapeHtml((a.label || a.key) + ' · ' + a.key) +
+              '</option>',
+          )
+          .join('');
+        if (cur && ![...sel.options].some((o) => o.value === cur)) {
+          const opt = document.createElement('option');
+          opt.value = cur;
+          opt.textContent = cur;
+          opt.selected = true;
+          sel.appendChild(opt);
+        }
+        if (cur) sel.value = cur;
+      }
+
+      function fillPhotoEditor(photo) {
+        const card = $('photoEditCard');
+        if (!photo) {
+          card.hidden = true;
+          return;
+        }
+        card.hidden = false;
+        const story = photo.story || {};
+        const music = story.music || {};
+        $('photoEditTitle').textContent = '编辑：' + (photo.title || photo.id);
+        $('photoEditId').value = photo.id || '';
+        $('photoTitle').value = photo.title || '';
+        $('photoDate').value = photo.date || '';
+        $('photoLocation').value = photo.location || '';
+        fillPhotoAlbumSelect(photo.album || '');
+        $('photoLat').value = photo.lat != null && photo.lat !== '' ? photo.lat : '';
+        $('photoLng').value = photo.lng != null && photo.lng !== '' ? photo.lng : '';
+        $('photoDevice').value = photo.device || story.device || '';
+        $('photoWeather').value = story.weather || '';
+        $('photoTimeLabel').value = story.timeLabel || '';
+        $('photoIntro').value = story.intro || '';
+        $('photoMusicId').value = music.neteaseId || '';
+        $('photoMusicTitle').value = music.title || '';
+        $('photoMusicArtist').value = music.artist || '';
+      }
+
+      function renderPhotosAdmin() {
+        const filter = ($('photosAlbumFilter') && $('photosAlbumFilter').value) || 'all';
+        const sel = $('photosAlbumFilter');
+        if (sel) {
+          const cur = filter;
+          sel.innerHTML =
+            '<option value="all">全部相册</option>' +
+            state.photoAlbums
+              .map(
+                (a) =>
+                  '<option value="' +
+                  escapeAttr(a.key) +
+                  '">' +
+                  escapeHtml(a.label || a.key) +
+                  '（' +
+                  (a.count || 0) +
+                  '）</option>',
+              )
+              .join('');
+          sel.value = cur;
+          if (sel.value !== cur) sel.value = 'all';
+        }
+
+        const list = $('photosList');
+        if (!list) return;
+        const items =
+          filter === 'all'
+            ? state.photoItems
+            : state.photoItems.filter((p) => p.album === filter);
+        if (!items.length) {
+          list.innerHTML =
+            '<p class="empty-hint">暂无照片。请先构建 photowall，再点「从静态索引同步」。</p>';
+          return;
+        }
+        const activeId = $('photoEditId') ? $('photoEditId').value : '';
+        list.innerHTML = items
+          .map((p) => {
+            const thumb = photoThumbUrl(p.thumb || p.src);
+            return (
+              '<button type="button" class="photos-admin-card' +
+              (p.id === activeId ? ' is-active' : '') +
+              '" data-edit-photo="' +
+              escapeAttr(p.id) +
+              '">' +
+              (thumb
+                ? '<img src="' + escapeAttr(thumb) + '" alt="" loading="lazy" />'
+                : '<div style="aspect-ratio:1;background:#eee"></div>') +
+              '<div class="cap"><strong>' +
+              escapeHtml(p.title || p.id) +
+              '</strong><br /><span class="muted">' +
+              escapeHtml(p.album || '') +
+              ' · ' +
+              escapeHtml(p.location || '无地点') +
+              ' · ' +
+              escapeHtml(p.date || '') +
+              (p.lat != null && p.lng != null
+                ? ' · 📍' + Number(p.lat).toFixed(2) + ',' + Number(p.lng).toFixed(2)
+                : ' · 无坐标') +
+              '</span></div></button>'
+            );
+          })
+          .join('');
+
+        if (filter !== 'all') {
+          const album = state.photoAlbums.find((a) => a.key === filter);
+          fillAlbumEditor(album || { key: filter, label: filter });
+        } else if (state.photoAlbums[0]) {
+          fillAlbumEditor(state.photoAlbums[0]);
+        }
+      }
+
+      async function loadPhotosAdmin() {
+        try {
+          const data = await api('/api/photos');
+          state.photoAlbums = data.albums || [];
+          state.photoItems = data.photos || [];
+          renderPhotosAdmin();
+        } catch (e) {
+          state.photoAlbums = [];
+          state.photoItems = [];
+          if ($('photosList')) {
+            $('photosList').innerHTML =
+              '<p class="empty-hint">加载失败：' + escapeHtml(String(e.message || e)) + '</p>';
+          }
+        }
+      }
+
+      function libraryCoverUrl(cover) {
+        const t = String(cover || '');
+        if (!t) return '';
+        if (/^https?:\/\//i.test(t) || t.startsWith('data:')) return t;
+        // 静态封面走网站同源路径，不要拼 API base
+        return t.startsWith('/') ? t : '/' + t;
+      }
+
+      function linesToList(raw) {
+        return String(raw || '')
+          .split(/\n+/)
+          .map((s) => s.trim())
+          .filter(Boolean);
+      }
+
+      function listToLines(list) {
+        return Array.isArray(list) ? list.join('\n') : '';
+      }
+
+      function fillLibraryEditor(item) {
+        const card = $('libraryEditCard');
+        if (!card) return;
+        if (!item) {
+          card.hidden = true;
+          $('libraryEditSlug').value = '';
+          return;
+        }
+        card.hidden = false;
+        const isNew = !item.id;
+        $('libraryEditTitle').textContent = isNew ? '新建馆藏' : '编辑：' + (item.title || item.id);
+        $('libraryEditSlug').value = item.id || '';
+        $('libraryTitle').value = item.title || '';
+        $('libraryAuthor').value = item.author || '';
+        $('librarySlug').value = item.id || '';
+        $('librarySlug').readOnly = !isNew;
+        $('libraryType').value = item.type || 'book';
+        $('libraryStatus').value = item.status || 'planned';
+        $('libraryCover').value = item.cover || '';
+        $('libraryProgress').value = item.progress || '';
+        $('libraryProgressCurrent').value = item.progressCurrent || '';
+        $('libraryProgressTotal').value = item.progressTotal || '';
+        $('libraryRating').value = item.rating || '';
+        $('libraryYear').value = item.year || '';
+        $('libraryPlatform').value = item.platform || '';
+        $('libraryLink').value = item.link || '';
+        $('libraryGenre').value = item.genre || '';
+        $('librarySummary').value = item.summary || '';
+        $('libraryThoughts').value = item.thoughts || '';
+        $('libraryQuotes').value = listToLines(item.quotes);
+        $('libraryTakeaways').value = listToLines(item.takeaways);
+        $('libraryUpdated').value = item.updated || '';
+        $('libraryDeleteBtn').hidden = isNew;
+      }
+
+      function renderLibraryAdmin() {
+        const list = $('libraryList');
+        if (!list) return;
+        const typeF = ($('libraryTypeFilter') && $('libraryTypeFilter').value) || 'all';
+        const statusF = ($('libraryStatusFilter') && $('libraryStatusFilter').value) || 'all';
+        let items = state.libraryItems || [];
+        if (typeF !== 'all') items = items.filter((i) => i.type === typeF);
+        if (statusF !== 'all') items = items.filter((i) => i.status === statusF);
+        if (!items.length) {
+          list.innerHTML =
+            '<p class="empty-hint">暂无馆藏。可点「从静态索引导入」，或「新建条目」。</p>';
+          return;
+        }
+        const active = $('libraryEditSlug') ? $('libraryEditSlug').value : '';
+        list.innerHTML = items
+          .map((item) => {
+            const cover = libraryCoverUrl(item.cover);
+            return (
+              '<button type="button" class="library-admin-card' +
+              (item.id === active ? ' is-active' : '') +
+              '" data-edit-library="' +
+              escapeAttr(item.id) +
+              '">' +
+              (cover
+                ? '<img src="' + escapeAttr(cover) + '" alt="" loading="lazy" referrerpolicy="no-referrer" />'
+                : '<div style="aspect-ratio:3/4.1;background:linear-gradient(160deg,#f8e8f0,#e8f0f8);display:grid;place-items:center;color:#9a8ab0;font-size:12px">' +
+                  escapeHtml(item.typeLabel || item.type || '') +
+                  '</div>') +
+              '<div class="cap"><strong>' +
+              escapeHtml(item.title || item.id) +
+              '</strong><br /><span class="muted">' +
+              escapeHtml(item.typeLabel || item.type || '') +
+              ' · ' +
+              escapeHtml(item.statusLabel || item.status || '') +
+              '</span></div></button>'
+            );
+          })
+          .join('');
+      }
+
+      async function loadLibraryAdmin() {
+        try {
+          const data = await api('/api/library');
+          state.libraryItems = data.items || [];
+          renderLibraryAdmin();
+        } catch (e) {
+          state.libraryItems = [];
+          if ($('libraryList')) {
+            $('libraryList').innerHTML =
+              '<p class="empty-hint">加载失败：' + escapeHtml(String(e.message || e)) + '</p>';
+          }
+        }
+      }
+
+      const PORTAL_KEYS = {
+        spots: { title: '地球光点', file: 'spots.json' },
+        'meteor-words': { title: '流星文案', file: 'meteor-words.json' },
+        'nav-stars': { title: '恒星导航', file: 'nav-stars.json' },
+        'bg-quotes': { title: '励志背景字', file: '' },
+        'site-widgets': { title: '天气主题', file: '' },
+        notices: { title: '主页公告', file: '' },
+      };
+      const SPOT_STYLES = ['star', 'amber', 'violet', 'rose', 'mint', 'ember', 'friend'];
+
+      if (!state.portalKey) state.portalKey = 'spots';
+      if (!state.portalItems) state.portalItems = [];
+      if (state.portalEditIndex == null) state.portalEditIndex = -1;
+      if (!state.portalUpdatedAt) state.portalUpdatedAt = null;
+      if (state.portalHasOverride == null) state.portalHasOverride = false;
+
+      function portalSiteDataUrl(file) {
+        const origin = location.origin.replace(/\/$/, '');
+        return origin + '/data/' + file;
+      }
+
+      async function fetchSitePortalJson(file) {
+        const urls = [
+          portalSiteDataUrl(file),
+          '/data/' + file,
+          '/public/data/' + file,
+        ];
+        for (const url of urls) {
+          try {
+            const res = await fetch(url, { cache: 'no-store' });
+            if (!res.ok) continue;
+            const data = await res.json();
+            if (Array.isArray(data)) return data;
+            if (data && typeof data === 'object') return data;
+          } catch (_) {
+            /* try next */
+          }
+        }
+        throw new Error('无法读取站点 ' + file);
+      }
+
+      async function fetchPortalFallbackItems(key) {
+        if (key === 'bg-quotes') {
+          const home = await fetchSitePortalJson('home.json');
+          const quotes = Array.isArray(home.bgQuotes) ? home.bgQuotes : [];
+          return quotes.map((t) => ({ text: String(t || '').trim() })).filter((x) => x.text);
+        }
+        if (key === 'notices') {
+          const home = await fetchSitePortalJson('home.json');
+          return Array.isArray(home.notices) ? home.notices : [];
+        }
+        if (key === 'site-widgets') {
+          const home = await fetchSitePortalJson('home.json');
+          let siteWeather = {};
+          try {
+            const site = await fetchSitePortalJson('site.json');
+            siteWeather = site.weather || {};
+          } catch (_) {
+            /* optional */
+          }
+          return [
+            {
+              weather: {
+                enabled: true,
+                city: '上海',
+                lat: 31.23,
+                lng: 121.47,
+                ...(siteWeather || {}),
+                ...(home.weather || {}),
+                ...((home.widgets && home.widgets.weather) || {}),
+              },
+              themeDefault: home.themeDefault || (home.widgets && home.widgets.themeDefault) || 'light',
+              allowThemeSwitch:
+                home.widgets && home.widgets.allowThemeSwitch === false ? false : true,
+            },
+          ];
+        }
+        const file = PORTAL_KEYS[key]?.file;
+        if (!file) return [];
+        const data = await fetchSitePortalJson(file);
+        return Array.isArray(data) ? data : [];
+      }
+
+      function renderPortalMeta() {
+        const meta = $('portalMeta');
+        if (!meta) return;
+        const cfg = PORTAL_KEYS[state.portalKey] || {};
+        if (state.portalHasOverride) {
+          meta.textContent =
+            '当前：数据库覆盖 · ' +
+            (cfg.title || state.portalKey) +
+            ' · ' +
+            state.portalItems.length +
+            ' 条' +
+            (state.portalUpdatedAt ? ' · 更新于 ' + state.portalUpdatedAt : '');
+        } else {
+          const fallback =
+            state.portalKey === 'bg-quotes' ||
+            state.portalKey === 'site-widgets' ||
+            state.portalKey === 'notices'
+              ? 'home.json'
+              : cfg.file || '';
+          meta.textContent =
+            '当前：未覆盖（前台使用静态 data/' +
+            fallback +
+            '）· 可导入后编辑保存';
+        }
+      }
+
+      function renderPortalList() {
+        const list = $('portalList');
+        const title = $('portalListTitle');
+        const cfg = PORTAL_KEYS[state.portalKey] || {};
+        if (title) title.textContent = cfg.title || state.portalKey;
+        renderPortalMeta();
+        if (!list) return;
+        const items = state.portalItems || [];
+        if (!items.length) {
+          if (state.portalKey === 'site-widgets') {
+            list.innerHTML =
+              '<p class="empty-hint">尚未配置。点「新增」填写天气城市与主题默认值。</p>';
+            return;
+          }
+          list.innerHTML = '<p class="empty-hint">暂无条目。可点「从站点 JSON 导入」或「新增」。</p>';
+          return;
+        }
+        list.innerHTML = items
+          .map((item, i) => {
+            let head = '';
+            let sub = '';
+            if (state.portalKey === 'spots') {
+              head = item.title || '未命名光点';
+              sub =
+                Number(item.lat).toFixed(1) +
+                ', ' +
+                Number(item.lng).toFixed(1) +
+                ' · ' +
+                (item.style || 'star');
+            } else if (state.portalKey === 'meteor-words' || state.portalKey === 'bg-quotes') {
+              const text = typeof item === 'string' ? item : item.text;
+              head = text || '（空）';
+              sub = item.author ? '作者：' + item.author : '背景滚动字';
+            } else if (state.portalKey === 'notices') {
+              head = item.title || '（无标题）';
+              sub =
+                (item.tag || 'NOTICE') +
+                (item.date ? ' · ' + item.date : '') +
+                (item.body ? ' · ' + String(item.body).slice(0, 36) : '');
+            } else if (state.portalKey === 'site-widgets') {
+              const w = item.weather || {};
+              head = '站点小部件';
+              sub =
+                (w.city || '上海') +
+                ' · 主题默认 ' +
+                (item.themeDefault || 'light') +
+                (item.allowThemeSwitch === false ? ' · 禁切换' : '');
+            } else {
+              head = (item.label || item.id || '恒星') + (item.enabled === false ? ' · 关闭' : '');
+              sub = (item.url || '') + (item.desc ? ' · ' + item.desc : '');
+            }
+            return (
+              '<button type="button" class="portal-row" data-portal-edit="' +
+              i +
+              '"><div><strong>' +
+              escapeHtml(head) +
+              '</strong><span>' +
+              escapeHtml(sub) +
+              '</span></div><span>编辑</span></button>'
+            );
+          })
+          .join('');
+      }
+
+      function closePortalEditor() {
+        state.portalEditIndex = -1;
+        const card = $('portalEditCard');
+        if (card) card.hidden = true;
+        const form = $('portalEditForm');
+        if (form) form.innerHTML = '';
+      }
+
+      function openPortalEditor(index) {
+        state.portalEditIndex = index;
+        const isNew = index < 0;
+        const item = isNew ? null : state.portalItems[index];
+        const card = $('portalEditCard');
+        const form = $('portalEditForm');
+        const title = $('portalEditTitle');
+        if (!card || !form) return;
+        card.hidden = false;
+        if (title) {
+          title.textContent = isNew
+            ? '新增 · ' + (PORTAL_KEYS[state.portalKey]?.title || '')
+            : '编辑 · ' + (PORTAL_KEYS[state.portalKey]?.title || '');
+        }
+
+        if (state.portalKey === 'spots') {
+          const styleOpts = SPOT_STYLES.map(
+            (s) =>
+              '<option value="' +
+              s +
+              '"' +
+              ((item?.style || 'amber') === s ? ' selected' : '') +
+              '>' +
+              s +
+              '</option>',
+          ).join('');
+          form.innerHTML =
+            '<label>标题<input id="pTitle" type="text" maxlength="120" required value="' +
+            escapeAttr(item?.title || '') +
+            '" /></label>' +
+            '<label>样式<select id="pStyle">' +
+            styleOpts +
+            '</select></label>' +
+            '<label>纬度 lat<input id="pLat" type="number" step="any" required value="' +
+            escapeAttr(item?.lat ?? 30) +
+            '" /></label>' +
+            '<label>经度 lng<input id="pLng" type="number" step="any" required value="' +
+            escapeAttr(item?.lng ?? 120) +
+            '" /></label>' +
+            '<label class="full">说明<textarea id="pText" rows="3" maxlength="2000" required>' +
+            escapeHtml(item?.text || '') +
+            '</textarea></label>' +
+            '<label>链接 URL<input id="pUrl" type="url" maxlength="800" value="' +
+            escapeAttr(item?.url || '') +
+            '" /></label>' +
+            '<label>链接文案<input id="pLinkLabel" type="text" maxlength="80" value="' +
+            escapeAttr(item?.linkLabel || '') +
+            '" /></label>' +
+            '<label class="full">头像 URL<input id="pAvatar" type="text" maxlength="800" value="' +
+            escapeAttr(item?.avatar || '') +
+            '" /></label>' +
+            '<div class="full" style="display:flex;gap:8px;flex-wrap:wrap;">' +
+            '<button type="submit" class="primary">保存此项</button>' +
+            (isNew
+              ? ''
+              : '<button type="button" class="ghost" id="portalDeleteItemBtn">删除此项</button>') +
+            '</div>';
+        } else if (state.portalKey === 'meteor-words' || state.portalKey === 'bg-quotes') {
+          const text = typeof item === 'string' ? item : item?.text || '';
+          form.innerHTML =
+            '<label class="full">文案<input id="pText" type="text" maxlength="240" required value="' +
+            escapeAttr(text) +
+            '" /></label>' +
+            (state.portalKey === 'meteor-words'
+              ? '<label class="full">作者（可选）<input id="pAuthor" type="text" maxlength="120" value="' +
+                escapeAttr(item?.author || '') +
+                '" /></label>'
+              : '') +
+            '<div class="full" style="display:flex;gap:8px;flex-wrap:wrap;">' +
+            '<button type="submit" class="primary">保存此项</button>' +
+            (isNew
+              ? ''
+              : '<button type="button" class="ghost" id="portalDeleteItemBtn">删除此项</button>') +
+            '</div>';
+        } else if (state.portalKey === 'notices') {
+          form.innerHTML =
+            '<label>标签<input id="pTag" type="text" maxlength="40" value="' +
+            escapeAttr(item?.tag || 'NOTICE') +
+            '" /></label>' +
+            '<label>日期<input id="pDate" type="text" maxlength="32" placeholder="YYYY-MM-DD" value="' +
+            escapeAttr(item?.date || '') +
+            '" /></label>' +
+            '<label class="full">标题<input id="pTitle" type="text" maxlength="160" required value="' +
+            escapeAttr(item?.title || '') +
+            '" /></label>' +
+            '<label class="full">正文<textarea id="pBody" rows="3" maxlength="800">' +
+            escapeHtml(item?.body || '') +
+            '</textarea></label>' +
+            '<label class="full">链接 URL（可选）<input id="pUrl" type="text" maxlength="500" value="' +
+            escapeAttr(item?.url || '') +
+            '" /></label>' +
+            '<div class="full" style="display:flex;gap:8px;flex-wrap:wrap;">' +
+            '<button type="submit" class="primary">保存此项</button>' +
+            (isNew
+              ? ''
+              : '<button type="button" class="ghost" id="portalDeleteItemBtn">删除此项</button>') +
+            '</div>';
+        } else if (state.portalKey === 'site-widgets') {
+          const cfg = item || { weather: {}, themeDefault: 'light', allowThemeSwitch: true };
+          const w = cfg.weather || {};
+          form.innerHTML =
+            '<label>城市名<input id="pCity" type="text" maxlength="40" value="' +
+            escapeAttr(w.city || '上海') +
+            '" /></label>' +
+            '<label>纬度<input id="pLat" type="number" step="any" value="' +
+            escapeAttr(w.lat ?? 31.23) +
+            '" /></label>' +
+            '<label>经度<input id="pLng" type="number" step="any" value="' +
+            escapeAttr(w.lng ?? 121.47) +
+            '" /></label>' +
+            '<label>默认主题<select id="pTheme"><option value="auto"' +
+            ((cfg.themeDefault || 'auto') === 'auto' ? ' selected' : '') +
+            '>自动（跟时间）</option><option value="light"' +
+            (cfg.themeDefault === 'light' ? ' selected' : '') +
+            '>白昼</option><option value="dark"' +
+            (cfg.themeDefault === 'dark' ? ' selected' : '') +
+            '>夜间</option></select></label>' +
+            '<p class="full muted" style="margin:0;font-size:12px;opacity:.75;">城市/经纬度仅作 IP 定位失败时的回落；前台会按访客 IP 拉天气，并据二十四节气在晴好时显示樱花或落叶。</p>' +
+            '<label class="full"><span style="display:flex;align-items:center;gap:8px;"><input id="pWeatherOn" type="checkbox"' +
+            (w.enabled === false ? '' : ' checked') +
+            ' /> 启用天气</span></label>' +
+            '<label class="full"><span style="display:flex;align-items:center;gap:8px;"><input id="pThemeSwitch" type="checkbox"' +
+            (cfg.allowThemeSwitch === false ? '' : ' checked') +
+            ' /> 允许访客切换主题</span></label>' +
+            '<div class="full" style="display:flex;gap:8px;flex-wrap:wrap;">' +
+            '<button type="submit" class="primary">保存配置</button></div>';
+        } else {
+          form.innerHTML =
+            '<label>ID<input id="pId" type="text" maxlength="80" required value="' +
+            escapeAttr(item?.id || '') +
+            '" /></label>' +
+            '<label>标签<input id="pLabel" type="text" maxlength="80" required value="' +
+            escapeAttr(item?.label || '') +
+            '" /></label>' +
+            '<label class="full">描述<input id="pDesc" type="text" maxlength="200" value="' +
+            escapeAttr(item?.desc || '') +
+            '" /></label>' +
+            '<label>URL<input id="pUrl" type="text" maxlength="500" required value="' +
+            escapeAttr(item?.url || '') +
+            '" /></label>' +
+            '<label>图标<input id="pIcon" type="text" maxlength="40" value="' +
+            escapeAttr(item?.icon || '') +
+            '" /></label>' +
+            '<label>X (0~1)<input id="pX" type="number" step="0.01" min="0" max="1" value="' +
+            escapeAttr(item?.x ?? 0.5) +
+            '" /></label>' +
+            '<label>Y (0~1)<input id="pY" type="number" step="0.01" min="0" max="1" value="' +
+            escapeAttr(item?.y ?? 0.5) +
+            '" /></label>' +
+            '<label class="full"><span style="display:flex;align-items:center;gap:8px;"><input id="pEnabled" type="checkbox"' +
+            (item?.enabled === false ? '' : ' checked') +
+            ' /> 启用</span></label>' +
+            '<label class="full">关闭提示<input id="pDisabledHint" type="text" maxlength="200" value="' +
+            escapeAttr(item?.disabledHint || '') +
+            '" /></label>' +
+            '<div class="full" style="display:flex;gap:8px;flex-wrap:wrap;">' +
+            '<button type="submit" class="primary">保存此项</button>' +
+            (isNew
+              ? ''
+              : '<button type="button" class="ghost" id="portalDeleteItemBtn">删除此项</button>') +
+            '</div>';
+        }
+
+        const delBtn = $('portalDeleteItemBtn');
+        if (delBtn) {
+          delBtn.onclick = async () => {
+            if (!confirm('删除此项？')) return;
+            state.portalItems.splice(index, 1);
+            await savePortalItems();
+            closePortalEditor();
+            renderPortalList();
+          };
+        }
+      }
+
+      function readPortalFormItem() {
+        if (state.portalKey === 'spots') {
+          return {
+            lat: Number($('pLat').value),
+            lng: Number($('pLng').value),
+            title: $('pTitle').value.trim(),
+            text: $('pText').value.trim(),
+            style: $('pStyle').value || 'amber',
+            url: $('pUrl').value.trim(),
+            linkLabel: $('pLinkLabel').value.trim(),
+            avatar: $('pAvatar').value.trim(),
+          };
+        }
+        if (state.portalKey === 'meteor-words') {
+          return {
+            text: $('pText').value.trim(),
+            author: $('pAuthor').value.trim(),
+          };
+        }
+        if (state.portalKey === 'bg-quotes') {
+          return { text: $('pText').value.trim() };
+        }
+        if (state.portalKey === 'notices') {
+          return {
+            tag: $('pTag').value.trim() || 'NOTICE',
+            title: $('pTitle').value.trim(),
+            body: $('pBody').value.trim(),
+            date: $('pDate').value.trim(),
+            url: $('pUrl').value.trim(),
+          };
+        }
+        if (state.portalKey === 'site-widgets') {
+          return {
+            weather: {
+              enabled: $('pWeatherOn').checked,
+              city: $('pCity').value.trim() || '上海',
+              lat: Number($('pLat').value) || 31.23,
+              lng: Number($('pLng').value) || 121.47,
+            },
+            themeDefault:
+              $('pTheme').value === 'dark'
+                ? 'dark'
+                : $('pTheme').value === 'light'
+                  ? 'light'
+                  : 'auto',
+            allowThemeSwitch: $('pThemeSwitch').checked,
+          };
+        }
+        return {
+          id: $('pId').value.trim(),
+          label: $('pLabel').value.trim(),
+          desc: $('pDesc').value.trim(),
+          url: $('pUrl').value.trim(),
+          icon: $('pIcon').value.trim(),
+          enabled: $('pEnabled').checked,
+          disabledHint: $('pDisabledHint').value.trim(),
+          x: Number($('pX').value),
+          y: Number($('pY').value),
+        };
+      }
+
+      async function savePortalItems() {
+        const data = await api('/api/portal/' + encodeURIComponent(state.portalKey), {
+          method: 'PUT',
+          body: JSON.stringify({ items: state.portalItems }),
+        });
+        state.portalItems = Array.isArray(data.items) ? data.items : state.portalItems;
+        state.portalUpdatedAt = data.updatedAt || null;
+        state.portalHasOverride = true;
+        showOk('已保存「' + (PORTAL_KEYS[state.portalKey]?.title || state.portalKey) + '」');
+        renderPortalMeta();
+      }
+
+      async function loadPortalAdmin() {
+        const key = state.portalKey || 'spots';
+        state.portalKey = key;
+        document.querySelectorAll('#portalSubtabs [data-pkey]').forEach((btn) => {
+          btn.classList.toggle('is-active', btn.dataset.pkey === key);
+        });
+        try {
+          const data = await api('/api/portal/' + encodeURIComponent(key));
+          state.portalHasOverride = Array.isArray(data.items);
+          state.portalItems = Array.isArray(data.items) ? data.items : [];
+          state.portalUpdatedAt = data.updatedAt || null;
+          // 无覆盖时预填站点静态 JSON，便于直接编辑后保存
+          if (!state.portalHasOverride) {
+            try {
+              state.portalItems = await fetchPortalFallbackItems(key);
+            } catch (_) {
+              state.portalItems = [];
+            }
+          }
+          closePortalEditor();
+          renderPortalList();
+        } catch (e) {
+          state.portalItems = [];
+          state.portalHasOverride = false;
+          if ($('portalList')) {
+            $('portalList').innerHTML =
+              '<p class="empty-hint">加载失败：' + escapeHtml(String(e.message || e)) + '</p>';
+          }
+        }
+      }
+
+      function commentPathLabel(path) {
+        const p = String(path || '');
+        if (p.startsWith('/journal/')) return '文章 · ' + p;
+        if (p.startsWith('/blog/')) return '博客 · ' + p;
+        if (p.startsWith('/photos/')) return '摄影 · ' + p;
+        if (p.startsWith('/games/')) return '街机 · ' + p;
+        if (p.startsWith('/friends')) return '友联页';
+        return p || '未知路径';
+      }
+
+      function commentPathQuery(filterValue) {
+        const v = String(filterValue || 'all');
+        // 管理端：all → 全部路径；/journal/ 等前缀用 * 拉全量再前端筛选
+        if (v === 'all' || v === '*' || v === '') return 'all';
+        if (v === '/friends/') return '/friends/';
+        return 'all';
+      }
+
+      function formatPlayMs(ms) {
+        const totalSec = Math.floor(Number(ms || 0) / 1000);
+        const h = Math.floor(totalSec / 3600);
+        const m = Math.floor((totalSec % 3600) / 60);
+        const s = totalSec % 60;
+        if (h > 0) return h + 'h ' + String(m).padStart(2, '0') + 'm';
+        if (m > 0) return m + 'm ' + String(s).padStart(2, '0') + 's';
+        return s + 's';
+      }
+
+      async function loadArcadeGalleryAdmin() {
+        const status = ($('arcadeGalleryFilter') && $('arcadeGalleryFilter').value) || 'pending';
+        const gameId = ($('arcadeGameFilter') && $('arcadeGameFilter').value.trim()) || '';
+        let q = '?status=' + encodeURIComponent(status);
+        if (gameId) q += '&gameId=' + encodeURIComponent(gameId);
+        const data = await api('/api/arcade/gallery' + q);
+        const box = $('arcadeGallery');
+        if (!box) return;
+        const items = data.items || [];
+        if (!items.length) {
+          box.innerHTML = '<p class="empty-hint">暂无画廊条目</p>';
+          return;
+        }
+        box.innerHTML = items.map((it) => {
+          const img = it.imageUrl
+            ? '<div style="margin:8px 0"><a href="' + escapeAttr(currentBase() + it.imageUrl) + '" target="_blank" rel="noopener"><img src="' + escapeAttr(currentBase() + it.imageUrl) + '" alt="" style="max-width:220px;max-height:140px;border:1px solid var(--line);border-radius:8px;object-fit:cover" /></a></div>'
+            : '';
+          return (
+            '<div class="item">' +
+            '<div class="row"><strong>' + escapeHtml(it.nick) + '</strong>' +
+            '<span class="tag ' + escapeAttr(it.status || '') + '">' + escapeHtml(statusLabel(it.status || '')) + '</span>' +
+            '<span class="muted">' + escapeHtml(String(it.createdAt || '').slice(0, 10)) + '</span></div>' +
+            '<div class="muted">gameId：' + escapeHtml(it.gameId) + ' · ' + escapeHtml(it.kind || 'run') + '</div>' +
+            img +
+            '<div>' + escapeHtml(it.note) + '</div>' +
+            '<div class="row" style="margin-top:8px">' +
+            (it.status !== 'published'
+              ? '<button class="ok" type="button" data-arcade-publish="' + escapeAttr(it.id) + '">通过</button>'
+              : '<button class="ghost" type="button" data-arcade-pend="' + escapeAttr(it.id) + '">改回待审</button>') +
+            (it.status !== 'rejected'
+              ? '<button class="ghost" type="button" data-arcade-reject="' + escapeAttr(it.id) + '">拒绝</button>'
+              : '') +
+            '<button class="bad" type="button" data-arcade-del="' + escapeAttr(it.id) + '">删除</button></div></div>'
+          );
+        }).join('');
+      }
+
+      async function loadArcadeScoresAdmin() {
+        const gameId = ($('arcadeScoreGame') && $('arcadeScoreGame').value.trim()) || '';
+        const q = gameId ? '?gameId=' + encodeURIComponent(gameId) : '';
+        const data = await api('/api/arcade/scores' + q);
+        const box = $('arcadeScores');
+        if (!box) return;
+        const items = data.items || [];
+        if (!items.length) {
+          box.innerHTML = '<p class="empty-hint">暂无排行榜数据</p>';
+          return;
+        }
+        box.innerHTML = items.map((it) => (
+          '<div class="item">' +
+          '<div class="row"><strong>' + escapeHtml(it.nick) + '</strong>' +
+          (it.hidden ? '<span class="tag pending">已隐藏</span>' : '<span class="tag published">展示中</span>') +
+          '<span class="muted">' + escapeHtml(it.gameId) + '</span></div>' +
+          '<div>时长 ' + escapeHtml(formatPlayMs(it.playMs)) + ' · 徽章 ' + escapeHtml(String(it.badges)) + ' · 局数 ' + escapeHtml(String(it.sessions)) + '</div>' +
+          '<div class="row" style="margin-top:8px">' +
+          (!it.hidden
+            ? '<button class="ghost" type="button" data-arcade-hide="' + escapeAttr(it.id) + '">隐藏</button>'
+            : '<button class="ok" type="button" data-arcade-show="' + escapeAttr(it.id) + '">取消隐藏</button>') +
+          '<button class="bad" type="button" data-arcade-del-score="' + escapeAttr(it.id) + '">删除</button></div></div>'
+        )).join('');
+      }
+
+      async function loadArcadeAdmin() {
+        await Promise.all([loadArcadeGalleryAdmin(), loadArcadeScoresAdmin()]);
+      }
+
+      async function loadComments() {
+        const status = $('commentFilter').value;
+        const pathFilter = $('commentPathFilter').value || 'all';
+        const apiPath = commentPathQuery(pathFilter);
+        let q = '?path=' + encodeURIComponent(apiPath);
+        if (status !== 'all') q += '&status=' + encodeURIComponent(status);
+        const data = await api('/api/comments' + q);
+        const box = $('comments');
+        let items = data.items || [];
+        // 前缀筛选：文章 / 博客 / 摄影
+        if (pathFilter === '/journal/' || pathFilter === '/blog/' || pathFilter === '/photos/' || pathFilter === '/games/') {
+          items = items.filter((c) => String(c.path || '').startsWith(pathFilter));
+        } else if (pathFilter === '/friends/') {
+          items = items.filter((c) => String(c.path || '').startsWith('/friends'));
+        }
+        if (!items.length) {
+          box.innerHTML = '<p class="empty-hint">暂无评论</p>';
+          return;
+        }
+        box.innerHTML = items.map((c) => (
+          '<div class="item">' +
+          '<div class="row"><strong>' + escapeHtml(c.author) + '</strong>' +
+          '<span class="tag ' + (c.status || '') + '">' + escapeHtml(statusLabel(c.status || '')) + '</span>' +
+          '<span class="muted">' + escapeHtml(c.date || '') + '</span></div>' +
+          '<div class="muted">来源：' + escapeHtml(commentPathLabel(c.path)) + '</div>' +
+          '<div>' + escapeHtml(c.content) + '</div>' +
+          (c.website ? '<div class="muted"><a href="' + escapeAttr(c.website) + '" target="_blank" rel="noopener">' + escapeHtml(c.website) + '</a></div>' : '') +
+          '<div class="row" style="margin-top:8px">' +
+          (c.status !== 'published'
+            ? '<button class="ok" type="button" data-publish-comment="' + c.id + '">通过</button>'
+            : '<button class="ghost" type="button" data-pend-comment="' + c.id + '">改回待审</button>') +
+          '<button class="bad" type="button" data-del-comment="' + c.id + '">删除</button></div></div>'
+        )).join('');
+      }
+
+      /* 近 7 天发布趋势（按 date 字段聚合） */
+      function buildTrendCounts(items) {
+        const days = [];
+        const map = {};
+        for (let i = 6; i >= 0; i--) {
+          const d = new Date();
+          d.setHours(12, 0, 0, 0);
+          d.setDate(d.getDate() - i);
+          const key = d.toISOString().slice(0, 10);
+          days.push(key);
+          map[key] = 0;
+        }
+        (items || []).forEach((it) => {
+          const key = String(it.date || '').slice(0, 10);
+          if (key in map) map[key] += 1;
+        });
+        return days.map((k) => ({ date: k, count: map[k] }));
+      }
+
+      function renderTrendBars(series) {
+        const box = $('trendBars');
+        if (!box) return;
+        const max = Math.max(1, ...series.map((s) => s.count));
+        box.innerHTML = series.map((s) => {
+          const h = Math.max(4, Math.round((s.count / max) * 120));
+          const label = s.date.slice(5); // MM-DD
+          return (
+            '<div class="bar-col">' +
+            '<span class="bar-val">' + s.count + '</span>' +
+            '<div class="bar" style="height:' + h + 'px"></div>' +
+            '<span class="bar-label">' + escapeHtml(label) + '</span>' +
+            '</div>'
+          );
+        }).join('');
+      }
+
+      function renderTopArticles(items) {
+        const box = $('topArticles');
+        if (!box) return;
+        const list = (items || [])
+          .filter((x) => x.status === 'published' || !x.status)
+          .slice()
+          .sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')))
+          .slice(0, 5);
+        if (!list.length) {
+          box.innerHTML = '<p class="empty-hint">暂无热门文章</p>';
+          return;
+        }
+        box.innerHTML = list.map((it, i) => (
+          '<div class="top-item">' +
+          '<span class="top-rank">' + (i + 1) + '</span>' +
+          '<span class="top-title" title="' + escapeAttr(it.title) + '">' + escapeHtml(it.title) + '</span>' +
+          '<span class="top-meta">' + escapeHtml(it.date || '') + '</span>' +
+          '</div>'
+        )).join('');
+      }
+
+      function renderOverviewRecent(items) {
+        const box = $('overviewRecentContent');
+        if (!box) return;
+        const list = (items || []).slice(0, 5);
+        if (!list.length) {
+          box.innerHTML = '<p class="empty-hint">暂无文章</p>';
+          return;
+        }
+        box.innerHTML = list.map((item) => (
+          '<div class="mini-item">' +
+          '<span class="title">' + escapeHtml(item.title) + '</span>' +
+          '<span class="tag ' + escapeAttr(item.status || 'draft') + '">' + escapeHtml(statusLabel(item.status || 'draft')) + '</span>' +
+          '<span class="muted">' + escapeHtml(item.date || '') + '</span>' +
+          '<div class="mini-actions">' +
+          '<button class="ghost" type="button" data-edit-content="' + escapeAttr(item.id) + '">编辑</button>' +
+          '<button class="bad" type="button" data-del-content="' + escapeAttr(item.id) + '">删除</button>' +
+          '</div></div>'
+        )).join('');
+      }
+
+      function renderOverviewPendingFriends(list) {
+        const box = $('overviewPendingFriends');
+        if (!box) return;
+        if (!list.length) {
+          box.innerHTML = '<p class="empty-hint">暂无待审友联 ✨</p>';
+          return;
+        }
+        box.innerHTML = list.slice(0, 5).map((a) => (
+          '<div class="mini-item">' +
+          '<span class="title">' + escapeHtml(a.name) + '</span>' +
+          '<span class="muted" style="flex:1">' + escapeHtml(a.description || a.url || '') + '</span>' +
+          '<div class="mini-actions">' +
+          '<button class="ok" type="button" data-approve="' + escapeAttr(a.id) + '">通过</button>' +
+          '<button class="bad" type="button" data-reject="' + escapeAttr(a.id) + '">拒绝</button>' +
+          '</div></div>'
+        )).join('');
+      }
+
+      function renderOverviewPendingComments(list) {
+        const box = $('overviewPendingComments');
+        if (!box) return;
+        if (!list.length) {
+          box.innerHTML = '<p class="empty-hint">暂无待审评论 ✨</p>';
+          return;
+        }
+        box.innerHTML = list.slice(0, 5).map((c) => (
+          '<div class="mini-item">' +
+          '<span class="title">' + escapeHtml(c.author) + '</span>' +
+          '<span class="muted" style="flex:1">' +
+          escapeHtml((c.content || '').slice(0, 40)) +
+          (c.path ? ' · ' + escapeHtml(commentPathLabel(c.path)) : '') +
+          '</span>' +
+          '<div class="mini-actions">' +
+          '<button class="ok" type="button" data-publish-comment="' + escapeAttr(c.id) + '">通过</button>' +
+          '<button class="bad" type="button" data-del-comment="' + escapeAttr(c.id) + '">删除</button>' +
+          '</div></div>'
+        )).join('');
+      }
+
+      function updateTodoReminder(pendingComments, pendingFriends) {
+        const text = $('todoText');
+        const pulse = $('todoPulse');
+        if (!text) return;
+        const c = pendingComments || 0;
+        const f = pendingFriends || 0;
+        if (c + f === 0) {
+          text.innerHTML = '当前没有待办，次元一切安好 ✨';
+          if (pulse) pulse.classList.add('is-idle');
+        } else {
+          text.innerHTML = '有 <span>' + c + '</span> 条评论待审核，<span>' + f + '</span> 个友联待处理';
+          if (pulse) pulse.classList.remove('is-idle');
+        }
+      }
+
+      function applyMockOverview() {
+        animateNumber($('statContentTotal'), MOCK.contentTotal);
+        animateNumber($('statPublished'), MOCK.published);
+        animateNumber($('statPendingFriends'), MOCK.pendingFriends);
+        animateNumber($('statPendingComments'), MOCK.pendingComments);
+        triggerStatSweep();
+        updateTodoReminder(MOCK.pendingComments, MOCK.pendingFriends);
+        renderTrendBars(
+          Array.from({ length: 7 }, (_, i) => {
+            const d = new Date();
+            d.setDate(d.getDate() - (6 - i));
+            return { date: d.toISOString().slice(0, 10), count: MOCK.trend[i] || 0 };
+          }),
+        );
+        renderTopArticles(MOCK.contentItems);
+        renderOverviewRecent(MOCK.contentItems);
+        renderOverviewPendingFriends(MOCK.friends);
+        renderOverviewPendingComments(MOCK.comments);
+      }
+
+      async function loadOverviewStats() {
+        try {
+          const [allContent, publishedContent, pendingFriends, pendingComments] = await Promise.all([
+            api('/api/content'),
+            api('/api/content?status=published'),
+            api('/api/friend-applications?status=pending'),
+            // path=all：包含文章/碎念/友联等全部待审评论
+            api('/api/comments?path=' + encodeURIComponent('all') + '&status=pending'),
+          ]);
+          const allItems = allContent.items || [];
+          const pubItems = publishedContent.items || [];
+          const friendList = pendingFriends.applications || [];
+          const commentList = pendingComments.items || [];
+
+          state.overviewCache = { allContent: allItems, pendingFriends: friendList, pendingComments: commentList };
+
+          animateNumber($('statContentTotal'), allItems.length);
+          animateNumber($('statPublished'), pubItems.length);
+          animateNumber($('statPendingFriends'), friendList.length);
+          animateNumber($('statPendingComments'), commentList.length);
+          triggerStatSweep();
+
+          updateTodoReminder(commentList.length, friendList.length);
+          renderTrendBars(buildTrendCounts(allItems));
+          renderTopArticles(pubItems.length ? pubItems : allItems);
+          renderOverviewRecent(allItems);
+          renderOverviewPendingFriends(friendList);
+          renderOverviewPendingComments(commentList);
+        } catch {
+          // API 失败时使用静态 mock，保证总览可预览
+          applyMockOverview();
+        }
+      }
+
+      function contentPayload(status) {
+        const mode = $('contentMode').value;
+        return {
+          kind: mode === 'blog' ? 'blog' : 'journal',
+          mode,
+          title: $('contentTitle').value.trim(),
+          slug: $('contentSlug').value.trim() || undefined,
+          summary: $('contentSummary').value.trim(),
+          cover: $('contentCover').value.trim(),
+          markdown: $('contentMarkdown').value,
+          tags: parseTagsInput($('contentTags').value),
+          status,
+          date: $('contentDate').value || undefined,
+        };
+      }
+
+
+      async function saveContent(status, opts) {
+        const silent = Boolean(opts && opts.silent);
+        const id = $('contentId').value.trim();
+        const body = contentPayload(status);
+        if (!body.title || !body.markdown.trim()) {
+          throw new Error('标题与正文不能为空');
+        }
+        let saved;
+        if (id) {
+          // PATCH 不允许 kind（forbidNonWhitelisted）；类型由已有记录决定
+          const { kind, ...patch } = body;
+          saved = await api('/api/content/' + id, { method: 'PATCH', body: JSON.stringify(patch) });
+        } else {
+          saved = await api('/api/content', { method: 'POST', body: JSON.stringify(body) });
+        }
+
+        // 保留当前文章在表单，方便确认封面与继续改
+        if (saved && saved.id) {
+          $('contentId').value = saved.id;
+          $('contentSlug').value = saved.slug || body.slug || '';
+          $('contentCover').value = saved.cover || '';
+          $('contentStatus').value = saved.status || status;
+          state.writeDirty = false;
+          clearLocalWriteDraft(saved.id);
+          clearLocalWriteDraft('new');
+          updateContentEditBanner();
+          updateCoverPreview();
+        }
+
+        if (!silent) {
+          const title = (saved && saved.title) || body.title;
+          const action =
+            status === 'published'
+              ? (id ? '已更新并发布' : '已发布')
+              : (id ? '草稿已保存' : '草稿已创建');
+          const coverLabel = coverResultLabel(saved && saved.cover);
+          const href =
+            status === 'published' && saved
+              ? frontUrlForContent(saved)
+              : 'https://www.askuary.cn/home/';
+          showOk(
+            '「' + title + '」' + action + ' · ' + coverLabel,
+            {
+              href: status === 'published' ? href : 'https://www.askuary.cn/home/',
+              label: status === 'published' ? '打开文章' : '打开主页',
+            },
+          );
+
+          await loadContent();
+          await loadOverviewStats();
+        }
+        return saved;
+      }
+
+      async function silentRemoteAutosave() {
+        if (!state.writeDirty) return;
+        const id = $('contentId').value.trim();
+        if (!id) {
+          saveLocalWriteDraft();
+          return;
+        }
+        const title = $('contentTitle').value.trim();
+        const markdown = $('contentMarkdown').value.trim();
+        if (!title || !markdown) return;
+        // 已发布文章静默保存时保持 published，避免被降为草稿
+        const status =
+          $('contentStatus').value === 'published' ? 'published' : 'draft';
+        try {
+          await saveContent(status, { silent: true });
+          const el = $('writeStatusText');
+          if (el && !state.writeDirty) {
+            // 短暂提示已自动保存
+            const prev = el.innerHTML;
+            el.innerHTML = prev.replace('已同步', '已自动保存');
+          }
+        } catch (e) {
+          const side = $('writeSideStatus');
+          if (side) side.textContent = '自动保存失败：' + String(e.message || e);
+        }
+      }
+
+      async function refresh() {
+        showErr($('err'), '');
+        showOk('');
+        try {
+          await Promise.all([
+            loadContent(),
+            loadApps(),
+            loadComments(),
+            loadOverviewStats(),
+            loadPhotosAdmin(),
+            loadLibraryAdmin(),
+            loadPortalAdmin(),
+            loadArcadeAdmin(),
+          ]);
+        } catch (e) {
+          showErr($('err'), String(e.message || e));
+          if (String(e.message || '').includes('401') || /密码|Unauthorized|Invalid admin/i.test(String(e.message || ''))) {
+            logout(false);
+          }
+        }
+      }
+
+      function logout(clearForm) {
+        state.token = '';
+        localStorage.removeItem(KEY_TOKEN);
+        setAuthed(false);
+        if (clearForm !== false) $('password').value = '';
+        showErr($('loginErr'), '');
+      }
+
+      async function tryAutoLogin() {
+        if (!state.token) {
+          setAuthed(false);
+          return;
+        }
+        try {
+          // 用受保护接口探测会话；勿把会话票当作登录密码 POST
+          await api('/api/admin/session');
+          setAuthed(true);
+          await refresh();
+        } catch {
+          logout(false);
+        }
+      }
+
+      /* ── Event bindings ── */
+      $('loginForm').addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        const password = $('password').value.trim();
+        const base = $('apiBase').value.trim().replace(/\/$/, '') || location.origin;
+        if (!password) return;
+
+        state.apiBase = base;
+        state.token = '';
+        localStorage.setItem(KEY_BASE, base);
+        localStorage.removeItem(KEY_TOKEN);
+
+        const btn = $('loginBtn');
+        btn.disabled = true;
+        showErr($('loginErr'), '');
+        try {
+          const res = await fetch(currentBase() + '/api/admin/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password }),
+          });
+          if (!res.ok) {
+            let msg = '登录失败';
+            try {
+              const data = await res.json();
+              msg = data.message || msg;
+            } catch {}
+            throw new Error(Array.isArray(msg) ? msg.join(', ') : String(msg));
+          }
+          const data = await res.json();
+          if (!data.token) throw new Error('服务器未返回会话票');
+          state.token = data.token;
+          localStorage.setItem(KEY_TOKEN, state.token);
+          setAuthed(true);
+          switchTab('overview');
+          await refresh();
+        } catch (e) {
+          showErr($('loginErr'), String(e.message || e));
+        } finally {
+          btn.disabled = false;
+        }
+      });
+
+      $('logoutBtn').onclick = () => logout(true);
+      $('reloadBtn').onclick = () => refresh();
+
+      document.querySelectorAll('.nav-btn[data-tab]').forEach((btn) => {
+        btn.onclick = () => switchTab(btn.dataset.tab);
+      });
+
+      document.querySelectorAll('[data-goto]').forEach((btn) => {
+        btn.onclick = () => switchTab(btn.dataset.goto);
+      });
+
+      // 游戏风按钮涟漪
+      document.querySelectorAll('.game-btn').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          const rect = btn.getBoundingClientRect();
+          const ripple = document.createElement('span');
+          ripple.className = 'ripple';
+          const size = Math.max(rect.width, rect.height);
+          ripple.style.width = ripple.style.height = size + 'px';
+          ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+          ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+          btn.appendChild(ripple);
+          setTimeout(() => ripple.remove(), 560);
+        });
+      });
+
+      $('statusFilter').onchange = () => loadApps().catch((e) => showErr($('err'), String(e.message || e)));
+      $('commentFilter').onchange = () => loadComments().catch((e) => showErr($('err'), String(e.message || e)));
+      $('commentPathFilter').onchange = () => loadComments().catch((e) => showErr($('err'), String(e.message || e)));
+      if ($('arcadeGalleryFilter')) {
+        $('arcadeGalleryFilter').onchange = () => loadArcadeGalleryAdmin().catch((e) => showErr($('err'), String(e.message || e)));
+      }
+      if ($('arcadeGalleryReload')) {
+        $('arcadeGalleryReload').onclick = () => loadArcadeGalleryAdmin().catch((e) => showErr($('err'), String(e.message || e)));
+      }
+      if ($('arcadeScoreReload')) {
+        $('arcadeScoreReload').onclick = () => loadArcadeScoresAdmin().catch((e) => showErr($('err'), String(e.message || e)));
+      }
+      if ($('arcadeImportBtn')) {
+        $('arcadeImportBtn').onclick = async () => {
+          showErr($('err'), '');
+          try {
+            let page = null;
+            const candidates = ['/data/games-page.json', '/public/data/games-page.json'];
+            for (const url of candidates) {
+              try {
+                const res = await fetch(url, { cache: 'no-store' });
+                if (!res.ok) continue;
+                const data = await res.json();
+                if (data && (Array.isArray(data.gallerySeed) || Array.isArray(data.games))) {
+                  page = data;
+                  break;
+                }
+              } catch (_) {
+                /* next */
+              }
+            }
+            if (!window.confirm(
+              '从静态 games-page.json 导入画廊种子？\n\n默认只新增还没有的条目；已存在的种子会跳过。\n\n继续？',
+            )) return;
+            const overwrite = window.confirm(
+              '是否覆盖已导入的同名种子？\n\n确定 = 覆盖更新\n取消 = 只新增（推荐）',
+            );
+            const body = page
+              ? JSON.stringify({ page, overwrite })
+              : JSON.stringify({ overwrite });
+            const r = await api('/api/arcade/import', { method: 'POST', body });
+            showOk(
+              '画廊导入完成：新增 ' +
+                (r.created || 0) +
+                ' · 更新 ' +
+                (r.updated || 0) +
+                ' · 跳过 ' +
+                (r.skipped || 0) +
+                ' · 库内共 ' +
+                (r.total || 0),
+            );
+            await loadArcadeAdmin();
+          } catch (e) {
+            showErr($('err'), String(e.message || e));
+          }
+        };
+      }
+      $('contentKindFilter').onchange = () => loadContent().catch((e) => showErr($('err'), String(e.message || e)));
+      $('contentStatusFilter').onchange = () => loadContent().catch((e) => showErr($('err'), String(e.message || e)));
+
+      $('photosAlbumFilter').onchange = () => renderPhotosAdmin();
+      $('photosReloadBtn').onclick = () =>
+        loadPhotosAdmin().catch((e) => showErr($('err'), String(e.message || e)));
+      $('photosNewAlbumBtn').onclick = async () => {
+        showErr($('err'), '');
+        const key = prompt('新相册 key（建议：日常/上海 或 2026.7.20杭州）', '');
+        if (key == null) return;
+        const trimmed = String(key).trim();
+        if (!trimmed) {
+          showErr($('err'), '相册 key 不能为空');
+          return;
+        }
+        const defaultLabel = trimmed.includes('/')
+          ? trimmed.split('/').filter(Boolean).pop()
+          : trimmed;
+        const label = prompt('相册显示名（可空）', defaultLabel || trimmed) || '';
+        try {
+          await api('/api/photos/albums', {
+            method: 'POST',
+            body: JSON.stringify({
+              key: trimmed,
+              label: String(label).trim() || trimmed,
+            }),
+          });
+          showOk('已创建相册');
+          await loadPhotosAdmin();
+          if ($('photosAlbumFilter')) {
+            $('photosAlbumFilter').value = trimmed;
+            const album = state.photoAlbums.find((a) => a.key === trimmed);
+            if (album) fillAlbumEditor(album);
+          }
+          renderPhotosAdmin();
+        } catch (e) {
+          showErr($('err'), String(e.message || e));
+        }
+      };
+
+      $('libraryTypeFilter').onchange = () => renderLibraryAdmin();
+      $('libraryStatusFilter').onchange = () => renderLibraryAdmin();
+      $('libraryReloadBtn').onclick = () =>
+        loadLibraryAdmin().catch((e) => showErr($('err'), String(e.message || e)));
+      $('libraryNewBtn').onclick = () => {
+        fillLibraryEditor({
+          id: '',
+          title: '',
+          author: '',
+          type: 'book',
+          status: 'planned',
+          quotes: [],
+          takeaways: [],
+          updated: new Date().toISOString().slice(0, 10),
+        });
+        renderLibraryAdmin();
+      };
+      $('libraryEditCancel').onclick = () => {
+        fillLibraryEditor(null);
+        renderLibraryAdmin();
+      };
+      $('libraryList').addEventListener('click', (ev) => {
+        const btn = ev.target.closest('[data-edit-library]');
+        if (!btn) return;
+        const id = btn.getAttribute('data-edit-library');
+        const item = state.libraryItems.find((i) => i.id === id);
+        if (!item) return;
+        fillLibraryEditor(item);
+        renderLibraryAdmin();
+      });
+      $('libraryImportBtn').onclick = async () => {
+        showErr($('err'), '');
+        try {
+          let index = null;
+          const candidates = ['/data/library.json', '/public/data/library.json'];
+          for (const url of candidates) {
+            try {
+              const res = await fetch(url, { cache: 'no-store' });
+              if (!res.ok) continue;
+              const data = await res.json();
+              if (data && (Array.isArray(data.items) || Array.isArray(data))) {
+                index = data;
+                break;
+              }
+            } catch (_) {
+              /* next */
+            }
+          }
+          const body = index
+            ? JSON.stringify({ index, prune: false, overwrite: false })
+            : JSON.stringify({ prune: false, overwrite: false });
+          const r = await api('/api/library/import', { method: 'POST', body });
+          showOk(
+            '已导入 ' +
+              (r.upserted || 0) +
+              ' 条 · 跳过已有 ' +
+              (r.skipped || 0) +
+              ' · 库内共 ' +
+              (r.total || 0) +
+              (r.pruned ? ' · 清理 ' + r.pruned : ''),
+          );
+          await loadLibraryAdmin();
+        } catch (e) {
+          showErr($('err'), String(e.message || e));
+        }
+      };
+      $('libraryEditForm').onsubmit = async (ev) => {
+        ev.preventDefault();
+        showErr($('err'), '');
+        const editingSlug = $('libraryEditSlug').value;
+        const payload = {
+          title: $('libraryTitle').value.trim(),
+          author: $('libraryAuthor').value.trim(),
+          slug: $('librarySlug').value.trim() || undefined,
+          type: $('libraryType').value,
+          status: $('libraryStatus').value,
+          cover: $('libraryCover').value.trim(),
+          progress: $('libraryProgress').value.trim(),
+          progressCurrent: Number($('libraryProgressCurrent').value) || 0,
+          progressTotal: Number($('libraryProgressTotal').value) || 0,
+          rating: Number($('libraryRating').value) || 0,
+          year: $('libraryYear').value.trim(),
+          platform: $('libraryPlatform').value.trim(),
+          link: $('libraryLink').value.trim(),
+          genre: $('libraryGenre').value.trim(),
+          summary: $('librarySummary').value.trim(),
+          thoughts: $('libraryThoughts').value.trim(),
+          quotes: linesToList($('libraryQuotes').value),
+          takeaways: linesToList($('libraryTakeaways').value),
+          updated: $('libraryUpdated').value.trim(),
+        };
+        if (!payload.title) {
+          showErr($('err'), '标题不能为空');
+          return;
+        }
+        try {
+          if (editingSlug) {
+            await api('/api/library/' + encodeURIComponent(editingSlug), {
+              method: 'PATCH',
+              body: JSON.stringify(payload),
+            });
+            showOk('馆藏已保存');
+          } else {
+            const created = await api('/api/library', {
+              method: 'POST',
+              body: JSON.stringify(payload),
+            });
+            showOk('馆藏已创建');
+            fillLibraryEditor(created);
+          }
+          await loadLibraryAdmin();
+          const slug = editingSlug || ($('libraryEditSlug').value);
+          const updated = state.libraryItems.find((i) => i.id === slug || i.id === $('librarySlug').value);
+          if (updated) fillLibraryEditor(updated);
+          renderLibraryAdmin();
+        } catch (e) {
+          showErr($('err'), String(e.message || e));
+        }
+      };
+      $('libraryDeleteBtn').onclick = async () => {
+        const slug = $('libraryEditSlug').value;
+        if (!slug || !confirm('确定删除该馆藏条目？前台将不再显示（已接管模式下）。')) return;
+        try {
+          await api('/api/library/' + encodeURIComponent(slug), { method: 'DELETE' });
+          showOk('已删除');
+          fillLibraryEditor(null);
+          await loadLibraryAdmin();
+        } catch (e) {
+          showErr($('err'), String(e.message || e));
+        }
+      };
+
+      document.querySelectorAll('#portalSubtabs [data-pkey]').forEach((btn) => {
+        btn.onclick = () => {
+          state.portalKey = btn.dataset.pkey;
+          loadPortalAdmin().catch((e) => showErr($('err'), String(e.message || e)));
+        };
+      });
+      $('portalReloadBtn').onclick = () =>
+        loadPortalAdmin().catch((e) => showErr($('err'), String(e.message || e)));
+      $('portalAddBtn').onclick = () => {
+        if (state.portalKey === 'site-widgets' && state.portalItems.length) {
+          openPortalEditor(0);
+          return;
+        }
+        openPortalEditor(-1);
+      };
+      $('portalEditCancel').onclick = () => closePortalEditor();
+      $('portalList').addEventListener('click', (ev) => {
+        const btn = ev.target.closest('[data-portal-edit]');
+        if (!btn) return;
+        openPortalEditor(Number(btn.getAttribute('data-portal-edit')));
+      });
+      $('portalEditForm').addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        showErr($('err'), '');
+        try {
+          const next = readPortalFormItem();
+          if (state.portalKey === 'spots') {
+            if (!Number.isFinite(next.lat) || !Number.isFinite(next.lng)) {
+              throw new Error('纬度/经度必须是数字');
+            }
+          }
+          if (state.portalKey === 'site-widgets') {
+            state.portalItems = [next];
+          } else if (state.portalEditIndex < 0) {
+            state.portalItems.push(next);
+          } else {
+            state.portalItems[state.portalEditIndex] = next;
+          }
+          await savePortalItems();
+          closePortalEditor();
+          renderPortalList();
+        } catch (e) {
+          showErr($('err'), String(e.message || e));
+        }
+      });
+      $('portalImportBtn').onclick = async () => {
+        showErr($('err'), '');
+        try {
+          const items = await fetchPortalFallbackItems(state.portalKey);
+          const label =
+            state.portalKey === 'bg-quotes' ||
+            state.portalKey === 'site-widgets' ||
+            state.portalKey === 'notices'
+              ? 'home.json'
+              : PORTAL_KEYS[state.portalKey]?.file || state.portalKey;
+          if (
+            !confirm(
+              '用站点 ' + label + '（' + items.length + ' 条）覆盖当前编辑内容并保存到数据库？',
+            )
+          ) {
+            return;
+          }
+          state.portalItems = items;
+          await savePortalItems();
+          closePortalEditor();
+          renderPortalList();
+        } catch (e) {
+          showErr($('err'), String(e.message || e));
+        }
+      };
+      $('portalClearBtn').onclick = async () => {
+        showErr($('err'), '');
+        const fallback =
+          state.portalKey === 'bg-quotes' ||
+          state.portalKey === 'site-widgets' ||
+          state.portalKey === 'notices'
+            ? 'home.json'
+            : PORTAL_KEYS[state.portalKey]?.file || '';
+        if (
+          !confirm(
+            '清除数据库覆盖？前台将回退到静态 data/' + fallback + '。',
+          )
+        ) {
+          return;
+        }
+        try {
+          await api('/api/portal/' + encodeURIComponent(state.portalKey), {
+            method: 'DELETE',
+          });
+          showOk('已清除覆盖');
+          await loadPortalAdmin();
+        } catch (e) {
+          showErr($('err'), String(e.message || e));
+        }
+      };
+
+      $('photosSyncBtn').onclick = async () => {
+        showErr($('err'), '');
+        try {
+          // 优先从静态站拉索引再提交，Docker API 无需挂载 content/photowall
+          let index = null;
+          const candidates = [
+            '/data/photowall-index.json',
+            '/public/data/photowall-index.json',
+          ];
+          for (const url of candidates) {
+            try {
+              const res = await fetch(url, { cache: 'no-store' });
+              if (!res.ok) continue;
+              const data = await res.json();
+              if (data && (Array.isArray(data.photos) || Array.isArray(data.albums))) {
+                index = data;
+                break;
+              }
+            } catch (_) {
+              /* try next */
+            }
+          }
+          const body = index
+            ? JSON.stringify({ index, prune: true })
+            : JSON.stringify({ prune: true });
+          const r = await api('/api/photos/sync', { method: 'POST', body });
+          const pruned =
+            (r.prunedPhotos || 0) + (r.prunedAlbums || 0)
+              ? ' · 清理旧记录 照片' + (r.prunedPhotos || 0) + '/相册' + (r.prunedAlbums || 0)
+              : '';
+          showOk('已同步相册 ' + (r.albums || 0) + ' · 照片 ' + (r.photos || 0) + pruned);
+          await loadPhotosAdmin();
+        } catch (e) {
+          showErr($('err'), String(e.message || e));
+        }
+      };
+      $('photosList').addEventListener('click', (ev) => {
+        const btn = ev.target.closest('[data-edit-photo]');
+        if (!btn) return;
+        const id = btn.getAttribute('data-edit-photo');
+        const photo = state.photoItems.find((p) => p.id === id);
+        if (!photo) return;
+        fillPhotoEditor(photo);
+        const album = state.photoAlbums.find((a) => a.key === photo.album);
+        if (album) {
+          $('photosAlbumFilter').value = album.key;
+          fillAlbumEditor(album);
+        }
+        renderPhotosAdmin();
+      });
+      $('photoEditCancel').onclick = () => fillPhotoEditor(null);
+      $('photoEditForm').onsubmit = async (ev) => {
+        ev.preventDefault();
+        const id = $('photoEditId').value;
+        if (!id) return;
+        showErr($('err'), '');
+        try {
+          const musicId = $('photoMusicId').value.trim();
+          const story = {
+            intro: $('photoIntro').value,
+            device: $('photoDevice').value.trim(),
+            timeLabel: $('photoTimeLabel').value.trim(),
+            locationLabel: $('photoLocation').value.trim(),
+            weather: $('photoWeather').value.trim(),
+            music: musicId
+              ? {
+                  neteaseId: musicId,
+                  title: $('photoMusicTitle').value.trim() || undefined,
+                  artist: $('photoMusicArtist').value.trim() || undefined,
+                }
+              : null,
+          };
+          await api('/api/photos/item?id=' + encodeURIComponent(id), {
+            method: 'PATCH',
+            body: JSON.stringify({
+              title: $('photoTitle').value.trim(),
+              date: $('photoDate').value.trim(),
+              location: $('photoLocation').value.trim(),
+              albumKey: $('photoAlbumKey').value.trim() || undefined,
+              device: $('photoDevice').value.trim(),
+              lat: $('photoLat').value.trim() === '' ? null : Number($('photoLat').value),
+              lng: $('photoLng').value.trim() === '' ? null : Number($('photoLng').value),
+              story,
+            }),
+          });
+          showOk('照片已保存');
+          await loadPhotosAdmin();
+          const updated = state.photoItems.find((p) => p.id === id);
+          if (updated) fillPhotoEditor(updated);
+        } catch (e) {
+          showErr($('err'), String(e.message || e));
+        }
+      };
+      $('photoDeleteBtn').onclick = async () => {
+        const id = $('photoEditId').value;
+        if (!id || !confirm('从前台隐藏该照片（不会删磁盘文件；同步也不会复活）。继续？')) return;
+        try {
+          await api('/api/photos/item?id=' + encodeURIComponent(id), { method: 'DELETE' });
+          showOk('已删除 DB 覆盖');
+          fillPhotoEditor(null);
+          await loadPhotosAdmin();
+        } catch (e) {
+          showErr($('err'), String(e.message || e));
+        }
+      };
+      $('albumEditForm').onsubmit = async (ev) => {
+        ev.preventDefault();
+        const key = $('albumEditKey').value;
+        if (!key) {
+          showErr($('err'), '请先选择相册');
+          return;
+        }
+        showErr($('err'), '');
+        try {
+          await api('/api/photos/albums/' + encodeURIComponent(key), {
+            method: 'PATCH',
+            body: JSON.stringify({
+              label: $('albumLabel').value.trim(),
+              date: $('albumDate').value.trim(),
+              description: $('albumDescription').value,
+              story: {
+                intro: $('albumIntro').value,
+                weather: $('albumWeather').value.trim(),
+                device: $('albumDevice').value.trim(),
+              },
+            }),
+          });
+          showOk('相册已保存');
+          await loadPhotosAdmin();
+        } catch (e) {
+          showErr($('err'), String(e.message || e));
+        }
+      };
+
+      $('contentRandomCoverBtn').onclick = () => {
+        // 清空后按 slug 默认随机；预览用当前 slug
+        $('contentCover').value = '';
+        updateCoverPreview();
+        markWriteDirty();
+        showOk('已改为默认随机封面（按文章 slug）；也可填自定义图片 URL');
+      };
+
+      $('contentClearCoverBtn').onclick = () => {
+        $('contentCover').value = '';
+        updateCoverPreview();
+        markWriteDirty();
+        showOk('已改为使用随机图库（按 slug 选图）');
+      };
+      $('contentResetBtn').onclick = () => { resetContentForm(); showOk('已新建空白稿'); };
+      $('contentCancelEdit').onclick = () => { resetContentForm(); showOk('已取消编辑'); };
+      $('contentTitle').addEventListener('input', () => {
+        updateContentEditBanner();
+        updateCoverPreview();
+        markWriteDirty();
+      });
+      $('contentSlug').addEventListener('input', () => {
+        updateCoverPreview();
+        markWriteDirty();
+      });
+      $('contentMode').addEventListener('change', () => {
+        updateCoverPreview();
+        markWriteDirty();
+      });
+      $('contentCover').addEventListener('input', () => {
+        updateCoverPreview();
+        markWriteDirty();
+      });
+      $('contentSummary').addEventListener('input', markWriteDirty);
+      $('contentTags').addEventListener('input', markWriteDirty);
+      $('contentDate').addEventListener('change', markWriteDirty);
+      $('contentMarkdown').addEventListener('input', () => {
+        markWriteDirty();
+        if (state.writeView !== 'edit') renderMarkdownPreview();
+      });
+
+      if ($('mdToolbar')) {
+        $('mdToolbar').addEventListener('click', (ev) => {
+          const t = ev.target.closest('button');
+          if (!t) return;
+          if (t.dataset.md) handleMdToolbar(t.dataset.md);
+          if (t.dataset.view) setMdView(t.dataset.view);
+        });
+      }
+
+      async function runSaveDraft() {
+        showErr($('err'), '');
+        try {
+          $('contentStatus').value = 'draft';
+          await saveContent('draft');
+        } catch (e) {
+          showErr($('err'), String(e.message || e));
+        }
+      }
+
+      /** Ctrl+S：已发布保持发布；草稿/新建存草稿 */
+      async function runQuickSave() {
+        showErr($('err'), '');
+        try {
+          const status =
+            $('contentStatus').value === 'published' ? 'published' : 'draft';
+          await saveContent(status);
+        } catch (e) {
+          showErr($('err'), String(e.message || e));
+        }
+      }
+
+      async function runPublish() {
+        showErr($('err'), '');
+        try {
+          $('contentStatus').value = 'published';
+          await saveContent('published');
+        } catch (e) {
+          showErr($('err'), String(e.message || e));
+        }
+      }
+
+      $('contentPublishBtn').onclick = () => runPublish();
+      if ($('contentPublishBtnSide')) $('contentPublishBtnSide').onclick = () => runPublish();
+      if ($('contentDraftBtn')) $('contentDraftBtn').onclick = () => runSaveDraft();
+      if ($('contentDraftBtnSide')) $('contentDraftBtnSide').onclick = () => runSaveDraft();
+
+      $('contentForm').addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        await runSaveDraft();
+      });
+
+      if ($('contentPreviewBtn')) {
+        $('contentPreviewBtn').onclick = async () => {
+          showErr($('err'), '');
+          try {
+            // 有改动或未入库时先存草稿，便于之后前台试看
+            if (state.writeDirty || !$('contentId').value.trim()) {
+              if ($('contentTitle').value.trim() && $('contentMarkdown').value.trim()) {
+                const keepStatus = $('contentStatus').value === 'published' ? 'published' : 'draft';
+                await saveContent(keepStatus, { silent: true });
+              }
+            }
+            openWritePreviewModal();
+            const status = $('contentStatus').value;
+            if (status === 'published' && $('contentSlug').value.trim()) {
+              const fake = {
+                slug: $('contentSlug').value.trim(),
+                kind: $('contentMode').value === 'blog' ? 'blog' : 'journal',
+                tags: parseTagsInput($('contentTags').value),
+              };
+              showOk('内嵌预览已打开', {
+                href: frontUrlForContent(fake),
+                label: '尝试打开前台',
+              });
+            }
+          } catch (e) {
+            openWritePreviewModal();
+            showErr($('err'), String(e.message || e));
+          }
+        };
+      }
+
+      if ($('contentFocusBtn')) {
+        $('contentFocusBtn').onclick = () => setWriteFocus(!state.writeFocus);
+      }
+      if ($('writePreviewClose')) {
+        $('writePreviewClose').onclick = () => closeWritePreviewModal();
+      }
+      if ($('writePreviewModal')) {
+        $('writePreviewModal').addEventListener('click', (ev) => {
+          if (ev.target === $('writePreviewModal')) closeWritePreviewModal();
+        });
+      }
+      if ($('writeRecoverBtn')) {
+        $('writeRecoverBtn').onclick = () => {
+          if (state.pendingLocalDraft) {
+            applyWriteSnapshot(state.pendingLocalDraft);
+            state.writeDirty = true;
+            updateContentEditBanner();
+          }
+          $('writeRecoverBar').classList.add('hidden');
+          state.pendingLocalDraft = null;
+          showOk('已恢复本地草稿');
+        };
+      }
+      if ($('writeDiscardLocalBtn')) {
+        $('writeDiscardLocalBtn').onclick = () => {
+          clearLocalWriteDraft($('contentId').value.trim() || 'new');
+          $('writeRecoverBar').classList.add('hidden');
+          state.pendingLocalDraft = null;
+          showOk('已丢弃本地草稿');
+        };
+      }
+
+      document.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Escape') {
+          if (!$('writePreviewModal').classList.contains('hidden')) {
+            closeWritePreviewModal();
+            return;
+          }
+          if (state.writeFocus) setWriteFocus(false);
+        }
+        if ((ev.ctrlKey || ev.metaKey) && ev.key.toLowerCase() === 's') {
+          if (state.currentTab === 'write') {
+            ev.preventDefault();
+            runQuickSave();
+          }
+        }
+      });
+
+      window.addEventListener('beforeunload', (ev) => {
+        if (!state.writeDirty || state.currentTab !== 'write') return;
+        ev.preventDefault();
+        ev.returnValue = '';
+      });
+
+      // 远端静默自动保存（已有 id 且有改动）
+      state.writeRemoteTimer = setInterval(() => {
+        if (state.currentTab !== 'write') return;
+        silentRemoteAutosave();
+      }, 30000);
+
+      $('friendSaveApproved').onclick = async () => {
+        showErr($('err'), '');
+        try { await saveFriend(true); }
+        catch (e) { showErr($('err'), String(e.message || e)); }
+      };
+
+      $('friendSavePending').onclick = async () => {
+        showErr($('err'), '');
+        try { await saveFriend(false); }
+        catch (e) { showErr($('err'), String(e.message || e)); }
+      };
+
+      $('friendResetBtn').onclick = () => { resetFriendForm(); showOk(''); };
+      $('friendCancelEdit').onclick = () => { resetFriendForm(); showOk('已取消编辑'); };
+      $('friendName').addEventListener('input', updateFriendEditBanner);
+
+      document.body.addEventListener('click', async (ev) => {
+        const t = ev.target;
+        if (!(t instanceof HTMLElement)) return;
+        try {
+          if (t.dataset.approve) {
+            await api('/api/friend-applications/' + t.dataset.approve, {
+              method: 'PATCH',
+              body: JSON.stringify({ status: 'approved' }),
+            });
+            showOk('已通过');
+            await refresh();
+          }
+          if (t.dataset.reject) {
+            const reason = window.prompt('拒绝原因（可选）', '') || '';
+            await api('/api/friend-applications/' + t.dataset.reject, {
+              method: 'PATCH',
+              body: JSON.stringify({ status: 'rejected', rejectReason: reason || undefined }),
+            });
+            showOk('已拒绝');
+            await refresh();
+          }
+          if (t.dataset.delFriend) {
+            if (!window.confirm('确认删除这条友联记录？')) return;
+            await api('/api/friend-applications/' + t.dataset.delFriend, { method: 'DELETE' });
+            if ($('friendId').value === t.dataset.delFriend) resetFriendForm();
+            showOk('已删除');
+            await refresh();
+          }
+          if (t.dataset.editFriend) {
+            const item = state.friendItems.find((x) => x.id === t.dataset.editFriend);
+            if (item) fillFriendForm(item);
+          }
+          if (t.dataset.publishComment) {
+            await api('/api/comments/' + t.dataset.publishComment + '/status', {
+              method: 'PATCH',
+              body: JSON.stringify({ status: 'published' }),
+            });
+            showOk('评论已通过');
+            await refresh();
+          }
+          if (t.dataset.pendComment) {
+            await api('/api/comments/' + t.dataset.pendComment + '/status', {
+              method: 'PATCH',
+              body: JSON.stringify({ status: 'pending' }),
+            });
+            showOk('已改回待审');
+            await refresh();
+          }
+          if (t.dataset.delComment) {
+            if (!window.confirm('确认删除这条评论？')) return;
+            await api('/api/comments/' + t.dataset.delComment, { method: 'DELETE' });
+            showOk('评论已删除');
+            await refresh();
+          }
+          if (t.dataset.arcadePublish) {
+            await api('/api/arcade/gallery/' + t.dataset.arcadePublish + '/status', {
+              method: 'PATCH',
+              body: JSON.stringify({ status: 'published' }),
+            });
+            showOk('画廊已通过');
+            await loadArcadeAdmin();
+          }
+          if (t.dataset.arcadePend) {
+            await api('/api/arcade/gallery/' + t.dataset.arcadePend + '/status', {
+              method: 'PATCH',
+              body: JSON.stringify({ status: 'pending' }),
+            });
+            showOk('已改回待审');
+            await loadArcadeAdmin();
+          }
+          if (t.dataset.arcadeReject) {
+            await api('/api/arcade/gallery/' + t.dataset.arcadeReject + '/status', {
+              method: 'PATCH',
+              body: JSON.stringify({ status: 'rejected', rejectReason: '不符合展示规范' }),
+            });
+            showOk('已拒绝');
+            await loadArcadeAdmin();
+          }
+          if (t.dataset.arcadeDel) {
+            if (!window.confirm('确认删除这条画廊投稿及图片文件？')) return;
+            await api('/api/arcade/gallery/' + t.dataset.arcadeDel, { method: 'DELETE' });
+            showOk('画廊条目已删除');
+            await loadArcadeAdmin();
+          }
+          if (t.dataset.arcadeHide) {
+            await api('/api/arcade/scores/' + t.dataset.arcadeHide, {
+              method: 'PATCH',
+              body: JSON.stringify({ hidden: true }),
+            });
+            showOk('已从排行榜隐藏');
+            await loadArcadeScoresAdmin();
+          }
+          if (t.dataset.arcadeShow) {
+            await api('/api/arcade/scores/' + t.dataset.arcadeShow, {
+              method: 'PATCH',
+              body: JSON.stringify({ hidden: false }),
+            });
+            showOk('已恢复展示');
+            await loadArcadeScoresAdmin();
+          }
+          if (t.dataset.arcadeDelScore) {
+            if (!window.confirm('确认删除这条排行榜记录？')) return;
+            await api('/api/arcade/scores/' + t.dataset.arcadeDelScore, { method: 'DELETE' });
+            showOk('排行榜记录已删除');
+            await loadArcadeScoresAdmin();
+          }
+          if (t.dataset.editContent) {
+            // 总览最近列表也可能触发编辑：优先 state，其次 overviewCache
+            let item = state.contentItems.find((x) => x.id === t.dataset.editContent);
+            if (!item) item = (state.overviewCache.allContent || []).find((x) => x.id === t.dataset.editContent);
+            if (item) fillContentForm(item);
+          }
+          if (t.dataset.publishContent) {
+            await api('/api/content/' + t.dataset.publishContent, {
+              method: 'PATCH',
+              body: JSON.stringify({ status: 'published' }),
+            });
+            showOk('已发布');
+            await loadContent();
+            await loadOverviewStats();
+          }
+          if (t.dataset.draftContent) {
+            await api('/api/content/' + t.dataset.draftContent, {
+              method: 'PATCH',
+              body: JSON.stringify({ status: 'draft' }),
+            });
+            showOk('已改回草稿');
+            await loadContent();
+            await loadOverviewStats();
+          }
+          if (t.dataset.delContent) {
+            if (!window.confirm('确认删除这篇内容？')) return;
+            await api('/api/content/' + t.dataset.delContent, { method: 'DELETE' });
+            if ($('contentId').value === t.dataset.delContent) resetContentForm();
+            showOk('已删除');
+            await loadContent();
+            await loadOverviewStats();
+          }
+        } catch (e) {
+          showErr($('err'), String(e.message || e));
+        }
+      });
+
+      async function fetchJson(url) {
+        const res = await fetch(url, { cache: 'no-store' });
+        if (!res.ok) throw new Error('加载失败 ' + url + ' (' + res.status + ')');
+        return res.json();
+      }
+
+      function siteDataBase() {
+        return (state.apiBase || location.origin).replace(/\/$/, '');
+      }
+
+      function normalizeImportDate(raw) {
+        const s = String(raw || '').trim();
+        if (!s) return '';
+        // 无年份短日期曾被误解析为 2001；导入时纠正
+        var bad2001 = s.match(/^2001-(\d{2}-\d{2})$/);
+        if (bad2001) return new Date().getFullYear() + '-' + bad2001[1];
+        if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+        if (/^\d{4}-\d{2}-\d{2}T/.test(s)) return s.slice(0, 10);
+        var months = { jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12 };
+        var named = s.match(/^(?:(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)[a-z]*,?\s+)?([A-Za-z]{3,9})\s+(\d{1,2})(?:[\s,]+(\d{4}))?/i);
+        if (named) {
+          var month = months[named[1].toLowerCase().slice(0, 3)];
+          var day = Number(named[2]);
+          if (month && day >= 1 && day <= 31) {
+            var yearInStr = s.match(/\b(19|20)\d{2}\b/);
+            var year = named[3] ? Number(named[3]) : (yearInStr ? Number(yearInStr[0]) : new Date().getFullYear());
+            return year + '-' + String(month).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+          }
+        }
+        // 无年份时禁止 new Date()（会落到 2001）
+        if (/\b(19|20)\d{2}\b/.test(s)) {
+          var parsed = new Date(s);
+          if (!Number.isNaN(parsed.getTime())) {
+            return parsed.getFullYear() + '-' + String(parsed.getMonth() + 1).padStart(2, '0') + '-' + String(parsed.getDate()).padStart(2, '0');
+          }
+        }
+        return s.slice(0, 32);
+      }
+
+      async function collectStaticPosts() {
+        const base = siteDataBase();
+        const items = [];
+        const journalIndex = await fetchJson(base + '/data/journal-index.json');
+        for (const meta of journalIndex || []) {
+          const slug = meta.slug;
+          if (!slug) continue;
+          let full = meta;
+          try {
+            full = await fetchJson(base + '/data/journal/' + encodeURIComponent(slug) + '.json');
+          } catch (e) {}
+          const tags = full.tags || meta.tags || [];
+          const isSs = tags.some((t) => {
+            const x = String(t || '').toLowerCase();
+            return x === '碎念' || x === '说说' || x === 'shuoshuo';
+          });
+          items.push({
+            kind: 'journal',
+            mode: isSs ? 'shuoshuo' : 'article',
+            slug: full.slug || slug,
+            title: full.title || meta.title || slug,
+            summary: full.summary || meta.summary || '',
+            cover: full.cover || meta.cover || '',
+            tags,
+            date: normalizeImportDate(full.date || meta.date || ''),
+            markdown: full.markdown || '',
+            html: full.html || '',
+          });
+        }
+        try {
+          const postsIndex = await fetchJson(base + '/data/posts-index.json');
+          for (const meta of postsIndex || []) {
+            const slug = meta.slug;
+            if (!slug) continue;
+            let full = meta;
+            try {
+              full = await fetchJson(base + '/data/posts/' + encodeURIComponent(slug) + '.json');
+            } catch (e) {}
+            items.push({
+              kind: 'blog',
+              mode: 'blog',
+              slug: full.slug || slug,
+              title: full.title || meta.title || slug,
+              summary: full.summary || meta.summary || '',
+              cover: full.cover || meta.cover || '',
+              tags: full.tags || meta.tags || [],
+              date: normalizeImportDate(full.date || meta.date || ''),
+              markdown: full.markdown || '',
+              html: full.html || '',
+            });
+          }
+        } catch (e) {}
+        return items;
+      }
+
+      async function importStaticContent(overwrite) {
+        const btn = $('contentImportBtn');
+        if (btn) btn.disabled = true;
+        showErr($('err'), '');
+        showOk('正在读取前台静态文章…');
+        try {
+          const items = await collectStaticPosts();
+          if (!items.length) throw new Error('未找到可导入的静态文章（/data/journal-index.json）');
+          showOk('已读取 ' + items.length + ' 篇，正在导入…');
+          const result = await api('/api/content/import', {
+            method: 'POST',
+            body: JSON.stringify({ items, overwrite: Boolean(overwrite) }),
+          });
+          const msg =
+            '导入完成：新增 ' +
+            result.created +
+            '，更新 ' +
+            result.updated +
+            '，跳过 ' +
+            result.skipped +
+            '（共 ' +
+            result.total +
+            '；已编辑稿不会被覆盖）';
+          showOk(result.errors && result.errors.length ? msg + '；部分失败见控制台' : msg);
+          if (result.errors && result.errors.length) console.warn(result.errors);
+          await loadContent();
+          if (typeof loadOverviewStats === 'function') await loadOverviewStats();
+        } catch (e) {
+          showErr($('err'), String(e.message || e));
+          showOk('');
+        } finally {
+          if (btn) btn.disabled = false;
+        }
+      }
+
+      if ($('contentImportBtn')) {
+        $('contentImportBtn').addEventListener('click', async () => {
+          const go = window.confirm(
+            '导入前台静态文章到后台数据库。\n\n默认只新增还没有的篇目；你在后台改过的文章不会被覆盖。\n\n继续？',
+          );
+          if (!go) return;
+          const force = window.confirm(
+            '是否强制用静态稿覆盖「从未在后台保存过」的旧导入？\n\n确定 = 覆盖未编辑的导入稿\n取消 = 只新增（推荐）\n\n注：只要在后台保存过的文章，无论如何都不会被覆盖。',
+          );
+          await importStaticContent(force);
+        });
+      }
+
+      updateCoverPreview();
+      updateContentEditBanner();
+      setMdView('edit');
+      renderMarkdownPreview();
+      maybeOfferLocalRecover();
+      tryAutoLogin();
+
+    </script>
+  </body>
+</html>

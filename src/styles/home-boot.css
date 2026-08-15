@@ -1,0 +1,185 @@
+/* 主页进入：宇宙穿越时的简洁像素启动屏 */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body.home-booting {
+  overflow: hidden;
+}
+
+body.home-boot-pixel {
+  background: #05060c;
+}
+
+.home-boot {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(ellipse 55% 40% at 50% 42%, rgba(61, 231, 255, 0.08), transparent 62%),
+    #05060c;
+  opacity: 1;
+  transition: opacity 0.35s steps(4), visibility 0.35s steps(4);
+}
+
+.home-boot.is-done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.home-boot-scanlines {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.03) 0,
+    rgba(255, 255, 255, 0.03) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  opacity: 0.32;
+}
+
+.home-boot-panel {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  width: min(92vw, 420px);
+  padding: 1.35rem 1.1rem 1.15rem;
+  text-align: center;
+  border: 3px solid #000;
+  background: rgba(8, 10, 20, 0.92);
+  box-shadow:
+    6px 6px 0 #000,
+    0 0 0 2px var(--retro-cyan, #3de7ff);
+}
+
+.home-boot-kicker {
+  margin: 0;
+  font-family: 'Press Start 2P', ui-monospace, monospace;
+  font-size: 0.48rem;
+  letter-spacing: 0.12em;
+  color: var(--retro-green, #00ff88);
+}
+
+.home-boot-title {
+  margin: 0;
+  font-family: 'Press Start 2P', ui-monospace, monospace;
+  font-size: clamp(0.62rem, 2.8vw, 0.82rem);
+  line-height: 1.65;
+  letter-spacing: 0.06em;
+  color: #e8ecff;
+  text-shadow: 2px 2px 0 #000;
+  word-break: break-word;
+}
+
+.home-boot-status {
+  margin: 0.15rem 0 0;
+  min-height: 1.2em;
+  font-family: 'Press Start 2P', ui-monospace, monospace;
+  font-size: 0.46rem;
+  letter-spacing: 0.08em;
+  color: var(--retro-cyan, #3de7ff);
+}
+
+.home-boot-bar {
+  display: flex;
+  gap: 4px;
+  width: min(280px, 78vw);
+  margin-top: 0.35rem;
+  padding: 6px;
+  border: 2px solid #000;
+  background: #080a14;
+  box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.55);
+}
+
+.home-boot-bar-seg {
+  flex: 1;
+  height: 14px;
+  border: 2px solid #000;
+  background: #1a2030;
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.home-boot--warp .home-boot-bar-seg {
+  animation: home-boot-seg-fill 0.12s steps(1) forwards;
+}
+
+.home-boot--warp .home-boot-bar-seg:nth-child(1) {
+  animation-delay: 0.08s;
+}
+.home-boot--warp .home-boot-bar-seg:nth-child(2) {
+  animation-delay: 0.24s;
+}
+.home-boot--warp .home-boot-bar-seg:nth-child(3) {
+  animation-delay: 0.4s;
+}
+.home-boot--warp .home-boot-bar-seg:nth-child(4) {
+  animation-delay: 0.56s;
+}
+.home-boot--warp .home-boot-bar-seg:nth-child(5) {
+  animation-delay: 0.72s;
+}
+.home-boot--warp .home-boot-bar-seg:nth-child(6) {
+  animation-delay: 0.88s;
+}
+.home-boot--warp .home-boot-bar-seg:nth-child(7) {
+  animation-delay: 1.04s;
+}
+.home-boot--warp .home-boot-bar-seg:nth-child(8) {
+  animation-delay: 1.2s;
+}
+
+@keyframes home-boot-seg-fill {
+  0% {
+    background: #1a2030;
+  }
+  100% {
+    background: var(--retro-green, #00ff88);
+    box-shadow:
+      inset 1px 1px 0 rgba(255, 255, 255, 0.35),
+      0 0 8px rgba(0, 255, 136, 0.35);
+  }
+}
+
+.home-boot-blink {
+  margin: 0.2rem 0 0;
+  font-family: 'Press Start 2P', ui-monospace, monospace;
+  font-size: 0.42rem;
+  letter-spacing: 0.1em;
+  color: var(--retro-gold, #ffe566);
+  animation: home-boot-blink 0.9s steps(2) infinite;
+}
+
+@keyframes home-boot-blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@media (max-width: 720px) {
+  .home-boot-panel {
+    padding: 1rem 0.85rem;
+    box-shadow:
+      4px 4px 0 #000,
+      0 0 0 2px var(--retro-cyan, #3de7ff);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-boot-bar-seg {
+    animation: none;
+    background: var(--retro-green, #00ff88);
+  }
+
+  .home-boot-blink {
+    animation: none;
+  }
+}

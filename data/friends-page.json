@@ -1,7 +1,29 @@
 {
   "title": "友联",
-  "lead": "绕地球运行的友站卫星 — 悬停感受轨道，点击访问友站",
-  "empty": "轨道尚空，友站卫星即将接入。",
+  "lead": "绕地球运行的友站卫星",
+  "empty": "还没有友站接入。",
+  "apiBase": "https://www.askuary.cn",
+  "exchange": {
+    "title": "友站卫星",
+    "subtitle": "先把本站信号写进你的友联，再提交申请；审核通过后会出现在这里，也会出现在宇宙门户的地球轨道上。",
+    "siteName": "ASKUARY",
+    "siteUrl": "https://www.askuary.cn/",
+    "description": "点击光点，拾取记忆",
+    "logo": "/brand/logo.png",
+    "avatar": "/brand/avatar.png",
+    "screenshot": "/brand/site-shot.png",
+    "email": "2274801095@qq.com",
+    "requirements": [
+      "已在本站添加友联（互链）",
+      "站点可正常访问，建议启用 HTTPS",
+      "内容健康合规，无违法、色情、赌博等信息",
+      "非空白页、非纯广告站、非镜像搬运站",
+      "提交真实的名称、链接、简介与头像",
+      "同意审核结果，展示信息可能略作调整"
+    ],
+    "applyHint": "确认全部条件后填写表单；审核通过后会出现在友联列表与地球轨道上。",
+    "applyUrl": "mailto:2274801095@qq.com"
+  },
   "links": [
     { "label": "返回宇宙门户", "url": "/" }
   ]

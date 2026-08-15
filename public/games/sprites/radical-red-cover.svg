@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180" viewBox="0 0 160 90" shape-rendering="crispEdges">
+  <rect width="160" height="90" fill="#1a1c2c"/>
+  <rect x="0" y="0" width="160" height="40" fill="#e43b44"/>
+  <rect x="0" y="40" width="160" height="10" fill="#181425"/>
+  <rect x="0" y="50" width="160" height="40" fill="#f4f4f4"/>
+  <rect x="68" y="32" width="24" height="24" fill="#181425"/>
+  <rect x="72" y="36" width="16" height="16" fill="#f4f4f4"/>
+  <rect x="76" y="40" width="8" height="8" fill="#181425"/>
+  <rect x="10" y="70" width="40" height="8" fill="#ffd541"/>
+  <rect x="110" y="70" width="40" height="8" fill="#3b5dc9"/>
+  <text x="12" y="22" fill="#fff7a0" font-family="monospace" font-size="10">RADICAL RED</text>
+  <text x="12" y="84" fill="#181425" font-family="monospace" font-size="8">GBA ROM HACK</text>
+</svg>

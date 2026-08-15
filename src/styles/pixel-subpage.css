@@ -1,0 +1,101 @@
+/* 博客 / 友联 / 关于 — 与宇宙页统一的像素壳 */
+
+html.pixel-subpage,
+html.pixel-subpage body {
+  --fp-font: var(--px-font);
+  --fp-ui-font: var(--px-font-cn);
+  image-rendering: pixelated;
+}
+
+html.pixel-subpage body {
+  font-family: var(--fp-ui-font);
+  font-size: var(--px-size-sm);
+  letter-spacing: 0.02em;
+}
+
+html.pixel-subpage .fp-atmosphere {
+  display: none;
+}
+
+html.pixel-subpage .fp-about,
+html.pixel-subpage .fp-blog,
+html.pixel-subpage .fp-friends {
+  font-family: var(--fp-ui-font);
+}
+
+html.pixel-subpage .fp-about-title,
+html.pixel-subpage .fp-about-back,
+html.pixel-subpage .fp-friends-kicker {
+  font-family: var(--fp-font) !important;
+  letter-spacing: 0.06em;
+  text-shadow: 2px 2px 0 #000;
+}
+
+html.pixel-subpage .fp-about-title {
+  font-size: clamp(0.85rem, 2.8vw, 1.15rem);
+  font-weight: 400;
+}
+
+html.pixel-subpage .fp-about-back {
+  border: 2px solid #000;
+  background: rgba(8, 12, 24, 0.9);
+  box-shadow: 2px 2px 0 #000;
+  padding: 0.35rem 0.55rem;
+  text-decoration: none;
+  border-radius: 0;
+}
+
+html.pixel-subpage .fp-about-lead,
+html.pixel-subpage .fp-friends-sub,
+html.pixel-subpage .fp-about-sections,
+html.pixel-subpage .fp-blog-item-summary {
+  text-shadow: 1px 1px 0 #000;
+}
+
+html.pixel-subpage .fp-blog-item,
+html.pixel-subpage .fp-about-section,
+html.pixel-subpage .fp-friends-card,
+html.pixel-subpage .fp-friends-signal,
+html.pixel-subpage .fp-friends-apply,
+html.pixel-subpage .fp-about-links a {
+  border-radius: 0 !important;
+  border: 2px solid #000 !important;
+  box-shadow: 3px 3px 0 #000 !important;
+  background: rgba(8, 12, 24, 0.9) !important;
+  backdrop-filter: none !important;
+}
+
+html.pixel-subpage .fp-blog-item:hover,
+html.pixel-subpage .fp-friends-card:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 #000 !important;
+}
+
+html.pixel-subpage .fp-blog-tag,
+html.pixel-subpage .fp-friends-action,
+html.pixel-subpage .fp-friends-badge {
+  border-radius: 0 !important;
+  border: 2px solid #000 !important;
+  box-shadow: 2px 2px 0 #000 !important;
+  font-family: var(--fp-ui-font) !important;
+}
+
+html.pixel-subpage .fp-social-icon-img,
+html.pixel-subpage .fp-social-icon-pxl svg {
+  width: 16px;
+  height: 16px;
+  image-rendering: pixelated;
+}
+
+html.pixel-subpage .fp-about-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.65rem;
+  text-decoration: none;
+  color: #e8f0ff;
+}
+
+html.pixel-subpage .fp-about-links a:hover {
+  background: #152038 !important;
+}

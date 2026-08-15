@@ -1,0 +1,328 @@
+{
+  "entries": [
+    {
+      "slug": "shortcodes",
+      "title": "短代码教程",
+      "date": "2026-07-25",
+      "summary": "在文章里使用提示框、折叠、进度条、GitHub 卡片等短代码（兼容旧站 Argon / Kizumi）。",
+      "tags": [
+        "指南"
+      ],
+      "cover": "https://github-readme-stats.vercel.app/api/pin/?hide_border=true&amp;username=askuary-xy&amp;repo=askuary-portal",
+      "source": "blog",
+      "path": "/blog/shortcodes/"
+    },
+    {
+      "slug": "why-portal",
+      "title": "为什么要有一座「宇宙门户」",
+      "date": "2026-07-25",
+      "summary": "不是为了炫技，而是想给日常一个入口，也给路过的人一个愿意多停一秒的理由。",
+      "tags": [
+        "随笔",
+        "设计"
+      ],
+      "source": "blog",
+      "path": "/blog/why-portal/"
+    },
+    {
+      "slug": "短代码教程",
+      "title": "短代码教程",
+      "date": "2026-07-25",
+      "summary": "主页文章也可用提示框、折叠、进度条等短代码；与宇宙博客同一套语法。",
+      "aiSummary": "还在为排版发愁？试试这些短代码，一键生成提示框、折叠面板和进度条，让文章更生动！",
+      "aiSelfIntro": "我是ASKUARY的小助手，这篇教程专为你准备，带你玩转短代码，轻松美化主页文章与碎念内容。",
+      "aiOutline": "- 短代码可用位置：content/journal/或后台\n- 发布后自动展开为组件\n- 示例：alert、collapse、progressbar等\n- 更多资源：宇宙博客与仓库文档\n- 后台工具栏有「短代码?」快捷入口",
+      "showAiSummary": true,
+      "tags": [
+        "指南"
+      ],
+      "source": "journal",
+      "path": "/journal/短代码教程/"
+    },
+    {
+      "slug": "how-to-wander",
+      "title": "如何在宇宙里漫游",
+      "date": "2026-07-24",
+      "summary": "给第一次到访的人：恒星、黑洞、友联与主页分别通向哪里。",
+      "tags": [
+        "指南",
+        "门户"
+      ],
+      "source": "blog",
+      "path": "/blog/how-to-wander/"
+    },
+    {
+      "slug": "hello-world",
+      "title": "世界，您好！",
+      "date": "2026-07-15",
+      "summary": "欢迎来到 ASKUARY。这是示例文章，也演示了阅读壳标签插件。",
+      "aiSummary": "这是 ASKUARY 的第一篇示例文章，顺带展示 tip / tabs / fold 标签插件与 AI 摘要交互。",
+      "aiSelfIntro": "我是 ASKUARY 的阅读小助手。今天带你逛「世界，您好！」——一篇用来演示阅读壳与标签插件的见面礼，点下面按钮还能看简介和大纲哦。",
+      "aiOutline": "- 欢迎语与站点入口\n- tip / info / warning 提示条\n- tabs 与 fold 插件预览\n- 发布后如何 content:build 验收",
+      "showAiSummary": true,
+      "tags": [
+        "示例",
+        "阅读壳"
+      ],
+      "source": "journal",
+      "path": "/journal/hello-world/"
+    },
+    {
+      "slug": "漫画爱好者的宝藏网站-mangabz",
+      "title": "漫画爱好者的宝藏网站——MangaBz",
+      "date": "2026-07-08",
+      "summary": "追日漫最烦弹窗广告和慢更新。MangaBz 以「没广告、资源全、更新快」著称，这篇把它的定位、用法和注意点讲清楚。",
+      "aiSummary": "你还在忍受满屏弹窗的漫画站吗？试试MangaBz——一个干净得不像免费站的日漫阅读入口，安静追更，告别闪屏陷阱。",
+      "aiSelfIntro": "你好，我是ASKUARY小助手。今天带你探秘MangaBz：一个没有广告的漫画宝藏站。如果你想安静追日漫、不被弹窗打扰，这篇就是为你准备的专属指南！",
+      "aiOutline": "- MangaBz定位：偏日漫的干净阅读站\n- 核心优势：无广告的阅读体验\n- 日漫资源全，热门更新勤快\n- 找书路径：搜索、分类与排行\n- 使用技巧：追更、补旧与移动端\n- 适合与不适合的人群总结",
+      "showAiSummary": true,
+      "tags": [],
+      "cover": "/uploads/2026/07/mangabz/home.png",
+      "source": "journal",
+      "path": "/journal/漫画爱好者的宝藏网站-mangabz/"
+    },
+    {
+      "slug": "每日网站推荐之声音宝库-淘声网",
+      "title": "网站推荐之声音宝库–淘声网",
+      "date": "2026-07-07",
+      "summary": "剪视频、做游戏、配播音还在为音效发愁？淘声网聚合百万级免费授权声音，吐司搜索 + 协议标注 + 一键下载，这篇带截图和试听，带你把「声音宝库」用起来。",
+      "aiSummary": "淘声网是聚合 Freesound、耳聆网、Looperman 等平台的声音搜索引擎：百万资源、协议清晰、可商用素材多。本文用截图和试听说明怎么搜、怎么看授权、适合什么创作场景。",
+      "aiSelfIntro": "我是 ASKUARY 的小助手，今天带你逛淘声网——创作者的声音搜索入口，配上真实界面截图和可点的声音例子。",
+      "aiOutline": "- 淘声是什么：聚合搜索，不是自建曲库\n- 首页与「吐司」搜索 / 音效助手怎么用\n- 结果页：来源、格式、协议一眼看清\n- 授权速查：CC0 / CC-BY / RF 等怎么选\n- 现场试听：雨声、脚步、whoosh、通知等\n- 适用场景与使用小建议",
+      "showAiSummary": true,
+      "tags": [],
+      "cover": "/uploads/2026/07/tosound/home.png",
+      "source": "journal",
+      "path": "/journal/每日网站推荐之声音宝库-淘声网/"
+    },
+    {
+      "slug": "上班",
+      "title": "上班",
+      "date": "2026-07-05",
+      "summary": "明天又是上班的一天了。你是否也曾在这个夜晚，盯着天花板问自己：这样的重复，究竟是为了什么？",
+      "aiSummary": "明天又是周一，你准备好迎接新一轮的循环了吗？那种熟悉的、微妙的抗拒感，是否也在心里悄悄蔓延？",
+      "aiSelfIntro": "我是ASKUARY的小助手，陪你聊聊「上班」这件小事。今天这篇文章，捕捉了每个打工人心底那句无奈的叹息——明天又是上班的一天了。",
+      "aiOutline": "- 睡前想到明天的日程，焦虑悄然浮现\n- 闹钟响起时，与被窝的拉锯战\n- 通勤路上，耳机里的世界是避难所\n- 重复的工位与待办，机械的日常\n- 下班后的清醒时光，短暂而珍贵\n- 周末倒计时，是支撑下去的动力",
+      "showAiSummary": true,
+      "tags": [
+        "碎念"
+      ],
+      "source": "journal",
+      "path": "/journal/上班/"
+    },
+    {
+      "slug": "宇宙门户",
+      "title": "宇宙门户",
+      "date": "2026-07-05",
+      "summary": "忙了两天，亲手打造了通往宇宙的门户。新首页藏着什么神秘？点击一探究竟。",
+      "aiSummary": "两天的打磨，我用代码凿开一扇通往宇宙的门。新首页藏着我最在意的细节——你想走进来看看吗？",
+      "aiSelfIntro": "我是ASKUARY的小助手。宇宙门户已开启，这篇记录了作者两天淬炼的兴奋与执着。新首页的每个像素都藏着小心思——只为等你来探索。",
+      "aiOutline": "- 忙碌两天的首页搭建过程\n- 新首页的设计理念与细节\n- 宇宙门户的寓意与期待\n- 邀请读者共同探索新世界",
+      "showAiSummary": true,
+      "tags": [
+        "碎念"
+      ],
+      "source": "journal",
+      "path": "/journal/宇宙门户/"
+    },
+    {
+      "slug": "beauty-and-a-beat-·-中英对照",
+      "title": "Beauty And A Beat · 中英对照",
+      "date": "2026-07-03",
+      "summary": "佳人与节拍——这首青春狂想曲里，有亿万家财买不来的光芒，有3012年的未来派对，更有尼克·米娜语带锋芒的街头宣言。准备好，今夜我们不问世界，只随音乐摇摆。",
+      "aiSummary": "当我写下这些歌词，想着3012年的派对和一生中值得炫耀的人——那些亿万财富也换不来的瞬间。今晚，音乐和舞步会告诉你，我需要的只是一段节拍和那个让我完整的人。你猜，是谁陪我从街头跳到世界巡演？",
+      "aiSelfIntro": "嗨，我是ASKUARY小助手，这篇专属于你的中英对照歌词带来了《Beauty And A Beat》的狂欢、自信与年轻心跳。全曲洋溢着派对能量，贾斯汀和米娜带你感受“美女与节拍”的魔力，让你跟着节奏释放身体，忘掉世界。",
+      "aiOutline": "- Intro: 妮琪·米娜开场点名Young Money与贾斯汀\n- Verse 1: 炫耀你的独一无二，像3012年一样狂欢\n- Chorus: 我需要一位佳人配上一段节拍\n- Verse 2: 身体摇摆，你是最热焦点\n- Verse 3: 米娜自夸世界巡演与斗嘴赛琳娜\n- Break: 再次邀请你摇摆身体",
+      "showAiSummary": true,
+      "tags": [],
+      "source": "journal",
+      "path": "/journal/beauty-and-a-beat-·-中英对照/"
+    },
+    {
+      "slug": "beauty-and-a-beat",
+      "title": "Beauty And A Beat",
+      "date": "2026-07-03",
+      "summary": "我还在挑战《Beauty And A Beat》——勉强能跟唱了，但远未完美。想知道从“跑调”到“大概在线”发生了什么？",
+      "aiSummary": "终于把《Beauty And A Beat》唱下来了，虽然还磕磕绊绊的，但这一步也算进步吧？你猜，哪一句我唱得最得意？",
+      "aiSelfIntro": "我是 ASKUARY 小助手～这篇专属记录里，作者正努力攻克《Beauty And A Beat》，那份“勉强能唱”的喜悦与不满足，是不是也唤起了你练歌时的回忆？",
+      "aiOutline": "- 尝试演唱《Beauty And A Beat》\n- 成果：勉强能唱但不熟练\n- 记录学习进展的小确幸\n- 期待未来更流畅的演绎",
+      "showAiSummary": true,
+      "tags": [
+        "碎念"
+      ],
+      "source": "journal",
+      "path": "/journal/beauty-and-a-beat/"
+    },
+    {
+      "slug": "earth-spots",
+      "title": "点击光点，拾取记忆",
+      "date": "2026-07-01",
+      "summary": "地球上的彩色光点不是装饰，每一颗都是一段可打开的足迹。",
+      "tags": [
+        "交互",
+        "门户"
+      ],
+      "source": "blog",
+      "path": "/blog/earth-spots/"
+    },
+    {
+      "slug": "something-just-like-this",
+      "title": "Something Just Like This",
+      "date": "2026-07-01",
+      "summary": "终于把《Something Just Like This》啃下来了！唱得不算好听，但至少能完整唱一遍，这种“不完美的小成就”也挺让人开心的。",
+      "aiSummary": "终于把《Something Just Like This》完整唱下来了！虽然音准节拍全跑偏，但能从头唱到尾的那一刻，心里竟然冒出一点小骄傲。",
+      "aiSelfIntro": "我是你的练歌小助手！今天你完成了这首歌，那种“不完美但终于做到”的踏实感，让我也觉得特别开心。",
+      "aiOutline": "- 练完歌曲的成就时刻\n- 承认唱得不够好\n- 至少能完整唱完\n- 享受过程中的乐趣",
+      "showAiSummary": true,
+      "tags": [
+        "碎念"
+      ],
+      "source": "journal",
+      "path": "/journal/something-just-like-this/"
+    },
+    {
+      "slug": "welcome",
+      "title": "欢迎来到 ASKUARY",
+      "date": "2026-06-30",
+      "summary": "宇宙门户的第一篇：这里是什么，以及你可以从哪里开始漫游。",
+      "tags": [
+        "随笔",
+        "门户"
+      ],
+      "source": "blog",
+      "path": "/blog/welcome/"
+    },
+    {
+      "slug": "cursor",
+      "title": "cursor",
+      "date": "2026-06-30",
+      "summary": "为什么说cursor用得真舒服？从丝滑手感到底层逻辑，它藏着哪些让效率翻倍的秘密？这篇亲测告诉你答案。",
+      "aiSummary": "用了这么多编辑器，唯独Cursor让我忍不住感叹：这才是真正懂开发者的工具。想知道它究竟好在哪？",
+      "aiSelfIntro": "我是ASKUARY的小助手，陪你聊聊高效编程的喜悦。本文带你感受Cursor的丝滑体验，关键词：舒适、智能、效率提升。",
+      "aiOutline": "- 初次使用Cursor的惊艳感受\n- 智能补全与流畅交互体验\n- 相比传统编辑器的核心优势\n- 为何能提升编码效率与愉悦感",
+      "showAiSummary": true,
+      "tags": [
+        "碎念"
+      ],
+      "source": "journal",
+      "path": "/journal/cursor/"
+    },
+    {
+      "slug": "《something-just-like-this》中英对照",
+      "title": "《Something Just Like This》中英对照",
+      "date": "2026-06-30",
+      "summary": "厌倦了神话英雄的孤独？当阿喀琉斯与蝙蝠侠都不属于你，她却说：我找的并非超人，只需一个能亲吻的人。这首歌词揭晓了平凡爱情里最动人的超级力量——你想要的，原来不过如此简单。",
+      "aiSummary": "你觉得自己不够完美吗？这首歌唱出了平凡人的心声——我们不需要成为超级英雄，只需一个可以亲吻的人。来，一起重温这份简单而真挚的告白。",
+      "aiSelfIntro": "我是ASKUARY的小助手，为你解析这首《Something Just Like This》——它唱出了对平凡真爱的渴望，放下超级英雄的幻想，拥抱真实的温暖。愿这首歌触动你内心最柔软的地方。",
+      "aiOutline": "- 英雄榜上的失落感\n- 她的答案：只需一个依靠\n- 再次确认平凡的心愿\n- 仅此而已的深情告白",
+      "showAiSummary": true,
+      "tags": [],
+      "source": "journal",
+      "path": "/journal/《something-just-like-this》中英对照/"
+    },
+    {
+      "slug": "多邻国",
+      "title": "多邻国",
+      "date": "2026-06-30",
+      "summary": "多邻国彻底爆了！日均学习时长为何飙升？用户为何疯狂打卡？那只绿色猫头鹰到底施了什么魔法？答案可能让你惊掉下巴——但千万别试。",
+      "aiSummary": "多邻国到底有多火？看看这张图你就知道了。一只绿色猫头鹰，让全球几亿人又爱又恨。是什么让它「夯爆了」？",
+      "aiSelfIntro": "我是ASKUARY小助手，今天带你一起吐槽多邻国的火爆！本文关键词：多邻国、火爆、绿色猫头鹰、学习上瘾。专属你的语言学习洞察。",
+      "aiOutline": "- 多邻国火爆现象截图\n- 用户又爱又恨的复习提醒\n- 游戏化学习的设计魅力",
+      "showAiSummary": true,
+      "tags": [
+        "碎念"
+      ],
+      "cover": "/uploads/2026/06/1782833244-32d8b82bcb00d00e47bf92acd9402c9e-473x1024.jpg",
+      "source": "journal",
+      "path": "/journal/多邻国/"
+    },
+    {
+      "slug": "终于休息了",
+      "title": "终于休息了",
+      "date": "2026-06-28",
+      "summary": "连上7天7点到23点的班，终于能休息了。绷不住？来看看这周我是怎么熬过来的，或许你能找到同款心酸。",
+      "aiSummary": "连续七天，从早7点到晚11点，我感觉自己快被榨干了。今天终于能喘口气，赶紧来记一笔。",
+      "aiSelfIntro": "我是ASKUARY的小助手，看到你写下『终于休息了』四个字，隔着屏幕都能感受到你的疲惫与解脱。这篇短文，记录着打工人的极限与短暂的喘息。",
+      "aiOutline": "- 一周地狱班：7点到23点\n- 情绪爆发：真绷不住了\n- 终于迎来休息时刻",
+      "showAiSummary": true,
+      "tags": [
+        "碎念"
+      ],
+      "source": "journal",
+      "path": "/journal/终于休息了/"
+    },
+    {
+      "slug": "新海诚新电影",
+      "title": "新海诚新电影",
+      "date": "2026-06-22",
+      "summary": "新海诚新电影海报曝光！每一帧都是壁纸，光看画面就忍不住想早一点看到。",
+      "aiSummary": "每次新海诚出新作，天空都像被重新调过色。这次，他又带来怎样的世界？我盯着这张海报，心跳加速。",
+      "aiSelfIntro": "我是ASKUARY站的小助手，专门帮你捕捉那些让人心头一颤的好物。今天这篇关于新海诚新电影的期待，满屏都是细腻与治愈。",
+      "aiOutline": "- 新海诚新电影海报曝光\n- 延续唯美画风与情感内核\n- 对剧情与主题的初步猜测\n- 个人观影期待与推荐理由",
+      "showAiSummary": true,
+      "tags": [
+        "碎念"
+      ],
+      "cover": "/uploads/2026/06/1782120278-30088-473x1024.jpg",
+      "source": "journal",
+      "path": "/journal/新海诚新电影/"
+    },
+    {
+      "slug": "英语学习",
+      "title": "英语学习",
+      "date": "2026-06-22",
+      "summary": "每天打卡真的能学好英语？这张图里藏着你意想不到的答案。坚持的力量，远比你想象的强大。",
+      "aiSummary": "打卡打卡——看似简单的两个字，背后藏着怎样的坚持与决心？英语学习的路上，每一次打卡都是一个脚印，而你，愿意陪我一起走吗？",
+      "aiSelfIntro": "我是ASKUARY的小助手，今天这篇『英语学习』用两个“打卡”就抓住了坚持与努力的情绪。无论你是正在背单词还是练口语，这里都是你专属的记录站～",
+      "aiOutline": "- 打卡是英语学习的日常仪式\n- 坚持比天赋更重要\n- 每一次打卡都是对自己的承诺",
+      "showAiSummary": true,
+      "tags": [
+        "碎念"
+      ],
+      "cover": "/uploads/2026/06/1782142007-30100-473x1024.jpg",
+      "source": "journal",
+      "path": "/journal/英语学习/"
+    },
+    {
+      "slug": "马上就能玩到gta6了",
+      "title": "GTA6",
+      "date": "2026-06-21",
+      "summary": "GTA6真的要来了？一张神秘图片引爆期待——你准备好了吗？",
+      "aiSummary": "GTA6终于要来了！我已经等了太久，这次是真的——准备好重返罪恶都市，开启新的冒险了吗？",
+      "aiSelfIntro": "嗨，我是ASKUARY小助手，这篇专属文章带你感受GTA6即将到来的兴奋与躁动，关键词：等待、狂欢、罪恶都市，一起见证历史！",
+      "aiOutline": "- 激动宣布GTA6即将发售\n- 分享游戏截图引发期待\n- 回顾等待过程中的心情\n- 展望新作的创新与玩法",
+      "showAiSummary": true,
+      "tags": [
+        "碎念"
+      ],
+      "cover": "/uploads/2026/06/1782014412-1f804cbb1ae235c4327c50e50b74f1d6-473x1024.jpg",
+      "source": "journal",
+      "path": "/journal/马上就能玩到gta6了/"
+    },
+    {
+      "slug": "206",
+      "title": "端午节",
+      "date": "2026-06-19",
+      "summary": "端午近，粽香浓。一句“端午节快乐”藏着多少千年未解的风俗密码？龙舟竞渡、艾草挂门，这些热闹背后竟另有玄机？",
+      "aiSummary": "今天端午节，一声快乐道出千年传承。但你知道这个节日背后藏着多少故事吗？让我带你走进粽香深处的文化记忆。",
+      "aiSelfIntro": "我是ASKUARY的小助手，本文围绕「端午节」的温馨问候展开，关键词：快乐、传统、传承。愿这篇专属短文为你带来端午的清香与温暖。",
+      "aiOutline": "- 传递节日祝福与问候\n- 端午节的由来与意义\n- 个人对节日的感受或回忆\n- 邀请读者参与互动",
+      "showAiSummary": true,
+      "tags": [
+        "碎念"
+      ],
+      "source": "journal",
+      "path": "/journal/206/"
+    }
+  ],
+  "tags": [
+    "交互",
+    "门户",
+    "设计",
+    "示例",
+    "随笔",
+    "碎念",
+    "阅读壳",
+    "指南"
+  ]
+}

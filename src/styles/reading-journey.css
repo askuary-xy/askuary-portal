@@ -1,0 +1,185 @@
+.reading-journey {
+  position: relative;
+  z-index: 75;
+}
+
+.reading-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 75;
+  height: 3px;
+  background: rgba(2, 7, 19, 0.72);
+  border-bottom: 1px solid #020713;
+  pointer-events: none;
+}
+
+.reading-progress i {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #79d9ff, #ffe566);
+  box-shadow: none;
+  transition: width var(--ask-motion-fast, 120ms) linear;
+}
+
+.reading-journey > aside {
+  position: fixed;
+  left: max(0.85rem, env(safe-area-inset-left));
+  bottom: max(5.8rem, calc(env(safe-area-inset-bottom) + 5rem));
+  z-index: 75;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.45rem 0.65rem;
+  border: 2px solid #020713;
+  border-radius: 0;
+  color: #cbe1ee;
+  background: rgba(5, 16, 31, 0.96);
+  box-shadow: 3px 3px 0 #020713;
+  backdrop-filter: none;
+  font-family: var(--px-font-cn, "Noto Sans SC", sans-serif);
+}
+
+.reading-journey > aside button {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 2px solid #020713;
+  border-radius: 0;
+  color: #ffe566;
+  background: #121828;
+  box-shadow: 2px 2px 0 #020713;
+  font-size: 19px;
+  cursor: pointer;
+  transition:
+    transform var(--ask-motion-fast, 120ms) var(--ask-ease, ease),
+    background-color var(--ask-motion-ui, 140ms) var(--ask-ease, ease),
+    color var(--ask-motion-ui, 140ms) var(--ask-ease, ease),
+    box-shadow var(--ask-motion-fast, 120ms) var(--ask-ease, ease);
+}
+
+.reading-journey > aside button:hover {
+  color: #041018;
+  background: #79d9ff;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #020713;
+}
+
+.reading-journey > aside button:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 #020713;
+}
+
+.reading-journey > aside button.is-active {
+  color: #041018;
+  background: #ffe566;
+  box-shadow: 2px 2px 0 #020713;
+}
+
+.reading-journey > aside span {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.reading-journey > aside strong {
+  font-size: 11px;
+  color: #eaf7ff;
+  font-variant-numeric: tabular-nums;
+}
+
+.reading-journey > aside em {
+  color: #7892a4;
+  font-size: 9px;
+  font-style: normal;
+  white-space: nowrap;
+}
+
+.reading-resume {
+  position: fixed;
+  left: 50%;
+  bottom: max(1.25rem, env(safe-area-inset-bottom));
+  z-index: 76;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 0.75rem;
+  border: 2px solid #020713;
+  border-radius: 0;
+  color: #acc4d3;
+  background: rgba(5, 16, 31, 0.96);
+  box-shadow: 4px 4px 0 #020713;
+  transform: translateX(-50%);
+  font-size: 11px;
+  font-family: var(--px-font-cn, "Noto Sans SC", sans-serif);
+  backdrop-filter: none;
+}
+
+.reading-resume button {
+  padding: 0.38rem 0.6rem;
+  border: 2px solid #020713;
+  border-radius: 0;
+  color: #041018;
+  background: #79d9ff;
+  box-shadow: 2px 2px 0 #020713;
+  font: 700 10px / 1 var(--px-font-cn, "Noto Sans SC", sans-serif);
+  cursor: pointer;
+  transition:
+    transform var(--ask-motion-fast, 120ms) var(--ask-ease, ease),
+    background-color var(--ask-motion-ui, 140ms) var(--ask-ease, ease),
+    box-shadow var(--ask-motion-fast, 120ms) var(--ask-ease, ease);
+}
+
+.reading-resume button:hover {
+  background: #ffe566;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #020713;
+}
+
+.reading-resume button:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 #020713;
+}
+
+.reading-resume button:last-child {
+  padding: 0.25rem 0.4rem;
+  color: #8ba1b0;
+  background: #121828;
+  box-shadow: 1px 1px 0 #020713;
+}
+
+.reading-resume button:last-child:hover {
+  color: #041018;
+  background: #79d9ff;
+}
+
+@media (max-width: 640px) {
+  .reading-journey > aside {
+    left: max(0.65rem, env(safe-area-inset-left));
+    bottom: max(6.4rem, calc(env(safe-area-inset-bottom) + 5.6rem));
+  }
+
+  .reading-resume {
+    bottom: max(7.6rem, calc(env(safe-area-inset-bottom) + 6.8rem));
+    width: max-content;
+    max-width: calc(100% - 20px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reading-progress i,
+  .reading-journey > aside button,
+  .reading-resume button {
+    transition: none !important;
+  }
+
+  .reading-journey > aside button:hover,
+  .reading-resume button:hover,
+  .reading-journey > aside button:active,
+  .reading-resume button:active {
+    transform: none !important;
+  }
+
+  .reading-resume {
+    display: none;
+  }
+}

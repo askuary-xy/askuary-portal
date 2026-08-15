@@ -1,0 +1,64 @@
+/* 文章列表 — 复用主页 hr-post 悬停展开拼贴 */
+
+body.ar-page {
+  --ar-ink: #5a5472;
+  --ar-muted: #8a849c;
+}
+
+.ar-hero {
+  margin-bottom: 1.4rem;
+  text-align: left;
+}
+
+.ar-list {
+  margin-bottom: 2rem;
+}
+
+.ar-list-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  margin: 0 0 1rem;
+}
+
+.ar-list-head h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--ar-ink);
+}
+
+.ar-list-count {
+  font-family: var(--px-font, 'Orbitron', 'Segoe UI', sans-serif);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--starport-gold, #ffe566);
+  font-weight: 700;
+}
+
+.ar-posts {
+  margin-top: 0.25rem;
+}
+
+body.ar-page.has-pixel-nav .home-main {
+  padding-top: calc(var(--home-nav-offset, 4.2rem) + 0.55rem);
+}
+
+body.ar-page .hr-posts {
+  gap: 1.15rem 1rem;
+}
+
+body.ar-page .hr-post {
+  margin: 0;
+}
+
+@media (max-width: 720px) {
+  body.ar-page .hr-posts {
+    grid-template-columns: 1fr;
+  }
+
+  body.ar-page .hr-post--lg {
+    grid-column: span 1;
+  }
+}

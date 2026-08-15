@@ -1,0 +1,507 @@
+/* 星港人物与记忆区：摄影、友链、关于页共用视觉层 */
+
+body.starport-identity {
+  --id-cyan: #79d9ff;
+  --id-gold: #f0cf86;
+  --id-ink: #edf6ff;
+  --id-muted: #9eb3c9;
+  --id-line: rgba(121, 217, 255, .19);
+  --id-panel: rgba(6, 16, 31, .8);
+  color: var(--id-ink);
+  background: #030812;
+  font-family: var(--px-font-cn, "Noto Sans SC", "Microsoft YaHei", sans-serif);
+}
+
+html:has(body.starport-identity) {
+  background: #030812;
+}
+
+body.starport-identity .px-nav {
+  top: max(.85rem, env(safe-area-inset-top));
+  width: min(1080px, calc(100% - 2rem));
+  min-height: 3.45rem;
+  padding: .55rem .75rem;
+  border: 2px solid #020713;
+  border-radius: 2px;
+  background: rgba(4, 12, 25, .94);
+  box-shadow: 3px 3px 0 #020713;
+  backdrop-filter: none;
+  font-family: var(--px-font-cn, "Noto Sans SC", sans-serif);
+  image-rendering: pixelated;
+}
+
+body.starport-identity .px-nav-logo-mark {
+  width: 1.7rem;
+  height: 1.7rem;
+  border: 2px solid #020713;
+  border-radius: 0;
+  background: url("/brand/avatar.png") center/cover;
+  box-shadow: 2px 2px 0 #020713;
+}
+
+body.starport-identity .px-nav-logo-text {
+  color: var(--id-ink);
+  font: 400 .58rem/1 var(--px-font-cn, "Noto Sans SC", sans-serif);
+  letter-spacing: .14em;
+  text-shadow: none;
+}
+
+body.starport-identity .px-nav-back {
+  padding: .42rem .68rem;
+  border: 2px solid #020713;
+  border-radius: 0;
+  background: #121828;
+  box-shadow: 2px 2px 0 #020713;
+  color: var(--id-muted);
+  font: 400 .52rem/1 var(--px-font-cn, "Noto Sans SC", sans-serif);
+  transition: transform 120ms ease, background-color 140ms ease, box-shadow 120ms ease, color 140ms ease;
+}
+
+body.starport-identity .px-nav-back:hover {
+  color: var(--id-gold);
+  background: #1a2848;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #020713;
+}
+
+body.starport-identity .px-nav-title {
+  color: #dcecff;
+  font: 400 .58rem/1.35 var(--px-font-cn, "Noto Sans SC", sans-serif);
+  letter-spacing: .06em;
+  text-shadow: none;
+}
+
+/* 记忆星图 */
+body.starport-memories .pr-shell {
+  position: relative;
+  z-index: 2;
+  width: min(1080px, calc(100% - 2rem));
+  padding-top: 7rem !important;
+}
+
+body.starport-memories::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(2,8,18,.52), rgba(2,8,18,.72)),
+    radial-gradient(circle at 50% 12%, rgba(89,163,206,.12), transparent 38rem);
+}
+
+body.starport-memories .pr-hero {
+  min-height: clamp(20rem, 48vw, 31rem);
+  border: 2px solid #020713 !important;
+  border-radius: 2px !important;
+  background: #081426 !important;
+  box-shadow: 5px 5px 0 #020713 !important;
+  overflow: hidden;
+}
+
+body.starport-memories .pr-hero-img {
+  filter: saturate(.82) brightness(.72);
+}
+
+body.starport-memories .pr-hero-veil {
+  background:
+    linear-gradient(90deg, rgba(2,9,20,.8), rgba(2,9,20,.1) 68%),
+    linear-gradient(180deg, transparent 36%, rgba(2,9,20,.84));
+}
+
+body.starport-memories .pr-hero-copy {
+  max-width: 45rem;
+}
+
+body.starport-memories .pr-hero-kicker {
+  color: var(--id-cyan);
+  font-size: .7rem;
+  letter-spacing: .18em;
+}
+
+body.starport-memories .pr-hero-title {
+  color: var(--id-ink);
+  font: 750 clamp(2.6rem, 8vw, 5.2rem)/1 var(--px-font-cn, "Noto Sans SC", sans-serif);
+  letter-spacing: -.045em;
+  text-shadow: 0 4px 30px rgba(0,0,0,.5);
+}
+
+body.starport-memories .pr-section,
+body.starport-memories .pr-note {
+  border: 2px solid #020713 !important;
+  border-radius: 2px !important;
+  background: rgba(6, 16, 31, .94) !important;
+  box-shadow: 3px 3px 0 #020713 !important;
+  backdrop-filter: none;
+}
+
+body.starport-memories .pr-section-title,
+body.starport-memories .pr-note-quote {
+  color: var(--id-ink);
+}
+
+body.starport-memories .pr-section-sub,
+body.starport-memories .pr-note-sign,
+body.starport-memories .pr-filter-count {
+  color: var(--id-muted);
+}
+
+body.starport-memories .pr-tab,
+body.starport-memories .pr-filter {
+  border: 2px solid #020713 !important;
+  border-radius: 0 !important;
+  background: #121828 !important;
+  box-shadow: 2px 2px 0 #020713 !important;
+  color: #bad3e4 !important;
+  font-family: var(--px-font-cn, "Noto Sans SC", sans-serif) !important;
+}
+
+body.starport-memories.pixel-hub .pr-tab,
+body.starport-memories.pixel-hub .pr-filter {
+  border-width: 2px !important;
+  border-color: #020713 !important;
+  border-radius: 0 !important;
+  box-shadow: 2px 2px 0 #020713 !important;
+  font-family: var(--px-font-cn, "Noto Sans SC", sans-serif) !important;
+  text-shadow: none !important;
+}
+
+body.starport-memories .pr-tab.is-active,
+body.starport-memories .pr-filter.is-active {
+  border-color: var(--id-gold) !important;
+  background: rgba(240, 207, 134, .18) !important;
+  color: var(--id-gold) !important;
+}
+
+body.starport-memories .pr-album {
+  border: 2px solid #020713 !important;
+  border-radius: 2px !important;
+  background: rgba(7, 18, 34, .92) !important;
+  box-shadow: 3px 3px 0 #020713 !important;
+  overflow: hidden;
+}
+
+body.starport-memories .pr-album-body {
+  background: rgba(7,18,34,.94) !important;
+}
+
+body.starport-memories .pr-album-title,
+body.starport-memories .pr-tl-date {
+  color: var(--id-ink);
+}
+
+body.starport-memories .pr-album-count,
+body.starport-memories .pr-album-bubble,
+body.starport-memories .pr-tl-count {
+  color: var(--id-muted);
+}
+
+body.starport-memories .pr-polaroid {
+  border: 2px solid #020713 !important;
+  background: #e9eef2 !important;
+  box-shadow: 3px 3px 0 #020713 !important;
+}
+
+/* 同行者信标 */
+html.pixel-subpage body.starport-allies,
+html.pixel-subpage body.starport-allies .fp-friends {
+  font-family: var(--px-font-cn, "Noto Sans SC", sans-serif);
+  image-rendering: auto;
+}
+
+body.starport-allies .fp-friends {
+  width: min(980px, calc(100% - 2rem));
+  padding-top: 7.3rem;
+}
+
+body.starport-allies .fp-friends-head {
+  padding: clamp(1.25rem,4vw,2.2rem);
+  border: 2px solid #020713;
+  border-radius: 2px;
+  background: linear-gradient(180deg, rgba(6, 20, 38, .96), rgba(4, 12, 25, .96));
+  box-shadow: 4px 4px 0 #020713;
+  text-align: left;
+}
+
+html.pixel-subpage body.starport-allies .fp-about-title {
+  color: var(--id-ink);
+  font: 750 clamp(2.2rem,7vw,4.2rem)/1.05 var(--px-font-cn, "Noto Sans SC", sans-serif) !important;
+  letter-spacing: -.04em;
+  text-shadow: none;
+}
+
+body.starport-allies .fp-friends-kicker {
+  color: var(--id-cyan);
+  font: 700 .68rem/1 var(--px-font-cn, sans-serif) !important;
+  letter-spacing: .2em;
+  text-shadow: none !important;
+}
+
+body.starport-allies .fp-friends-kicker::before {
+  content: "ALLY BEACONS · ";
+}
+
+body.starport-allies .fp-about-lead,
+body.starport-allies .fp-friends-sub {
+  color: var(--id-muted);
+  text-shadow: none !important;
+}
+
+html.pixel-subpage body.starport-allies .fp-friends-action,
+html.pixel-subpage body.starport-allies .fp-friend-card,
+html.pixel-subpage body.starport-allies .fp-friend-signal,
+html.pixel-subpage body.starport-allies .fp-friend-apply,
+html.pixel-subpage body.starport-allies .fp-friend-comments,
+html.pixel-subpage body.starport-allies .fp-friend-apps {
+  border: 2px solid #020713 !important;
+  border-radius: 2px !important;
+  background: rgba(7,18,34,.92) !important;
+  box-shadow: 3px 3px 0 #020713 !important;
+  backdrop-filter: none !important;
+}
+
+html.pixel-subpage body.starport-allies .fp-friends-action {
+  border-radius: 0 !important;
+  box-shadow: 2px 2px 0 #020713 !important;
+  color: #bed6e6;
+  font-family: var(--px-font-cn, "Noto Sans SC", sans-serif) !important;
+  transition:
+    transform 120ms ease,
+    background-color 140ms ease,
+    box-shadow 120ms ease !important;
+}
+
+html.pixel-subpage body.starport-allies .fp-friends-action:hover {
+  color: #eff8ff;
+  background: #12263a !important;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #020713 !important;
+}
+
+html.pixel-subpage body.starport-allies .fp-friends-action:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 #020713 !important;
+}
+
+html.pixel-subpage body.starport-allies .fp-friend-card {
+  transition:
+    transform 140ms ease,
+    box-shadow 140ms ease,
+    border-color 140ms ease !important;
+}
+
+html.pixel-subpage body.starport-allies .fp-friend-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 #020713 !important;
+  border-color: #79d9ff !important;
+}
+
+html.pixel-subpage body.starport-allies .fp-friend-field input,
+html.pixel-subpage body.starport-allies .fp-friend-field textarea {
+  border: 2px solid #020713 !important;
+  border-radius: 0 !important;
+  background: #030d1a !important;
+  color: #edf8ff !important;
+  box-shadow: 2px 2px 0 #020713 !important;
+}
+
+html.pixel-subpage body.starport-allies .fp-friend-field input:focus,
+html.pixel-subpage body.starport-allies .fp-friend-field textarea:focus {
+  border-color: #79d9ff !important;
+  box-shadow: 2px 2px 0 #020713 !important;
+}
+
+html.pixel-subpage body.starport-allies .fp-flink-btn,
+html.pixel-subpage body.starport-allies .fp-emoji-toggle,
+html.pixel-subpage body.starport-allies .fp-comment-action,
+html.pixel-subpage body.starport-allies .fp-emoji-tab {
+  border: 2px solid #020713 !important;
+  border-radius: 0 !important;
+  background: #121828 !important;
+  box-shadow: 2px 2px 0 #020713 !important;
+  color: #bdd5e6 !important;
+}
+
+html.pixel-subpage body.starport-allies .fp-flink-btn.is-primary {
+  color: #041018 !important;
+  background: var(--id-gold, #f0cf86) !important;
+}
+
+html.pixel-subpage body.starport-allies .fp-flink-btn:hover,
+html.pixel-subpage body.starport-allies .fp-emoji-toggle:hover,
+html.pixel-subpage body.starport-allies .fp-comment-action:hover {
+  color: #041018 !important;
+  background: var(--id-cyan, #79d9ff) !important;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #020713 !important;
+}
+
+html.pixel-subpage body.starport-allies .fp-emoji-panel,
+html.pixel-subpage body.starport-allies .fp-friend-exchange-toast {
+  border: 2px solid #020713 !important;
+  border-radius: 0 !important;
+  background: rgba(8, 18, 34, .98) !important;
+  box-shadow: 3px 3px 0 #020713 !important;
+  backdrop-filter: none !important;
+}
+
+body.starport-allies .fp-friends-action.is-accent {
+  border-color: rgba(240,207,134,.4) !important;
+  background: rgba(240,207,134,.14) !important;
+  color: var(--id-gold);
+}
+
+body.starport-allies .fp-friends-section-title,
+body.starport-allies .fp-friend-apply-title,
+body.starport-allies .fp-friend-signal-title {
+  color: var(--id-ink);
+}
+
+/* 航行者档案 */
+html.pixel-subpage body.starport-profile,
+html.pixel-subpage body.starport-profile .fp-about {
+  font-family: var(--px-font-cn, "Noto Sans SC", sans-serif);
+  image-rendering: auto;
+}
+
+body.starport-profile .fp-about {
+  width: min(1000px, calc(100% - 2rem));
+  padding-top: 8rem !important;
+}
+
+body.starport-profile .fp-about-header {
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.starport-identity-kicker {
+  margin: 0 0 .65rem;
+  color: var(--id-cyan);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+}
+
+html.pixel-subpage body.starport-profile .fp-about-title {
+  color: var(--id-ink);
+  font: 750 clamp(2.3rem,7vw,4.4rem)/1.05 var(--px-font-cn, "Noto Sans SC", sans-serif) !important;
+  letter-spacing: -.045em;
+  text-shadow: none;
+}
+
+body.starport-profile .fp-about-lead {
+  max-width: 40rem;
+  color: var(--id-muted);
+  text-shadow: none !important;
+}
+
+.starport-profile-layout {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(260px, .72fr);
+  gap: 1rem;
+  align-items: stretch;
+}
+
+body.starport-profile .fp-about-sections {
+  gap: .8rem;
+}
+
+html.pixel-subpage body.starport-profile .fp-about-section {
+  padding: 1.15rem 1.25rem;
+  border: 2px solid #020713 !important;
+  border-radius: 2px !important;
+  background: var(--id-panel) !important;
+  box-shadow: 3px 3px 0 #020713 !important;
+  backdrop-filter: none !important;
+}
+
+body.starport-profile .fp-about-section-title {
+  color: var(--id-gold);
+}
+
+body.starport-profile .fp-about-section-body p {
+  color: #bfd0de;
+  text-shadow: none;
+}
+
+.starport-profile-visual {
+  position: sticky;
+  top: 6.5rem;
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+  min-height: 30rem;
+  margin: 0;
+  overflow: hidden;
+  border: 2px solid #020713;
+  border-radius: 2px;
+  box-shadow: 4px 4px 0 #020713;
+  background:
+    radial-gradient(circle at 50% 28%, rgba(121,217,255,.17), transparent 42%),
+    linear-gradient(160deg, rgba(9,27,48,.92), rgba(7,12,29,.94));
+}
+
+.starport-profile-visual img {
+  width: 100%;
+  height: 27rem;
+  margin-top: auto;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 18px 25px rgba(0,0,0,.32));
+}
+
+.starport-profile-visual p {
+  margin: 0;
+  padding: .9rem 1rem;
+  border-top: 1px solid var(--id-line);
+  color: #b9cfde;
+  font-size: .72rem;
+  letter-spacing: .08em;
+}
+
+.starport-profile-visual p span {
+  color: var(--id-cyan);
+  font-weight: 700;
+}
+
+html.pixel-subpage body.starport-profile .fp-about-links a {
+  border: 2px solid #020713 !important;
+  border-radius: 0 !important;
+  background: #121828 !important;
+  box-shadow: 2px 2px 0 #020713 !important;
+}
+
+html.pixel-subpage body.starport-profile .fp-about-links a:hover {
+  color: #041018 !important;
+  background: var(--id-cyan) !important;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #020713 !important;
+}
+
+@media (max-width: 720px) {
+  body.starport-identity .px-nav {
+    top: .5rem;
+    width: calc(100% - 1rem);
+    border-radius: 2px;
+  }
+
+  body.starport-memories .pr-shell,
+  body.starport-allies .fp-friends,
+  body.starport-profile .fp-about {
+    width: calc(100% - 1rem);
+  }
+
+  .starport-profile-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .starport-profile-visual {
+    position: relative;
+    top: auto;
+    min-height: 25rem;
+  }
+
+  .starport-profile-visual img {
+    height: 22rem;
+  }
+}

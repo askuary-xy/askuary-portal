@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "ContentPost" ADD COLUMN "aiSummary" TEXT NOT NULL DEFAULT '';
+ALTER TABLE "ContentPost" ADD COLUMN "aiSelfIntro" TEXT NOT NULL DEFAULT '';
+ALTER TABLE "ContentPost" ADD COLUMN "aiOutline" TEXT NOT NULL DEFAULT '';

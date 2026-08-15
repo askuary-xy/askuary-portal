@@ -1,0 +1,448 @@
+/* 自定义像素传送门世界
+ * 注意：勿对 html/body 再用 rem 叠字号（games-pxlkit 已缩小根字号，rem 会变成 ~8px）
+ */
+
+html.home-pixel-html {
+  /* 为本页重建可读 rem 基准 */
+  font-size: 16px;
+}
+
+html.home-pixel-html,
+body.home-pixel-page {
+  overflow: hidden;
+  font-family: var(--px-font-cn, 'Zpix', monospace);
+  font-size: 14px;
+  image-rendering: pixelated;
+}
+
+.hp-world-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  cursor: grab;
+  touch-action: none;
+}
+
+.hp-world-wrap.is-dragging {
+  cursor: grabbing;
+}
+
+.hp-world-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.hp-hud {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.hp-logo-bar {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  right: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.55rem;
+  pointer-events: auto;
+}
+
+.hp-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.65rem 0.4rem 0.4rem;
+  border: 2px solid #000;
+  background: rgba(8, 10, 20, 0.82);
+  box-shadow: 3px 3px 0 #000;
+  color: #e8ecff;
+  text-decoration: none;
+  font-family: var(--px-font, 'Press Start 2P', monospace);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  line-height: 1.35;
+}
+
+.hp-logo img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  background: #111;
+  border: 2px solid #000;
+}
+
+.hp-logo:hover {
+  filter: brightness(1.08);
+}
+
+.hp-logo-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hp-term {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  padding: 0.42rem 0.65rem;
+  border: 2px solid #000;
+  background: rgba(8, 10, 20, 0.82);
+  box-shadow: 3px 3px 0 #000;
+  color: #e8ecff;
+  font-family: var(--px-font-cn, 'Zpix', monospace);
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.hp-term-label {
+  font-family: var(--px-font, 'Press Start 2P', monospace);
+  font-size: 11px;
+  color: #7ec8ff;
+  letter-spacing: 0.05em;
+}
+
+.hp-term strong {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffe9a8;
+}
+
+/* 备案：底部居中；有手柄时收窄，夹在左右按钮中间 */
+.hp-legal {
+  position: absolute;
+  left: 50%;
+  bottom: max(0.4rem, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  width: min(42rem, calc(100vw - 1.2rem));
+  max-height: none;
+  overflow: visible;
+  pointer-events: auto;
+  z-index: 21;
+  font-family: var(--px-font-cn, 'Zpix', monospace);
+  font-size: 11px;
+}
+
+.hp-legal .site-legal {
+  gap: 0.22rem;
+  padding: 0.32rem 0.5rem;
+  border: 2px solid #000;
+  background: rgba(8, 10, 20, 0.82);
+  box-shadow: 2px 2px 0 #000;
+  border-radius: 0;
+  align-items: center;
+  text-align: center;
+}
+
+.hp-legal .site-legal,
+.hp-legal .site-legal * {
+  font-family: var(--px-font-cn, 'Zpix', monospace) !important;
+}
+
+.hp-legal .site-legal-copy,
+.hp-legal .site-legal-runtime,
+.hp-legal .site-legal a,
+.hp-legal .site-legal-link,
+.hp-legal .site-legal-badge {
+  color: #d4e0f5 !important;
+  font-size: 11px !important;
+  font-weight: 400 !important;
+  text-shadow: 1px 1px 0 #000;
+}
+
+/* 游戏页隐藏运行时长，压低备案高度 */
+.hp-legal .site-legal-runtime {
+  display: none !important;
+}
+
+.hp-legal .site-legal-beian {
+  gap: 0.22rem;
+  justify-content: center;
+  max-width: none;
+}
+
+.hp-legal .site-legal-beian-item,
+.hp-legal a.site-legal-beian-item {
+  border-radius: 0 !important;
+  border: 2px solid #000 !important;
+  background: #121828 !important;
+  box-shadow: 1px 1px 0 #000 !important;
+  color: #e0eaff !important;
+  font-size: 11px !important;
+  font-weight: 400 !important;
+  padding: 0.18rem 0.4rem !important;
+  transition: none !important;
+  letter-spacing: 0.02em;
+}
+
+.hp-legal .site-legal-beian-item:hover {
+  color: #fff4c8 !important;
+  background: #1a2438 !important;
+  border-color: #000 !important;
+}
+
+.hp-legal .site-legal-beian-item img {
+  width: 14px;
+  height: 14px;
+  image-rendering: pixelated;
+  filter: none;
+  opacity: 1;
+}
+
+.hp-legal .site-legal-runtime-icon {
+  opacity: 0.9;
+}
+
+.hp-legal #runtime_span {
+  color: #ffe9a8 !important;
+  font-weight: 400 !important;
+  background: #1a2438 !important;
+  border: 2px solid #000;
+  border-radius: 0 !important;
+  box-shadow: 1px 1px 0 #000;
+  padding: 0.1rem 0.3rem !important;
+  font-size: 10px !important;
+}
+
+.hp-legal .site-legal-badge,
+.hp-legal .site-legal-link {
+  border-radius: 0 !important;
+  border: 2px solid #000 !important;
+  background: #121828 !important;
+  box-shadow: 1px 1px 0 #000 !important;
+  padding: 0.12rem 0.3rem !important;
+  text-decoration: none !important;
+  font-size: 10px !important;
+}
+
+.hp-legal .site-legal-sep {
+  color: #7a88a8 !important;
+}
+
+body.home-pixel-page .font-pixel,
+body.home-pixel-page [class*='Pixel'] {
+  font-size: inherit;
+}
+
+body.home-pixel-page button,
+body.home-pixel-page [class*='pixel-btn'],
+body.home-pixel-page [class*='PixelButton'] {
+  font-size: 13px !important;
+}
+
+/* 手机虚拟手柄：抬到备案上方，左右两侧，中间留给备案 */
+.hp-pad {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(3.1rem + env(safe-area-inset-bottom, 0px));
+  z-index: 30;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0 0.55rem;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+
+/* 有手柄时：备案收成底部窄条，避免和按钮抢位 */
+.hp-hud:has(.hp-pad) .hp-legal {
+  width: min(18rem, calc(100vw - 9.5rem));
+  bottom: max(0.3rem, env(safe-area-inset-bottom));
+  z-index: 21;
+}
+
+.hp-hud:has(.hp-pad) .hp-legal .site-legal {
+  gap: 0.12rem;
+  padding: 0.22rem 0.35rem;
+}
+
+.hp-hud:has(.hp-pad) .hp-legal .site-legal-copy {
+  font-size: 9px !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.hp-hud:has(.hp-pad) .hp-legal .site-legal-beian-item,
+.hp-hud:has(.hp-pad) .hp-legal a.site-legal-beian-item,
+.hp-hud:has(.hp-pad) .hp-legal .site-legal-badge,
+.hp-hud:has(.hp-pad) .hp-legal .site-legal-link {
+  font-size: 9px !important;
+  padding: 0.1rem 0.28rem !important;
+}
+
+.hp-pad-cluster {
+  display: flex;
+  gap: 0.55rem;
+  pointer-events: auto;
+}
+
+.hp-pad-cluster--action {
+  gap: 0.45rem;
+}
+
+.hp-pad-btn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 3.55rem;
+  height: 3.55rem;
+  margin: 0;
+  padding: 0;
+  border: 3px solid #000;
+  background: rgba(12, 16, 28, 0.78);
+  box-shadow: 3px 3px 0 #000;
+  color: #e8ecff;
+  font-family: var(--px-font, 'Press Start 2P', monospace);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
+}
+
+.hp-pad-btn:active,
+.hp-pad-btn:focus-visible {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 #000;
+  background: rgba(36, 52, 88, 0.92);
+}
+
+.hp-pad-btn-label {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.hp-pad-btn-sub {
+  margin-top: 0.2rem;
+  font-family: var(--px-font-cn, 'Zpix', monospace);
+  font-size: 11px;
+  color: rgba(200, 220, 255, 0.72);
+}
+
+.hp-pad-btn--dir {
+  width: 3.8rem;
+  height: 3.8rem;
+  background: rgba(18, 28, 48, 0.82);
+}
+
+.hp-pad-btn--jump {
+  width: 4rem;
+  height: 4rem;
+  background: rgba(20, 70, 48, 0.85);
+  color: #9dffc2;
+}
+
+.hp-pad-btn--atk {
+  background: rgba(70, 28, 40, 0.88);
+  color: #ffb4c8;
+}
+
+.hp-pad-btn--door {
+  background: rgba(28, 40, 72, 0.88);
+  color: #9ec8ff;
+}
+
+@media (max-width: 720px) {
+  html.home-pixel-html,
+  body.home-pixel-page {
+    font-size: 13px;
+  }
+
+  .hp-logo {
+    font-size: 11px;
+  }
+
+  .hp-logo img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .hp-term {
+    font-size: 12px;
+  }
+
+  .hp-term strong {
+    font-size: 13px;
+  }
+
+  .hp-pad {
+    bottom: calc(2.85rem + env(safe-area-inset-bottom, 0px));
+    padding: 0 0.4rem;
+  }
+
+  .hp-hud:has(.hp-pad) .hp-legal {
+    width: min(15rem, calc(100vw - 8.8rem));
+  }
+
+  .hp-pad-btn {
+    width: 3.4rem;
+    height: 3.4rem;
+  }
+
+  .hp-pad-btn--dir {
+    width: 3.6rem;
+    height: 3.6rem;
+  }
+
+  .hp-pad-btn--jump {
+    width: 3.85rem;
+    height: 3.85rem;
+  }
+
+  .hp-pad-btn-label {
+    font-size: 13px;
+  }
+
+  .hp-pad-btn-sub {
+    font-size: 10px;
+  }
+}
+
+/* 横屏矮屏：备案更矮，手柄略抬高 */
+@media (max-height: 480px), (orientation: landscape) and (max-width: 960px) {
+  .hp-term {
+    display: none;
+  }
+
+  .hp-legal .site-legal-copy {
+    display: none !important;
+  }
+
+  .hp-pad {
+    bottom: calc(2.2rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .hp-hud:has(.hp-pad) .hp-legal {
+    width: min(16rem, calc(100vw - 8rem));
+  }
+
+  .hp-pad-btn,
+  .hp-pad-btn--dir {
+    width: 2.85rem;
+    height: 2.85rem;
+  }
+
+  .hp-pad-btn--jump {
+    width: 3.15rem;
+    height: 3.15rem;
+  }
+
+  .hp-pad-btn-sub {
+    display: none;
+  }
+}

@@ -4,20 +4,55 @@
   "version": "0.3.0",
   "type": "module",
   "scripts": {
-    "content:build": "node scripts/build-posts.mjs && node scripts/build-journal.mjs",
+    "content:build": "npm run sync:data && node scripts/generate-ai-summary.mjs --soft && node scripts/build-posts.mjs && node scripts/build-journal.mjs && node scripts/build-archive.mjs && node scripts/build-rss.mjs && node scripts/build-sitemap.mjs && node scripts/build-uploads.mjs && node scripts/build-photowall.mjs && node scripts/build-library.mjs",
+    "journal:publish": "node scripts/generate-ai-summary.mjs && npm run content:build",
+    "library:build": "node scripts/build-library.mjs",
+    "library:covers": "node scripts/fetch-library-covers.mjs",
+    "library:import": "node scripts/import-library-csv.mjs",
+    "photowall:build": "node scripts/build-photowall.mjs",
+    "deploy:server": "bash scripts/deploy-server.sh",
+    "deploy:server:photos": "bash scripts/deploy-server.sh photos",
     "posts:build": "npm run content:build",
     "dev": "npm run posts:build && vite",
     "build": "npm run content:build && tsc && vite build",
     "build:pages": "npm run content:build && tsc && vite build --base=/askuary-portal/",
     "preview": "vite preview",
-    "sync:data": "node -e \"require('fs').cpSync('data','public/data',{recursive:true})\""
+    "sync:data": "node scripts/sync-data.mjs",
+    "music:index": "node scripts/build-music-playlist.mjs",
+    "sync:live": "node scripts/sync-from-live.mjs",
+    "export:wp": "node scripts/export-wp.mjs",
+    "ai:summary": "node scripts/generate-ai-summary.mjs",
+    "ai:summary:force": "node scripts/generate-ai-summary.mjs --force",
+    "ai:summary:check": "node scripts/generate-ai-summary.mjs --check",
+    "migrate:uploads": "node scripts/migrate-uploads.mjs",
+    "migrate:live": "node scripts/sync-from-live.mjs && node scripts/export-wp.mjs && npm run sync:data && npm run content:build",
+    "gate:assets": "node scripts/install-gate-world-assets.mjs"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@types/three": "^0.185.1",
+    "exifr": "^7.1.3",
+    "playwright": "^1.61.1",
+    "playwright-core": "^1.61.1",
+    "sharp": "^0.35.3",
+    "tailwindcss": "^4.3.3",
     "typescript": "~6.0.2",
     "vite": "^8.1.1"
   },
   "dependencies": {
+    "@pxlkit/core": "^1.3.4",
+    "@pxlkit/feedback": "^1.2.5",
+    "@pxlkit/gamification": "^1.2.4",
+    "@pxlkit/parallax": "^1.2.3",
+    "@pxlkit/ui": "^1.2.5",
+    "@pxlkit/ui-kit": "^2.1.0",
+    "echarts": "^6.1.0",
     "gray-matter": "^4.0.3",
-    "marked": "^18.0.5"
+    "marked": "^18.0.5",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "three": "^0.185.1"
   }
 }

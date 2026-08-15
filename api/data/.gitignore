@@ -1,0 +1,4 @@
+# 运行时 SQLite（后台光点 / 文章 / 摄影故事 / 馆藏等都在这里）
+# 由 docker compose 挂载到容器 /app/data，rebuild 不会清空
+*
+!.gitignore

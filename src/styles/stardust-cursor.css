@@ -1,0 +1,3 @@
+#stardustCursor{position:fixed;inset:0;z-index:70;pointer-events:none;mix-blend-mode:screen}
+@media(prefers-reduced-motion:reduce){#stardustCursor{display:none}}
+@media(pointer:coarse){#stardustCursor{mix-blend-mode:normal}}

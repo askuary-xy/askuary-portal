@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#05060a" />
     <meta
       name="description"
-      content="关于 ASKUARY：站点说明、致谢与借鉴、隐私说明与开源仓库"
+      content="关于 ASKUARY：站点说明、隐私说明与开源仓库"
     />
     <title>关于 · ASKUARY</title>
     <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
@@ -16,17 +16,22 @@
     <canvas id="fpStars" class="fp-stars-canvas" aria-hidden="true"></canvas>
 
     <main class="fp-about" aria-labelledby="aboutTitle">
-      <a class="fp-about-back" href="../">返回宇宙门户</a>
-
       <header class="fp-about-header">
+        <p class="starport-identity-kicker">NAVIGATOR PROFILE · 航行者档案</p>
         <h1 class="fp-about-title" id="aboutTitle">关于</h1>
         <p class="fp-about-lead" id="aboutLead"></p>
       </header>
 
-      <div class="fp-about-sections" id="aboutSections"></div>
+      <div class="starport-profile-layout">
+        <div class="fp-about-sections" id="aboutSections"></div>
+      </div>
 
       <nav class="fp-about-links" id="aboutLinks" aria-label="相关链接"></nav>
     </main>
+
+    <footer class="fp-subpage-legal" aria-label="备案信息">
+      <div id="pageLegal" class="fp-portal-legal"></div>
+    </footer>
 
     <div id="bootError" hidden></div>
     <script type="module" src="/src/pages/about/main.ts"></script>

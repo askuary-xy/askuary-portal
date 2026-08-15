@@ -1,0 +1,11 @@
+{
+  "title": "星图馆藏",
+  "lead": "书籍漂浮于深空——点选分类召唤阵列，点选档案展开星历。",
+  "heroKicker": "ORBITAL ARCHIVE",
+  "empty": "星图中暂无档案单元。",
+  "searchPlaceholder": "搜索书名、作者、标签、想法…",
+  "links": [
+    { "label": "返回主页", "url": "/home/" },
+    { "label": "宇宙入口", "url": "/" }
+  ]
+}

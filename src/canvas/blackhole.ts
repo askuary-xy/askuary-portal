@@ -6,14 +6,26 @@ export interface BlackholeController {
   destroy: () => void;
 }
 
-/** CSS 黑洞交互（视觉见 blackhole.css，参考 CodePen ZZydGx） */
+/** 黑洞交互：视频循环 + 点击穿越（视觉见 blackhole.css） */
 export function initBlackhole(scene: HTMLElement | null, options: BlackholeOptions = {}): BlackholeController {
   if (!scene) return { destroy: () => {} };
 
   const onActivate = options.onActivate;
   const target = scene.querySelector<HTMLElement>('.fp-black-hole') ?? scene;
+  const video = scene.querySelector<HTMLVideoElement>('.fp-black-hole-video');
   const root = document.getElementById('footprintIntro');
   let active = false;
+
+  const syncVideo = (onHole: boolean): void => {
+    if (!video) return;
+    if (onHole) {
+      video.muted = true;
+      const play = video.play();
+      if (play && typeof play.catch === 'function') play.catch(() => {});
+    } else {
+      video.pause();
+    }
+  };
 
   const syncVisibility = (): void => {
     const vh = window.innerHeight || 1;
@@ -21,6 +33,7 @@ export function initBlackhole(scene: HTMLElement | null, options: BlackholeOptio
     scene.classList.toggle('is-visible', onHole);
     scene.setAttribute('aria-hidden', onHole ? 'false' : 'true');
     if (!onHole) target.classList.remove('is-hover');
+    syncVideo(onHole);
   };
 
   const activate = (): void => {
@@ -59,6 +72,12 @@ export function initBlackhole(scene: HTMLElement | null, options: BlackholeOptio
   window.addEventListener('resize', syncVisibility);
   root?.addEventListener('transitionend', syncVisibility);
 
+  if (video) {
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+  }
+
   syncVisibility();
 
   return {
@@ -70,6 +89,9 @@ export function initBlackhole(scene: HTMLElement | null, options: BlackholeOptio
       window.removeEventListener('scroll', syncVisibility);
       window.removeEventListener('resize', syncVisibility);
       scene.classList.remove('is-visible');
+      if (video) {
+        video.pause();
+      }
     },
   };
 }

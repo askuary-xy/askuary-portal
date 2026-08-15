@@ -1,0 +1,10 @@
+node_modules
+dist
+coverage
+# SQLite 落在 data/；目录本身保留（含 .gitignore），库文件由 data/.gitignore 忽略
+*.db
+*.db-journal
+.env
+*.log
+generated
+src/generated

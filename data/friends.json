@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "title": "安知鱼",
+    "text": "生活明朗，万物可爱",
+    "url": "https://blog.anheyu.com/",
+    "avatar": "https://npm.elemecdn.com/anzhiyu-blog-static@1.0.4/img/avatar.jpg",
+    "screenshot": "https://npm.elemecdn.com/anzhiyu-theme-static@1.1.6/img/blog.anheyu.com.jpg",
+    "linkLabel": "访问友站"
+  }
+]

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#05060c" />
+    <meta name="description" content="ASKUARY 像素馆藏 — 漂浮书册与图鉴档案" />
+    <title>像素馆藏 · ASKUARY</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="lib-scifi-page dark">
+    <div class="lib-scifi-app" id="libApp">
+      <canvas id="libStars" class="lib-scifi-stars" aria-hidden="true"></canvas>
+      <canvas id="libScene" class="lib-scifi-canvas" aria-label="像素馆藏星空"></canvas>
+
+      <div class="lib-scifi-bottom">
+        <footer class="lib-scifi-status lib-hud-frame" id="libStatus" role="status">
+          <span id="libStatusText">初始化图鉴…</span>
+          <span id="libStatusCount"></span>
+        </footer>
+        <div class="lib-scifi-legal" id="libLegal" aria-label="备案信息"></div>
+      </div>
+    </div>
+
+    <div class="lib-scifi-modal" id="libModal" hidden>
+      <div class="lib-scifi-modal-backdrop" id="libModalBackdrop"></div>
+      <article
+        class="lib-scifi-modal-card lib-hud-frame"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="libModalTitle"
+      >
+        <div class="lib-scifi-modal-stream" aria-hidden="true" id="libModalStream"></div>
+        <button type="button" class="lib-scifi-modal-close" id="libModalClose" aria-label="关闭">
+          CLOSE
+        </button>
+        <div class="lib-scifi-modal-body" id="libModalBody"></div>
+      </article>
+    </div>
+
+    <div id="bootError" hidden></div>
+    <script type="module" src="/src/pages/library/main.ts"></script>
+  </body>
+</html>

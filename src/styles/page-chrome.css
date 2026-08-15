@@ -1,0 +1,110 @@
+/* 全站布局坐标：返回位 / 备案位（视觉风格各页可不同） */
+
+:root {
+  --page-chrome-gutter: clamp(0.85rem, 3vw, 1.35rem);
+  --page-chrome-footer-pad: max(5.5rem, calc(1.25rem + env(safe-area-inset-bottom)));
+}
+
+/* 有固定顶栏时，正文起点统一 */
+body.has-fixed-home-nav .home-main,
+body.has-fixed-home-nav .pr-shell,
+body.has-fixed-home-nav .ar-list,
+body.has-fixed-home-nav .archive-shell,
+body.has-fixed-home-nav .ask-read-shell,
+body.has-fixed-home-nav .fp-about,
+body.has-fixed-home-nav .fp-blog,
+body.has-fixed-home-nav .fp-friends {
+  scroll-margin-top: calc(var(--home-nav-offset, 3.55rem) + 0.5rem);
+}
+
+/* 返回链：统一落在内容区顶部左侧 */
+.page-back,
+.pr-back,
+.fp-about-back,
+.ask-hero-back,
+.pr-album-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0 0 0.85rem;
+  position: relative;
+  z-index: 4;
+  text-decoration: none;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.pr-shell > .pr-back,
+.fp-about > .fp-about-back,
+.fp-blog > .fp-about-back,
+.fp-friends > .fp-about-back,
+.ask-read-shell .ask-hero-back {
+  margin-left: 0;
+}
+
+/* 备案 / 页脚：统一沉底与留白（给宠物 / 电台） */
+.home-footer,
+.home-hub-footer,
+.fp-subpage-legal {
+  width: 100%;
+  margin-top: auto;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 8;
+}
+
+.home-footer-inner,
+.home-hub-footer-inner {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding: 0.85rem var(--page-chrome-gutter) var(--page-chrome-footer-pad);
+  box-sizing: border-box;
+}
+
+/* 像素枢纽：备案区收紧（对齐馆藏） */
+body.pixel-hub .home-footer-inner,
+body.pixel-hub .home-hub-footer-inner {
+  width: min(720px, 100%);
+  padding: 0.28rem 0.45rem var(--page-chrome-footer-pad);
+}
+
+/* 枢纽页：主栏 + 页脚纵向撑满 */
+body.home-page #homeShell,
+body.ar-page #homeShell,
+body.ss-page #homeShell,
+body.home-article-page #homeShell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+body.home-page .home-main,
+body.ar-page .home-main,
+body.ss-page .home-main,
+body.home-article-page .home-main {
+  flex: 1 0 auto;
+}
+
+body.photos-rich,
+body.archive-rich-page,
+body.fp-about-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body.photos-rich .pr-shell,
+body.archive-rich-page .archive-shell {
+  flex: 1 0 auto;
+}
+
+/* 天气控件：所有页同一右上角坐标 */
+.site-widgets {
+  top: max(calc(var(--home-nav-offset, 3.55rem) + env(safe-area-inset-top) + 0.5rem), 3.9rem);
+  right: max(0.75rem, env(safe-area-inset-right));
+}
+
+/* 无顶栏页（宇宙门户等）略上移 */
+body:not(.has-fixed-home-nav) .site-widgets {
+  top: max(0.85rem, env(safe-area-inset-top));
+}

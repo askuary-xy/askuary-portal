@@ -1,0 +1,369 @@
+/* 全站评论区（从 friends.css 抽离，供文章/街机/相册等复用） */
+
+.fp-friend-field {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+  color: rgba(220, 230, 245, 0.78);
+}
+
+.fp-friend-field input,
+.fp-friend-field textarea {
+  width: 100%;
+  min-height: 2.45rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 0;
+  border: 2px solid #020713;
+  background: #030d1a;
+  color: #edf8ff;
+  box-shadow: 2px 2px 0 #020713;
+  font: inherit;
+  font-size: 0.88rem;
+  outline: none;
+}
+
+.fp-friend-field textarea {
+  min-height: 6rem;
+  resize: vertical;
+}
+
+.fp-friend-field input::placeholder,
+.fp-friend-field textarea::placeholder {
+  color: rgba(200, 215, 235, 0.38);
+}
+
+.fp-friend-field input:focus,
+.fp-friend-field textarea:focus {
+  border-color: #79d9ff;
+  box-shadow: 2px 2px 0 #020713;
+}
+
+.fp-friend-apply-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  justify-content: flex-end;
+  margin-top: 0.15rem;
+}
+
+.fp-flink-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.4rem;
+  padding: 0.4rem 1rem;
+  border-radius: 0;
+  border: 2px solid #020713;
+  background: #121828;
+  color: #bdd5e6;
+  box-shadow: 2px 2px 0 #020713;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform var(--ask-motion-fast, 120ms) var(--ask-ease, ease),
+    background-color var(--ask-motion-ui, 140ms) var(--ask-ease, ease),
+    color var(--ask-motion-ui, 140ms) var(--ask-ease, ease),
+    box-shadow var(--ask-motion-fast, 120ms) var(--ask-ease, ease);
+}
+
+.fp-flink-btn:hover {
+  color: #041018;
+  background: #79d9ff;
+  border-color: #020713;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #020713;
+}
+
+.fp-flink-btn.is-ghost {
+  background: #0d1828;
+  border-color: #020713;
+  color: #bdd5e6;
+}
+
+.fp-flink-btn.is-ghost:hover {
+  color: #041018;
+  background: #79d9ff;
+  border-color: #020713;
+}
+
+.fp-flink-btn.is-primary {
+  background: #ffe566;
+  border-color: #020713;
+  color: #041018;
+}
+
+/* ========== 评论区 ========== */
+.fp-friend-comments {
+  margin-bottom: 1.5rem;
+  padding: 1.1rem 1.05rem 1.05rem;
+  border-radius: 2px;
+  border: 2px solid #020713;
+  background: rgba(7, 18, 34, 0.96);
+  box-shadow: 3px 3px 0 #020713;
+}
+
+.fp-comment-title {
+  margin: 0 0 0.85rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: rgba(245, 250, 255, 0.94);
+}
+
+.fp-comment-board {
+  margin-bottom: 1rem;
+}
+
+.fp-comment-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.fp-comment-item {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 0.55rem 0.75rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: 0;
+  border: 2px solid #020713;
+  background: rgba(8, 22, 40, 0.96);
+  box-shadow: 2px 2px 0 #020713;
+}
+
+.fp-comment-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 0;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #041018;
+  background: #79d9ff;
+  box-shadow: 2px 2px 0 #020713;
+}
+
+.fp-comment-main {
+  min-width: 0;
+}
+
+.fp-comment-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.45rem;
+}
+
+.fp-comment-action {
+  border: 2px solid #020713;
+  background: #121828;
+  color: #bdd5e6;
+  border-radius: 0;
+  box-shadow: 2px 2px 0 #020713;
+  padding: 0.18rem 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.fp-comment-action:hover,
+.fp-comment-action.is-liked {
+  color: #041018;
+  border-color: #020713;
+  background: #79d9ff;
+}
+
+.fp-comment-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: baseline;
+  margin-bottom: 0.35rem;
+}
+
+.fp-comment-author {
+  font-size: 0.86rem;
+  font-weight: 650;
+  color: #ffe566;
+}
+
+.fp-comment-date {
+  font-size: 0.72rem;
+  color: rgba(210, 225, 245, 0.45);
+}
+
+.fp-comment-body {
+  margin: 0;
+  font-size: 0.84rem;
+  line-height: 1.65;
+  color: rgba(230, 238, 255, 0.88);
+  white-space: pre-wrap;
+}
+
+.fp-comment-site {
+  display: inline-block;
+  margin-top: 0.35rem;
+  font-size: 0.74rem;
+  color: #9ec8ff;
+  text-decoration: none;
+}
+
+.fp-comment-empty {
+  margin: 0;
+  padding: 0.85rem;
+  text-align: center;
+  font-size: 0.84rem;
+  color: rgba(210, 225, 245, 0.55);
+  border-radius: 0;
+  border: 2px dashed rgba(121, 217, 255, 0.28);
+}
+
+.fp-comment-form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.fp-comment-form-hint {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: rgba(210, 225, 245, 0.58);
+}
+
+.fp-comment-content-wrap {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.fp-comment-content-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.84rem;
+  color: rgba(230, 238, 255, 0.82);
+}
+
+.fp-comment-content-field span {
+  display: none;
+}
+
+.fp-emoji-picker {
+  position: relative;
+}
+
+.fp-emoji-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  min-height: 2rem;
+  padding: 0.28rem 0.7rem;
+  border-radius: 0;
+  border: 2px solid #020713;
+  background: #121828;
+  box-shadow: 2px 2px 0 #020713;
+  color: #bdd5e6;
+  font: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition:
+    transform var(--ask-motion-fast, 120ms) var(--ask-ease, ease),
+    background-color var(--ask-motion-ui, 140ms) var(--ask-ease, ease),
+    color var(--ask-motion-ui, 140ms) var(--ask-ease, ease),
+    box-shadow var(--ask-motion-fast, 120ms) var(--ask-ease, ease);
+}
+
+.fp-emoji-toggle:hover,
+.fp-emoji-toggle[aria-expanded='true'] {
+  color: #041018;
+  border-color: #020713;
+  background: #79d9ff;
+  box-shadow: 3px 3px 0 #020713;
+  transform: translate(-1px, -1px);
+}
+
+.fp-emoji-panel {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 0.45rem);
+  z-index: 20;
+  width: min(18.5rem, 78vw);
+  padding: 0.55rem;
+  border-radius: 0;
+  border: 2px solid #020713;
+  background: rgba(8, 18, 34, 0.98);
+  box-shadow: 3px 3px 0 #020713;
+  backdrop-filter: none;
+}
+
+.fp-emoji-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-bottom: 0.45rem;
+}
+
+.fp-emoji-tab {
+  padding: 0.22rem 0.55rem;
+  border-radius: 0;
+  border: 2px solid #020713;
+  background: #121828;
+  box-shadow: 1px 1px 0 #020713;
+  color: #bdd5e6;
+  font: inherit;
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+
+.fp-emoji-tab.is-active,
+.fp-emoji-tab:hover {
+  color: #041018;
+  border-color: #020713;
+  background: #ffe566;
+}
+
+.fp-emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 0.2rem;
+  max-height: 10.5rem;
+  overflow: auto;
+}
+
+.fp-emoji-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.fp-emoji-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.fp-comment-toast {
+  margin: 0.65rem 0 0;
+  font-size: 0.8rem;
+  color: #ffe0a8;
+}
+
+.fp-comment-mount .giscus,
+.fp-comment-mount iframe {
+  min-height: 12rem;
+}
+

@@ -1,0 +1,1533 @@
+/* 最终主题层：归档页同源的宇宙像素语言，统一昼夜、文字与内容容器。 */
+html.askuary-theme-light {
+  --cosmos-bg: #b9d7e8;
+  --cosmos-bg-deep: #87b5d2;
+  --cosmos-panel: rgba(239, 248, 250, .9);
+  --cosmos-panel-strong: rgba(225, 241, 247, .96);
+  --cosmos-ink: #102b40;
+  --cosmos-muted: #3e5d70;
+  --cosmos-line: rgba(25, 80, 112, .34);
+  --cosmos-accent: #087aa4;
+  --cosmos-gold: #805817;
+}
+
+html.askuary-theme-dark {
+  --cosmos-bg: #020814;
+  --cosmos-bg-deep: #06182b;
+  --cosmos-panel: rgba(5, 18, 34, .9);
+  --cosmos-panel-strong: rgba(7, 24, 43, .96);
+  --cosmos-ink: #edf8ff;
+  --cosmos-muted: #abc3d6;
+  --cosmos-line: rgba(83, 190, 231, .3);
+  --cosmos-accent: #69ddff;
+  --cosmos-gold: #f2d083;
+}
+
+/* 恢复旧站像素字体：正文阅读页保留易读正文，其余页面与 UI 使用 Zpix。 */
+html body:not(.home-article-page):not(.admin-page),
+html body:not(.home-article-page):not(.admin-page)
+  :where(h1,h2,h3,h4,p,span,strong,small,time,a,button,input,label,li) {
+  --px-font: "Press Start 2P", "Zpix", monospace;
+  --px-font-cn: "Zpix", "Press Start 2P", monospace;
+  --ask-font-body: "Zpix", "Microsoft YaHei", monospace;
+  --ask-font-display: "Zpix", "Press Start 2P", monospace;
+  font-family: var(--px-font-cn) !important;
+}
+
+html.askuary-theme-light body:not(.games-pixel-page) {
+  background:
+    radial-gradient(circle at 18% 7%, rgba(255, 244, 202, .58), transparent 25rem),
+    radial-gradient(circle at 82% 14%, rgba(112, 194, 226, .38), transparent 31rem),
+    linear-gradient(180deg, #b9d9e9 0%, #d9ecf2 48%, #aacde0 100%) !important;
+}
+
+html.askuary-theme-dark body:not(.games-pixel-page) {
+  background:
+    radial-gradient(circle at 18% 10%, rgba(18, 104, 157, .22), transparent 34rem),
+    radial-gradient(circle at 80% 16%, rgba(18, 70, 112, .18), transparent 30rem),
+    linear-gradient(180deg, #020814, #061426) !important;
+}
+
+:where(body.starport-content, body.archive-rich-page) {
+  --sc-cyan: var(--cosmos-accent);
+  --sc-gold: var(--cosmos-gold);
+  --sc-ink: var(--cosmos-ink);
+  --sc-muted: var(--cosmos-muted);
+  --sc-line: var(--cosmos-line);
+  --sc-panel: var(--cosmos-panel);
+  color: var(--cosmos-ink) !important;
+}
+
+html.askuary-theme-light :where(body.starport-content, body.archive-rich-page)::after {
+  background: linear-gradient(180deg, rgba(224, 242, 248, .24), rgba(180, 216, 232, .5)) !important;
+}
+
+:where(body.starport-content, body.archive-rich-page) .px-nav {
+  border: 2px solid #07111d !important;
+  border-radius: 0 !important;
+  background: var(--cosmos-panel-strong) !important;
+  box-shadow: 3px 3px 0 #07111d !important;
+  color: var(--cosmos-ink) !important;
+}
+
+:where(body.starport-content, body.archive-rich-page) :where(.px-nav-logo-text,.px-nav-title,.px-nav-back) {
+  color: var(--cosmos-ink) !important;
+  -webkit-text-fill-color: var(--cosmos-ink) !important;
+  text-shadow: none !important;
+}
+
+body.starport-articles .home-main {
+  padding-top: calc(var(--home-nav-offset, 4.75rem) + 2rem) !important;
+}
+
+body.starport-signals .home-main {
+  padding-top: calc(var(--home-nav-offset, 4.75rem) + 1.5rem) !important;
+}
+
+:where(body.starport-articles .ar-hero, body.starport-articles .hr-post,
+body.archive-rich-page .archive-hero, body.archive-rich-page .archive-card,
+body.archive-rich-page .archive-timeline-item, body.starport-signals .ss-stage) {
+  border: 2px solid #07111d !important;
+  border-radius: 0 !important;
+  background: var(--cosmos-panel) !important;
+  box-shadow: 3px 3px 0 #07111d !important;
+  color: var(--cosmos-ink) !important;
+}
+
+html.askuary-theme-light body.archive-rich-page :where(.archive-hero,.archive-card,.archive-timeline-item) {
+  background: var(--cosmos-panel) !important;
+  color: var(--cosmos-ink) !important;
+}
+
+html.askuary-theme-light body.archive-rich-page
+  :where(.fp-about-title,.archive-card-title,.archive-timeline-title,.archive-stats strong) {
+  color: var(--cosmos-ink) !important;
+  -webkit-text-fill-color: var(--cosmos-ink) !important;
+}
+
+html.askuary-theme-light body.archive-rich-page
+  :where(.archive-card-summary,.archive-timeline-summary,.archive-stats span) {
+  color: var(--cosmos-muted) !important;
+}
+
+body.starport-articles .hr-post-body,
+body.starport-signals .ss-bar {
+  background: var(--cosmos-panel-strong) !important;
+}
+
+:where(body.starport-articles, body.archive-rich-page) :where(h1,h2,h3,.hr-post-title,.archive-card-title,.archive-timeline-title),
+body.starport-signals .ss-bar-title {
+  color: var(--cosmos-ink) !important;
+  -webkit-text-fill-color: var(--cosmos-ink) !important;
+}
+
+:where(body.starport-articles, body.archive-rich-page) :where(p,time,small,.hr-post-date,.hr-post-ai-body,.archive-card-summary,.archive-timeline-summary) {
+  color: var(--cosmos-muted) !important;
+}
+
+body.starport-signals .ss-note,
+body.starport-signals .ss-note :where(p,strong,h3,span,time) {
+  color: #241d2a !important;
+  text-shadow: none !important;
+  opacity: 1 !important;
+}
+
+body.starport-library .lib-scifi-app {
+  width: min(1180px, calc(100% - 2rem));
+  height: calc(100dvh - 3rem);
+  margin: 1.5rem auto;
+  border: 2px solid #000;
+  border-radius: 0;
+  box-shadow: 4px 4px 0 #000;
+}
+
+html.askuary-theme-light body.starport-library .lib-scifi-app {
+  background: radial-gradient(ellipse at 50% 40%, #447da1, #153b5a 72%, #071827);
+}
+
+@media (max-width: 720px) {
+  body.starport-library .lib-scifi-app {
+    width: calc(100% - .75rem);
+    height: calc(100dvh - .75rem);
+    margin: .375rem;
+  }
+}
+
+/* 最终组件级昼夜修正：文字元素不再被浅色主题当作卡片上底色。 */
+html body .px-nav .px-nav-logo-text,
+html.askuary-theme-light body .px-nav .px-nav-logo-text,
+html.askuary-theme-dark body .px-nav .px-nav-logo-text {
+  display: inline !important;
+  width: auto !important;
+  padding: 0 !important;
+  color: #dff5ff !important;
+  -webkit-text-fill-color: #dff5ff !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* 便签本身是浅色纸张，昼夜只改变房间环境，不反转纸张文字。 */
+html body.starport-signals .ss-note :where(
+  h2,h3,p,strong,span,time,small,.ss-note-title,.ss-note-body,.ss-note-meta
+) {
+  color: #243143 !important;
+  -webkit-text-fill-color: #243143 !important;
+  text-shadow: none !important;
+}
+
+/* 星图导航是独立深空设备，不继承博客浅色表单与旧棕色卡片。 */
+html.footprint-html body.fp-journey .fp-atlas-panel {
+  color: #e7f5ff !important;
+  background: rgba(4,12,25,.96) !important;
+  border: 2px solid #020713 !important;
+  box-shadow: 4px 4px 0 #020713 !important;
+}
+
+html.footprint-html body.fp-journey .fp-atlas-search-wrap,
+html.footprint-html body.fp-journey .fp-atlas-search {
+  color: #e7f5ff !important;
+  background: #0b1628 !important;
+  border-color: rgba(121,217,255,.36) !important;
+}
+
+html.footprint-html body.fp-journey .fp-atlas-search::placeholder {
+  color: #8fa9bd !important;
+  -webkit-text-fill-color: #8fa9bd !important;
+}
+
+html.footprint-html body.fp-journey
+  :where(.fp-atlas-title,.fp-atlas-item-title,.fp-atlas-detail-title) {
+  color: #dff5ff !important;
+  -webkit-text-fill-color: #dff5ff !important;
+  text-shadow: none !important;
+}
+
+html.footprint-html body.fp-journey
+  :where(.fp-atlas-item,.fp-atlas-detail-card,.fp-atlas-item.is-friend-link) {
+  color: #dbeaf5 !important;
+  background: #101a2d !important;
+  border: 2px solid #020713 !important;
+  box-shadow: 2px 2px 0 #020713 !important;
+}
+
+html.footprint-html body.fp-journey
+  :where(.fp-atlas-item-meta,.fp-atlas-detail-text,.fp-atlas-item-snippet) {
+  color: #a9bfd0 !important;
+  -webkit-text-fill-color: #a9bfd0 !important;
+}
+
+/* 全站导航统一外壳：页面只保留各自的标题和入口。 */
+html body :is(.home-header, .px-nav, .lib-scifi-nav) {
+  position: fixed !important;
+  top: max(14px, env(safe-area-inset-top)) !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: 50% !important;
+  width: min(1080px, calc(100% - 32px)) !important;
+  max-width: 1080px !important;
+  height: 58px !important;
+  min-height: 58px !important;
+  margin: 0 !important;
+  padding: 8px 12px !important;
+  box-sizing: border-box !important;
+  transform: translateX(-50%) !important;
+  border: 2px solid #000 !important;
+  border-radius: 0 !important;
+  background: var(--cosmos-panel-strong, rgba(5, 16, 31, .95)) !important;
+  box-shadow: 3px 3px 0 #000 !important;
+  color: var(--cosmos-ink, #edf8ff) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  z-index: 1000 !important;
+}
+
+html body .home-header-inner {
+  width: 100% !important;
+  max-width: none !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+html body :is(.home-header, .px-nav, .lib-scifi-nav)
+  :where(a, button, .px-nav-back, .px-nav-link, .lib-scifi-cat, .lib-scifi-home) {
+  min-height: 32px !important;
+  padding: 6px 9px !important;
+  box-sizing: border-box !important;
+  border-radius: 0 !important;
+  line-height: 1.2 !important;
+}
+
+html body :is(.home-header, .px-nav, .lib-scifi-nav)
+  :where(.px-nav-logo-mark, .home-brand-mark, .lib-scifi-logo-mark) {
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px !important;
+  border-radius: 0 !important;
+}
+
+html body .lib-scifi-nav {
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scrollbar-width: none;
+}
+
+html body .lib-scifi-nav::-webkit-scrollbar {
+  display: none;
+}
+
+/* 覆盖旧页面主题对导航背景、圆角和字体的二次改写。 */
+html body .home-header.home-header,
+html body .px-nav.px-nav,
+html body .lib-scifi-nav.lib-scifi-nav {
+  border: 2px solid #000 !important;
+  border-radius: 0 !important;
+  background: rgba(3, 12, 25, .97) !important;
+  box-shadow: 3px 3px 0 #000 !important;
+  font-family: var(--ask-font-body, "Noto Sans SC", sans-serif) !important;
+}
+
+html.askuary-theme-light body .home-header.home-header,
+html.askuary-theme-light body .px-nav.px-nav,
+html.askuary-theme-light body.starport-content .px-nav.px-nav,
+html.askuary-theme-light body.archive-rich-page .px-nav.px-nav,
+html.askuary-theme-light body .lib-scifi-nav.lib-scifi-nav,
+html.askuary-theme-dark body .home-header.home-header,
+html.askuary-theme-dark body .px-nav.px-nav,
+html.askuary-theme-dark body .lib-scifi-nav.lib-scifi-nav {
+  background: rgba(3, 12, 25, .97) !important;
+  border: 2px solid #000 !important;
+  border-radius: 0 !important;
+  box-shadow: 3px 3px 0 #000 !important;
+}
+
+/* 所有导航完整复用馆藏的像素控件语言。 */
+html body :is(.home-header.home-header,.px-nav.px-nav,.lib-scifi-nav.lib-scifi-nav) {
+  --nav-px-cyan: #79d9ff;
+  --nav-px-gold: #ffe566;
+  --nav-px-accent: #f0cf86;
+  --nav-px-muted: #aeb9d2;
+  gap: 10px !important;
+  background: rgba(8, 12, 24, .97) !important;
+  image-rendering: pixelated !important;
+}
+
+html body :is(.home-header,.px-nav,.lib-scifi-nav)
+  :where(.px-nav-logo-mark,.lib-scifi-logo-mark) {
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  border: 2px solid #000 !important;
+  border-radius: 0 !important;
+  background: #081526 url("/brand/avatar.png") center / cover no-repeat !important;
+  box-shadow: 2px 2px 0 #000 !important;
+}
+
+html body :is(.home-header,.px-nav,.lib-scifi-nav)
+  :where(.home-brand,.px-nav-logo-text,.lib-scifi-logo-text) {
+  color: var(--nav-px-cyan) !important;
+  -webkit-text-fill-color: var(--nav-px-cyan) !important;
+  font-family: var(--px-font-cn) !important;
+  font-size: .72rem !important;
+  font-weight: 400 !important;
+  letter-spacing: .06em !important;
+  text-shadow: 1px 1px 0 #000 !important;
+}
+
+html body .px-nav .px-nav-logo {
+  min-height: 32px !important;
+  padding: 5px 9px !important;
+  border: 2px solid #000 !important;
+  background: #121828 !important;
+  box-shadow: 2px 2px 0 #000 !important;
+}
+
+html body :is(.home-header,.px-nav,.lib-scifi-nav)
+  :where(.home-nav-link,.px-nav-back,.px-nav-link,.lib-scifi-cat,.lib-scifi-home) {
+  min-height: 32px !important;
+  padding: 6px 10px !important;
+  border: 2px solid #000 !important;
+  border-radius: 0 !important;
+  color: var(--nav-px-muted) !important;
+  -webkit-text-fill-color: var(--nav-px-muted) !important;
+  background: #121828 !important;
+  box-shadow: 2px 2px 0 #000 !important;
+  font-family: var(--px-font-cn) !important;
+  font-size: .68rem !important;
+  font-weight: 400 !important;
+  text-shadow: 1px 1px 0 #000 !important;
+  transition: none !important;
+}
+
+html body .px-nav-title.px-nav-title {
+  margin: 0 !important;
+  padding: 7px 11px !important;
+  border: 2px solid #000 !important;
+  color: var(--nav-px-cyan) !important;
+  -webkit-text-fill-color: var(--nav-px-cyan) !important;
+  background: #121828 !important;
+  box-shadow: 2px 2px 0 #000 !important;
+  font-family: var(--px-font-cn) !important;
+  font-size: .72rem !important;
+  font-weight: 400 !important;
+  line-height: 1 !important;
+  text-shadow: none !important;
+}
+
+html body :is(.home-header,.px-nav,.lib-scifi-nav)
+  :where(.home-nav-link:hover,.px-nav-back:hover,.px-nav-link:hover,.lib-scifi-cat:hover,.lib-scifi-home:hover) {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  background: #1a2848 !important;
+}
+
+html body :is(.home-header,.px-nav,.lib-scifi-nav)
+  :where(.home-nav-link.is-active,.px-nav-link.is-active,.lib-scifi-cat.is-active) {
+  color: var(--nav-px-cyan) !important;
+  -webkit-text-fill-color: var(--nav-px-cyan) !important;
+  background: #1a2848 !important;
+  border-color: var(--nav-px-cyan) !important;
+  text-shadow: 1px 1px 0 #000 !important;
+}
+
+html:is(.askuary-theme-light,.askuary-theme-dark) body
+  :is(.home-header,.px-nav,.lib-scifi-nav)
+  :where(.home-nav-link.home-nav-link,.px-nav-back.px-nav-back,.px-nav-link.px-nav-link,
+  .lib-scifi-cat.lib-scifi-cat,.lib-scifi-home.lib-scifi-home) {
+  min-height: 32px !important;
+  padding: 6px 10px !important;
+  border: 2px solid #000 !important;
+  border-radius: 0 !important;
+  color: var(--nav-px-muted) !important;
+  -webkit-text-fill-color: var(--nav-px-muted) !important;
+  background: #121828 !important;
+  box-shadow: 2px 2px 0 #000 !important;
+  font-family: var(--px-font-cn) !important;
+  font-size: .68rem !important;
+  font-weight: 400 !important;
+  text-shadow: 1px 1px 0 #000 !important;
+}
+
+html:is(.askuary-theme-light,.askuary-theme-dark) body
+  :is(.home-header,.px-nav,.lib-scifi-nav)
+  :where(.home-nav-link.home-nav-link.is-active,.px-nav-link.px-nav-link.is-active,
+  .lib-scifi-cat.lib-scifi-cat.is-active) {
+  color: var(--nav-px-cyan) !important;
+  -webkit-text-fill-color: var(--nav-px-cyan) !important;
+  background: #1a2848 !important;
+  border-color: var(--nav-px-cyan) !important;
+  text-shadow: 1px 1px 0 #000 !important;
+}
+
+/* 主页图片名称只做合成层动画，避免 hover 时触发布局/图片缩放卡顿。 */
+html body.starport-home .hr-photo-card.hr-photo-card:hover,
+html body.starport-home .hr-photo-card.hr-photo-card:focus-visible {
+  transform: none !important;
+  box-shadow: 3px 3px 0 #000 !important;
+}
+
+html body.starport-home .hr-photo-card.hr-photo-card img {
+  transform: none !important;
+  transition: none !important;
+}
+
+html body.starport-home .hr-photo-meta.hr-photo-meta {
+  opacity: 0 !important;
+  transform: translate3d(0, 6px, 0) !important;
+  transition: opacity .16s ease-out, transform .16s ease-out !important;
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+}
+
+html body.starport-home .hr-photo-card:hover .hr-photo-meta.hr-photo-meta,
+html body.starport-home .hr-photo-card:focus-visible .hr-photo-meta.hr-photo-meta {
+  opacity: 1 !important;
+  transform: translate3d(0, 0, 0) !important;
+}
+
+html body :is(.home-header.home-header,.px-nav.px-nav).is-hidden {
+  transform: translate(-50%, -145%) !important;
+  pointer-events: none !important;
+}
+
+html body :is(.home-header.home-header,.px-nav.px-nav) {
+  transition: transform .22s ease-out !important;
+}
+
+html body :is(.home-header, .px-nav, .lib-scifi-nav)
+  :where(.home-brand,.home-nav-link,.px-nav-logo-text,.px-nav-title,.px-nav-back,.px-nav-link,
+  .lib-scifi-logo-text,.lib-scifi-cat,.lib-scifi-home) {
+  color: #edf8ff !important;
+  -webkit-text-fill-color: #edf8ff !important;
+  font-family: var(--ask-font-body, "Noto Sans SC", sans-serif) !important;
+  text-shadow: none !important;
+}
+
+html body :is(.home-header, .px-nav, .lib-scifi-nav)
+  :where(.home-nav-link,.px-nav-back,.px-nav-link,.lib-scifi-cat,.lib-scifi-home) {
+  border: 1px solid var(--cosmos-line, rgba(83, 190, 231, .3)) !important;
+  background: #0a1b30 !important;
+  box-shadow: none !important;
+}
+
+html body :is(.home-header, .px-nav, .lib-scifi-nav)
+  :where(.home-nav-link.is-active,.px-nav-link.is-active,.lib-scifi-cat.is-active) {
+  border-color: var(--cosmos-gold, #f2d083) !important;
+  color: var(--cosmos-gold, #f2d083) !important;
+  -webkit-text-fill-color: var(--cosmos-gold, #f2d083) !important;
+}
+
+@media (max-width: 720px) {
+  html body :is(.home-header, .px-nav, .lib-scifi-nav) {
+    top: max(8px, env(safe-area-inset-top)) !important;
+    width: calc(100% - 16px) !important;
+    height: 54px !important;
+    min-height: 54px !important;
+    padding: 6px 8px !important;
+  }
+
+  html body :is(.home-header, .px-nav, .lib-scifi-nav)
+    :where(a, button, .px-nav-back, .px-nav-link, .lib-scifi-cat, .lib-scifi-home) {
+    min-height: 30px !important;
+    padding: 5px 7px !important;
+  }
+}
+
+/* 提升到页面专属旧规则之上，保证归档等 pixel-hub 页面也不能改尺寸。 */
+html body .home-footer-inner,
+html body .home-hub-footer-inner,
+html body .fp-subpage-legal,
+html body .lib-scifi-bottom {
+  width: min(720px, calc(100% - 1rem)) !important;
+  max-width: 720px !important;
+}
+
+html body .home-footer-inner.home-footer-inner,
+html body .home-hub-footer-inner.home-hub-footer-inner,
+html body.photos-rich.pixel-hub .home-hub-footer-inner.home-hub-footer-inner {
+  padding: 12px 8px max(13px, env(safe-area-inset-bottom)) !important;
+}
+
+html.askuary-theme-dark body.home-theme-dark .home-footer.home-footer,
+html.askuary-theme-dark body.home-theme-dark .home-hub-footer.home-hub-footer,
+html.askuary-theme-dark body.home-theme-dark.photos-rich .home-hub-footer.home-hub-footer,
+html.askuary-theme-dark body.askuary-theme-dark .home-footer.home-footer,
+html.askuary-theme-dark body.askuary-theme-dark .home-hub-footer.home-hub-footer {
+  background: transparent !important;
+  background-image: none !important;
+  border-top: 0 !important;
+  box-shadow: none !important;
+}
+
+html body .site-legal.site-legal {
+  width: 100% !important;
+  max-width: 720px !important;
+  height: 98px !important;
+  min-height: 98px !important;
+  margin-inline: auto !important;
+  padding: 7px 10px !important;
+  gap: 3px !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+html body .site-legal.site-legal
+  :where(.site-legal-copy,.site-legal-runtime,.site-legal-links,.site-legal-beian) {
+  max-width: 100% !important;
+  flex-shrink: 0 !important;
+}
+
+html body .site-legal.site-legal
+  :where(.site-legal-copy,.site-legal-runtime,.site-legal-link,.site-legal-beian-item,#runtime_span) {
+  line-height: 1.25 !important;
+  overflow-wrap: anywhere !important;
+}
+
+/* 文章终端必须完整落在固定导航下方，列表卡片恢复独立间距。 */
+html body.starport-articles .home-main.home-main {
+  margin-top: calc(var(--home-nav-offset, 58px) - 3px) !important;
+  padding-top: 64px !important;
+  overflow: visible !important;
+}
+
+/* 所有固定导航页面使用同一条正文安全线。 */
+:root {
+  --ask-nav-safe-top: 96px;
+}
+
+html body.starport-signals .home-main,
+html body.archive-rich-page .archive-rich,
+html body.starport-identity .fp-about,
+html body.starport-identity .fp-blog,
+html body.starport-identity .fp-friends {
+  padding-top: var(--ask-nav-safe-top) !important;
+}
+
+html body.starport-home .home-main {
+  padding-top: 7px !important;
+}
+
+html body.photos-rich .pr-shell {
+  margin-top: var(--ask-nav-safe-top) !important;
+  padding-top: 62px !important;
+}
+
+html body.starport-library .lib-scifi-app {
+  width: min(1180px, calc(100% - 32px)) !important;
+  height: calc(100dvh - 112px) !important;
+  margin: var(--ask-nav-safe-top) auto 16px !important;
+}
+
+/* 文章与馆藏都使用归档同源的整页动漫 API 背景。 */
+html body.starport-articles .home-bg,
+html body.starport-library .home-bg {
+  display: block !important;
+  opacity: 1 !important;
+}
+
+html body.starport-articles .home-bg-img,
+html body.starport-library .home-bg-img {
+  filter: saturate(1.08) brightness(1.02) !important;
+}
+
+html body.starport-library .lib-scifi-app {
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(15,42,66,.72), rgba(3,10,20,.82) 72%),
+    transparent !important;
+}
+
+/* 摄影页标题栏与主图分层，主图不能再压住顶部文字。 */
+html body.photos-rich .pr-shell::before {
+  z-index: 8 !important;
+  color: #dff6ff !important;
+  text-shadow: 2px 2px 0 #000 !important;
+}
+
+html body.photos-rich .pr-hero {
+  position: relative !important;
+  z-index: 2 !important;
+  margin-top: 12px !important;
+}
+
+/* 摄影页真正跟随全站黑夜，不再只改变右上角按钮。 */
+html.askuary-theme-dark body.photos-rich {
+  color: #eaf7ff !important;
+  background: #020a16 !important;
+}
+
+html.askuary-theme-dark body.photos-rich
+  :where(.pr-shell,.pr-section,.pr-note,.pr-album,.pr-timeline,.pr-story-card) {
+  color: #eaf7ff !important;
+  background-color: rgba(4,16,31,.92) !important;
+  border-color: #000 !important;
+}
+
+html.askuary-theme-dark body.photos-rich
+  :where(h1,h2,h3,p,strong,span,time,small) {
+  color: #eaf7ff !important;
+  -webkit-text-fill-color: #eaf7ff !important;
+}
+
+/* 首页天气层在正文上方显示，雨雪才不会被卡片和背景吞掉。 */
+html body.starport-home .askuary-weather-canvas {
+  z-index: 40 !important;
+  opacity: .82 !important;
+}
+
+/* 内容枢纽也和其他页面共享同一层天气，不被各自背景画布遮住。 */
+html body:is(.starport-articles,.starport-library) .askuary-weather-canvas {
+  z-index: 40 !important;
+  opacity: .82 !important;
+}
+
+/* SIGNAL 滚词条与主页黑色像素卡片统一。 */
+html body.starport-home :where(.hr-wave-slim,.hr-wave-track,.hr-wave-item) {
+  border-radius: 0 !important;
+  color: #dff5ff !important;
+  background: #061326 !important;
+  border-color: #000 !important;
+  box-shadow: 2px 2px 0 #000 !important;
+}
+
+html.askuary-theme-light body.starport-home
+  :where(.hr-wave-slim.hr-wave-slim,.hr-wave-track.hr-wave-track,.hr-wave-item.hr-wave-item),
+html.askuary-theme-dark body.starport-home
+  :where(.hr-wave-slim.hr-wave-slim,.hr-wave-track.hr-wave-track,.hr-wave-item.hr-wave-item) {
+  color: #dff5ff !important;
+  background: #061326 !important;
+  border-color: #000 !important;
+  border-radius: 0 !important;
+  box-shadow: 2px 2px 0 #000 !important;
+}
+
+html body.starport-home .hr-wave-slim {
+  border: 2px solid #000 !important;
+}
+
+/* 除宇宙入口外，浅色与深色页面统一使用碎念页的环境亮度。 */
+html.askuary-theme-light body:is(
+  .starport-home,.starport-content,.archive-rich-page,.photos-rich,.starport-library,
+  .starport-identity,.starport-blog,.fp-about-page
+) {
+  background:
+    radial-gradient(circle at 82% 14%, rgba(112,194,226,.24), transparent 31rem),
+    linear-gradient(180deg, #b6d2df 0%, #d1e2e8 48%, #a9c8d7 100%) !important;
+}
+
+/* 暖光只属于晴天；切换雨雾雪后立即撤掉固定太阳亮度。 */
+html.askuary-theme-light body[data-weather="clear"],
+html.askuary-theme-light body[data-weather="sakura"],
+html.askuary-theme-light body[data-weather="leaves"] {
+  background:
+    radial-gradient(circle at 18% 7%, rgba(255,244,202,.34), transparent 25rem),
+    radial-gradient(circle at 82% 14%, rgba(112,194,226,.24), transparent 31rem),
+    linear-gradient(180deg, #b6d2df 0%, #d1e2e8 48%, #a9c8d7 100%) !important;
+}
+
+html.askuary-theme-light body:is(
+  [data-weather="rain"],[data-weather="drizzle"],[data-weather="thunderstorm"]
+) {
+  background: linear-gradient(180deg, #6f8795 0%, #899da8 48%, #647b89 100%) !important;
+}
+
+html.askuary-theme-light body[data-weather="fog"] {
+  background: linear-gradient(180deg, #9aa9af, #b2bdc1 52%, #8d9da4) !important;
+}
+
+html.askuary-theme-light body[data-weather="snow"] {
+  background: linear-gradient(180deg, #aebfc9, #d4dee2 52%, #9fb2bd) !important;
+}
+
+html.askuary-theme-light body:is(
+  [data-weather="rain"],[data-weather="drizzle"],[data-weather="thunderstorm"],[data-weather="fog"]
+) :where(.home-bg-img,.quote-bg) {
+  filter: saturate(.68) brightness(.68) !important;
+}
+
+html.askuary-theme-light body:is(
+  [data-weather="rain"],[data-weather="drizzle"],[data-weather="thunderstorm"],[data-weather="fog"]
+) :where(.home-bg-veil,.fp-atmosphere) {
+  background: rgba(7,18,30,.44) !important;
+  opacity: 1 !important;
+}
+
+/* 宇宙入口不参与博客昼夜换肤，避免浅色主题把深空 HUD 洗成灰白。 */
+html.footprint-html body.fp-journey {
+  background: #020308 !important;
+  background-image: none !important;
+  color: rgba(240,246,255,.94) !important;
+}
+
+html.footprint-html body.fp-journey :where(.fp-title,.fp-desc,.fp-typewriter-text) {
+  color: rgba(238,248,255,.96) !important;
+  -webkit-text-fill-color: rgba(238,248,255,.96) !important;
+  text-shadow: 2px 2px 0 #000, 0 0 18px rgba(120,190,255,.28) !important;
+}
+
+html.askuary-theme-dark body:is(
+  .starport-home,.starport-content,.archive-rich-page,.photos-rich,.starport-library,
+  .starport-identity,.starport-blog,.fp-about-page
+) {
+  background:
+    radial-gradient(circle at 18% 10%, rgba(22,87,132,.2), transparent 34rem),
+    radial-gradient(circle at 82% 18%, rgba(17,66,108,.16), transparent 30rem),
+    #030a16 !important;
+}
+
+html.askuary-theme-light body.starport-home .quote-bg.quote-bg {
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
+}
+
+html.askuary-theme-light body.starport-home .quote-bg-line.quote-bg-line {
+  color: rgba(18, 48, 70, .78) !important;
+  font-weight: 800 !important;
+}
+
+html.askuary-theme-dark body.starport-home .quote-bg.quote-bg {
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
+}
+
+html.askuary-theme-dark body.starport-home .quote-bg-line.quote-bg-line {
+  color: rgba(186, 224, 248, .42) !important;
+  text-shadow: none !important;
+}
+
+/* 文章内容页与故事内容页使用专门的阅读字体，不继承像素正文。 */
+html body.home-article-page :where(.ask-read-card,.home-prose,.home-prose *),
+html body.starport-blog-post :where(.fp-blog-article,.fp-blog-prose,.fp-blog-prose *) {
+  font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif !important;
+  letter-spacing: .01em !important;
+}
+
+html body.home-article-page .home-prose,
+html body.starport-blog-post .fp-blog-prose {
+  font-size: 1rem !important;
+  line-height: 1.95 !important;
+}
+
+html.askuary-theme-light body.home-article-page .ask-read-card,
+html.askuary-theme-light body.starport-blog-post .fp-blog-article {
+  color: #1d2c39 !important;
+  background: rgba(245, 249, 251, .96) !important;
+  border: 2px solid #07111d !important;
+  box-shadow: 3px 3px 0 #07111d !important;
+}
+
+html.askuary-theme-light body.home-article-page
+  :where(.home-prose,.home-prose p,.home-prose li,.home-prose strong,.home-prose h2,.home-prose h3),
+html.askuary-theme-light body.starport-blog-post
+  :where(.fp-blog-prose,.fp-blog-prose p,.fp-blog-prose li,.fp-blog-prose strong,
+  .fp-blog-prose h2,.fp-blog-prose h3,.fp-blog-post-title) {
+  color: #1d2c39 !important;
+  -webkit-text-fill-color: #1d2c39 !important;
+  text-shadow: none !important;
+}
+
+html.askuary-theme-dark body.home-article-page .ask-read-card,
+html.askuary-theme-dark body.starport-blog-post .fp-blog-article {
+  color: #dcebf5 !important;
+  background: rgba(5, 18, 34, .96) !important;
+  border: 2px solid #000 !important;
+  box-shadow: 3px 3px 0 #000 !important;
+}
+
+html.askuary-theme-dark body.home-article-page
+  :where(.home-prose,.home-prose p,.home-prose li,.home-prose strong,.home-prose h2,.home-prose h3),
+html.askuary-theme-dark body.starport-blog-post
+  :where(.fp-blog-prose,.fp-blog-prose p,.fp-blog-prose li,.fp-blog-prose strong,
+  .fp-blog-prose h2,.fp-blog-prose h3,.fp-blog-post-title) {
+  color: #dcebf5 !important;
+  -webkit-text-fill-color: #dcebf5 !important;
+  text-shadow: none !important;
+  opacity: 1 !important;
+}
+
+/* 摄影故事页与文章正文使用同一套高对比阅读规则。 */
+html body.fp-photo-story-page :where(
+  .fp-photo-story-header,.fp-photo-story-nav,.fp-photo-story-meta,
+  .fp-photo-story-intro,.fp-photo-story-music,.fp-photo-story-author,
+  .fp-photo-story-intro *,.fp-photo-story-music *,.fp-photo-story-author *
+) {
+  font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif !important;
+  letter-spacing: .01em !important;
+}
+
+html body.fp-photo-story-page.ask-read-page.starport-replay
+  :is(.fp-photo-story-intro,.fp-photo-story-music,.fp-photo-story-author)
+  :where(p,h2,dt,dd,span,strong,a) {
+  font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif !important;
+}
+
+html body:is(.home-article-page,.fp-photo-story-page) :where(
+  .ask-ai-card,.ask-ai-card *
+) {
+  font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif !important;
+}
+
+html.askuary-theme-light body.fp-photo-story-page :where(
+  .fp-photo-story-nav-link,.fp-photo-story-meta-item,.fp-photo-story-intro,
+  .fp-photo-story-music,.fp-photo-story-author
+) {
+  color: #1d2c39 !important;
+  background: rgba(245,249,251,.96) !important;
+  border: 2px solid #07111d !important;
+  box-shadow: 3px 3px 0 #07111d !important;
+}
+
+html.askuary-theme-light body.fp-photo-story-page :where(
+  .fp-photo-story-header h1,.fp-photo-story-album,.fp-photo-story-nav-link,
+  .fp-photo-story-meta-item dt,.fp-photo-story-meta-item dd,
+  .fp-photo-story-intro p,.fp-photo-story-block-title,
+  .fp-photo-story-music-cap,.fp-photo-story-author h2,.fp-photo-story-author p
+) {
+  color: #1d2c39 !important;
+  -webkit-text-fill-color: #1d2c39 !important;
+  text-shadow: none !important;
+  opacity: 1 !important;
+}
+
+html.askuary-theme-light body:is(.home-article-page,.fp-photo-story-page) .ask-ai-card {
+  color: #1d2c39 !important;
+  background: rgba(245,249,251,.97) !important;
+  border: 2px solid #07111d !important;
+  box-shadow: 3px 3px 0 #07111d !important;
+}
+
+html.askuary-theme-light body:is(.home-article-page,.fp-photo-story-page) .ask-ai-card
+  :where(.ask-ai-title,.ask-ai-sub,.ask-ai-body,.ask-ai-panel,.ask-ai-panel *) {
+  color: #1d2c39 !important;
+  -webkit-text-fill-color: #1d2c39 !important;
+  text-shadow: none !important;
+  opacity: 1 !important;
+}
+
+html body.fp-photo-story-page.ask-read-page.starport-replay
+  :is(.ask-hero-title,.ask-hero-kicker) {
+  color: #f2fbff !important;
+  -webkit-text-fill-color: #f2fbff !important;
+  text-shadow: 2px 2px 0 #07111d, 0 1px 12px rgba(0,0,0,.8) !important;
+}
+
+html.askuary-theme-dark body.fp-photo-story-page :where(
+  .fp-photo-story-nav-link,.fp-photo-story-meta-item,.fp-photo-story-intro,
+  .fp-photo-story-music,.fp-photo-story-author
+) {
+  color: #dcebf5 !important;
+  background: rgba(5,18,34,.96) !important;
+  border: 2px solid #000 !important;
+  box-shadow: 3px 3px 0 #000 !important;
+}
+
+html.askuary-theme-dark body.fp-photo-story-page :where(
+  .fp-photo-story-header h1,.fp-photo-story-album,.fp-photo-story-nav-link,
+  .fp-photo-story-meta-item dt,.fp-photo-story-meta-item dd,
+  .fp-photo-story-intro p,.fp-photo-story-block-title,
+  .fp-photo-story-music-cap,.fp-photo-story-author h2,.fp-photo-story-author p
+) {
+  color: #dcebf5 !important;
+  -webkit-text-fill-color: #dcebf5 !important;
+  text-shadow: none !important;
+  opacity: 1 !important;
+}
+
+html.askuary-theme-light body:is(
+  .starport-content,.archive-rich-page,.photos-rich,.starport-library,.starport-identity
+) :where(.home-bg-veil,.fp-atmosphere) {
+  opacity: .16 !important;
+}
+
+/* 主页明暗两套主题都使用黑色像素卡片，不再出现灰色塑料感。 */
+html body.starport-home :where(
+  .hr-profile-card,.hr-brand-mark,.hr-panel,.hr-post,.hr-lyric-bar,
+  .hr-bubble,.hr-social-link,.gate-console,.hr-map-card
+) {
+  border: 2px solid #000 !important;
+  border-radius: 0 !important;
+  background: rgba(5, 14, 28, .94) !important;
+  box-shadow: 3px 3px 0 #000 !important;
+  color: #edf8ff !important;
+  text-shadow: none !important;
+}
+
+html.askuary-theme-light body.starport-home
+  :where(.hr-profile-card.hr-profile-card,.hr-brand-mark.hr-brand-mark,.hr-panel.hr-panel,
+  .hr-post.hr-post,.hr-lyric-bar.hr-lyric-bar,
+  .hr-bubble.hr-bubble,.hr-social-link.hr-social-link,.gate-console.gate-console,
+  .hr-map-card.hr-map-card) {
+  border: 2px solid #000 !important;
+  border-radius: 0 !important;
+  background: rgba(5, 14, 28, .96) !important;
+  box-shadow: 3px 3px 0 #000 !important;
+  color: #edf8ff !important;
+}
+
+html body.starport-home :where(
+  .hr-profile-card,.hr-brand-mark,.hr-panel,.hr-post,.hr-lyric-bar,
+  .hr-bubble,.hr-social-link,.gate-console,.hr-map-card
+) :where(h1,h2,h3,strong,p,span,time,small,a) {
+  color: #edf8ff !important;
+  -webkit-text-fill-color: #edf8ff !important;
+  text-shadow: none !important;
+  opacity: 1 !important;
+}
+
+/* 公告条目文字仍保持浅色，但不强制 opacity，以免干扰轮播淡入淡出 */
+html body.starport-home .hr-notice-track .hr-notice-item :where(h1,h2,h3,strong,p,span,time,small,a) {
+  color: #edf8ff !important;
+  -webkit-text-fill-color: #edf8ff !important;
+  text-shadow: none !important;
+}
+
+html body.starport-home :where(
+  .hr-kicker,.hr-section-code,.hr-panel-code,.hr-wave-slim-label,.hr-notice-tag,
+  .hr-stat-label,.hr-notice-date,.hr-status-line
+) {
+  color: #79ddff !important;
+  -webkit-text-fill-color: #79ddff !important;
+}
+
+/* 深色页面禁止继承浅色主题留下的深蓝文字。 */
+html.askuary-theme-dark body :where(
+  .px-nav,.home-header,.lib-scifi-nav,.hr-panel,.hr-profile-card,.hr-post,
+  .ar-hero,.archive-hero,.archive-card,.archive-timeline-item,.ss-stage,.pr-section
+) :where(h1,h2,h3,strong,p,span,time,small,a) {
+  color: #eaf7ff !important;
+  -webkit-text-fill-color: #eaf7ff !important;
+  text-shadow: none !important;
+  opacity: 1 !important;
+}
+
+html.askuary-theme-dark body.starport-home
+  :where(.hr-profile-name.hr-profile-name,.hr-panel-head.hr-panel-head h2,
+  .hr-notice-title.hr-notice-title,.hr-section-title.hr-section-title) {
+  color: #f2f9ff !important;
+  -webkit-text-fill-color: #f2f9ff !important;
+}
+
+html.askuary-theme-dark body.starport-home
+  :where(.hr-profile-bio.hr-profile-bio,.hr-notice-date.hr-notice-date,
+  .hr-notice-body.hr-notice-body,.hr-status-line.hr-status-line) {
+  color: #b9d3e6 !important;
+  -webkit-text-fill-color: #b9d3e6 !important;
+}
+
+html body.starport-articles .ar-list {
+  margin-top: 28px !important;
+}
+
+html body.starport-articles .ar-list-head {
+  margin-bottom: 18px !important;
+  padding: 0 0 12px !important;
+}
+
+html body.starport-articles .hr-posts.hr-posts {
+  gap: 18px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  overflow: visible !important;
+}
+
+html body.starport-articles .hr-post.hr-post {
+  border: 2px solid #000 !important;
+  border-radius: 0 !important;
+  box-shadow: 3px 3px 0 #000 !important;
+}
+
+@media (max-width: 720px) {
+  html body.starport-articles .home-main.home-main {
+    margin-top: calc(var(--home-nav-offset, 54px) + 18px) !important;
+    padding: 52px 12px 20px !important;
+  }
+
+  html body.starport-articles .hr-posts.hr-posts {
+    gap: 14px !important;
+  }
+}
+
+html body .site-legal.site-legal .site-legal-beian {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  gap: 4px !important;
+}
+
+@media (max-width: 720px) {
+  html body .site-legal.site-legal {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 6px !important;
+  }
+
+  :root {
+    --ask-nav-safe-top: 78px;
+  }
+
+  html body.starport-library .lib-scifi-app {
+    width: calc(100% - 16px) !important;
+    height: calc(100dvh - 94px) !important;
+    margin: var(--ask-nav-safe-top) 8px 8px !important;
+  }
+}
+
+/* 备案框尺寸只由这一处控制，禁止各页面外壳造成忽大忽小。 */
+body :where(
+  .home-footer,
+  .home-hub-footer,
+  .fp-subpage-legal,
+  .fp-portal-legal,
+  .lib-scifi-legal
+) {
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+body :where(
+  .home-footer-inner,
+  .home-hub-footer-inner,
+  .fp-subpage-legal,
+  .lib-scifi-bottom
+) {
+  width: min(720px, calc(100% - 1rem)) !important;
+  max-width: 720px !important;
+  margin-inline: auto !important;
+  box-sizing: border-box !important;
+}
+
+body :where(
+  .home-footer,
+  .home-hub-footer,
+  .fp-subpage-legal,
+  .fp-portal-legal,
+  .lib-scifi-legal
+) .site-legal {
+  width: 100% !important;
+  max-width: 720px !important;
+  min-height: 76px !important;
+  margin: 0 auto !important;
+  padding: 7px 10px !important;
+  gap: 3px !important;
+  box-sizing: border-box !important;
+  border: 2px solid #000 !important;
+  border-radius: 0 !important;
+  background: rgba(5, 16, 31, .94) !important;
+  box-shadow: 2px 2px 0 #000 !important;
+}
+
+body :where(
+  .home-footer,
+  .home-hub-footer,
+  .fp-subpage-legal,
+  .fp-portal-legal,
+  .lib-scifi-legal
+) .site-legal-beian {
+  width: 100% !important;
+  min-height: 24px !important;
+  gap: 4px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+body :where(
+  .home-footer,
+  .home-hub-footer,
+  .fp-subpage-legal,
+  .fp-portal-legal,
+  .lib-scifi-legal
+) :where(.site-legal-beian-item,.site-legal-copy,.site-legal-runtime,.site-legal-link,#runtime_span) {
+  font-size: 10px !important;
+  line-height: 1.35 !important;
+}
+
+@media (max-width: 720px) {
+  body :where(
+    .home-footer,
+    .home-hub-footer,
+    .fp-subpage-legal,
+    .fp-portal-legal,
+    .lib-scifi-legal
+  ) .site-legal {
+    min-height: 0 !important;
+    padding: 6px !important;
+  }
+}
+
+/* 文件末尾最终裁决：避免前面的历史主题再次污染组件。 */
+html body .px-nav .px-nav-logo-text {
+  padding: 0 !important;
+  color: #dff5ff !important;
+  -webkit-text-fill-color: #dff5ff !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+html body.starport-signals .ss-note :where(h2,h3,p,strong,span,time,small) {
+  color: #243143 !important;
+  -webkit-text-fill-color: #243143 !important;
+  text-shadow: none !important;
+}
+
+html.footprint-html body.fp-journey .fp-atlas-panel {
+  color: #e7f5ff !important;
+  background: rgba(4,12,25,.96) !important;
+}
+
+html.footprint-html body.fp-journey
+  :where(.fp-atlas-search-wrap,.fp-atlas-search,.fp-atlas-item,.fp-atlas-detail-card) {
+  color: #e7f5ff !important;
+  background: #0b1628 !important;
+}
+
+/* 白天恢复旧版的干净浅色底；天气只驱动动画和游戏场景，不再给整页蒙灰。 */
+html.askuary-theme-light body:not(.fp-journey):not(.games-pixel-page) {
+  background: #eef4f7 !important;
+  background-image: none !important;
+  color: #1d3346 !important;
+}
+
+html.askuary-theme-light body:not(.fp-journey) :where(.home-bg-img,.quote-bg) {
+  filter: saturate(1.02) brightness(1) !important;
+}
+
+html.askuary-theme-light body:not(.fp-journey) .home-bg-veil {
+  background: rgba(246,250,252,.12) !important;
+  opacity: .16 !important;
+}
+
+/* 摄影主图始终用白色 HUD 文字，避免标题落进明暗复杂的照片。 */
+html body.photos-rich .pr-hero :where(
+  .pr-hero-kicker,.pr-hero-title,.pr-hero-stats,.pr-hero-stats *
+) {
+  color: #f2fbff !important;
+  -webkit-text-fill-color: #f2fbff !important;
+  text-shadow: 2px 2px 0 #07111d, 0 1px 12px rgba(0,0,0,.8) !important;
+  opacity: 1 !important;
+}
+
+html.askuary-theme-dark body.photos-rich
+  :where(.pr-section-title,.pr-section-sub,.pr-filter-count,.pr-album-count,
+  .pr-album-bubble,.pr-timeline-title,.pr-timeline-meta,.pr-note-title,.pr-note-body) {
+  color: #eaf7ff !important;
+  -webkit-text-fill-color: #eaf7ff !important;
+  text-shadow: none !important;
+  opacity: 1 !important;
+}
+
+/* 主页黑色卡片在白天仍保持浅色字，不跟随页面底色反转。 */
+html body.starport-home :where(
+  .hr-panel,.hr-post,.hr-profile-card,.hr-lyric-bar
+) :where(h1,h2,h3,p,strong,span,time,small) {
+  color: #eaf7ff !important;
+  -webkit-text-fill-color: #eaf7ff !important;
+  text-shadow: none !important;
+}
+
+html body.starport-home :where(.hr-kicker,.hr-section-kicker,.hr-stat-label,.hr-post-date) {
+  color: #79d9ff !important;
+  -webkit-text-fill-color: #79d9ff !important;
+}
+
+html body.starport-home :where(.home-search-field,.home-search-field input) {
+  color: #dff5ff !important;
+  -webkit-text-fill-color: #dff5ff !important;
+  background: #0b1628 !important;
+  border-color: #020713 !important;
+}
+
+html body.starport-home .home-search-field input::placeholder {
+  color: #8fa9bd !important;
+  -webkit-text-fill-color: #8fa9bd !important;
+}
+
+/* 主页恢复旧版独立粉蓝渐变，不使用灰白单色底。 */
+html.askuary-theme-light body.home-page.home-rich.starport-home {
+  background:
+    radial-gradient(circle at 14% 8%, rgba(255,255,255,.74), transparent 24rem),
+    radial-gradient(circle at 86% 12%, rgba(192,225,245,.42), transparent 30rem),
+    linear-gradient(135deg, #f7eef4 0%, #eef4f8 46%, #e7f2f9 100%) !important;
+  background-color: #eef4f8 !important;
+  background-image:
+    radial-gradient(circle at 14% 8%, rgba(255,255,255,.74), transparent 24rem),
+    radial-gradient(circle at 86% 12%, rgba(192,225,245,.42), transparent 30rem),
+    linear-gradient(135deg, #f7eef4 0%, #eef4f8 46%, #e7f2f9 100%) !important;
+}
+
+html.askuary-theme-light body.starport-home::before {
+  opacity: .18 !important;
+}
+
+/* 摄影、碎念、归档与文章/馆藏使用同样清晰的 API 图片层。 */
+html.askuary-theme-light body:is(
+  .photos-rich,.starport-signals,.archive-rich-page
+) .home-bg {
+  display: block !important;
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
+}
+
+html.askuary-theme-light body:is(
+  .photos-rich,.starport-signals,.archive-rich-page
+) .home-bg-img {
+  filter: saturate(1.02) brightness(1) !important;
+}
+
+/* 删除这些页面历史主题额外叠加的灰雾伪元素。 */
+html.askuary-theme-light body.photos-rich::before,
+html.askuary-theme-light body.starport-signals::after,
+html.askuary-theme-light body.archive-rich-page::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  opacity: 0 !important;
+}
+
+/* 摄影卡片最终布局：卡片自身负责高度，文字永远留在边界内。 */
+html body.photos-rich .pr-albums {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)) !important;
+  grid-auto-flow: row !important;
+  align-items: stretch !important;
+  gap: 18px !important;
+}
+
+html body.photos-rich .pr-album,
+html body.photos-rich .pr-album[class*="pr-album--"] {
+  min-width: 0 !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  height: auto !important;
+  grid-column: auto !important;
+  grid-row: auto !important;
+  display: grid !important;
+  grid-template-rows: auto auto !important;
+  overflow: hidden !important;
+}
+
+html body.photos-rich .pr-album-cover {
+  width: 100% !important;
+  min-height: 0 !important;
+  aspect-ratio: 4 / 3 !important;
+}
+
+html body.photos-rich .pr-album-body {
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 12px 10px 13px !important;
+  overflow: hidden !important;
+}
+
+html body.photos-rich .pr-album-title,
+html body.photos-rich .pr-album-count,
+html body.photos-rich .pr-album-bubble {
+  max-width: 100% !important;
+  overflow-wrap: anywhere !important;
+}
+
+html body.photos-rich .pr-album-bubble {
+  display: -webkit-box !important;
+  overflow: hidden !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: 2 !important;
+}
+
+/* 相册详情：不用白底白字；照片和题注共同构成一个完整卡片。 */
+html body.photos-rich .pr-polaroid-grid {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)) !important;
+  gap: 16px !important;
+}
+
+html body.photos-rich .pr-polaroid {
+  min-width: 0 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+html body.photos-rich .pr-polaroid-caption,
+html body.photos-rich .pr-polaroid-date {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow-wrap: anywhere !important;
+  opacity: 1 !important;
+}
+
+html.askuary-theme-dark body.photos-rich .pr-polaroid {
+  color: #eaf7ff !important;
+  background: #0a1728 !important;
+  border: 1px solid #263b50 !important;
+  box-shadow: 4px 4px 0 #020713 !important;
+}
+
+html.askuary-theme-dark body.photos-rich .pr-polaroid-caption {
+  color: #eef9ff !important;
+  -webkit-text-fill-color: #eef9ff !important;
+}
+
+html.askuary-theme-dark body.photos-rich .pr-polaroid-date {
+  color: #9fc4d8 !important;
+  -webkit-text-fill-color: #9fc4d8 !important;
+}
+
+html.askuary-theme-light body.photos-rich .pr-polaroid {
+  color: #183047 !important;
+  background: #f7fafb !important;
+  border: 1px solid #b8c8d3 !important;
+  box-shadow: 4px 4px 0 rgba(20, 42, 60, .2) !important;
+}
+
+html.askuary-theme-light body.photos-rich .pr-polaroid-caption {
+  color: #183047 !important;
+  -webkit-text-fill-color: #183047 !important;
+}
+
+html.askuary-theme-light body.photos-rich .pr-polaroid-date {
+  color: #506a7e !important;
+  -webkit-text-fill-color: #506a7e !important;
+}
+
+@media (max-width: 700px) {
+  html body.photos-rich .pr-albums {
+    grid-template-columns: 1fr !important;
+  }
+
+  html body.photos-rich .pr-album-cover {
+    aspect-ratio: 16 / 10 !important;
+  }
+
+  html body.photos-rich .pr-polaroid-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+  }
+}
+
+@media (max-width: 430px) {
+  html body.photos-rich .pr-polaroid-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* 街机页：API 风景只做页面背景，街机内容收进独立游戏机框。 */
+html body.games-pixel-page .home-bg {
+  display: block !important;
+  opacity: 1 !important;
+  image-rendering: auto !important;
+}
+
+html body.games-pixel-page .home-bg-img {
+  filter: saturate(1.04) brightness(.68) !important;
+  image-rendering: auto !important;
+}
+
+html body.games-pixel-page .home-bg-veil {
+  background: rgba(3, 10, 20, .42) !important;
+}
+
+html body.games-pixel-page .gp-frame {
+  position: relative !important;
+  z-index: 1 !important;
+  width: min(1040px, calc(100% - 24px)) !important;
+  min-height: calc(100dvh - var(--ask-nav-safe-top, 86px) - 28px) !important;
+  margin: var(--ask-nav-safe-top, 86px) auto 28px !important;
+  border: 4px solid #020713 !important;
+  overflow: hidden !important;
+  background: #05060c !important;
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, .78) !important;
+}
+
+html body.games-pixel-page .gp-stage {
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  transform: none !important;
+  border: 0 !important;
+  overflow: hidden !important;
+  background: #05060c !important;
+}
+
+html body.games-pixel-page .gp-shell {
+  position: relative !important;
+  z-index: 1 !important;
+  width: 100% !important;
+  min-height: inherit !important;
+  margin: 0 !important;
+  padding: 18px !important;
+  border: 0 !important;
+  background: rgba(5, 15, 29, .72) !important;
+  box-shadow: none !important;
+}
+
+html body.games-pixel-page .gp-screen-wrap {
+  border: 4px solid #020713 !important;
+  box-shadow: 5px 5px 0 #020713 !important;
+}
+
+html body.games-pixel-page :where(.fp-subpage-legal,.home-hub-footer,.site-legal) {
+  position: relative !important;
+  width: min(720px, 100%) !important;
+  max-width: 720px !important;
+  margin: 18px auto 0 !important;
+  box-sizing: border-box !important;
+}
+
+html body.games-pixel-page .site-legal {
+  min-height: 0 !important;
+  padding: 7px 10px !important;
+  background: rgba(4, 13, 25, .94) !important;
+  border: 3px solid #020713 !important;
+  box-shadow: 3px 3px 0 #020713 !important;
+}
+
+/* 全站迷你电台统一成方正设备坞。 */
+html body .mini-radio {
+  border: 2px solid #020713 !important;
+  border-radius: 2px !important;
+  background: rgba(8, 18, 34, .96) !important;
+  box-shadow: 3px 3px 0 #020713 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #eaf7ff !important;
+}
+
+html body .mini-radio :where(.mini-radio-btn,.mini-radio-dock) {
+  border: 2px solid #020713 !important;
+  border-radius: 0 !important;
+  background: #121828 !important;
+  color: #dff5ff !important;
+  box-shadow: 1px 1px 0 #020713 !important;
+}
+
+html body .mini-radio-disc {
+  border: 2px solid #020713 !important;
+  border-radius: 0 !important;
+  box-shadow: 2px 2px 0 #020713 !important;
+  background:
+    linear-gradient(135deg, rgba(8, 28, 48, 0.96), rgba(4, 14, 28, 0.98)) !important;
+}
+
+html body .mini-radio-disc img {
+  filter: saturate(0.82) contrast(1.05);
+}
+
+html body .mini-radio.is-collapsed .mini-radio-disc img {
+  filter: saturate(0.35) contrast(1.1) brightness(0.72) !important;
+}
+
+html body .mini-radio.is-playing {
+  border-color: #79d9ff !important;
+}
+
+html body .mini-radio-dock:hover,
+html body .mini-radio-btn:hover {
+  color: #041018 !important;
+  background: #79d9ff !important;
+}
+
+html body .mini-radio :where(.mini-radio-title,.mini-radio-artist,.mini-radio-time) {
+  color: #eaf7ff !important;
+  -webkit-text-fill-color: #eaf7ff !important;
+}
+
+/* 主页深色像素面板的正文不能再沿用低对比蓝色。 */
+html body.starport-home .hr-panel :where(
+  .hr-panel-head h2,.hr-notice-title,.hr-notice-body,.hr-notice-date,
+  .hr-vinyl-title,.hr-vinyl-artist,.hr-vinyl-count
+) {
+  color: #eaf7ff !important;
+  -webkit-text-fill-color: #eaf7ff !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+
+html body.starport-home .hr-panel :where(.hr-panel-code,.hr-notice-tag) {
+  color: #72d8ff !important;
+  -webkit-text-fill-color: #72d8ff !important;
+}
+
+html body.starport-home .hr-panel--music :where(
+  .hr-vinyl-badge,.hr-vinyl-btn
+) {
+  border: 2px solid #020713 !important;
+  border-radius: 2px !important;
+  background: #17263a !important;
+  color: #eaf7ff !important;
+  box-shadow: 2px 2px 0 #020713 !important;
+  font-family: var(--ask-pixel-font, "Zpix", monospace) !important;
+}
+
+html body.starport-home .hr-panel--music .hr-vinyl-btn--play {
+  background: #ffe566 !important;
+  color: #041018 !important;
+}
+
+html body.starport-home .hr-panel--music .hr-vinyl-progress input[type="range"] {
+  accent-color: #72d8ff !important;
+}

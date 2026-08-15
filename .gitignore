@@ -1,3 +1,7 @@
+# Secrets
+.env
+.env.local
+
 # Logs
 logs
 *.log
@@ -14,11 +18,19 @@ dist-ssr
 .vscode/*
 !.vscode/extensions.json
 .idea
+.agents/
+.cursor/
 *.local
 
 # OS
 .DS_Store
 Thumbs.db
+
+# 临时抓取 / 调试产物
+_nav-dump/
+.tmp-mobile/
+scripts/__pycache__/
+*.pyc
 
 # 生成的文章页与索引（由 content:build 产出）
 blog/*/
@@ -28,4 +40,28 @@ public/data/posts/
 public/data/posts-index.json
 public/data/journal/
 public/data/journal-index.json
+public/data/photowall-index.json
+public/photowall/
+public/uploads/
 
+# 摄影原图（构建时生成压缩版到 public/photowall）
+content/photowall/**
+!content/photowall/photos.json
+!content/photowall/**/.gitkeep
+
+# 文章配图原件（构建时复制到 public/uploads；与摄影墙分开上传）
+content/uploads/**
+!content/uploads/README.md
+!content/uploads/**/.gitkeep
+
+# 本地工具与视频备份
+.tools/
+tools/
+public/media/*.orig.mp4
+
+# 本地临时目录
+.tmp/
+work/
+.asset-work/
+*.zip
+modular_scifi_megakitstandard.zip

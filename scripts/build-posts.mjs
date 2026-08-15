@@ -3,6 +3,9 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
 import { marked } from 'marked';
+import { formatFrontmatterDate } from './lib/format-date.mjs';
+import { pickCoverFromContent } from './lib/cover.mjs';
+import { preprocessMdPlugins } from './lib/md-plugins.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const postsSrcDir = path.join(root, 'content', 'posts');
@@ -15,14 +18,47 @@ function slugify(name) {
   return name.replace(/\.md$/i, '');
 }
 
-function postHtmlTemplate(slug) {
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('"', '&quot;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;');
+}
+
+function absoluteUrl(value) {
+  if (!value) return '';
+  try {
+    return new URL(String(value), 'https://www.askuary.cn').href;
+  } catch {
+    return '';
+  }
+}
+
+function postHtmlTemplate(meta) {
+  const { slug, title, summary, cover } = meta;
+  const pageTitle = title.toUpperCase().includes('ASKUARY') ? title : `${title} · ASKUARY`;
+  const description = summary || `${title} — ASKUARY`;
+  const canonical = `https://www.askuary.cn/blog/${encodeURIComponent(slug)}/`;
+  const image = absoluteUrl(cover);
   return `<!doctype html>
 <html lang="zh-CN" class="footprint-subpage-html">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#05060a" />
-    <title>文章 · ASKUARY</title>
+    <meta name="description" content="${escapeHtml(description)}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="ASKUARY" />
+    <meta property="og:title" content="${escapeHtml(pageTitle)}" />
+    <meta property="og:description" content="${escapeHtml(description)}" />
+    <meta property="og:url" content="${canonical}" />
+    ${image ? `<meta property="og:image" content="${escapeHtml(image)}" />` : ''}
+    <meta name="twitter:card" content="${image ? 'summary_large_image' : 'summary'}" />
+    <meta name="twitter:title" content="${escapeHtml(pageTitle)}" />
+    <meta name="twitter:description" content="${escapeHtml(description)}" />
+    <title>${escapeHtml(pageTitle)}</title>
+    <link rel="canonical" href="${canonical}" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body class="fp-about-page fp-blog-page" data-post-slug="${slug}">
@@ -30,7 +66,7 @@ function postHtmlTemplate(slug) {
     <canvas id="fpStars" class="fp-stars-canvas" aria-hidden="true"></canvas>
 
     <main class="fp-about fp-blog fp-blog-post" aria-labelledby="postTitle">
-      <a class="fp-about-back" href="../../blog/">← 返回博客</a>
+      <a class="fp-about-back" href="/">返回宇宙门户</a>
       <article class="fp-blog-article">
         <header class="fp-blog-post-header">
           <time class="fp-blog-date" id="postDate"></time>
@@ -39,8 +75,13 @@ function postHtmlTemplate(slug) {
         </header>
         <div class="fp-blog-prose" id="postContent"></div>
       </article>
+      <section class="fp-friend-comments" id="postComments" aria-label="评论区"></section>
       <nav class="fp-about-links" id="postLinks" aria-label="相关链接"></nav>
     </main>
+
+    <footer class="fp-subpage-legal" aria-label="备案信息">
+      <div id="pageLegal" class="fp-portal-legal"></div>
+    </footer>
 
     <div id="bootError" hidden></div>
     <script type="module" src="/src/pages/blog/post.ts"></script>
@@ -49,14 +90,18 @@ function postHtmlTemplate(slug) {
 `;
 }
 
+
+
 function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true });
 }
 
 function cleanGeneratedBlogDirs() {
   if (!fs.existsSync(blogDir)) return;
+  const preserve = new Set(['archive', 'view']);
   for (const entry of fs.readdirSync(blogDir, { withFileTypes: true })) {
     if (!entry.isDirectory()) continue;
+    if (preserve.has(entry.name)) continue;
     const target = path.join(blogDir, entry.name, 'index.html');
     if (fs.existsSync(target)) {
       fs.rmSync(path.join(blogDir, entry.name), { recursive: true, force: true });
@@ -78,23 +123,25 @@ function buildPosts() {
     const { data, content } = matter(raw);
 
     const title = String(data.title || slug).trim();
-    const date = String(data.date || '').trim();
+    const date = formatFrontmatterDate(data.date);
     const summary = String(data.summary || '').trim();
     const tags = Array.isArray(data.tags) ? data.tags.map(String) : [];
-    const html = marked.parse(content);
+    const prepared = preprocessMdPlugins(content, marked);
+    let html = String(marked.parse(prepared));
+    const cover = pickCoverFromContent(content, html, data.cover);
 
-    const meta = { slug, title, date, summary, tags };
+    const meta = { slug, title, date, summary, tags, ...(cover ? { cover } : {}) };
     index.push(meta);
 
     fs.writeFileSync(
       path.join(dataOutDir, `${slug}.json`),
-      JSON.stringify({ ...meta, html }, null, 2),
+      JSON.stringify({ ...meta, markdown: content, html }, null, 2),
       'utf8',
     );
 
     const slugDir = path.join(blogDir, slug);
     ensureDir(slugDir);
-    fs.writeFileSync(path.join(slugDir, 'index.html'), postHtmlTemplate(slug), 'utf8');
+    fs.writeFileSync(path.join(slugDir, 'index.html'), postHtmlTemplate(meta), 'utf8');
   }
 
   index.sort((a, b) => (b.date || '').localeCompare(a.date || ''));

@@ -1,0 +1,279 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum ApplicationStatus {
+  pending
+  approved
+  rejected
+}
+
+enum ApplicationType {
+  new
+  update
+}
+
+enum CommentStatus {
+  pending
+  published
+}
+
+model FriendApplication {
+  id           String            @id @default(cuid())
+  name         String
+  url          String
+  avatar       String?
+  description  String?
+  screenshot   String?
+  email        String?
+  type         ApplicationType   @default(new)
+  status       ApplicationStatus @default(pending)
+  rejectReason String?
+  reviewedAt   DateTime?
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  @@index([status])
+  @@index([name])
+  @@index([url])
+}
+
+model Comment {
+  id        String        @id @default(cuid())
+  path      String
+  author    String
+  email     String?
+  website   String?
+  content   String
+  status    CommentStatus @default(pending)
+  createdAt DateTime      @default(now())
+
+  @@index([path])
+  @@index([status])
+}
+
+enum ContentKind {
+  journal
+  blog
+}
+
+enum ContentStatus {
+  draft
+  published
+}
+
+model ContentPost {
+  id          String        @id @default(cuid())
+  kind        ContentKind
+  slug        String
+  title       String
+  summary     String        @default("")
+  aiSummary   String        @default("")
+  aiSelfIntro String        @default("")
+  aiOutline   String        @default("")
+  markdown    String
+  html        String
+  cover       String        @default("")
+  tagsJson    String        @default("[]")
+  status      ContentStatus @default(draft)
+  date        String
+  publishedAt DateTime?
+  /** 后台手动编辑过：一键导入即使勾选覆盖也不会改写 */
+  manualEdit  Boolean       @default(false)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@unique([kind, slug])
+  @@index([kind, status])
+}
+
+/** 摄影相册元数据（覆盖静态 photowall-index） */
+model PhotoAlbum {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  label       String   @default("")
+  description String   @default("")
+  theme       String   @default("ocean")
+  cover       String   @default("")
+  date        String   @default("")
+  storyJson   String   @default("{}")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  photos PhotoAsset[]
+}
+
+/** 单张照片元数据 / 故事（覆盖静态索引） */
+model PhotoAsset {
+  id        String  @id @default(cuid())
+  photoId   String  @unique
+  albumKey  String
+  file      String  @default("")
+  title     String  @default("")
+  date      String  @default("")
+  time      String  @default("")
+  location  String  @default("")
+  category  String  @default("")
+  note      String  @default("")
+  device    String  @default("")
+  lat       Float?
+  lng       Float?
+  src       String  @default("")
+  thumb     String  @default("")
+  sortTs    Float   @default(0)
+  storyJson String  @default("{}")
+  /** 后台删除：前台隐藏；同步不会复活 */
+  hidden    Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  album PhotoAlbum @relation(fields: [albumKey], references: [key], onDelete: Cascade)
+
+  @@index([albumKey])
+  @@index([date])
+}
+
+/** 宇宙门户静态配置覆盖（光点 / 流星 / 恒星导航等） */
+model PortalConfig {
+  key       String   @id
+  json      String   @default("[]")
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
+/**
+ * 内容抑制墓碑：后台删除后压住同 slug 静态稿，避免前台「删了还在」
+ * 草稿不写墓碑（直接查 ContentPost.status=draft）
+ */
+model ContentSuppress {
+  id        String      @id @default(cuid())
+  kind      ContentKind
+  slugNorm  String
+  slug      String
+  createdAt DateTime    @default(now())
+
+  @@unique([kind, slugNorm])
+  @@index([kind])
+}
+
+enum LibraryKind {
+  book
+  novel
+  manga
+  game
+  anime
+  movie
+  drama
+  variety
+}
+
+enum LibraryStatus {
+  reading
+  finished
+  planned
+  dropped
+}
+
+/** 馆藏条目（后台 CRUD；前台有数据后以 DB 为准） */
+model LibraryItem {
+  id              String        @id @default(cuid())
+  slug            String        @unique
+  title           String
+  author          String        @default("")
+  type            LibraryKind   @default(book)
+  status          LibraryStatus @default(planned)
+  cover           String        @default("")
+  progress        String        @default("")
+  progressCurrent Int           @default(0)
+  progressTotal   Int           @default(0)
+  rating          Float         @default(0)
+  year            String        @default("")
+  platform        String        @default("")
+  link            String        @default("")
+  genre           String        @default("")
+  summary         String        @default("")
+  thoughts        String        @default("")
+  quotesJson      String        @default("[]")
+  takeawaysJson   String        @default("[]")
+  updatedLabel    String        @default("")
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([type, status])
+  @@index([updatedAt])
+}
+
+enum ArcadeGalleryStatus {
+  pending
+  published
+  rejected
+}
+
+/** 街机玩家画廊（截图 + 心得；公开提交 → 后台审核） */
+model ArcadeGalleryItem {
+  id           String              @id @default(cuid())
+  gameId       String
+  nick         String
+  note         String              @default("")
+  kind         String              @default("run")
+  /** 相对 API 的媒体路径，如 /api/arcade/media/xxx.webp */
+  imageUrl     String              @default("")
+  status       ArcadeGalleryStatus @default(pending)
+  rejectReason String?
+  /** SHA-256(ip|ua|salt) 截断，用于限流/追溯，不存明文 IP */
+  clientHash   String              @default("")
+  createdAt    DateTime            @default(now())
+  reviewedAt   DateTime?
+
+  @@index([gameId, status])
+  @@index([status, createdAt])
+}
+
+/** 街机评分（每客户端每游戏一票） */
+model ArcadeRating {
+  id         String   @id @default(cuid())
+  gameId     String
+  score      Int
+  clientHash String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([gameId, clientHash])
+  @@index([gameId])
+}
+
+/**
+ * 街机排行榜：前台同步本地游玩时长
+ * clientHash = SHA-256(clientKey + salt)，防冒名；服务端限制单次增量
+ */
+model ArcadeScore {
+  id         String   @id @default(cuid())
+  gameId     String
+  nick       String   @default("训练家")
+  playMs     Int      @default(0)
+  sessions   Int      @default(0)
+  badges     Int      @default(0)
+  clientHash String
+  hidden     Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([gameId, clientHash])
+  @@index([gameId, playMs])
+  @@index([hidden])
+}
+
+/** 街机访客昵称：同 IP 跨设备共用，避免重复弹姓名提示 */
+model ArcadeVisitor {
+  id        String   @id @default(cuid())
+  /** SHA-256(ip|salt) 截断，不存明文 IP */
+  ipHash    String   @unique
+  nick      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

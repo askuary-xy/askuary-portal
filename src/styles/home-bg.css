@@ -1,0 +1,43 @@
+/* 浅色枢纽页全屏风景背景（碎念 / 摄影 / 归档 / 文章等） */
+.home-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.home-bg-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  transform: scale(1.04);
+  filter: saturate(1.08) brightness(1.02);
+}
+
+.home-bg-veil {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(245, 248, 255, 0.42) 0%, rgba(240, 246, 255, 0.55) 42%, rgba(245, 240, 255, 0.78) 100%),
+    radial-gradient(ellipse 70% 50% at 10% 0%, rgba(170, 180, 255, 0.28), transparent 55%),
+    radial-gradient(ellipse 60% 45% at 95% 15%, rgba(120, 180, 255, 0.3), transparent 50%);
+}
+
+.home-bg-glow {
+  position: absolute;
+  inset: auto -10% -20% -10%;
+  height: 45%;
+  background:
+    radial-gradient(ellipse 50% 60% at 30% 80%, rgba(175, 185, 255, 0.22), transparent 60%),
+    radial-gradient(ellipse 45% 55% at 75% 90%, rgba(130, 190, 255, 0.2), transparent 55%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-bg-img {
+    transform: none;
+  }
+}

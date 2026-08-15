@@ -1,0 +1,356 @@
+/* 星港设施区：资料舱、训练舱、记忆回放舱 */
+
+body.starport-facility {
+  --fc-cyan: #79d9ff;
+  --fc-gold: #f0cf86;
+  --fc-ink: #edf6ff;
+  --fc-muted: #9eb3c9;
+  --fc-line: rgba(121,217,255,.19);
+  --fc-panel: rgba(5,15,29,.84);
+}
+
+/* 资料舱保留漂浮馆藏交互，只把 HUD 统一成星港语言。 */
+body.starport-library .lib-scifi-nav {
+  top: max(.85rem, env(safe-area-inset-top));
+  left: 50%;
+  width: min(1080px, calc(100% - 2rem));
+  transform: translateX(-50%);
+  padding: .6rem .75rem;
+  border: 2px solid #020713;
+  border-radius: 2px;
+  background: rgba(4, 12, 25, .94);
+  box-shadow: 3px 3px 0 #020713;
+  backdrop-filter: none;
+}
+
+body.starport-library .lib-scifi-logo-mark {
+  width: 1.7rem;
+  height: 1.7rem;
+  border: 2px solid #020713;
+  border-radius: 0;
+  background: url("/brand/avatar.png") center/cover;
+  box-shadow: 2px 2px 0 #020713;
+}
+
+body.starport-library .lib-scifi-logo-text {
+  color: var(--fc-ink);
+  font: 400 .58rem/1 var(--px-font-cn, "Noto Sans SC", sans-serif);
+  letter-spacing: .13em;
+  text-shadow: none;
+}
+
+body.starport-library .lib-scifi-logo-text::after {
+  content: " · 资料舱";
+  color: var(--fc-cyan);
+}
+
+body.starport-library .lib-scifi-back,
+body.starport-library .lib-scifi-cat {
+  border: 2px solid #020713;
+  border-radius: 0;
+  background: #121828;
+  box-shadow: 2px 2px 0 #020713;
+  color: #b8d1e2;
+  font: 400 .58rem/1 var(--px-font-cn, "Noto Sans SC", sans-serif);
+  text-shadow: none;
+  transition: transform 120ms ease, background-color 140ms ease, box-shadow 120ms ease, color 140ms ease;
+}
+
+body.starport-library .lib-scifi-back:hover,
+body.starport-library .lib-scifi-cat:hover {
+  color: #eff8ff;
+  background: #1a2848;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #020713;
+}
+
+body.starport-library .lib-scifi-cat.is-active {
+  border-color: var(--fc-gold);
+  background: rgba(240, 207, 134, .18);
+  color: var(--fc-gold);
+}
+
+body.starport-library .lib-scifi-status,
+body.starport-library .lib-scifi-legal .site-legal {
+  border: 2px solid #020713;
+  border-radius: 2px;
+  background: rgba(4, 12, 25, .92);
+  box-shadow: 2px 2px 0 #020713;
+}
+
+body.starport-library .lib-scifi-modal-backdrop {
+  background: rgba(1, 5, 12, .88);
+  backdrop-filter: none;
+}
+
+body.starport-library .lib-scifi-modal-card {
+  border: 2px solid #020713;
+  border-radius: 2px;
+  background: rgba(7, 18, 34, .96);
+  box-shadow: 5px 5px 0 #020713;
+}
+
+body.starport-library .lib-scifi-modal-close,
+body.starport-library .lib-scifi-detail-stat,
+body.starport-library .lib-scifi-detail-link {
+  border: 2px solid #020713;
+  border-radius: 0;
+  box-shadow: 2px 2px 0 #020713;
+  background: #121828;
+}
+
+/* 训练舱刻意保留像素游戏语言，外围导航与容器接入星港。 */
+body.starport-training .px-nav {
+  top: max(.85rem, env(safe-area-inset-top));
+  width: min(1080px, calc(100% - 2rem));
+  border: 2px solid #020713;
+  border-radius: 2px;
+  background: rgba(4, 12, 25, .94);
+  box-shadow: 3px 3px 0 #020713;
+  backdrop-filter: none;
+  image-rendering: auto;
+}
+
+body.starport-training .px-nav-logo-mark {
+  border: 2px solid #020713;
+  border-radius: 0;
+  background: url("/brand/avatar.png") center/cover;
+  box-shadow: 2px 2px 0 #020713;
+}
+
+body.starport-training .gp-shell {
+  padding-top: 6.4rem;
+}
+
+body.starport-training .gp-scanlines {
+  opacity: .2;
+}
+
+/* 记忆回放舱 */
+body.starport-replay {
+  color: var(--fc-ink);
+  background: #030812;
+}
+
+body.starport-replay::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(rgba(2,8,18,.42), rgba(2,8,18,.72));
+}
+
+body.starport-replay #photoStoryRoot {
+  position: relative;
+  z-index: 2;
+}
+
+html:has(body.starport-replay) {
+  background: #030812;
+}
+
+body.starport-replay .px-nav {
+  top: max(.85rem, env(safe-area-inset-top));
+  width: min(1080px, calc(100% - 2rem));
+  border: 2px solid #020713;
+  border-radius: 2px;
+  background: rgba(4, 12, 25, .94);
+  box-shadow: 3px 3px 0 #020713;
+  backdrop-filter: none;
+  image-rendering: auto;
+}
+
+body.starport-replay .px-nav-logo-mark {
+  width: 1.7rem;
+  height: 1.7rem;
+  border: 2px solid #020713;
+  border-radius: 0;
+  background: url("/brand/avatar.png") center/cover;
+  box-shadow: 2px 2px 0 #020713;
+}
+
+body.starport-replay .px-nav-logo-text {
+  color: var(--fc-ink);
+  font: 400 .58rem/1 var(--px-font-cn, sans-serif);
+  letter-spacing: .14em;
+  text-shadow: none;
+}
+
+body.starport-replay .px-nav-back {
+  border: 2px solid #020713;
+  border-radius: 0;
+  background: #121828;
+  box-shadow: 2px 2px 0 #020713;
+  color: var(--fc-muted);
+  font: 400 .58rem/1 var(--px-font-cn, "Noto Sans SC", sans-serif);
+}
+
+body.starport-replay .ask-hero {
+  min-height: clamp(20rem,48vw,31rem);
+  background: #071426;
+}
+
+body.starport-replay .ask-hero-media img {
+  filter: saturate(.82) brightness(.7);
+}
+
+body.starport-replay .ask-hero-veil {
+  background:
+    linear-gradient(180deg, rgba(2,8,18,.18), rgba(2,8,18,.9)),
+    linear-gradient(90deg, rgba(2,8,18,.55), transparent 68%);
+}
+
+body.starport-replay .ask-hero-wave {
+  display: none;
+}
+
+body.starport-replay .ask-hero-inner,
+body.starport-replay .ask-read-main {
+  width: min(800px, calc(100% - 2rem));
+}
+
+body.starport-replay .ask-hero-title {
+  font: 750 clamp(1.9rem,5vw,3.1rem)/1.2 var(--px-font-cn, "Noto Sans SC", sans-serif);
+  letter-spacing: -.03em;
+}
+
+body.starport-replay .ask-read-main {
+  margin-top: -2.2rem;
+}
+
+body.starport-replay .ask-hero-back,
+body.starport-replay .ask-hero-tag,
+body.starport-replay .ask-hero-meta-item {
+  border: 2px solid #020713;
+  border-radius: 0;
+  background: rgba(6, 20, 38, .88);
+  box-shadow: 2px 2px 0 #020713;
+  backdrop-filter: none;
+}
+
+body.starport-replay .ask-read-card,
+body.starport-replay .ask-read-comments,
+body.starport-replay .fp-photo-story-figure,
+body.starport-replay .fp-photo-story-intro,
+body.starport-replay .fp-photo-story-meta-item,
+body.starport-replay .fp-photo-story-music,
+body.starport-replay .fp-photo-story-author,
+body.starport-replay .fp-photo-story-nav-link {
+  border: 2px solid #020713 !important;
+  border-radius: 2px !important;
+  background: rgba(5, 15, 29, .96) !important;
+  box-shadow: 3px 3px 0 #020713 !important;
+  color: #c7d7e4 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+body.starport-replay .ask-ai-card {
+  border: 2px solid #020713;
+  border-radius: 2px;
+  background: rgba(9, 28, 48, .92);
+  box-shadow: 3px 3px 0 #020713;
+}
+
+body.starport-replay .ask-ai-title,
+body.starport-replay .fp-photo-story-author h2,
+body.starport-replay .fp-photo-story-meta-item dd {
+  color: var(--fc-ink);
+}
+
+body.starport-replay .ask-ai-body,
+body.starport-replay .ask-ai-sub,
+body.starport-replay .fp-photo-story-intro p,
+body.starport-replay .fp-photo-story-author p,
+body.starport-replay .fp-photo-story-meta-item dt {
+  color: var(--fc-muted);
+}
+
+body.starport-replay .ask-ai-btn {
+  border: 2px solid #020713 !important;
+  border-radius: 0 !important;
+  background: #121828 !important;
+  box-shadow: 2px 2px 0 #020713 !important;
+  color: #abd9ef;
+  font-family: var(--px-font-cn, "Noto Sans SC", sans-serif);
+  transition: transform 120ms ease, background-color 140ms ease, box-shadow 120ms ease, color 140ms ease;
+}
+
+body.starport-replay .ask-ai-btn:hover {
+  color: #041018 !important;
+  background: var(--fc-cyan) !important;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #020713 !important;
+}
+
+body.starport-replay .ask-ai-btn.is-active {
+  color: #041018 !important;
+  background: var(--fc-gold) !important;
+}
+
+body.starport-replay .fp-photo-story-nav-link:hover {
+  color: #041018 !important;
+  background: var(--fc-cyan) !important;
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 #020713 !important;
+}
+
+body.starport-replay .fp-photo-story-music iframe {
+  border: 2px solid #020713 !important;
+  border-radius: 0 !important;
+}
+
+body.starport-replay .ask-read-page .home-hub-footer,
+body.starport-replay.ask-read-page .home-hub-footer {
+  border-radius: 0 !important;
+}
+
+/* 记忆回放舱评论区 */
+body.starport-facility .fp-friend-comments,
+body.starport-facility .ask-read-comments {
+  border: 2px solid #020713 !important;
+  border-radius: 2px !important;
+  background: rgba(5, 15, 29, .96) !important;
+  box-shadow: 4px 4px 0 #020713 !important;
+}
+
+body.starport-facility .fp-friend-field input,
+body.starport-facility .fp-friend-field textarea {
+  border: 2px solid #020713 !important;
+  border-radius: 0 !important;
+  background: #030d1a !important;
+  color: #edf8ff !important;
+  box-shadow: 2px 2px 0 #020713 !important;
+}
+
+body.starport-facility .fp-flink-btn,
+body.starport-facility .fp-emoji-toggle,
+body.starport-facility .fp-comment-action {
+  border: 2px solid #020713 !important;
+  border-radius: 0 !important;
+  background: #121828 !important;
+  box-shadow: 2px 2px 0 #020713 !important;
+  color: #bdd5e6 !important;
+}
+
+body.starport-facility .fp-flink-btn.is-primary,
+body.starport-facility .fp-flink-btn:hover {
+  color: #041018 !important;
+  background: var(--fc-cyan) !important;
+}
+
+@media (max-width: 720px) {
+  body.starport-library .lib-scifi-nav,
+  body.starport-training .px-nav,
+  body.starport-replay .px-nav {
+    top: .5rem;
+    width: calc(100% - 1rem);
+    border-radius: 2px;
+  }
+
+  body.starport-replay .ask-hero-inner,
+  body.starport-replay .ask-read-main {
+    width: calc(100% - 1rem);
+  }
+}

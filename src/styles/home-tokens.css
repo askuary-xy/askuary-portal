@@ -1,0 +1,30 @@
+/* ASKUARY — 柔和粉蓝白（降亮度） */
+
+:root {
+  --child-primary: #d489b0;
+  --child-primary-soft: rgba(212, 137, 176, 0.14);
+  --child-secondary: #8eb8d8;
+  --child-accent: #7aafd4;
+  --child-accent-light: #a8cce0;
+  --child-text: #4f4a60;
+  --child-text-muted: #6e687c;
+  --child-text-light: #8e8798;
+  --child-bg: #f2f4f8;
+  --child-bg-soft: #eef1f6;
+  --child-bg-glass: rgba(255, 255, 255, 0.48);
+  --child-bg-glass-strong: rgba(255, 255, 255, 0.64);
+  --child-border-glass: rgba(220, 215, 230, 0.65);
+  --child-border: rgba(170, 185, 210, 0.32);
+  --child-radius: 18px;
+  --child-radius-lg: 26px;
+  --child-shadow: 0 8px 24px rgba(140, 150, 175, 0.08);
+  --child-shadow-hover: 0 12px 28px rgba(180, 150, 180, 0.1);
+  --child-gradient: linear-gradient(135deg, #e8b0c8 0%, #f5f6f9 48%, #a8c8e0 100%);
+  --footer-bg-start: #f5f6f9;
+  --footer-bg-end: #eaf0f6;
+  --footer-text: #5f5870;
+  --footer-text-dim: #8e8798;
+  --footer-border: rgba(180, 185, 205, 0.35);
+  --home-max: 1080px;
+  --home-font: 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei UI', system-ui, sans-serif;
+}

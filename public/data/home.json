@@ -1,50 +1,140 @@
 {
   "title": "ASKUARY",
-  "tagline": "记录思考，探索次元",
-  "heroIntro": "这里是站点主页 — 文章、展示与日常更新。宇宙门户在另一处等你穿越回来。",
+  "tagline": "记录光影，探索次元",
+  "bio": "喜欢拍照、写一点日常，也喜欢把路过的光收进相册里。",
+  "heroIntro": "",
   "postsTitle": "最新文章",
-  "postsLimit": 12,
-  "empty": "尚无文章，内容正在路上。",
+  "postsLimit": 10,
+  "empty": "还没有文章。",
+  "waveTitle": "SIGNAL",
+  "waveLead": "站点里的小气氛",
+  "music": {
+    "source": "netease",
+    "playlistId": "8293029082",
+    "title": "次元电台",
+    "artist": "ASKUARY",
+    "skipTrial": true
+  },
+  "gallery": {
+    "title": "站点掠影",
+    "caption": "",
+    "url": "/photos/"
+  },
+  "notices": [
+    {
+      "tag": "NOTICE",
+      "title": "欢迎抵达 ASKUARY",
+      "date": "2026-07-24"
+    },
+    {
+      "tag": "UPDATE",
+      "title": "摄影故事可编辑",
+      "date": "2026-07-20",
+      "url": "/photos/"
+    }
+  ],
+  "waveLines": [
+    "欢迎来到 ASKUARY",
+    "今晚的星星也在偷看你的快门",
+    "像素伙伴在角落等你互动",
+    "黑洞另一侧，主页泡好了茶",
+    "迷路没关系，传送阵还亮着",
+    "次元波动平稳，适合随便逛逛",
+    "慢一点也没关系，宇宙不催人",
+    "友联卫星轨道正常，信号友好"
+  ],
+  "petLines": [
+    "喵…今天也要慢慢逛～",
+    "汪！欢迎穿越回来！",
+    "角落有光，也有我。",
+    "点我可以换一句废话，双击会吓一跳。",
+    "粉蓝天空，透气刚刚好。",
+    "黑洞那头泡好了茶。",
+    "别急，宇宙不催人。",
+    "我的小鱼干…去哪了…",
+    "换只宠物？悬停点 ⇄。",
+    "嘘——流星正在划过。",
+    "摸头在工具栏，食也在。",
+    "累了就收起我，右下角还能唤回。",
+    "每个页面我都会说点不一样的。",
+    "夜深了记得休息，白天再来逛。"
+  ],
+  "bgQuotes": [
+    "自信人生二百年，会当水击三千里。 —— 毛泽东",
+    "俱往矣，数风流人物，还看今朝。 —— 毛泽东",
+    "雄关漫道真如铁，而今迈步从头越。 —— 毛泽东",
+    "世上无难事，只要肯登攀。 —— 毛泽东",
+    "天若有情天亦老，人间正道是沧桑。 —— 毛泽东",
+    "长风破浪会有时，直挂云帆济沧海。 —— 李白",
+    "会当凌绝顶，一览众山小。 —— 杜甫",
+    "千磨万击还坚劲，任尔东西南北风。 —— 郑燮",
+    "宝剑锋从磨砺出，梅花香自苦寒来。",
+    "路漫漫其修远兮，吾将上下而求索。 —— 屈原",
+    "不积跬步，无以至千里。 —— 荀子",
+    "穷且益坚，不坠青云之志。 —— 王勃",
+    "山重水复疑无路，柳暗花明又一村。 —— 陆游",
+    "人生自古谁无死，留取丹心照汗青。 —— 文天祥",
+    "星光不问赶路人，时光不负有心人。",
+    "心有丘壑，目有星辰。",
+    "凡是过往，皆为序章。"
+  ],
+  "weather": {
+    "enabled": true,
+    "city": "上海",
+    "lat": 31.23,
+    "lng": 121.47
+  },
+  "themeDefault": "auto",
   "sections": [
     {
-      "heading": "两个入口",
-      "body": "从宇宙门户黑洞穿越会来到本页（站点主页）；背景「博客」恒星则进入宇宙·博客，两者内容独立。"
+      "heading": "关于本站",
+      "body": "从宇宙门户穿越黑洞会来到这一页。"
     }
   ],
   "showcases": [
     {
-      "title": "宇宙门户",
-      "desc": "粒子地球、导航恒星与黑洞穿越",
-      "url": "/",
+      "title": "摄影",
+      "url": "/photos/",
+      "icon": "camera"
+    },
+    {
+      "title": "碎念",
+      "url": "/shuoshuo/",
+      "icon": "archive"
+    },
+    {
+      "title": "文章",
+      "url": "/articles/",
+      "icon": "archive"
+    },
+    {
+      "title": "馆藏",
+      "url": "/library/",
+      "icon": "archive"
+    },
+    {
+      "title": "街机",
+      "url": "/games/",
       "icon": "portal"
     },
     {
-      "title": "宇宙·博客",
-      "desc": "深空风格的独立文章列表",
-      "url": "/blog/",
-      "icon": "blog"
-    },
-    {
-      "title": "关于",
-      "desc": "站点说明与链接",
-      "url": "/about/",
-      "icon": "about"
-    },
-    {
-      "title": "友联",
-      "desc": "绕地球运行的友站卫星",
-      "url": "/friends/",
-      "icon": "friends"
+      "title": "宇宙入口",
+      "url": "/",
+      "icon": "portal"
     }
   ],
   "nav": [
-    { "label": "宇宙门户", "url": "/" },
-    { "label": "宇宙博客", "url": "/blog/" },
-    { "label": "关于", "url": "/about/" },
-    { "label": "友联", "url": "/friends/" }
+    { "label": "主页", "url": "/home/" },
+    { "label": "摄影", "url": "/photos/" },
+    { "label": "碎念", "url": "/shuoshuo/" },
+    { "label": "文章", "url": "/articles/" },
+    { "label": "馆藏", "url": "/library/" },
+    { "label": "街机", "url": "/games/" },
+    { "label": "归档", "url": "/archive/" },
+    { "label": "宇宙", "url": "/" }
   ],
   "links": [
-    { "label": "返回宇宙门户", "url": "/" },
+    { "label": "宇宙入口", "url": "/", "icon": "portal" },
     { "label": "GitHub", "url": "https://github.com/askuary-xy/askuary-portal", "icon": "github" }
   ]
 }

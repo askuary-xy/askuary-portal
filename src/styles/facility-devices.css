@@ -1,0 +1,430 @@
+/* 栏目专属设备：共享视觉秩序，不共享同一套外壳。 */
+
+/* ── 文章：航行日志终端 ───────────────────────────── */
+body.starport-articles .home-main {
+  position: relative;
+  margin-top: 1rem;
+  margin-bottom: 2.5rem;
+  padding: 9.6rem clamp(1rem, 3vw, 2rem) 2rem;
+  border: 1px solid rgba(121, 217, 255, 0.24);
+  border-radius: 24px;
+  background:
+    linear-gradient(rgba(121, 217, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(121, 217, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(145deg, rgba(5, 16, 31, 0.96), rgba(8, 17, 35, 0.9));
+  background-size: 28px 28px, 28px 28px, auto;
+  box-shadow:
+    0 32px 80px rgba(0, 0, 0, 0.36),
+    inset 0 1px rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+
+body.starport-articles .home-main::before {
+  content: "ASKUARY / VOYAGE LOG CONSOLE                           LINK · STABLE";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  padding: 0 4.9rem 0 1rem;
+  border-bottom: 1px solid rgba(121, 217, 255, 0.18);
+  color: #8fcce7;
+  background: rgba(11, 25, 44, 0.94);
+  font: 650 0.66rem/1 var(--ask-tech-font, monospace);
+  letter-spacing: 0.12em;
+  white-space: pre;
+  overflow: hidden;
+}
+
+body.starport-articles .home-main::after {
+  content: "●  ●  ●";
+  position: absolute;
+  z-index: 2;
+  top: 0.82rem;
+  right: 1rem;
+  color: #ffd36a;
+  font-size: 0.62rem;
+  letter-spacing: 0.35rem;
+  text-shadow: -1.1rem 0 #79d9ff, -2.2rem 0 #ff8fb8;
+}
+
+body.starport-articles .ar-hero {
+  position: relative;
+  min-height: 180px;
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 2rem;
+  padding: 2rem !important;
+  border-radius: 14px !important;
+  background:
+    radial-gradient(circle at 82% 26%, rgba(121, 217, 255, 0.2), transparent 18%),
+    linear-gradient(112deg, rgba(10, 28, 49, 0.98), rgba(12, 17, 38, 0.75)) !important;
+}
+
+body.starport-articles .ar-hero::after {
+  content: "REC  00:42:17\A SECTOR  AS-09\A ARCHIVE  ONLINE";
+  position: absolute;
+  top: 1.35rem;
+  right: 1.5rem;
+  color: rgba(182, 221, 238, 0.72);
+  font: 600 0.64rem/1.8 var(--ask-tech-font, monospace);
+  letter-spacing: 0.12em;
+  text-align: right;
+  white-space: pre;
+}
+
+body.starport-articles .ar-list-head {
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(121, 217, 255, 0.16);
+}
+
+body.starport-articles .hr-posts {
+  gap: 1px;
+  padding: 1px;
+  border: 1px solid rgba(121, 217, 255, 0.14);
+  border-radius: 16px;
+  background: rgba(121, 217, 255, 0.12);
+  overflow: hidden;
+}
+
+body.starport-articles .hr-post {
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+body.starport-articles .hr-post::after {
+  content: "OPEN LOG ↗";
+  position: absolute;
+  right: 0.9rem;
+  bottom: 0.7rem;
+  color: rgba(121, 217, 255, 0.62);
+  font: 600 0.58rem/1 var(--ask-tech-font, monospace);
+  letter-spacing: 0.1em;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: 0.2s ease;
+}
+
+body.starport-articles .hr-post:hover::after {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── 摄影：光学取景器与底片工作台 ─────────────────── */
+body.photos-rich {
+  --camera-ink: #202630;
+  --camera-panel: rgba(242, 244, 246, 0.92);
+  background:
+    radial-gradient(circle at 20% 12%, rgba(127, 164, 187, 0.18), transparent 28%),
+    linear-gradient(155deg, #dfe3e6, #f2f0ed 58%, #d9dee3);
+}
+
+.photos-rich .pr-shell {
+  margin-top: 5.25rem;
+  margin-bottom: 2rem;
+  padding: 4.6rem clamp(0.8rem, 2vw, 1.35rem) 2rem;
+  border: 1px solid rgba(30, 38, 48, 0.22);
+  border-radius: 32px;
+  background:
+    linear-gradient(90deg, transparent 49.8%, rgba(30, 38, 48, 0.035) 50%, transparent 50.2%),
+    var(--camera-panel);
+  box-shadow:
+    0 25px 70px rgba(25, 35, 45, 0.2),
+    inset 0 1px #fff;
+}
+
+.photos-rich .pr-shell::before {
+  content: "ASKUARY OPTICAL DECK     ISO 200     1/250     F2.8";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3.1rem;
+  display: flex;
+  align-items: center;
+  padding: 0 1.25rem;
+  border-bottom: 1px solid rgba(30, 38, 48, 0.16);
+  color: #505b65;
+  font: 650 0.68rem/1 var(--ask-tech-font, monospace);
+  letter-spacing: 0.12em;
+  white-space: pre;
+  overflow: hidden;
+}
+
+.photos-rich .pr-shell::after {
+  content: "";
+  position: absolute;
+  top: 0.9rem;
+  right: 1.25rem;
+  width: 1.15rem;
+  height: 1.15rem;
+  border: 3px double #48545f;
+  border-radius: 50%;
+  box-shadow: -2rem 0 0 -0.32rem #d66575;
+}
+
+.photos-rich .pr-hero {
+  border-radius: 18px;
+  border: 8px solid #161c22;
+  outline: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 16px 36px rgba(20, 28, 35, 0.22);
+}
+
+.photos-rich .pr-hero::before,
+.photos-rich .pr-hero::after {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  inset: 1.1rem;
+  pointer-events: none;
+  background:
+    linear-gradient(#fff, #fff) 0 0 / 34px 2px no-repeat,
+    linear-gradient(#fff, #fff) 0 0 / 2px 34px no-repeat,
+    linear-gradient(#fff, #fff) 100% 0 / 34px 2px no-repeat,
+    linear-gradient(#fff, #fff) 100% 0 / 2px 34px no-repeat,
+    linear-gradient(#fff, #fff) 0 100% / 34px 2px no-repeat,
+    linear-gradient(#fff, #fff) 0 100% / 2px 34px no-repeat,
+    linear-gradient(#fff, #fff) 100% 100% / 34px 2px no-repeat,
+    linear-gradient(#fff, #fff) 100% 100% / 2px 34px no-repeat;
+  opacity: 0.72;
+}
+
+.photos-rich .pr-hero::after {
+  inset: 50% auto auto 50%;
+  width: 36px;
+  height: 36px;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  background:
+    linear-gradient(90deg, transparent 48%, #fff 48% 52%, transparent 52%),
+    linear-gradient(transparent 48%, #fff 48% 52%, transparent 52%);
+  opacity: 0.42;
+}
+
+.photos-rich .pr-section {
+  padding: 1rem 1.1rem 0.15rem;
+  border: 1px solid rgba(30, 38, 48, 0.14);
+  border-radius: 14px;
+  background: rgba(17, 25, 36, 0.9);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.05);
+}
+
+body.photos-rich .pr-section .pr-section-title {
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  color: #edf7ff !important;
+}
+
+body.photos-rich .pr-section .pr-section-sub,
+body.photos-rich .pr-section .pr-filter-count {
+  color: #b5c4d0;
+}
+
+.photos-rich .pr-tab,
+.photos-rich .pr-filter {
+  border-color: rgba(151, 196, 218, 0.18);
+  background: rgba(102, 139, 158, 0.12);
+  color: #d3e2ea;
+}
+
+.photos-rich .pr-albums {
+  gap: 0.9rem;
+}
+
+.photos-rich .pr-album {
+  border: 10px solid #f8f8f6;
+  border-bottom-width: 28px;
+  border-radius: 4px;
+  background: #f8f8f6;
+  box-shadow: 0 7px 16px rgba(28, 36, 44, 0.16);
+}
+
+.photos-rich .pr-album:nth-child(3n + 1) { transform: rotate(-0.45deg); }
+.photos-rich .pr-album:nth-child(3n + 2) { transform: rotate(0.35deg); }
+.photos-rich .pr-album:hover { transform: translateY(-5px) rotate(0deg); }
+
+.photos-rich .pr-album-body {
+  margin-bottom: -1.35rem;
+  padding: 0.75rem 0.35rem 0;
+  background: #f8f8f6;
+}
+
+.photos-rich .pr-album-bubble {
+  border: 0;
+  padding: 0.35rem 0;
+  background: transparent;
+}
+
+.photos-rich .pr-album-bubble::before {
+  display: none;
+}
+
+/* ── 馆藏：悬浮资料库设备 ─────────────────────────── */
+html.lib-scifi-html,
+body.lib-scifi-page {
+  height: 100%;
+  background: #020711;
+  image-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.lib-scifi-page {
+  --lib-font-display: var(--ask-tech-font, "JetBrains Mono", monospace);
+  --lib-font-body: var(--ask-body-font, Inter, "Noto Sans SC", sans-serif);
+  font-size: 14px;
+}
+
+.lib-scifi-app {
+  width: min(1380px, calc(100% - 2rem));
+  height: calc(100dvh - 2rem);
+  margin: 1rem auto;
+  border: 1px solid rgba(61, 231, 255, 0.28);
+  border-radius: 24px;
+  background:
+    radial-gradient(ellipse 80% 65% at 50% 42%, #111b32 0%, #050a16 74%, #02050c 100%);
+  box-shadow:
+    0 32px 90px rgba(0, 0, 0, 0.65),
+    inset 0 0 0 6px rgba(61, 231, 255, 0.025);
+}
+
+.lib-scifi-app::before {
+  content: "DEEP ARCHIVE / COLLECTION ORBIT";
+  position: absolute;
+  z-index: 5;
+  top: 50%;
+  left: 1rem;
+  color: rgba(61, 231, 255, 0.34);
+  font: 600 0.6rem/1 var(--lib-font-display);
+  letter-spacing: 0.22em;
+  writing-mode: vertical-rl;
+  transform: translateY(-50%) rotate(180deg);
+  pointer-events: none;
+}
+
+.lib-hud-frame {
+  border: 1px solid rgba(61, 231, 255, 0.25);
+  border-radius: 13px;
+  background: rgba(5, 13, 27, 0.86);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.32);
+}
+
+.lib-scifi-nav {
+  top: max(1rem, env(safe-area-inset-top));
+  width: min(1120px, calc(100% - 4rem));
+  padding: 0.7rem 0.85rem;
+}
+
+.lib-scifi-logo-mark,
+.lib-scifi-cat,
+.lib-scifi-home,
+.lib-scifi-legal .site-legal {
+  border-width: 1px;
+  border-color: rgba(61, 231, 255, 0.24);
+  border-radius: 8px;
+  box-shadow: none;
+  image-rendering: auto;
+}
+
+.lib-scifi-logo-text,
+.lib-scifi-status,
+.lib-scifi-cat,
+.lib-scifi-legal .site-legal,
+.lib-scifi-legal .site-legal * {
+  text-shadow: none;
+}
+
+.lib-scifi-cat {
+  background: rgba(18, 31, 51, 0.8);
+  transition: color 0.2s, background 0.2s, transform 0.2s;
+}
+
+.lib-scifi-cat:hover {
+  transform: translateY(-1px);
+}
+
+.lib-scifi-bottom {
+  bottom: 0.6rem;
+  width: min(760px, calc(100% - 4rem));
+}
+
+.lib-scifi-legal .site-legal {
+  background: rgba(5, 13, 27, 0.82);
+}
+
+@media (max-width: 720px) {
+  body.starport-articles .home-main {
+    width: calc(100% - 0.75rem);
+    margin-top: 0.4rem;
+    padding: 8.2rem 0.65rem 1rem;
+    border-radius: 18px;
+  }
+
+  body.starport-articles .home-main::before {
+    content: "ASKUARY / VOYAGE LOG";
+  }
+
+  body.starport-articles .ar-hero {
+    min-height: 150px;
+    padding: 1.1rem !important;
+  }
+
+  body.starport-articles .ar-hero::after {
+    top: 0.9rem;
+    right: 0.9rem;
+    font-size: 0.54rem;
+  }
+
+  .photos-rich .pr-shell {
+    width: calc(100% - 0.7rem);
+    margin-top: 4.6rem;
+    padding: 4.1rem 0.55rem 1rem;
+    border-radius: 20px;
+  }
+
+  .photos-rich .pr-shell::before {
+    content: "ASKUARY OPTICAL DECK  ·  AUTO";
+    font-size: 0.58rem;
+  }
+
+  .photos-rich .pr-hero {
+    border-width: 5px;
+  }
+
+  .photos-rich .pr-section {
+    padding: 0.85rem 0.75rem 0.1rem;
+  }
+
+  .photos-rich .pr-album,
+  .photos-rich .pr-album:nth-child(n) {
+    transform: none;
+  }
+
+  .lib-scifi-app {
+    width: calc(100% - 0.5rem);
+    height: calc(100dvh - 0.5rem);
+    margin: 0.25rem;
+    border-radius: 16px;
+  }
+
+  .lib-scifi-app::before {
+    display: none;
+  }
+
+  .lib-scifi-nav {
+    width: calc(100% - 1rem);
+  }
+
+  .lib-scifi-bottom {
+    width: calc(100% - 1rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photos-rich .pr-album:nth-child(n) {
+    transform: none;
+  }
+}

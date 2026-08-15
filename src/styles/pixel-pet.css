@@ -1,0 +1,302 @@
+/* 右下角像素宠物 — 天气/昼夜小组件挂在 climate 槽 */
+
+.pixel-pet {
+  position: fixed;
+  right: max(0.9rem, env(safe-area-inset-right));
+  bottom: max(0.9rem, env(safe-area-inset-bottom));
+  z-index: 42;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+  pointer-events: none;
+}
+
+.pixel-pet-climate {
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.28rem;
+  max-width: min(11.5rem, 42vw);
+}
+
+.pixel-pet-bubble {
+  pointer-events: none;
+  max-width: min(240px, 72vw);
+  padding: 0.55rem 0.8rem;
+  border-radius: 0;
+  font-family: var(--px-font-cn, "Noto Sans SC", sans-serif);
+  font-size: 0.68rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: #eaf7ff;
+  background: rgba(8, 18, 34, 0.96);
+  border: 2px solid #020713;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: 3px 3px 0 #020713;
+  opacity: 0;
+  transform: translateY(6px) scale(0.96);
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease;
+}
+
+.pixel-pet-bubble.is-show {
+  opacity: 1;
+  transform: none;
+}
+
+.pixel-pet-toolbar {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.28rem;
+  padding: 0.22rem 0.28rem;
+  border-radius: 0;
+  border: 2px solid #020713;
+  background: rgba(8, 18, 34, 0.96);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: 2px 2px 0 #020713;
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.pixel-pet:hover .pixel-pet-toolbar,
+.pixel-pet:focus-within .pixel-pet-toolbar {
+  opacity: 1;
+  transform: none;
+}
+
+.pixel-pet-stage {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-end;
+  gap: 0.4rem;
+}
+
+.pixel-pet-action,
+.pixel-pet-switch,
+.pixel-pet-hide {
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 0;
+  border: 2px solid #020713;
+  background: #121828;
+  backdrop-filter: none;
+  color: #cbe4f2;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 #020713;
+  transition:
+    transform 120ms ease,
+    background-color 140ms ease,
+    color 140ms ease,
+    box-shadow 120ms ease;
+}
+
+.pixel-pet-switch {
+  font-size: 0.9rem;
+}
+
+.pixel-pet-action:hover,
+.pixel-pet-switch:hover,
+.pixel-pet-hide:hover {
+  background: #1a2848;
+  color: #ffe566;
+  transform: translate(-1px, -1px);
+}
+
+.pixel-pet-action:active,
+.pixel-pet-switch:active,
+.pixel-pet-hide:active {
+  transform: translate(1px, 1px);
+  box-shadow: none;
+}
+
+.pixel-pet-switch:hover {
+  transform: translate(-1px, -1px) rotate(-8deg);
+}
+
+.pixel-pet-body {
+  width: 5.2rem;
+  height: 5.2rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: transform 0.22s ease;
+}
+
+.pixel-pet-body:hover {
+  transform: translateY(-3px);
+  box-shadow: none;
+}
+
+.pixel-pet-body.is-bounce {
+  animation: pixel-pet-bounce 0.45s ease;
+}
+
+.pixel-pet-body.is-wiggle {
+  animation: pixel-pet-wiggle 0.48s ease;
+}
+
+.pixel-pet-body.is-hop {
+  animation: pixel-pet-hop 0.52s ease;
+}
+
+.pixel-pet-svg {
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  display: block;
+}
+
+.pixel-pet-restore {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.65rem 0.35rem 0.45rem;
+  border-radius: 0;
+  border: 2px solid #000;
+  background: #121828;
+  backdrop-filter: none;
+  color: #e8ecff;
+  font-family: var(--px-font-cn);
+  font-size: 0.58rem;
+  font-weight: 400;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 #000;
+  transition:
+    transform 120ms ease,
+    background-color 140ms ease,
+    box-shadow 120ms ease;
+}
+
+.pixel-pet-restore:hover {
+  background: #1a2848;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 #000;
+}
+
+.pixel-pet-restore:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 #000;
+}
+
+.pixel-pet-restore-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 1px;
+  background: #3de7ff;
+  box-shadow: 1px 1px 0 #000;
+}
+
+.pixel-pet.is-hidden .pixel-pet-bubble,
+.pixel-pet.is-hidden .pixel-pet-stage,
+.pixel-pet.is-hidden .pixel-pet-toolbar,
+.pixel-pet.is-hidden .pixel-pet-climate {
+  display: none;
+}
+
+@keyframes pixel-pet-bounce {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  35% {
+    transform: translateY(-8px) scale(1.06);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pixel-pet-wiggle {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(-6deg);
+  }
+  75% {
+    transform: rotate(6deg);
+  }
+}
+
+@keyframes pixel-pet-hop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px) scale(1.04);
+  }
+}
+
+/* 有迷你电台时，给宠物让出左下空间（宠物仍在右下） */
+body:has(#miniRadio) .pixel-pet {
+  bottom: max(0.9rem, env(safe-area-inset-bottom));
+}
+
+@media (max-width: 640px) {
+  .pixel-pet {
+    right: max(0.55rem, env(safe-area-inset-right));
+    bottom: max(0.7rem, env(safe-area-inset-bottom));
+    width: 3.6rem;
+    align-items: flex-end;
+  }
+
+  .pixel-pet-body {
+    width: 3.6rem;
+    height: 3.6rem;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  /* 手机上默认收成一只可点击的宠物，避免天气和工具条横跨正文。 */
+  .pixel-pet:not(.is-hidden) .pixel-pet-bubble,
+  .pixel-pet:not(.is-hidden) .pixel-pet-climate,
+  .pixel-pet:not(.is-hidden) .pixel-pet-toolbar {
+    display: none;
+  }
+
+  .pixel-pet-restore {
+    min-width: 2.8rem;
+    justify-content: center;
+    padding: .32rem .45rem;
+    font-size: .7rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-pet-body.is-bounce,
+  .pixel-pet-body.is-wiggle,
+  .pixel-pet-body.is-hop {
+    animation: none;
+  }
+}
+
+/* 小型陪伴卡：降低遮挡，并与天气信息坞共享视觉语言。 */
+.pixel-pet{gap:.45rem}.pixel-pet-body{width:4.25rem;height:4.25rem;filter:drop-shadow(0 8px 12px rgba(30,48,70,.18))}
+.pixel-pet-toolbar{gap:.35rem;padding:.3rem .38rem;border:1px solid rgba(112,139,164,.2);background:rgba(250,253,255,.92);box-shadow:0 8px 22px rgba(40,71,98,.12)}
+.pixel-pet-action,.pixel-pet-switch,.pixel-pet-hide{width:2rem;height:2rem;border:1px solid rgba(112,139,164,.2);color:#405a72;background:rgba(238,246,251,.96);box-shadow:none}
+.pixel-pet-bubble{border-radius:0;color:#e8ecff;background:#121828;border:2px solid #000;box-shadow:2px 2px 0 #000;font-family:var(--px-font-cn);font-weight:400}
+.pixel-pet-toolbar{border-radius:0;border:2px solid #000;background:#121828;box-shadow:2px 2px 0 #000}
+.pixel-pet-action,.pixel-pet-switch,.pixel-pet-hide{border-radius:0;border:2px solid #000;color:#e8ecff;background:#121828;box-shadow:1px 1px 0 #000;font-family:var(--px-font-cn)}
+body.home-theme-dark .pixel-pet-toolbar,body.home-theme-dark .pixel-pet-bubble,body.askuary-theme-dark .pixel-pet-toolbar,body.askuary-theme-dark .pixel-pet-bubble{color:#dbe7f2;background:rgba(12,23,40,.94);border-color:rgba(129,169,202,.2)}
+body.home-theme-dark :where(.pixel-pet-action,.pixel-pet-switch,.pixel-pet-hide),body.askuary-theme-dark :where(.pixel-pet-action,.pixel-pet-switch,.pixel-pet-hide){color:#cbdceb;background:rgba(24,40,62,.96);border-color:rgba(129,169,202,.2)}

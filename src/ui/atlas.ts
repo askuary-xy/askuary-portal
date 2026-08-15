@@ -1,4 +1,5 @@
 import type { EarthController } from '../canvas/earth';
+import { escapeHtml } from '../utils/html';
 
 export interface AtlasItem {
   index: number;
@@ -27,14 +28,6 @@ const STYLE_LABELS: Record<string, string> = {
   ember: '余烬',
   friend: '友联',
 };
-
-function escapeHtml(text: string): string {
-  return String(text)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
 
 function escapeAttr(text: string): string {
   return escapeHtml(text);

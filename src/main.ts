@@ -2,94 +2,70 @@ import './styles/universe.css';
 import './styles/earth.css';
 import './styles/blackhole.css';
 import './styles/atlas.css';
-import { Starfield } from './canvas/starfield';
-import { initEarth } from './canvas/earth';
+import './styles/page-chrome.css';
+import './styles/starport-theme.css';
+import './styles/interaction-polish.css';
 import { loadConfig } from './config/loader';
-import { initNavPanel, showNavPanel } from './ui/nav-panel';
-import { initScrollJourney } from './app/scroll-journey';
-import { mountTypewriter } from './ui/typewriter';
-import { initAtlas } from './ui/atlas';
+import { GalaxyPointCloud } from './app/galaxy-point-cloud';
+import { GalaxySystem } from './app/galaxy-system';
+import { SolarSystemScene } from './app/solar-system-scene';
+import { BlackholeScene } from './app/blackhole-scene';
 
-const SOCIAL_ICONS: Record<string, string> = {
-  github: '⌘',
-  email: '✉',
-  link: '🔗',
-};
+let galaxySystem: GalaxySystem | undefined;
+let pointCloud: GalaxyPointCloud | undefined;
+let solarSystem: SolarSystemScene | undefined;
+let blackhole: BlackholeScene | undefined;
+let disposed = false;
 
-async function boot(): Promise<void> {
-  const config = await loadConfig();
-  const { site } = config;
+function cleanupRuntime(): void {
+  if (disposed) return;
+  disposed = true;
+  galaxySystem?.destroy();
+  pointCloud?.destroy();
+  solarSystem?.destroy();
+  const destroyableBlackhole = blackhole as (BlackholeScene & { destroy?: () => void }) | undefined;
+  destroyableBlackhole?.destroy?.();
+  galaxySystem = undefined;
+  pointCloud = undefined;
+  solarSystem = undefined;
+  blackhole = undefined;
+}
 
-  document.documentElement.classList.add('footprint-html');
-  document.body.classList.add('fp-journey');
+const handlePageHide = (): void => cleanupRuntime();
+window.addEventListener('pagehide', handlePageHide);
 
-  document.title = site.name;
-
-  const root = document.getElementById('footprintIntro');
-  if (!root) return;
-
-  const nameEl = document.getElementById('siteName');
-  const introEl = document.getElementById('siteIntro');
-  const avatarWrap = document.getElementById('siteAvatarWrap');
-  const avatarEl = document.getElementById('siteAvatar') as HTMLImageElement | null;
-  const socialEl = document.getElementById('siteSocial');
-
-  if (nameEl) nameEl.textContent = site.name;
-
-  if (introEl) {
-    const lines = site.taglines?.filter(Boolean);
-    if (lines?.length) {
-      mountTypewriter(introEl, lines);
-    } else {
-      introEl.textContent = site.intro;
-    }
-  }
-
-  if (avatarWrap && avatarEl && site.avatar && site.showAvatar !== false) {
-    avatarEl.src = site.avatar;
-    avatarEl.alt = site.avatarAlt || site.name;
-    avatarWrap.removeAttribute('hidden');
-  } else {
-    avatarWrap?.remove();
-  }
-
-  if (socialEl && site.social?.length) {
-    socialEl.innerHTML = site.social
-      .map((s) => {
-        const icon = SOCIAL_ICONS[s.icon ?? ''] ?? '';
-        return `<a class="fp-social-link" href="${s.url}" target="_blank" rel="noopener noreferrer" aria-label="${s.label}"><span class="fp-social-icon" aria-hidden="true">${icon}</span><span>${s.label}</span></a>`;
-      })
-      .join('');
-  }
-
-  initNavPanel();
-
-  const canvas = document.getElementById('fpStars') as HTMLCanvasElement | null;
-  if (canvas) {
-    const starfield = new Starfield(canvas, (hit) => showNavPanel(hit));
-    starfield.setNavStars(config.navStars);
-    starfield.setMeteorWords(config.meteorWords);
-    starfield.start();
-  }
-
-  const earthCanvas = document.getElementById('fpEarth') as HTMLCanvasElement | null;
-  if (earthCanvas) {
-    const earth = initEarth(earthCanvas, {
-      spots: config.spots,
-      friends: config.friends,
-    });
-    initAtlas(root, earth);
-  }
-
-  initScrollJourney(root, {
-    homeUrl: site.homeUrl || site.blogUrl,
-    warpEnabled: site.warpEnabled,
-    warpHint: site.warpHint,
+if (import.meta.hot) {
+  import.meta.hot.dispose(() => {
+    window.removeEventListener('pagehide', handlePageHide);
+    cleanupRuntime();
   });
 }
 
+async function boot(): Promise<void> {
+  const config = await loadConfig();
+  if (disposed) return;
+  const { site } = config;
+
+  document.documentElement.classList.add('footprint-html');
+  document.body.classList.add('fp-journey', 'fp-galaxy-mode');
+
+  document.title = site.name;
+  const canvas = document.getElementById('fpGalaxySystem') as HTMLCanvasElement | null;
+  const pointCloudCanvas = document.getElementById('fpGalaxyPointCloud') as HTMLCanvasElement | null;
+  const solarSystemCanvas = document.getElementById('fpSolarSystemScene') as HTMLCanvasElement | null;
+  const blackholeCanvas = document.getElementById('fpBlackholeSystemScene') as HTMLCanvasElement | null;
+  pointCloud = pointCloudCanvas ? new GalaxyPointCloud(pointCloudCanvas) : undefined;
+  solarSystem = solarSystemCanvas ? new SolarSystemScene(solarSystemCanvas) : undefined;
+  solarSystem?.setFriends(config.friends);
+  solarSystem?.setNavigationCraft(config.navStars);
+  blackhole = blackholeCanvas ? new BlackholeScene(blackholeCanvas) : undefined;
+  galaxySystem = canvas ? new GalaxySystem(canvas, config.friends, config.navStars, config.meteorWords, pointCloud, solarSystem, blackhole) : undefined;
+}
+
 boot().catch((err) => {
+  if (disposed) return;
   console.error(err);
+  cleanupRuntime();
   const root = document.getElementById('bootError');
   if (root) {
     root.hidden = false;

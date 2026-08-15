@@ -1,0 +1,17 @@
+/* 全站天气氛围层：樱花 / 落叶 / 雨雪等 */
+
+.askuary-weather-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  /* 贴在风景背景之上、正文之下，避免雾/雨层盖住文章 */
+  z-index: 1;
+  pointer-events: none;
+}
+
+@media (max-width: 720px) {
+  .askuary-weather-canvas {
+    opacity: 0.85;
+  }
+}

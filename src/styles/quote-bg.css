@@ -1,0 +1,106 @@
+/* 背景滚动透明励志字（拉开列距，避免重叠） */
+
+.quote-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  gap: clamp(2.5rem, 6vw, 5.5rem);
+  padding: 0 clamp(3vw, 5vw, 6vw);
+  transform: rotate(-7deg) scale(1.08);
+  transform-origin: center;
+  opacity: 1;
+}
+
+.quote-bg-col {
+  flex: 0 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2.8rem;
+  width: max-content;
+  max-width: 14vw;
+  min-width: 7rem;
+  animation: quote-scroll var(--quote-dur, 52s) linear infinite;
+  animation-delay: var(--quote-delay, 0s);
+  opacity: var(--quote-opacity, 0.72);
+  will-change: transform;
+}
+
+.quote-bg-col:nth-child(even) {
+  margin-top: 3.5rem;
+}
+
+.quote-bg-line {
+  display: block;
+  font-size: clamp(0.86rem, 1.35vw, 1.12rem);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.7;
+  white-space: nowrap;
+  color: rgba(18, 48, 70, 0.78);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
+  opacity: 1;
+  writing-mode: horizontal-tb;
+  padding: 0.15rem 0;
+}
+
+.quote-bg-gap {
+  display: block;
+  height: 2.2rem;
+}
+
+body.home-theme-dark .quote-bg {
+  mix-blend-mode: normal;
+  opacity: 1;
+}
+
+body.home-theme-dark .quote-bg-line {
+  color: rgba(186, 224, 248, 0.42);
+  text-shadow: none;
+}
+
+@keyframes quote-scroll {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+@media (max-width: 900px) {
+  .quote-bg {
+    gap: 2rem;
+    padding: 0 4vw;
+  }
+  .quote-bg-col {
+    max-width: 28vw;
+  }
+  .quote-bg-col:nth-child(n + 4) {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .quote-bg {
+    transform: rotate(-5deg) scale(1.1);
+    gap: 1.6rem;
+  }
+  .quote-bg-col {
+    gap: 2.2rem;
+    max-width: 40vw;
+  }
+  .quote-bg-col:nth-child(n + 3) {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quote-bg-col {
+    animation: none;
+  }
+}

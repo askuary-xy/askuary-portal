@@ -1,0 +1,441 @@
+/*
+ * 全站交互与细节打磨（taste dials ≈ 6/5/5）
+ * 设备按压感、焦点环、轻悬停；尊重 prefers-reduced-motion。
+ */
+
+:root {
+  --ask-focus: #79d9ff;
+  --ask-press-shadow: 1px 1px 0 #020713;
+  --ask-motion-fast: 120ms;
+  --ask-motion-ui: 140ms;
+  --ask-motion-card: 160ms;
+  --ask-ease: ease;
+}
+
+/* —— 键盘焦点：可见且不抢视觉 —— */
+body:not(.games-pixel-page) :where(
+  a, button, input, textarea, select, summary, [tabindex]:not([tabindex="-1"])
+):focus {
+  outline: none;
+}
+
+body:not(.games-pixel-page) :where(
+  a, button, input, textarea, select, summary, [tabindex]:not([tabindex="-1"])
+):focus-visible {
+  outline: 2px solid var(--ask-focus);
+  outline-offset: 2px;
+}
+
+body:not(.games-pixel-page) :where(
+  .home-nav-link, .px-nav-link, .px-nav-back, .hr-social-link, .fp-social-link,
+  .ss-btn, .pr-tab, .pr-filter, .admin-side nav button, .site-widget
+):focus-visible {
+  outline-offset: 1px;
+  box-shadow: 0 0 0 2px rgba(2, 7, 19, 0.85), 0 0 0 4px rgba(121, 217, 255, 0.35);
+}
+
+/* —— 共享导航：轻抬起 / 按下 —— */
+.home-nav-link,
+.px-nav-link,
+.px-nav-back {
+  transition:
+    color var(--ask-motion-ui) var(--ask-ease),
+    background-color var(--ask-motion-ui) var(--ask-ease),
+    border-color var(--ask-motion-ui) var(--ask-ease),
+    transform var(--ask-motion-fast) var(--ask-ease),
+    box-shadow var(--ask-motion-fast) var(--ask-ease);
+}
+
+.home-nav-link:hover,
+.px-nav-link:hover,
+.px-nav-back:hover {
+  transform: translate(-1px, -1px);
+}
+
+.home-nav-link:active,
+.px-nav-link:active,
+.px-nav-back:active {
+  transform: translate(1px, 1px);
+  box-shadow: var(--ask-press-shadow);
+}
+
+/* —— 主页甲板 —— */
+body.starport-home #homeShell .hr-panel {
+  transition:
+    transform var(--ask-motion-card) var(--ask-ease),
+    box-shadow var(--ask-motion-card) var(--ask-ease),
+    border-color var(--ask-motion-ui) var(--ask-ease);
+}
+
+body.starport-home #homeShell .hr-panel--gallery:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #020713 !important;
+}
+
+body.starport-home #homeShell .hr-panel--gallery:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 #020713 !important;
+}
+
+body.starport-home #homeShell .hr-gallery-shot {
+  transition: transform 480ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+body.starport-home #homeShell .hr-panel--gallery:hover .hr-gallery-shot {
+  transform: scale(1.03);
+}
+
+body.starport-home #homeShell .hr-vinyl-btn {
+  transition:
+    transform 120ms ease,
+    background-color 140ms ease,
+    color 140ms ease,
+    box-shadow 120ms ease;
+}
+
+body.starport-home #homeShell .hr-vinyl-btn:hover {
+  transform: translate(-1px, -1px);
+}
+
+body.starport-home #homeShell .hr-vinyl-btn:active {
+  transform: translate(1px, 1px);
+}
+
+body.starport-home #homeShell .gate-console,
+body.starport-home #homeShell .hr-gate-console {
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    border-color 160ms ease;
+}
+
+body.starport-home #homeShell .gate-console:hover,
+body.starport-home #homeShell .hr-gate-console:hover {
+  transform: translate(-2px, -2px);
+}
+
+body.starport-home #homeShell .hr-photo-card,
+body.starport-home #homeShell .hr-post {
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+}
+
+body.starport-home #homeShell .hr-photo-card:hover,
+body.starport-home #homeShell .hr-post:hover {
+  transform: translate(-2px, -2px);
+}
+
+body.starport-home #homeShell .hr-photo-card:active,
+body.starport-home #homeShell .hr-post:active {
+  transform: translate(1px, 1px);
+}
+
+body.starport-home #homeShell .hr-lyric-bar {
+  transition: border-color 180ms ease, background-color 180ms ease;
+}
+
+body.starport-home #homeShell .hr-signal {
+  transition: box-shadow 220ms ease, border-color 220ms ease;
+}
+
+/* —— 宇宙入口 —— */
+.fp-social-link {
+  transition:
+    color 140ms ease,
+    background-color 140ms ease,
+    border-color 140ms ease,
+    transform 120ms ease,
+    box-shadow 120ms ease !important;
+}
+
+.fp-social-link:hover {
+  transform: translate(-1px, -1px);
+}
+
+.fp-social-link:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.78) !important;
+}
+
+.fp-scroll-hint {
+  animation: askScrollHint 2.4s ease-in-out infinite;
+}
+
+.fp-scroll-hint-arrow {
+  display: inline-block;
+  animation: askScrollArrow 1.4s ease-in-out infinite;
+}
+
+@keyframes askScrollHint {
+  0%,
+  100% { opacity: 0.72; }
+  50% { opacity: 1; }
+}
+
+@keyframes askScrollArrow {
+  0%,
+  100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+.fp-ambient-toggle {
+  transition:
+    transform 140ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 140ms ease !important;
+}
+
+.fp-ambient-toggle:hover {
+  transform: translate(-1px, -1px);
+}
+
+.fp-ambient-toggle:active {
+  transform: translate(1px, 1px);
+}
+
+.nav-panel-card {
+  border: 2px solid #020713 !important;
+  border-radius: 2px !important;
+  box-shadow: 5px 5px 0 #020713 !important;
+}
+
+.nav-panel-actions a,
+.nav-panel-actions button {
+  border: 2px solid #020713 !important;
+  border-radius: 0 !important;
+  box-shadow: 2px 2px 0 #020713 !important;
+  transition:
+    transform 120ms ease,
+    background-color 140ms ease,
+    box-shadow 120ms ease !important;
+}
+
+.nav-panel-actions a:hover,
+.nav-panel-actions button:hover {
+  transform: translate(-1px, -1px);
+}
+
+.nav-panel-actions a:active,
+.nav-panel-actions button:active {
+  transform: translate(1px, 1px);
+  box-shadow: none !important;
+}
+
+/* —— 碎念 / 内容筛选 —— */
+.ss-btn,
+.pr-tab,
+.pr-filter,
+.archive-view-btn,
+.fp-archive-tag,
+.archive-month-btn {
+  transition:
+    transform 120ms ease,
+    background-color 140ms ease,
+    color 140ms ease,
+    border-color 140ms ease,
+    box-shadow 120ms ease;
+}
+
+.ss-btn:hover,
+.pr-tab:hover,
+.pr-filter:hover,
+.archive-view-btn:hover,
+.fp-archive-tag:hover,
+.archive-month-btn:hover {
+  transform: translate(-1px, -1px);
+}
+
+.ss-btn:active,
+.pr-tab:active,
+.pr-filter:active,
+.archive-view-btn:active,
+.fp-archive-tag:active,
+.archive-month-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: none;
+}
+
+.ss-note-wrap {
+  transition: filter 160ms ease;
+}
+
+.ss-note-wrap:hover {
+  filter: brightness(1.03);
+  z-index: 4;
+}
+
+/* —— 站点小组件 / 宠物 —— */
+.site-widget,
+.site-widget-term-pill {
+  transition:
+    transform 130ms ease,
+    background-color 140ms ease,
+    color 140ms ease,
+    box-shadow 130ms ease;
+}
+
+.site-widget:hover,
+.site-widget-term-pill:hover {
+  transform: translate(-1px, -1px);
+}
+
+.site-widget:active,
+.site-widget-term-pill:active {
+  transform: translate(1px, 1px);
+}
+
+.pixel-pet-toolbar button {
+  transition:
+    transform 120ms ease,
+    background-color 140ms ease,
+    color 140ms ease;
+}
+
+.pixel-pet-toolbar button:hover {
+  transform: translate(-1px, -1px);
+}
+
+.pixel-pet-toolbar button:active {
+  transform: translate(1px, 1px);
+}
+
+/* —— 后台 —— */
+body.admin-page :where(
+  .admin-login button, .admin-top button, .admin-row button,
+  .admin-side nav button, .admin-dropzone, .admin-media-grid button,
+  .admin-setting-card footer button, .admin-field-action button
+) {
+  transition:
+    transform 120ms ease,
+    background-color 140ms ease,
+    color 140ms ease,
+    border-color 140ms ease,
+    box-shadow 120ms ease;
+}
+
+body.admin-page .admin-side nav button:hover {
+  transform: translate(-1px, -1px);
+}
+
+body.admin-page .admin-side nav button:active {
+  transform: translate(1px, 1px);
+}
+
+body.admin-page .admin-row:hover {
+  border-color: rgba(121, 217, 255, 0.45);
+}
+
+body.admin-page .admin-login input,
+body.admin-page .admin-form-grid input,
+body.admin-page .admin-form-grid textarea,
+body.admin-page .admin-form-grid select {
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+body.admin-page .admin-cards article {
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+body.admin-page .admin-cards article:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 #020713;
+}
+
+/* —— 通用设备按压：卡片 / 按钮族 —— */
+body:not(.games-pixel-page) :where(
+  .fp-flink-btn, .ask-ai-btn, .ask-tabs-btn, .lib-scifi-cat, .lib-scifi-back,
+  .star-search-trigger, .star-search-results a, .fp-friends-action,
+  .fp-comment-action, .fp-emoji-toggle, .hr-vinyl-btn, .gate-console-btn,
+  .archive-card, .fp-blog-item, .fp-friend-card, .pr-album, .pr-polaroid
+) {
+  transition:
+    transform var(--ask-motion-fast) var(--ask-ease),
+    background-color var(--ask-motion-ui) var(--ask-ease),
+    color var(--ask-motion-ui) var(--ask-ease),
+    border-color var(--ask-motion-ui) var(--ask-ease),
+    box-shadow var(--ask-motion-fast) var(--ask-ease);
+}
+
+body:not(.games-pixel-page) :where(
+  .fp-flink-btn, .ask-ai-btn, .ask-tabs-btn, .lib-scifi-cat, .lib-scifi-back,
+  .star-search-trigger, .fp-friends-action, .fp-comment-action, .fp-emoji-toggle,
+  .gate-console-btn
+):hover {
+  transform: translate(-1px, -1px);
+}
+
+body:not(.games-pixel-page) :where(
+  .fp-flink-btn, .ask-ai-btn, .ask-tabs-btn, .lib-scifi-cat, .lib-scifi-back,
+  .star-search-trigger, .fp-friends-action, .fp-comment-action, .fp-emoji-toggle,
+  .gate-console-btn
+):active {
+  transform: translate(1px, 1px);
+  box-shadow: var(--ask-press-shadow);
+}
+
+body:not(.games-pixel-page) :where(
+  .archive-card, .fp-blog-item, .fp-friend-card, .pr-album
+):hover {
+  transform: translate(-2px, -2px);
+}
+
+body:not(.games-pixel-page) :where(
+  .archive-card, .fp-blog-item, .fp-friend-card, .pr-album
+):active {
+  transform: translate(1px, 1px);
+}
+
+/* —— 通用链接 / 页脚徽章 —— */
+.home-footer a,
+.site-legal a {
+  transition: color var(--ask-motion-ui) var(--ask-ease), opacity var(--ask-motion-ui) var(--ask-ease);
+}
+
+.home-footer a:hover,
+.site-legal a:hover {
+  color: #79d9ff;
+}
+
+/* skip link */
+.skip-link,
+a[href="#main"],
+a.visually-hidden-focusable {
+  transition: transform var(--ask-motion-fast) var(--ask-ease), background-color var(--ask-motion-ui) var(--ask-ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fp-scroll-hint,
+  .fp-scroll-hint-arrow,
+  .mini-radio-disc.is-playing {
+    animation: none !important;
+  }
+
+  .reading-progress i {
+    transition: none !important;
+  }
+
+  body:not(.games-pixel-page) :where(
+    .home-nav-link, .px-nav-link, .px-nav-back, .fp-social-link, .hr-social-link,
+    .ss-btn, .pr-tab, .pr-filter, .site-widget, .admin-side nav button,
+    .hr-panel, .hr-photo-card, .hr-post, .gate-console, .hr-gate-console,
+    .fp-flink-btn, .ask-ai-btn, .ask-tabs-btn, .lib-scifi-cat, .archive-card,
+    .fp-blog-item, .fp-friend-card, .pr-album, .star-search-trigger, .fp-ambient-toggle
+  ) {
+    transition: none !important;
+  }
+
+  body:not(.games-pixel-page) :where(
+    .home-nav-link, .px-nav-link, .px-nav-back, .fp-social-link, .hr-social-link,
+    .ss-btn, .pr-tab, .pr-filter, .site-widget, .hr-panel--gallery,
+    .hr-photo-card, .hr-post, .admin-cards article, .archive-card, .fp-blog-item,
+    .fp-friend-card, .pr-album, .fp-flink-btn, .ask-ai-btn, .gate-console-btn
+  ):hover,
+  body:not(.games-pixel-page) :where(
+    .home-nav-link, .px-nav-link, .px-nav-back, .fp-social-link,
+    .ss-btn, .pr-tab, .fp-flink-btn, .ask-ai-btn, .gate-console-btn
+  ):active {
+    transform: none !important;
+  }
+}

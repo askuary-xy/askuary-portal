@@ -1,0 +1,207 @@
+/* 非主页独立像素顶栏（书库式）：logo + 返回在左 */
+
+@import './pixel-fonts.css';
+
+.px-nav {
+  --px-nav-cyan: #79d9ff;
+  --px-nav-gold: #ffe566;
+  --px-nav-muted: #8ba3b8;
+  --px-nav-panel: #121828;
+
+  position: fixed;
+  top: max(0.65rem, env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 48;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: min(1080px, calc(100% - 1.6rem));
+  padding: 0.5rem 0.65rem;
+  border: 2px solid #000;
+  background: rgba(8, 12, 24, 0.94);
+  box-shadow: 3px 3px 0 #000;
+  font-family: var(--px-font-cn);
+  color: #e8ecff;
+  image-rendering: pixelated;
+}
+
+.px-nav-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.px-nav-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.px-nav-logo-mark {
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 2px solid #000;
+  background: linear-gradient(90deg, var(--px-nav-cyan) 0 50%, var(--px-nav-gold) 50% 100%);
+  box-shadow: 2px 2px 0 #000;
+}
+
+.px-nav-logo-text {
+  font-family: var(--px-font);
+  font-size: clamp(0.42rem, 1.2vw, 0.55rem);
+  letter-spacing: 0.06em;
+  color: var(--px-nav-cyan);
+  text-shadow: 2px 2px 0 #000;
+  white-space: nowrap;
+}
+
+.px-nav-back {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--px-font);
+  font-size: 0.42rem;
+  letter-spacing: 0.04em;
+  color: var(--px-nav-muted);
+  text-decoration: none;
+  padding: 0.32rem 0.45rem;
+  border: 2px solid #000;
+  background: var(--px-nav-panel);
+  box-shadow: 2px 2px 0 #000;
+  white-space: nowrap;
+}
+
+.px-nav-back:hover {
+  color: var(--px-nav-gold);
+  background: #1a2848;
+}
+
+.px-nav-back:active,
+.px-nav-link:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 #000;
+}
+
+.px-nav-mid {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.px-nav-title {
+  margin: 0;
+  font-family: var(--px-font-cn);
+  font-size: 0.72rem;
+  color: #e8ecff;
+  letter-spacing: 0.04em;
+}
+
+.px-nav-link {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  border: 2px solid #000;
+  background: var(--px-nav-panel);
+  color: var(--px-nav-muted);
+  font-family: var(--px-font-cn);
+  font-size: 0.58rem;
+  padding: 0.32rem 0.5rem;
+  box-shadow: 2px 2px 0 #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.px-nav-link:hover {
+  color: #fff;
+  background: #1a2848;
+}
+
+.px-nav-link.is-active {
+  color: var(--px-nav-gold, #ffe566);
+  background: #1a2848;
+  border-color: var(--px-nav-gold, #ffe566);
+  box-shadow: 2px 2px 0 #000;
+}
+
+/* 有独立顶栏时：正文顶距（天气已并入右下宠物小组件） */
+body.has-pixel-nav {
+  --home-nav-offset: 4.2rem;
+  padding-top: 0;
+}
+
+body.has-pixel-nav .home-main,
+body.has-pixel-nav .pr-shell,
+body.has-pixel-nav .fp-about,
+body.has-pixel-nav .fp-blog,
+body.has-pixel-nav .fp-friends,
+body.has-pixel-nav .ask-read-shell,
+body.has-pixel-nav .archive-rich {
+  padding-top: calc(var(--home-nav-offset) + 0.35rem);
+}
+
+/* 隐藏旧 home-header（若残留） */
+body.has-pixel-nav .home-header {
+  display: none !important;
+}
+
+/* 返回已在顶栏 logo 旁，正文内返回隐藏 */
+body.has-pixel-nav .page-back,
+body.has-pixel-nav .pr-back,
+body.has-pixel-nav .fp-about-back,
+body.has-pixel-nav .ask-hero-back,
+body.has-pixel-nav .pr-album-back {
+  display: none !important;
+}
+
+/* 书库：返回挪到 logo 旁，去掉右侧 HOME */
+.lib-scifi-nav-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.lib-scifi-back {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--lib-font-display, var(--px-font));
+  font-size: 0.42rem;
+  letter-spacing: 0.04em;
+  color: var(--lib-muted, #8b93b0);
+  text-decoration: none;
+  padding: 0.32rem 0.45rem;
+  border: 2px solid #000;
+  background: #121828;
+  box-shadow: 2px 2px 0 #000;
+}
+
+.lib-scifi-back:hover {
+  color: var(--lib-gold, #ffe566);
+}
+
+.lib-scifi-home {
+  display: none !important;
+}
+
+@media (max-width: 720px) {
+  .px-nav {
+    gap: 0.35rem;
+    padding: 0.4rem 0.45rem;
+    width: min(1080px, calc(100% - 1.2rem));
+  }
+
+  .px-nav-logo-text {
+    display: none;
+  }
+
+  .px-nav-title {
+    font-size: 0.62rem;
+  }
+}

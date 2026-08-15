@@ -5,8 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#05060a" />
     <meta name="description" content="ASKUARY — 记录思考，探索次元" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="ASKUARY" />
+    <meta property="og:title" content="ASKUARY" />
+    <meta property="og:description" content="记录思考，探索次元" />
+    <meta property="og:url" content="https://www.askuary.cn/" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="ASKUARY" />
+    <meta name="twitter:description" content="记录思考，探索次元" />
     <title>ASKUARY</title>
+    <link rel="canonical" href="https://www.askuary.cn/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" type="application/rss+xml" title="ASKUARY RSS" href="/rss.xml" />
   </head>
   <body class="fp-journey">
     <div class="fp-app" id="footprintIntro">
@@ -18,13 +28,36 @@
       <div class="fp-moon" aria-hidden="true"></div>
 
       <div id="fpBlackhole" class="fp-blackhole-scene" aria-hidden="true">
-        <div class="fp-blackhole-glow">
-          <div class="fp-black-hole" role="button" tabindex="0" aria-label="黑洞"></div>
+        <div class="fp-black-hole" role="button" tabindex="0" aria-label="黑洞，点击进入传送门">
+          <video
+            class="fp-black-hole-video"
+            src="/media/blackhole.mp4"
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            aria-hidden="true"
+          ></video>
         </div>
+        <div class="fp-bh-veil" aria-hidden="true"></div>
         <span class="fp-black-hole-label">点击穿越</span>
       </div>
 
       <section class="fp-screen fp-screen--hero" aria-label="Intro">
+        <div class="fp-starport-status" aria-label="星港连接状态">
+          <strong>ASKUARY STARPORT</strong>
+          <span>Archive link established</span>
+        </div>
+        <div class="fp-navigator" aria-hidden="true">
+          <img
+            class="fp-navigator-art"
+            src="/brand/navigator-v3.webp"
+            alt=""
+            width="1024"
+            height="1536"
+            decoding="async"
+          />
+        </div>
         <div class="fp-hero-spacer" aria-hidden="true"></div>
         <div class="fp-profile">
           <h1 class="fp-title" id="siteName">ASKUARY</h1>
@@ -68,8 +101,27 @@
             </div>
             <div id="fpAtlasDetail" class="fp-atlas-detail" hidden></div>
             <p class="fp-atlas-hint">选择条目后点击「定位到地球」回到首屏查看</p>
+            <div id="portalLegal" class="fp-portal-legal" aria-label="备案信息"></div>
           </div>
         </aside>
+      </section>
+
+      <section class="fp-galaxy-experience" aria-label="ASKUARY 银河入口">
+        <canvas id="fpGalaxyPointCloud" class="fp-galaxy-point-cloud" aria-hidden="true"></canvas>
+        <canvas id="fpSolarSystemScene" class="fp-solar-system-scene" aria-hidden="true"></canvas>
+        <canvas id="fpBlackholeSystemScene" class="fp-blackhole-system-scene" aria-hidden="true"></canvas>
+        <canvas id="fpGalaxySystem" class="fp-galaxy-canvas" aria-label="可探索的银河与太阳系" role="img"></canvas>
+        <div class="fp-galaxy-hud" aria-live="polite">
+          <p class="fp-galaxy-hud__brand">ASKUARY / COSMIC ARCHIVE</p>
+          <p class="fp-galaxy-hud__stage" id="fpGalaxyStage">MILKY WAY / LOCAL ARM</p>
+        </div>
+        <p class="fp-galaxy-hint" id="fpGalaxyHint">滚动或滑动，驶入太阳系</p>
+        <p class="fp-blackhole-legal" id="fpBlackholeLegal" hidden>
+          <a href="https://beian.mps.gov.cn/#/query/webSearch?code=31010502007431" target="_blank" rel="noreferrer">沪公网安备31010502007431号</a>
+          <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer">湘ICP备 2025131923号-1</a>
+          <a href="https://icp.gov.moe/?keyword=20260154" target="_blank" rel="noreferrer">萌ICP备20260154号</a>
+        </p>
+        <aside class="fp-planet-panel" id="fpPlanetPanel" aria-live="polite" hidden></aside>
       </section>
     </div>
 

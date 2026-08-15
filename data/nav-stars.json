@@ -2,7 +2,7 @@
   {
     "id": "blog",
     "label": "博客",
-    "desc": "文章与随笔",
+    "desc": "深空随笔与漫游指南",
     "url": "/blog/",
     "icon": "blog",
     "enabled": true,
@@ -22,7 +22,7 @@
   {
     "id": "about",
     "label": "关于",
-    "desc": "关于我",
+    "desc": "次元纪闻斋 · 关于这扇门",
     "url": "/about/",
     "icon": "user",
     "enabled": true,
