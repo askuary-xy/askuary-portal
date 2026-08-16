@@ -297,7 +297,7 @@ export class GalaxySystem {
       return;
     }
     if (hit && 'nav' in hit) {
-      this.select({ id: `craft-${hit.nav.id}`, name: hit.nav.label, designation: 'ORBITAL STATION / PAGE GATE', description: hit.nav.desc || '正在行星轨道巡航的页面太空站。', href: hit.nav.url, craft: true });
+      this.select({ id: `craft-${hit.nav.id}`, name: hit.nav.label, designation: 'ORBITAL SATELLITE / PAGE GATE', description: hit.nav.desc || '正在行星近轨巡航的页面入口卫星。', href: hit.nav.url, craft: true });
       return;
     }
     if (hit) {

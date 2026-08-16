@@ -9,7 +9,9 @@ export type BlackholeScreenTarget = { x: number; y: number; r: number };
 const FINAL_CAMERA_Z = 14.5;
 const FAR_CAMERA_Z = 62;
 const WARP_CAMERA_Z = 9.8;
-const CAMERA_ELEVATION = .66;
+// 官方演示是严格的正视锁定镜头：盘与事件视界共用同一水平中线。
+// 只保留近乎不可察觉的高度，避免透视把真实吸积盘错看成一张分离的横向贴片。
+const CAMERA_ELEVATION = .1;
 const ASSET_ROOT = '/assets/universe/blackhole';
 
 type BlackholeTextures = {
@@ -343,7 +345,7 @@ export class BlackholeScene {
 
     const approachZ = THREE.MathUtils.lerp(FAR_CAMERA_Z, FINAL_CAMERA_Z, arrival);
     const cameraZ = THREE.MathUtils.lerp(approachZ, WARP_CAMERA_Z, this.warp);
-    // 极小仰角让原模型的平面吸积盘具有宽而薄的厚度，同时保持锁定正视构图。
+    // 相机锁在模型正前方；吸积盘和事件视界来自同一个 FBX 根节点，不再人为错开。
     this.camera.position.set(0, CAMERA_ELEVATION, cameraZ);
     this.camera.lookAt(0, 0, 0);
 

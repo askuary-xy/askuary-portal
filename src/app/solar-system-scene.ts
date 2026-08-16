@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
 import type { Friend, NavStar } from '../types/config';
 
 export type SolarScreenTarget = {
@@ -44,9 +43,6 @@ type NavigationCraftNode = {
   nav: NavStar;
   anchor: THREE.Group;
   visual: THREE.Group;
-  variant: StationVariant;
-  modelUrl: string;
-  modelRequested: boolean;
   hostId: string;
   orbitRadius: number;
   orbitPlane: THREE.Quaternion;
@@ -54,25 +50,7 @@ type NavigationCraftNode = {
   phase: number;
 };
 
-type StationVariant = 'hub' | 'spine' | 'ring';
-
-type StationTextureSet = {
-  diffuse: THREE.Texture;
-  emission: THREE.Texture;
-  metalness: THREE.Texture;
-  roughness: THREE.Texture;
-};
-
 const TEXTURES = '/assets/universe/solar-system/textures/';
-const STATIONS = '/assets/universe/solar-system/stations/';
-const NEUTRAL_TEXTURE = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Wl1qP4AAAAASUVORK5CYII=';
-
-const NAVIGATION_STATIONS: Record<string, { variant: StationVariant; modelUrl: string }> = {
-  blog: { variant: 'hub', modelUrl: `${STATIONS}space-station/station.fbx` },
-  // 这一套有 210 万面，只在用户选中“关于站”之后才请求和解析。
-  about: { variant: 'spine', modelUrl: `${STATIONS}sci-fi-space-station/station.fbx` },
-  friends: { variant: 'ring', modelUrl: `${STATIONS}space-station/station.fbx` },
-};
 
 const PLANETS: PlanetSpec[] = [
   { id: 'signals', radius: .22, orbit: 2.55, angle: 2.35, speed: .048, texture: '2k_mercury.jpg' },
@@ -102,10 +80,6 @@ export class SolarSystemScene {
   private readonly scene = new THREE.Scene();
   private readonly camera = new THREE.PerspectiveCamera(38, 1, .1, 140);
   private readonly textureLoader = new THREE.TextureLoader();
-  private readonly stationLoadingManager = new THREE.LoadingManager();
-  private readonly fbxLoader = new FBXLoader(this.stationLoadingManager);
-  private readonly stationModelCache = new Map<string, Promise<THREE.Group>>();
-  private stationTexturePromise?: Promise<StationTextureSet>;
   private readonly system = new THREE.Group();
   private sun?: THREE.Mesh;
   private readonly orbitLines = new THREE.Group();
@@ -141,11 +115,6 @@ export class SolarSystemScene {
   private readonly resizeHandler = (): void => this.resize();
 
   constructor(canvas: HTMLCanvasElement) {
-    // 原始 FBX 引用了作者电脑上的绝对贴图路径。先把这些请求导向 1px 中性图，
-    // 加载完成后再换成项目内的压缩 PBR 贴图，避免几十个 404 和百 MB 纹理流量。
-    this.stationLoadingManager.setURLModifier((url) => (
-      /\.(?:png|jpe?g|webp|tga|bmp)(?:[?#].*)?$/i.test(url) ? NEUTRAL_TEXTURE : url
-    ));
     this.renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'high-performance' });
     this.renderer.setClearColor(0x000000, 0);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.6));
@@ -209,31 +178,33 @@ export class SolarSystemScene {
     });
   }
 
-  /** 博客、关于、友联入口各自使用一座绕行星巡航的太空站。 */
+  /** 博客、关于、友联统一使用与地球友链一致的近轨卫星。 */
   setNavigationCraft(navStars: NavStar[]): void {
     if (this.navigationCraftNodes.length) return;
     const entries = navStars.filter((nav) => nav.enabled !== false && ['blog', 'about', 'friends'].includes(nav.id));
     entries.forEach((nav, index) => {
-      const station = NAVIGATION_STATIONS[nav.id];
-      if (!station) return;
-      const hostId = ['articles', 'library', 'photos'][index % 3];
+      const hostIdByNavigation: Record<string, string> = { blog: 'articles', about: 'photos', friends: 'library' };
+      const hostId = hostIdByNavigation[nav.id];
+      if (!hostId) return;
       const host = this.nodes.get(hostId);
       if (!host) return;
       const anchor = new THREE.Group();
-      const visual = this.makeNavigationStationFallback(index, station.variant);
+      const visual = this.makeFriendSatellite(index);
       anchor.add(visual);
       host.anchor.add(anchor);
       const node: NavigationCraftNode = {
         nav,
         anchor,
         visual,
-        variant: station.variant,
-        modelUrl: station.modelUrl,
-        modelRequested: false,
         hostId,
-        orbitRadius: host.spec.radius * 2.7 + .52 + index * .08,
-        orbitPlane: new THREE.Quaternion().setFromEuler(new THREE.Euler(.42 + index * .19, index * .76, -.18 + index * .14)),
-        speed: .105 + index * .018,
+        // 与地球的友链卫星相同：固定宿主、近轨、缓慢绕行。
+        orbitRadius: host.spec.radius + .58,
+        orbitPlane: new THREE.Quaternion().setFromEuler(new THREE.Euler(
+          .34 + (index % 3) * .23,
+          index * 1.17,
+          -.28 + (index % 2) * .22,
+        )),
+        speed: .25 + index * .018,
         phase: index * 2.05 + .4,
       };
       this.navigationCraftNodes.push(node);
@@ -313,214 +284,6 @@ export class SolarSystemScene {
     satellite.add(body, leftPanel, rightPanel, mast, dish, beacon);
     this.materials.push(bodyMaterial, panelMaterial, antennaMaterial, beacon.material);
     return satellite;
-  }
-
-  private makeNavigationStationFallback(index: number, variant: StationVariant): THREE.Group {
-    const station = new THREE.Group();
-    const hullMaterial = new THREE.MeshStandardMaterial({
-      color: index === 1 ? 0xb8cbd4 : 0xdce7eb,
-      emissive: index === 2 ? 0x18344a : 0x153342,
-      emissiveIntensity: .72,
-      roughness: .31,
-      metalness: .78,
-    });
-    const darkMaterial = new THREE.MeshStandardMaterial({
-      color: index === 1 ? 0x435762 : 0x315260,
-      emissive: index === 1 ? 0x112e3c : 0x0a3345,
-      emissiveIntensity: .88,
-      roughness: .38,
-      metalness: .68,
-    });
-    const lightMaterial = new THREE.MeshBasicMaterial({
-      color: index === 1 ? 0xffca7a : 0x82e5ff,
-      transparent: true,
-      opacity: .88,
-    });
-    const core = new THREE.Mesh(new THREE.SphereGeometry(.13, 16, 12), hullMaterial);
-    const axialHub = new THREE.Mesh(new THREE.CylinderGeometry(.105, .105, .34, 16), darkMaterial);
-    axialHub.rotation.x = Math.PI * .5;
-    const dockingGeometry = new THREE.TorusGeometry(.125, .018, 8, 28);
-    const dockingRingA = new THREE.Mesh(dockingGeometry, lightMaterial);
-    const dockingRingB = new THREE.Mesh(dockingGeometry, lightMaterial);
-    dockingRingA.position.z = .18;
-    dockingRingB.position.z = -.18;
-    station.add(core, axialHub, dockingRingA, dockingRingB);
-
-    const podGeometry = new THREE.CylinderGeometry(.065, .065, .2, 12);
-    const windowGeometry = new THREE.CylinderGeometry(.067, .067, .035, 12);
-    const makePod = (x: number, y: number, z: number, scale = 1): THREE.Group => {
-      const pod = new THREE.Group();
-      const shell = new THREE.Mesh(podGeometry, hullMaterial);
-      const windowBand = new THREE.Mesh(windowGeometry, lightMaterial);
-      shell.rotation.z = Math.PI * .5;
-      windowBand.rotation.z = Math.PI * .5;
-      pod.add(shell, windowBand);
-      pod.position.set(x, y, z);
-      pod.scale.setScalar(scale);
-      return pod;
-    };
-
-    if (variant === 'hub') {
-      const ring = new THREE.Mesh(new THREE.TorusGeometry(.31, .025, 10, 48), darkMaterial);
-      const crossX = new THREE.Mesh(new THREE.BoxGeometry(.72, .028, .035), hullMaterial);
-      const crossY = new THREE.Mesh(new THREE.BoxGeometry(.028, .56, .035), hullMaterial);
-      station.add(ring, crossX, crossY);
-      station.add(makePod(-.39, 0, 0), makePod(.39, 0, 0), makePod(0, -.3, 0, .9), makePod(0, .3, 0, .9));
-    } else if (variant === 'spine') {
-      const spine = new THREE.Mesh(new THREE.CylinderGeometry(.035, .05, .78, 12), hullMaterial);
-      const upperRing = new THREE.Mesh(new THREE.TorusGeometry(.24, .02, 9, 42), darkMaterial);
-      const lowerRing = upperRing.clone();
-      upperRing.rotation.x = Math.PI * .5;
-      lowerRing.rotation.x = Math.PI * .5;
-      upperRing.position.y = .23;
-      lowerRing.position.y = -.23;
-      station.add(spine, upperRing, lowerRing);
-      station.add(makePod(-.27, .23, 0, .88), makePod(.27, .23, 0, .88), makePod(-.27, -.23, 0, .88), makePod(.27, -.23, 0, .88));
-    } else {
-      const ring = new THREE.Mesh(new THREE.TorusGeometry(.36, .035, 12, 56), hullMaterial);
-      const innerRing = new THREE.Mesh(new THREE.TorusGeometry(.27, .012, 8, 48), lightMaterial);
-      const braceX = new THREE.Mesh(new THREE.BoxGeometry(.68, .026, .03), darkMaterial);
-      const braceY = new THREE.Mesh(new THREE.BoxGeometry(.026, .68, .03), darkMaterial);
-      ring.rotation.x = .18;
-      innerRing.rotation.x = .18;
-      station.add(ring, innerRing, braceX, braceY);
-      station.add(makePod(-.4, 0, 0, .92), makePod(.4, 0, 0, .92), makePod(0, -.4, 0, .92), makePod(0, .4, 0, .92));
-    }
-    const beacon = new THREE.Mesh(new THREE.SphereGeometry(.035, 12, 8), lightMaterial);
-    beacon.position.z = .24;
-    station.add(beacon);
-    station.scale.setScalar(1.08);
-    this.materials.push(hullMaterial, darkMaterial, lightMaterial);
-    return station;
-  }
-
-  private scheduleStationModels(arrival: number, selected?: NavigationCraftNode): void {
-    // 太阳系全景用辨识度更高、开销更小的轮廓站。作者原模型只在选中后加载，
-    // 避免 2M+ 面模型在远景中缩成一条亮线，也避免首屏解析造成点击卡顿。
-    if (arrival < .58 || this.destroyed || !selected || selected.modelRequested) return;
-    selected.modelRequested = true;
-    setTimeout(() => {
-      if (this.destroyed) return;
-      void this.loadNavigationStationModel(selected);
-    }, 180);
-  }
-
-  private loadStationSource(url: string): Promise<THREE.Group> {
-    const cached = this.stationModelCache.get(url);
-    if (cached) return cached;
-    const pending = this.fbxLoader.loadAsync(url).then((model) => model as THREE.Group);
-    this.stationModelCache.set(url, pending);
-    return pending;
-  }
-
-  private async getStationTextures(): Promise<StationTextureSet> {
-    if (this.stationTexturePromise) return this.stationTexturePromise;
-    const root = `${STATIONS}space-station/`;
-    this.stationTexturePromise = Promise.all([
-      this.textureLoader.loadAsync(`${root}diffuse.webp`),
-      this.textureLoader.loadAsync(`${root}emission.webp`),
-      this.textureLoader.loadAsync(`${root}metalness.webp`),
-      this.textureLoader.loadAsync(`${root}roughness.webp`),
-    ]).then(([diffuse, emission, metalness, roughness]) => {
-      diffuse.colorSpace = THREE.SRGBColorSpace;
-      emission.colorSpace = THREE.SRGBColorSpace;
-      metalness.colorSpace = THREE.NoColorSpace;
-      roughness.colorSpace = THREE.NoColorSpace;
-      const anisotropy = Math.min(8, this.renderer.capabilities.getMaxAnisotropy());
-      [diffuse, emission, metalness, roughness].forEach((texture) => {
-        texture.anisotropy = anisotropy;
-        texture.wrapS = THREE.ClampToEdgeWrapping;
-        texture.wrapT = THREE.ClampToEdgeWrapping;
-      });
-      return { diffuse, emission, metalness, roughness };
-    });
-    return this.stationTexturePromise;
-  }
-
-  private async applyStationMaterials(model: THREE.Group, variant: StationVariant): Promise<void> {
-    const baked = variant === 'spine' ? null : await this.getStationTextures();
-    let meshIndex = 0;
-    model.traverse((object) => {
-      if (!(object instanceof THREE.Mesh)) return;
-      object.frustumCulled = true;
-      const sources = Array.isArray(object.material) ? object.material : [object.material];
-      const replacements = sources.map((_source, materialIndex) => {
-        const paletteIndex = (meshIndex * 7 + materialIndex * 3) % 11;
-        const material = baked
-          ? new THREE.MeshStandardMaterial({
-              map: baked.diffuse,
-              emissiveMap: baked.emission,
-              metalnessMap: baked.metalness,
-              roughnessMap: baked.roughness,
-              color: variant === 'ring' ? 0x9fc5d1 : 0xffffff,
-              emissive: variant === 'ring' ? 0x123e54 : 0x283541,
-              emissiveIntensity: variant === 'ring' ? 1.35 : .82,
-              metalness: .78,
-              roughness: .42,
-            })
-          : new THREE.MeshStandardMaterial({
-              color: paletteIndex < 2 ? 0x89b7c7 : paletteIndex < 6 ? 0x52616c : 0xaab4bb,
-              emissive: paletteIndex < 2 ? 0x16536a : 0x0b1c27,
-              emissiveIntensity: paletteIndex < 2 ? 1.25 : .42,
-              metalness: .82,
-              roughness: paletteIndex < 2 ? .26 : .44,
-            });
-        this.materials.push(material);
-        return material;
-      });
-      object.material = Array.isArray(object.material) ? replacements : replacements[0];
-      meshIndex += 1;
-    });
-  }
-
-  private async loadNavigationStationModel(node: NavigationCraftNode): Promise<void> {
-    try {
-      const source = await this.loadStationSource(node.modelUrl);
-      if (this.destroyed) return;
-      const model = source.clone(true) as THREE.Group;
-      await this.applyStationMaterials(model, node.variant);
-      if (this.destroyed) return;
-      const bounds = new THREE.Box3().setFromObject(model);
-      const size = bounds.getSize(new THREE.Vector3());
-      const center = bounds.getCenter(new THREE.Vector3());
-      const maxDimension = Math.max(size.x, size.y, size.z, .001);
-      model.position.sub(center);
-      model.scale.setScalar((node.variant === 'spine' ? .76 : .84) / maxDimension);
-      // FBXLoader 已完成坐标系转换。额外旋转 90° 会把空间站宽面转成侧面，
-      // 远景只剩一条亮线；这里保持作者正面，仅用少量 roll 区分三个入口。
-      model.rotation.set(0, 0, node.variant === 'hub' ? -.18 : node.variant === 'ring' ? .42 : .12);
-      const assembled = new THREE.Group();
-      assembled.add(model);
-      if (node.variant === 'ring') {
-        const ringMaterial = new THREE.MeshBasicMaterial({ color: 0x78dff2, transparent: true, opacity: .72, blending: THREE.AdditiveBlending, depthWrite: false });
-        const outer = new THREE.Mesh(new THREE.TorusGeometry(.48, .012, 8, 64), ringMaterial);
-        const inner = new THREE.Mesh(new THREE.TorusGeometry(.39, .008, 8, 56), ringMaterial.clone());
-        outer.rotation.z = -.12;
-        inner.rotation.set(.12, .18, .24);
-        assembled.add(outer, inner);
-        this.materials.push(ringMaterial, inner.material);
-      } else if (node.variant === 'spine') {
-        const spineMaterial = new THREE.MeshStandardMaterial({
-          color: 0x9db4bf,
-          emissive: 0x164a60,
-          emissiveIntensity: 1.05,
-          metalness: .84,
-          roughness: .3,
-        });
-        const lightMaterial = new THREE.MeshBasicMaterial({ color: 0x8ce8ff, transparent: true, opacity: .68, blending: THREE.AdditiveBlending, depthWrite: false });
-        const mast = new THREE.Mesh(new THREE.CylinderGeometry(.018, .026, .92, 12), spineMaterial);
-        const halo = new THREE.Mesh(new THREE.TorusGeometry(.33, .012, 8, 56), lightMaterial);
-        const crown = new THREE.Mesh(new THREE.ConeGeometry(.11, .1, 20, 1, true), spineMaterial);
-        halo.rotation.y = Math.PI * .5;
-        crown.position.y = .49;
-        assembled.add(mast, halo, crown);
-        this.materials.push(spineMaterial, lightMaterial);
-      }
-      node.visual.clear();
-      node.visual.add(assembled);
-    } catch {
-      // 程序化太空站会继续巡航，资源失败不影响入口点击和聚焦。
-    }
   }
 
   private resize(): void {
@@ -828,7 +591,7 @@ export class SolarSystemScene {
     });
     const focusEase = ease(this.focus);
     if (this.sun) {
-      // 聚焦行星、月球、友链卫星或太空站时隔离观察目标；太阳不应在近景里
+      // 聚焦行星、月球、友链卫星或页面入口卫星时隔离观察目标；太阳不应在近景里
       // 与目标穿插。返航沿相同缓动恢复，避免突然闪现。
       const sunScale = Math.max(.001, 1 - focusEase);
       this.sun.scale.setScalar(sunScale);
@@ -840,7 +603,6 @@ export class SolarSystemScene {
     });
     const isMoonView = this.focusId === 'moon';
     const selectedCraft = this.navigationCraftNodes.find((craft) => `craft-${craft.nav.id}` === this.focusId);
-    this.scheduleStationModels(arrival, selectedCraft);
     const focusPlanet = selectedCraft?.hostId || (isMoonView ? 'home' : this.focusId);
     for (const node of this.nodes.values()) {
       const spec = node.spec;
@@ -894,21 +656,21 @@ export class SolarSystemScene {
 
     for (const craft of this.navigationCraftNodes) {
       const phase = craft.phase + elapsed * craft.speed;
-      this.craftPoint.set(Math.cos(phase) * craft.orbitRadius, 0, Math.sin(phase) * craft.orbitRadius).applyQuaternion(craft.orbitPlane);
+      // 与地球友链卫星使用完全相同的三维圆轨道模型：不是贴着屏幕的假椭圆，
+      // 而是作为宿主行星的子节点进行真实绕行，因此不会漂到太阳轨道上。
+      this.craftPoint.set(
+        Math.cos(phase) * craft.orbitRadius,
+        0,
+        Math.sin(phase) * craft.orbitRadius,
+      ).applyQuaternion(craft.orbitPlane);
       craft.anchor.position.copy(this.craftPoint);
-      // 太空站保持宽阔轮廓朝向镜头，只做缓慢姿态漂移；沿切线完全转向会让环站
-      // 在大部分轨道位置只剩一条细线，既难看也难以点击。
-      craft.anchor.rotation.set(
-        .12 + Math.sin(elapsed * .11 + craft.phase) * .08,
-        Math.sin(elapsed * .09 + craft.phase * 1.7) * .18,
-        phase * .12 + Math.sin(elapsed * .17 + craft.phase * 11) * .06,
-      );
+      craft.anchor.rotation.set(.42 + Math.sin(phase) * .12, -phase, -.34);
       const isSelectedCraft = selectedCraft === craft;
       const craftScale = !this.focusId
-        ? 1
+        ? .5
         : isSelectedCraft
-        ? 1 + focusEase * .72
-        : Math.max(.001, 1 - focusEase);
+        ? .5 + focusEase * .25
+        : Math.max(.001, .5 * (1 - focusEase));
       craft.anchor.scale.setScalar(craftScale);
       craft.anchor.visible = craftScale > .01;
     }
@@ -963,8 +725,8 @@ export class SolarSystemScene {
     for (let index = 0; index < this.navigationCraftNodes.length; index += 1) {
       const craft = this.navigationCraftNodes[index];
       if (!craft.anchor.visible) continue;
-      // 远景站会持续绕行，命中区略大于发光轮廓，避免必须点中一条细舱壁。
-      this.setProjectedTarget(`craft-${craft.nav.id}`, craft.anchor, .54, 28, width, height, { craftIndex: index });
+      // 视觉尺寸与地球卫星一致，点击热区略放大，避免必须点中一条细太阳能板。
+      this.setProjectedTarget(`craft-${craft.nav.id}`, craft.anchor, .18, 20, width, height, { craftIndex: index });
     }
   }
 
